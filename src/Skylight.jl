@@ -3,8 +3,8 @@ module Skylight
 using Parameters
 
 include("geometry.jl")
+include("types.jl")
 
-include("spacetimes/types.jl")
 include("spacetimes/minkowski.jl")
 include("spacetimes/schwarzschild.jl")
 include("spacetimes/kerr.jl")
