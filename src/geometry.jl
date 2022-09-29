@@ -5,7 +5,7 @@ norm_squared(v,metric) = scalar_product(v,v,metric)
 
 ∂t() = [1.0, 0.0, 0.0, 0.0]
 
-function cartesian_to_spherical(v)
+function spherical_from_cartesian(v)
 
     # Angles satisfy θ∈[0,π], φ∈[-π,π]
 

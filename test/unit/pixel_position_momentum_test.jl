@@ -29,7 +29,7 @@ using Skylight, Test
         @test position_cartesian[2] ≈ 1.0
         @test position_cartesian[3] ≈ 1.0
 
-        @test Skylight.cartesian_to_spherical(position_cartesian) ≈ position_spherical
+        @test Skylight.spherical_from_cartesian(position_cartesian) ≈ position_spherical
     end
 
     @testset "z axis" begin
@@ -60,7 +60,7 @@ using Skylight, Test
         @test position_cartesian[2] ≈  1.0
         @test position_cartesian[3] ≈  1.0
 
-        @test Skylight.cartesian_to_spherical(position_cartesian) ≈ position_spherical
+        @test Skylight.spherical_from_cartesian(position_cartesian) ≈ position_spherical
     end
     
 end

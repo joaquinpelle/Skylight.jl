@@ -84,14 +84,14 @@ end
 
 @testset "Cartesian to spherical" begin
 
-    cartesian_to_spherical = Skylight.cartesian_to_spherical
+    spherical_from_cartesian = Skylight.spherical_from_cartesian
     
     vec1 = [1,0,0]
     vec2 = [0,1,0]
     vec3 = [0,1,1]
 
-    @test cartesian_to_spherical(vec1) ≈ [1,π/2,0]
-    @test cartesian_to_spherical(vec2) ≈ [1,π/2,π/2]    
-    @test cartesian_to_spherical(vec3) ≈ [sqrt(2),π/4,π/2]
+    @test spherical_from_cartesian(vec1) ≈ [1,π/2,0]
+    @test spherical_from_cartesian(vec2) ≈ [1,π/2,π/2]    
+    @test spherical_from_cartesian(vec3) ≈ [sqrt(2),π/4,π/2]
 
 end
