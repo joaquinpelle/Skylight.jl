@@ -34,6 +34,15 @@ Julia v1.1 or higher
     │   └── unit                # Unit tests
 
 
+#### To run the unit tests
+
+1. In your terminal, go to the package directory 
+2. Open the Julia REPL
+3. Go to the package mode by typing `]`
+4. Activate the package environment by running the command `activate .`
+5. In the package mode, run the command `test`
+
+
 [![Build Status](https://github.com/joaquinpelle/Skylight.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/joaquinpelle/Skylight.jl/actions/workflows/CI.yml?query=branch%3Amain)
 [![Build Status](https://travis-ci.com/joaquinpelle/Skylight.jl.svg?branch=main)](https://travis-ci.com/joaquinpelle/Skylight.jl)
 [![Build Status](https://ci.appveyor.com/api/projects/status/github/joaquinpelle/Skylight.jl?svg=true)](https://ci.appveyor.com/project/joaquinpelle/Skylight-jl)
