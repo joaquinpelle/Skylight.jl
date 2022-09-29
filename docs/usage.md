@@ -34,7 +34,8 @@ For more details about each spacetime and its parameters see the spacetimes docu
 
 To build an image plane, use
 
-```image_plane = ImagePlane(observer_distance = 500.0,
+```
+image_plane = ImagePlane(observer_distance = 500.0,
                          observer_inclination_in_degrees = 45,
                          horizontal_side_image_plane = 10.0,
                          vertical_side_image_plane = 10.0,
@@ -47,10 +48,16 @@ To build an image plane, use
 Before creating the initial data, you need to gather the information in a configurations data structure, which also
 requires the specification of the initial times you desire to have initial data.
 
-```image_plane = ImagePlane(observer_distance = 500.0,
-                         observer_inclination_in_degrees = 45,
-                         horizontal_side_image_plane = 10.0,
-                         vertical_side_image_plane = 10.0,
-                         horizontal_number_of_nodes = 50,
-                         vertical_number_of_nodes = 50)
+```
+configurations = OTEInitialDataConfigurations(spacetime=spacetime,
+                                              image_plane = image_plane,
+                                              initial_times = [0.0,1.0])
+```
+
+#### Initial data
+
+Finally, for creating the initial data, use
+
+```
+initial_data = initialize_OTE(configurations)
 ```
