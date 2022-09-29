@@ -62,6 +62,7 @@ function kerr_metric_kerr_schild_coordinates!(g, q, par::KerrSpacetimeParameters
     g[4,4]= 1. + H2 * l[4]*l[4]
     
     return g
+    
 end
 
 # Boyer Lindquist coordinates

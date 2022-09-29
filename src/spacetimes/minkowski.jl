@@ -25,6 +25,7 @@ function minkowski_metric_cartesian_coordinates!(g, q, par::MinkowskiSpacetimePa
           0.0 0.0 0.0 1.0]
 
     return g
+    
 end
 
 

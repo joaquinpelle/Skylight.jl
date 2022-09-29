@@ -42,6 +42,7 @@ function initialize_OTE(configurations::OTEInitialDataConfigurations)
     end
 
     return rays
+
 end
 
 get_initial_times(configurations) = configurations.initial_times
@@ -99,6 +100,7 @@ function get_space_position_from(pixel_coordinates, image_plane::ImagePlane, coo
     z = β*sinξ+d*cosξ
 
     return [x, y, z]
+
 end
 
 function get_space_position_from(pixel_coordinates, image_plane::ImagePlane, coord_system::SphericalCoordinates)
@@ -134,6 +136,7 @@ function get_space_momentum_from(pixel_coordinates, image_plane::ImagePlane, coo
     kφ =  -α*sinξ/(α^2+(d*sinξ-β*cosξ)^2)  
 
     return [kr, kθ, kφ]
+
 end
 
 function get_space_momentum_from(pixel_coordinates, image_plane::ImagePlane, coord_system::CartesianCoordinates)
@@ -205,6 +208,7 @@ function pixel_area(image_plane::ImagePlane)
     dβ = sβ/(Nβ-1)
     
     return dα*dβ 
+
 end
 
 function area(image_plane::ImagePlane)
@@ -215,6 +219,7 @@ function area(image_plane::ImagePlane)
     dA = pixel_area(image_plane)
 
     return Nα*Nβ*dA
+
 end
 
 function zero_rays_on_grid(configurations::OTEInitialDataConfigurations)
@@ -226,4 +231,5 @@ function zero_rays_on_grid(configurations::OTEInitialDataConfigurations)
     Nt = length(configurations.initial_times)
 
     return zeros(Nα*Nβ*Nt,8)
+    
 end
