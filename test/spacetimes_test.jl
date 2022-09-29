@@ -1,22 +1,18 @@
-using Test
-using Parameters
-
-include("../../src/spacetimes/types.jl")
-include("../../src/spacetimes/minkowski.jl")
-include("../../src/spacetimes/kerr.jl")
+using Skylight, Test
 
 @testset "metrics" begin
 
     @testset "minkowski metric cartesian coordinates" begin
         
+
         g = zeros(4,4)
         pars = MinkowskiSpacetimeParameters()
-        minkowski_metric_cartesian_coordinates!(g,rand(4),pars)
+        Skylight.minkowski_metric_cartesian_coordinates!(g,rand(4),pars)
         @test g == [-1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
 
         container = zeros(4,5)
         @views g1 = container[:,1:4]
-        minkowski_metric_cartesian_coordinates!(g1,rand(4),pars)
+        Skylight.minkowski_metric_cartesian_coordinates!(g1,rand(4),pars)
         @test g1 == [-1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
     
     end
@@ -25,7 +21,7 @@ include("../../src/spacetimes/kerr.jl")
         g = zeros(4,4)
         pars = MinkowskiSpacetimeParameters()
         position = [rand(),2.0,π/2,rand()]
-        minkowski_metric_spherical_coordinates!(g,position,pars)
+        Skylight.minkowski_metric_spherical_coordinates!(g,position,pars)
         @test g == [-1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 4.0 0.0; 0.0 0.0 0.0 4.0]
 
     end
