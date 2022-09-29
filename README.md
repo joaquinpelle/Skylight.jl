@@ -34,7 +34,7 @@ Julia v1.1 or higher
     │   └── unit                # Unit tests
 
 
-#### To run the unit tests
+### To run the unit tests
 
 1. In your terminal, go to the package directory 
 2. Open the Julia REPL
