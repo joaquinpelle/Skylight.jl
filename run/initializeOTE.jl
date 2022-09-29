@@ -1,9 +1,4 @@
-using Parameters
-using Test
-
-include("geometry.jl")
-include("spacetimes.jl")
-include("initialdataOTE.jl")
+using Skylight
 
 spacetime = KerrSpacetimeKerrSchildCoordinates(parameters = KerrSpacetimeParameters(M=1.0,
                                                                                     a=0.5))
@@ -17,6 +12,6 @@ image_plane = ImagePlane(observer_distance = 500.0,
 
 configurations = OTEInitialDataConfigurations(spacetime=spacetime,
                                               image_plane = image_plane,
-                                              initial_times = [0.0])
+                                              initial_times = [0.0,1.0])
 
 initial_data = initialize_OTE(configurations)
