@@ -11,6 +11,8 @@ This is a minimal version of `skylight`, currently under development for adding 
   
 ### Requirements
 
+Julia v1.1 or higher
+
 ### Folder contents
 
 > Adapted from [this guide](https://github.com/kriasoft/Folder-Structure-Conventions)
