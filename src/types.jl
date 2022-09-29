@@ -7,11 +7,13 @@ struct FullNumericalSpacetime <: NumericalSpacetime end
 struct StaticSphericallySymmetricSpacetime <: NumericalSpacetime end
 
 
+abstract type SpacetimeParameters end
+
+
 abstract type AsymptoticCoordinateSystem end
 
 struct CartesianCoordinates <: AsymptoticCoordinateSystem end
 struct SphericalCoordinates <: AsymptoticCoordinateSystem end
 
 
-abstract type SpacetimeParameters end
 
