@@ -55,7 +55,7 @@ function get_pixel_coordinates(configs::OTEInitialDataConfigurations)
     Nα = image_plane.horizontal_number_of_nodes
     Nβ = image_plane.vertical_number_of_nodes
 
-    horizontal_coordinates = range(-0.5*sα,0.5*sα; length=Nα)
+    horizontal_coordinates = range(-0.5*sα, stop=0.5*sα; length=Nα)
     vertical_coordinates = range(-0.5*sβ,0.5*sβ; length=Nβ)
 
     return Iterators.product(horizontal_coordinates,vertical_coordinates)

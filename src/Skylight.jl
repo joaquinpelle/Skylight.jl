@@ -1,7 +1,5 @@
 module Skylight
 
-#comm
-
 using Parameters
 
 include("geometry.jl")
