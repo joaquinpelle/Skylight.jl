@@ -22,11 +22,15 @@ The following are under testing:
 
 Some of the spacetimes require a set of parameters. For example, to create a Kerr spacetime in Kerr-Schild coordinates with $M=1$ and $a=0.5$, the call should be 
 
-> `spacetime = KerrSpacetimeKerrSchildCoordinates(parameters = KerrSpacetimeParameters(M=1.0,a=0.5))`.
+```
+spacetime = KerrSpacetimeKerrSchildCoordinates(parameters = KerrSpacetimeParameters(M=1.0,a=0.5))
+```
 
 This works analogously for the rest of the spacetimes. Spacetimes which do not have parameters can be created as
 
-> `spacetime = MinkowskiSpacetimeCartesianCoordinates()`.
+```
+spacetime = MinkowskiSpacetimeCartesianCoordinates()
+```
 
 For more details about each spacetime and its parameters see the spacetimes documentation
 
