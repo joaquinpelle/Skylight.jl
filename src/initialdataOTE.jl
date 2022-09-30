@@ -66,10 +66,10 @@ end
 function initialize_single!(ray, initial_time, pixel_coordinates, configurations, container)
     
     @views begin 
+        position = ray[1:4]
         space_position = ray[2:4]
         momentum = ray[5:8]
         space_momentum = ray[6:8]
-        position = ray[1:4]
     end
     
     spacetime = configurations.spacetime
