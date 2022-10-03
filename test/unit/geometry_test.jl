@@ -95,3 +95,19 @@ end
     @test spherical_from_cartesian(vec3) ≈ [sqrt(2),π/4,π/2]
 
 end
+
+@testset "Rotation around y-axis" begin
+    
+    v = zeros(3,3)
+
+    v[:,1] .= [1, 0, 0]
+    v[:,2] .= [0, 1, 0]
+    v[:,3] .= [0, 0, 1]
+
+    Skylight.rotate_around_y_axis!(v,90)
+
+    @test v[:,1] ≈ [0, 0, -1]
+    @test v[:,2] ≈ [0, 1,  0]
+    @test v[:,3] ≈ [1, 0,  0]
+
+end

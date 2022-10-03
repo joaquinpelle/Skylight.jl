@@ -16,3 +16,18 @@ function spherical_from_cartesian(v)
     return [r,θ,φ]
     
 end
+
+
+function rotate_around_y_axis!(v, angle_in_degrees)
+
+    ξ = deg2rad(angle_in_degrees)
+
+    rotation_matrix = [cos(ξ) 0.0 sin(ξ); 0.0 1.0 0.0; -sin(ξ) 0.0 cos(ξ)]
+
+    for i in range(1, size(v,2))
+
+        v[:,i] .= rotation_matrix*v[:,i] 
+    
+    end
+
+end

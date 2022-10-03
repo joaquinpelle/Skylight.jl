@@ -4,16 +4,15 @@ authors = ["Joaquin Pelle", "Oscar Reula", "Federico Carrasco", "Carlos Bederian
 version = "0.1.0"
 
 [deps]
+BenchmarkPlots = "ab8c0f59-4072-4e0d-8f91-a91e1495eb26"
 Parameters = "d96e819e-fc66-5662-9728-84c9c7592b0a"
+StatsPlots = "f3b207a7-027a-5e70-b257-86293d7955fd"
 
 [compat]
 julia = "1.1"
 
 [extras]
-BenchmarkPlots = "ab8c0f59-4072-4e0d-8f91-a91e1495eb26"
-BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
 SafeTestsets = "1bc83da4-3b8d-516f-aca4-4fe02f6d838f"
-StatsPlots = "f3b207a7-027a-5e70-b257-86293d7955fd"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [targets]
