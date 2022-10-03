@@ -2,6 +2,28 @@ using Skylight, Test
 
 @testset "initialization" begin
     
+    @testset "configurations initialization" begin
+
+        spacetime = KerrSpacetimeKerrSchildCoordinates(parameters = KerrSpacetimeParameters(M=1.0,a=0.5))
+    
+        image_plane = ImagePlane(observer_distance = 1.0,
+                                    observer_inclination_in_degrees = 137.0,
+                                    horizontal_side_image_plane = 1.0,
+                                    vertical_side_image_plane = 1.0,
+                                    horizontal_number_of_nodes = 3,
+                                    vertical_number_of_nodes = 3)
+        
+        configurations = OTEInitialDataConfigurations(spacetime=spacetime,
+                                                   image_plane = image_plane,
+                                                   initial_times = [0.0,1.0])
+        
+        rays = Skylight.zero_rays_on_grid(configurations)
+        @test sum(rays) == 0.0
+        @test length(rays)/8 == 18
+        @test Skylight.get_initial_times(configurations) == [0.0, 1.0]
+    
+    end
+
     @testset "four-momentum" begin
     
         @testset "dumps in container" begin
@@ -119,7 +141,7 @@ using Skylight, Test
 
         rays = initialize_OTE(configurations)
 
-        @views ray = rays[14,:]
+        @views ray = rays[:,14]
 
         @test ray[1] ==  1.5
         @test ray[2] ≈   3.0
@@ -130,7 +152,7 @@ using Skylight, Test
         @test ray[7] ≈   0.0
         @test ray[8] ≈   0.0  atol=1e-15
 
-        @views ray = rays[1,:]
+        @views ray = rays[:,1]
 
         @test ray[1] ==  0.1
         @test ray[2] ≈   3.0

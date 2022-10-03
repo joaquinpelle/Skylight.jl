@@ -34,7 +34,7 @@ function initialize_OTE(configurations::OTEInitialDataConfigurations)
     for initial_time in get_initial_times(configurations)
         for pixel_coordinates in get_pixel_coordinates(configurations)
 
-            @views ray = rays[index,1:8]
+            @views ray = rays[:, index]
             initialize_single!(ray, initial_time, pixel_coordinates, configurations, container)
             index += 1
 
@@ -43,6 +43,18 @@ function initialize_OTE(configurations::OTEInitialDataConfigurations)
 
     return rays
 
+end
+
+function zero_rays_on_grid(configurations::OTEInitialDataConfigurations)
+    
+    image_plane = configurations.image_plane
+
+    Nα = image_plane.horizontal_number_of_nodes
+    Nβ = image_plane.vertical_number_of_nodes
+    Nt = length(configurations.initial_times)
+
+    return zeros(8, Nα*Nβ*Nt)
+    
 end
 
 get_initial_times(configurations) = configurations.initial_times
@@ -222,14 +234,3 @@ function area(image_plane::ImagePlane)
 
 end
 
-function zero_rays_on_grid(configurations::OTEInitialDataConfigurations)
-    
-    image_plane = configurations.image_plane
-
-    Nα = image_plane.horizontal_number_of_nodes
-    Nβ = image_plane.vertical_number_of_nodes
-    Nt = length(configurations.initial_times)
-
-    return zeros(Nα*Nβ*Nt,8)
-    
-end
