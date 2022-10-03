@@ -41,24 +41,3 @@ using Skylight, Test
 
     end
 end
-
-@testset "configurations initialization" begin
-    spacetime = KerrSpacetimeKerrSchildCoordinates(parameters = KerrSpacetimeParameters(M=1.0,a=0.5))
-
-    image_plane = ImagePlane(observer_distance = 1.0,
-                                observer_inclination_in_degrees = 137.0,
-                                horizontal_side_image_plane = 1.0,
-                                vertical_side_image_plane = 1.0,
-                                horizontal_number_of_nodes = 3,
-                                vertical_number_of_nodes = 3)
-    
-    configurations = OTEInitialDataConfigurations(spacetime=spacetime,
-                                               image_plane = image_plane,
-                                               initial_times = [0.0,1.0])
-    
-    rays = Skylight.zero_rays_on_grid(configurations)
-    @test sum(rays) == 0.0
-    @test length(rays)/8 == 18
-    @test Skylight.get_initial_times(configurations) == [0.0, 1.0]
-
-end
