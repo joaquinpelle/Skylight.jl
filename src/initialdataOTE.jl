@@ -85,7 +85,7 @@ function initialize_single!(ray, initial_time, pixel_coordinates, configurations
     end
     
     spacetime = configurations.spacetime
-    coord_system = spacetime.asymptotic_coordinate_system
+    coord_system = spacetime.coordinate_system_kind
     image_plane = configurations.image_plane
 
 
@@ -98,7 +98,7 @@ function initialize_single!(ray, initial_time, pixel_coordinates, configurations
 
 end
 
-function get_space_position_from(pixel_coordinates, image_plane::ImagePlane, coord_system::CartesianCoordinates)
+function get_space_position_from(pixel_coordinates, image_plane::ImagePlane, coord_system::CartesianKind)
 
     α,β = pixel_coordinates
     ξ = image_plane.observer_inclination_in_radians
@@ -115,7 +115,7 @@ function get_space_position_from(pixel_coordinates, image_plane::ImagePlane, coo
 
 end
 
-function get_space_position_from(pixel_coordinates, image_plane::ImagePlane, coord_system::SphericalCoordinates)
+function get_space_position_from(pixel_coordinates, image_plane::ImagePlane, coord_system::SphericalKind)
 
     α,β = pixel_coordinates
     ξ = image_plane.observer_inclination_in_radians
@@ -132,7 +132,7 @@ function get_space_position_from(pixel_coordinates, image_plane::ImagePlane, coo
 
 end
 
-function get_space_momentum_from(pixel_coordinates, image_plane::ImagePlane, coord_system::SphericalCoordinates)
+function get_space_momentum_from(pixel_coordinates, image_plane::ImagePlane, coord_system::SphericalKind)
 
     α,β = pixel_coordinates
     ξ = image_plane.observer_inclination_in_radians
@@ -151,7 +151,7 @@ function get_space_momentum_from(pixel_coordinates, image_plane::ImagePlane, coo
 
 end
 
-function get_space_momentum_from(pixel_coordinates, image_plane::ImagePlane, coord_system::CartesianCoordinates)
+function get_space_momentum_from(pixel_coordinates, image_plane::ImagePlane, coord_system::CartesianKind)
     
     ξ = image_plane.observer_inclination_in_radians
     

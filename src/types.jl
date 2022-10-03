@@ -10,10 +10,10 @@ struct StaticSphericallySymmetricSpacetime <: NumericalSpacetime end
 abstract type SpacetimeParameters end
 
 
-abstract type AsymptoticCoordinateSystem end
+abstract type CoordinateSystemKind end
 
-struct CartesianCoordinates <: AsymptoticCoordinateSystem end
-struct SphericalCoordinates <: AsymptoticCoordinateSystem end
+struct CartesianKind <: CoordinateSystemKind end
+struct SphericalKind <: CoordinateSystemKind end
 
 
 

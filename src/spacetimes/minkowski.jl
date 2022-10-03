@@ -8,7 +8,7 @@ struct MinkowskiSpacetimeParameters <: SpacetimeParameters end
 @with_kw struct MinkowskiSpacetimeCartesianCoordinates{T<:Function} <: AnalyticSpacetime
 
     parameters::MinkowskiSpacetimeParameters = MinkowskiSpacetimeParameters() 
-    asymptotic_coordinate_system::AsymptoticCoordinateSystem = CartesianCoordinates()
+    coordinate_system_kind::CartesianKind = CartesianKind()
     metric!::T = minkowski_metric_cartesian_coordinates!
 
 end
@@ -34,7 +34,7 @@ end
 @with_kw struct MinkowskiSpacetimeSphericalCoordinates{T<:Function} <: AnalyticSpacetime 
 
     parameters::MinkowskiSpacetimeParameters = MinkowskiSpacetimeParameters()
-    asymptotic_coordinate_system::AsymptoticCoordinateSystem = SphericalCoordinates()
+    coordinate_system_kind::SphericalKind = SphericalKind()
     metric!::T = minkowski_metric_spherical_coordinates!
 
 end

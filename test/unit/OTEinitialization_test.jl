@@ -104,7 +104,7 @@ using Skylight, Test
 
         initial_time = configurations.initial_times[2]
         image_plane = configurations.image_plane
-        coord_system = configurations.spacetime.asymptotic_coordinate_system
+        coord_system = configurations.spacetime.coordinate_system_kind
 
         ray = zeros(8)
         pixel_coordinates = (1.0, 1.0)

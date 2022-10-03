@@ -16,7 +16,7 @@ end
 @with_kw struct KerrSpacetimeKerrSchildCoordinates{T<:Function} <: AnalyticSpacetime
 
     parameters::KerrSpacetimeParameters 
-    asymptotic_coordinate_system::AsymptoticCoordinateSystem = CartesianCoordinates()
+    coordinate_system_kind::CartesianKind = CartesianKind()
     metric!::T = kerr_metric_kerr_schild_coordinates!
 
 end
