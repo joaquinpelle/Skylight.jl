@@ -5,6 +5,18 @@ norm_squared(v,metric) = scalar_product(v,v,metric)
 
 ∂t() = [1.0, 0.0, 0.0, 0.0]
 
+function normalize_timelike!(v, metric)
+
+    v ./= sqrt(-norm_squared(v,metric))
+
+end
+
+function normalize_spacelike!(v, metric)
+
+    v ./= sqrt(norm_squared(v,metric))
+
+end
+
 function spherical_from_cartesian(v)
 
     # Angles satisfy θ∈[0,π], φ∈[-π,π]
@@ -16,7 +28,6 @@ function spherical_from_cartesian(v)
     return [r,θ,φ]
     
 end
-
 
 function rotate_around_y_axis!(v, angle_in_degrees)
 

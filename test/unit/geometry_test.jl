@@ -82,6 +82,23 @@ end
 
 end
 
+@testset "Normalization" begin
+
+    e1 = [1.0, 0.0, 0.0, 0.0]
+    e2 = [0.0, 1.0, 0.0, 0.0]
+    e3 = [0.0, 0.0, 1.0, 0.0]
+    e4 = [0.0, 0.0, 0.0, 1.0]
+
+    g = [-rand() 0 0 0; 0 rand() 0 0; 0 0 rand() 0; 0 0 0 rand()]
+
+    Skylight.normalize_timelike!(e1, g)
+    Skylight.normalize_spacelike!(e2, g)
+
+    @test Skylight.norm_squared(e1,g) ≈ -1.0
+    @test Skylight.norm_squared(e2,g) ≈  1.0
+
+end
+
 @testset "Cartesian to spherical" begin
 
     spherical_from_cartesian = Skylight.spherical_from_cartesian
