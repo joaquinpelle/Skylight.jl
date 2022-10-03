@@ -3,6 +3,7 @@ module Skylight
 using Parameters
 
 include("geometry.jl")
+include("randomvectors.jl")
 include("types.jl")
 
 include("spacetimes/minkowski.jl")
