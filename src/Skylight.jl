@@ -12,6 +12,8 @@ include("spacetimes/kerr.jl")
 include("spacetimes/johannsen.jl")
 include("spacetimes/charged_wormhole.jl")
 
+include("polarcap.jl")
+
 include("initialdataOTE.jl")
 
 end
