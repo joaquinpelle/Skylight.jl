@@ -5,6 +5,11 @@ abstract type NumericalSpacetime <: Spacetime end
 
 abstract type SpacetimeParameters end
 
+abstract type CoordinateSystemKind end
+
+struct CartesianKind <: CoordinateSystemKind end
+struct SphericalKind <: CoordinateSystemKind end
+
 include("spacetimes/minkowski.jl")
 include("spacetimes/schwarzschild.jl")
 include("spacetimes/kerr.jl")
