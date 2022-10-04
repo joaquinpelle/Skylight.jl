@@ -1,0 +1,1 @@
+struct StaticSphericallySymmetricSpacetime <: NumericalSpacetime end

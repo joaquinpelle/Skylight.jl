@@ -66,7 +66,6 @@ function random_isotropic_unit_vectors_hemisphere!(v)
 
 end
 
-
 function random_isotropic_unit_vectors_cone!(v,angular_radius_in_degrees)
 
     N = size(v,2)

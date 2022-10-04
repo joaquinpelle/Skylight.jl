@@ -1,0 +1,1 @@
+struct FullNumericalSpacetime <: NumericalSpacetime end
