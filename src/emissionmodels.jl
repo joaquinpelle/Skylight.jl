@@ -1,5 +1,5 @@
 abstract type EmissionModel end
 
-struct SyntheticPolarCap <: EmissionModel end
-struct OnionHotSpots <: EmissionModel end
-struct ThinAccretionDisk <: EmissionModel end
+include("emissionmodels/syntheticpolarcap.jl")
+include("emissionmodels/onionhotspots.jl")
+include("emissionmodels/thinaccretiondisk.jl")
