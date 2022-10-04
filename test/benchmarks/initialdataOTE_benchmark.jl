@@ -20,7 +20,7 @@ for n in numbers
                                             image_plane = image_plane,
                                             initial_times = [0.0])
 
-    suite[string(n)] = @benchmarkable initialize_OTE($configurations)
+    suite[string(n)] = @benchmarkable initialize($configurations)
     
 end
 

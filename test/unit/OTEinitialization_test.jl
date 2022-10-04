@@ -139,7 +139,7 @@ using Skylight, Test
                                                 image_plane = image_plane,
                                                 initial_times = [0.1,1.5])
 
-        rays = initialize_OTE(configurations)
+        rays = initialize(configurations)
 
         @views ray = rays[:,14]
 

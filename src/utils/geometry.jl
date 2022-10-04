@@ -2,8 +2,8 @@ contract(vector, covector)  = vector'covector
 lower_index(vector, metric) = metric*vector 
 scalar_product(v,u,metric) = v'*metric*u
 norm_squared(v,metric) = scalar_product(v,v,metric)
-
 ∂t() = [1.0, 0.0, 0.0, 0.0]
+
 
 function normalize_timelike!(v, metric)
 
@@ -14,6 +14,28 @@ end
 function normalize_spacelike!(v, metric)
 
     v ./= sqrt(norm_squared(v,metric))
+
+end
+
+function tangent_vector_zaxis_rotation!(vector, position, angular_speed, metric, coord_system::CartesianKind)
+    
+    vector[1] =  1.0
+    vector[2] = -angular_speed*position[3]
+    vector[3] =  angular_speed*position[2]
+    vector[4] =  0.0
+
+    normalize_timelike!(vector,metric)
+
+end
+
+function tangent_vector_zaxis_rotation!(vector, position, angular_speed, metric, coord_system::SphericalKind)
+    
+    vector[1] =  1.0
+    vector[2] =  0.0
+    vector[3] =  0.0
+    vector[4] =  angular_speed
+
+    normalize_timelike!(vector,metric)
 
 end
 

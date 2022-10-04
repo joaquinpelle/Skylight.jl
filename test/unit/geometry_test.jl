@@ -86,8 +86,6 @@ end
 
     e1 = [1.0, 0.0, 0.0, 0.0]
     e2 = [0.0, 1.0, 0.0, 0.0]
-    e3 = [0.0, 0.0, 1.0, 0.0]
-    e4 = [0.0, 0.0, 0.0, 1.0]
 
     g = [-rand() 0 0 0; 0 rand() 0 0; 0 0 rand() 0; 0 0 0 rand()]
 
@@ -96,6 +94,45 @@ end
 
     @test Skylight.norm_squared(e1,g) ≈ -1.0
     @test Skylight.norm_squared(e2,g) ≈  1.0
+
+end
+
+@testset "Tangent vector zaxis rotation" begin
+    
+    vector = zeros(4)
+    vector1 = zeros(4)
+    position = rand(4)
+    metric = [-rand() 0 0 0; 0 rand() 0 0; 0 0 rand() 0; 0 0 0 rand()]
+    Ω = 0.5
+
+    @testset "Cartesian coordinates" begin
+
+        Skylight.tangent_vector_zaxis_rotation!(vector1,position,Ω,metric,Skylight.CartesianKind())
+        
+        vector[1] =  1.0
+        vector[2] = -Ω*position[3]
+        vector[3] =  Ω*position[2]
+
+        Skylight.normalize_timelike!(vector,metric)
+
+        @test vector1 ≈ vector
+    
+    end
+
+    @testset "Cartesian coordinates" begin
+
+        Skylight.tangent_vector_zaxis_rotation!(vector1,position,Ω,metric,Skylight.SphericalKind())
+        
+        vector[1] = 1.0
+        vector[2] = 0.0
+        vector[3] = 0.0
+        vector[4] = Ω
+
+        Skylight.normalize_timelike!(vector,metric)
+
+        @test vector1 ≈ vector
+    
+    end
 
 end
 

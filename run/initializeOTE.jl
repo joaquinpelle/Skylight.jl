@@ -14,4 +14,4 @@ configurations = OTEInitialDataConfigurations(spacetime=spacetime,
                                               image_plane = image_plane,
                                               initial_times = [0.0,1.0])
 
-initial_data = initialize_OTE(configurations)
+initial_data = initialize(configurations)

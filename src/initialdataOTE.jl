@@ -1,6 +1,6 @@
-export initialize_OTE
+export initialize
 
-function initialize_OTE(configurations::OTEInitialDataConfigurations)
+function initialize(configurations::OTEInitialDataConfigurations)
 
     rays = zero_rays_on_grid(configurations)
 
