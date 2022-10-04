@@ -20,9 +20,9 @@ end
 
 end
 
-get_initial_times(configurations) = configurations.initial_times
-
 my_zeros(configurations) = zeros(8, number_of_initial_conditions(configurations))
+
+get_initial_times(configurations) = configurations.initial_times
 
 function number_of_initial_conditions(configurations::OTEInitialDataConfigurations)
     
