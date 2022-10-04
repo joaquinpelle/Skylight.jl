@@ -28,8 +28,7 @@ using Skylight, Test
 
     @testset "kerr metric" begin
         
-        spacetime = KerrSpacetimeKerrSchildCoordinates(parameters = KerrSpacetimeParameters(M=1.0,
-                                                                                            a=0.0))
+        spacetime = KerrSpacetimeKerrSchildCoordinates(parameters = KerrSpacetimeParameters(M=1.0, a=0.0))
         metric! = spacetime.metric!
 
         point = [rand(),1.0,0.0,0.0]

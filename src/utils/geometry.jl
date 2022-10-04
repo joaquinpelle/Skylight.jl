@@ -4,7 +4,6 @@ scalar_product(v,u,metric) = v'*metric*u
 norm_squared(v,metric) = scalar_product(v,v,metric)
 ∂t() = [1.0, 0.0, 0.0, 0.0]
 
-
 function normalize_timelike!(v, metric)
 
     v ./= sqrt(-norm_squared(v,metric))

@@ -17,7 +17,7 @@ using Skylight, Test
                                                    image_plane = image_plane,
                                                    initial_times = [0.0,1.0])
         
-        rays = Skylight.zero_rays_on_grid(configurations)
+        rays = Skylight.my_zeros(configurations)
         @test sum(rays) == 0.0
         @test length(rays)/8 == 18
         @test Skylight.get_initial_times(configurations) == [0.0, 1.0]

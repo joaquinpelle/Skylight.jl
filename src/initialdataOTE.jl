@@ -2,7 +2,7 @@ export initialize
 
 function initialize(configurations::OTEInitialDataConfigurations)
 
-    rays = zero_rays_on_grid(configurations)
+    rays = my_zeros(configurations)
 
     container = zeros(4,5)
     dump_∂t_in!(container)
@@ -23,7 +23,7 @@ function initialize(configurations::OTEInitialDataConfigurations)
 
 end
 
-function zero_rays_on_grid(configurations::OTEInitialDataConfigurations)
+function my_zeros(configurations::OTEInitialDataConfigurations)
     
     image_plane = configurations.image_plane
 
@@ -171,28 +171,5 @@ function set_ingoing_past_directed!(momentum)
     @. momentum *= -1
 end
 
-function pixel_area(image_plane::ImagePlane)
-    
-    sα = image_plane.horizontal_side_image_plane
-    sβ = image_plane.vertical_side_image_plane
-    Nα = image_plane.horizontal_number_of_nodes
-    Nβ = image_plane.vertical_number_of_nodes
-    
-    dα = sα/(Nα-1)
-    dβ = sβ/(Nβ-1)
-    
-    return dα*dβ 
 
-end
-
-function area(image_plane::ImagePlane)
-
-    Nα = image_plane.horizontal_number_of_nodes
-    Nβ = image_plane.vertical_number_of_nodes
-
-    dA = pixel_area(image_plane)
-
-    return Nα*Nβ*dA
-
-end
 
