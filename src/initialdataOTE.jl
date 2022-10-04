@@ -1,26 +1,4 @@
-export ImagePlane
-export OTEInitialDataConfigurations
 export initialize_OTE
-
-@with_kw struct ImagePlane
-
-    observer_distance :: Float64
-    observer_inclination_in_degrees :: Float64
-    horizontal_side_image_plane :: Float64
-    vertical_side_image_plane :: Float64
-    horizontal_number_of_nodes :: Int32
-    vertical_number_of_nodes :: Int32
-    observer_inclination_in_radians::Float64 = deg2rad(observer_inclination_in_degrees)
-
-end
-
-@with_kw struct OTEInitialDataConfigurations{T<:Spacetime} 
-    
-    spacetime::T
-    image_plane::ImagePlane 
-    initial_times::Vector{Float64}
-
-end
 
 function initialize_OTE(configurations::OTEInitialDataConfigurations)
 
@@ -56,8 +34,6 @@ function zero_rays_on_grid(configurations::OTEInitialDataConfigurations)
     return zeros(8, Nα*Nβ*Nt)
     
 end
-
-get_initial_times(configurations) = configurations.initial_times
 
 function get_pixel_coordinates(configs::OTEInitialDataConfigurations)
     
@@ -161,20 +137,6 @@ function get_space_momentum_from(pixel_coordinates, image_plane::ImagePlane, coo
 
     return [kx, ky, kz]
 
-end
-
-function dump_∂t_in!(container)
-    container[:,5] = ∂t()
-end
-
-function dump_metric_in!(container,position,spacetime::Spacetime)
-
-    pars = spacetime.parameters
-    metric! = spacetime.metric!
-    
-    @views g = container[:,1:4]
-    metric!(g,position,pars)
-    
 end
 
 function set_null_ingoing_past_directed!(momentum,container)
