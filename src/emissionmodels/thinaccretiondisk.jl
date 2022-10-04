@@ -1,0 +1,1 @@
+struct ThinAccretionDisk <: EmissionModel end
