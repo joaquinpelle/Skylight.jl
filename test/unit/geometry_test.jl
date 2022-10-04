@@ -103,7 +103,7 @@ end
     vector1 = zeros(4)
     position = rand(4)
     metric = [-rand() 0 0 0; 0 rand() 0 0; 0 0 rand() 0; 0 0 0 rand()]
-    Ω = 0.5
+    Ω = 0.05
 
     @testset "Cartesian coordinates" begin
 
@@ -119,7 +119,7 @@ end
     
     end
 
-    @testset "Cartesian coordinates" begin
+    @testset "Spherial coordinates" begin
 
         Skylight.tangent_vector_zaxis_rotation!(vector1,position,Ω,metric,Skylight.SphericalKind())
         
