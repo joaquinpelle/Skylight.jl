@@ -1,4 +1,4 @@
-function dump_vector_in(container, vector)
+function dump_vector_in!(container, vector)
     container[:,5] = vector
 end
 

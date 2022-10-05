@@ -25,33 +25,6 @@ using Skylight, Test
     end
 
     @testset "four-momentum" begin
-    
-        @testset "dumps in container" begin
-    
-            container = zeros(4,5)
-
-            Skylight.dump_∂t_in!(container)
-            @test container == [0 0 0 0 1; 0 0 0 0 0; 0 0 0 0 0; 0 0 0 0 0]
-
-            spacetime = MinkowskiSpacetimeCartesianCoordinates()
-
-            image_plane = ImagePlane(observer_distance = 1.0,
-                                        observer_inclination_in_degrees = 137.0,
-                                        horizontal_side_image_plane = 1.0,
-                                        vertical_side_image_plane = 1.0,
-                                        horizontal_number_of_nodes = 3,
-                                        vertical_number_of_nodes = 3)
-            
-            configurations = OTEInitialDataConfigurations(spacetime=spacetime,
-                                                    image_plane = image_plane,
-                                                    initial_times = [0.0,1.0])
-
-            position = rand(4)
-            Skylight.dump_metric_in!(container,position,spacetime)
-            
-            @test container == [-1.0 0.0 0.0 0.0 1.0; 0.0 1.0 0.0 0.0 0.0; 0.0 0.0 1.0 0.0 0.0; 0.0 0.0 0.0 1.0 0.0]
-
-        end
 
         @testset "set null ingoing past directed four-momentum" begin
 
