@@ -14,7 +14,6 @@ end
 
 get_number_of_points(par::SyntheticPolarCapParameters) = par.number_of_points
 
-
 function synthetic_polar_cap(par::SyntheticPolarCapParameters)
 
     dataframe = zeros(4, par.number_of_points)
