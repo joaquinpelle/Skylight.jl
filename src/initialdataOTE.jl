@@ -23,18 +23,6 @@ function initialize(configurations::OTEInitialDataConfigurations)
 
 end
 
-function my_zeros(configurations::OTEInitialDataConfigurations)
-    
-    image_plane = configurations.image_plane
-
-    Nα = image_plane.horizontal_number_of_nodes
-    Nβ = image_plane.vertical_number_of_nodes
-    Nt = length(configurations.initial_times)
-
-    return zeros(8, Nα*Nβ*Nt)
-    
-end
-
 function get_pixel_coordinates(configs::OTEInitialDataConfigurations)
     
     image_plane = configs.image_plane
