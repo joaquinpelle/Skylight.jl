@@ -36,7 +36,9 @@ end
 function number_of_initial_conditions(configurations::ETOInitialDataConfigurations)
     
     number_of_points = get_number_of_points(emission_model)
+    number_of_packets_per_point = configurations.number_of_packets_per_point
     number_of_times = length(configurations.initial_times)
+    
     return number_of_points*number_of_packets_per_point*number_of_times 
     
 end
