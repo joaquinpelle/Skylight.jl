@@ -49,7 +49,7 @@ function initialize_single!(ray, initial_time, pixel_coordinates, configurations
     end
     
     spacetime = configurations.spacetime
-    coord_system = spacetime.coordinate_system_kind
+    coord_system = coordinate_system_kind(spacetime)
     image_plane = configurations.image_plane
 
 

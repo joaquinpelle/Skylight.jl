@@ -16,9 +16,10 @@ end
 @with_kw struct KerrSpacetimeKerrSchildCoordinates <: AnalyticSpacetime
 
     parameters::KerrSpacetimeParameters 
-    coordinate_system_kind::CartesianKind = CartesianKind()
 
 end
+
+coordinate_system_kind(spacetime::KerrSpacetimeKerrSchildCoordinates) = CartesianKind()
 
 function set_metric!(g, q, spacetime::KerrSpacetimeKerrSchildCoordinates)
 
@@ -63,6 +64,8 @@ function set_metric!(g, q, spacetime::KerrSpacetimeKerrSchildCoordinates)
     return g
     
 end
+
+
 
 # Boyer Lindquist coordinates
 
