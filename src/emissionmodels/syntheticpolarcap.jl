@@ -1,6 +1,4 @@
-struct SyntheticPolarCap <: EmissionModel end
-
-@with_kw struct SyntheticPolarCapParameters
+@with_kw struct SyntheticPolarCap <: EmissionModel
 
     number_of_points::Int64
     NS_radius::Float64
@@ -13,24 +11,32 @@ struct SyntheticPolarCap <: EmissionModel end
     
 end
 
-get_number_of_points(par::SyntheticPolarCapParameters) = par.number_of_points
+get_number_of_points(model::SyntheticPolarCap) = model.number_of_points
 
-function synthetic_polar_cap(par::SyntheticPolarCapParameters)
+function set_local_four_velocity!(vector, position, gμν, model::SyntheticPolarCap)
 
-    dataframe = zeros(4, par.number_of_points)
+    angular_speed = model.angular_speed
+    tangent_vector_zaxis_rotation!(vector, position, angular_speed, gμν, CartesianKind())
+    
+end
+
+function synthetic_polar_cap_dataframe(model::SyntheticPolarCap)
+
+    dataframe = zeros(4, model.number_of_points)
 
     @views begin
         points = dataframe[1:3,:]
         temperatures = dataframe[4,:]
     end
     
-    random_uniform_points_unit_spherical_cap!(points, par.angular_radius_in_degrees, CartesianKind())
+    random_uniform_points_unit_spherical_cap!(points, model.angular_radius_in_degrees, CartesianKind())
     
-    @. temperatures = par.temperature
+    @. temperatures = model.temperature
     
-    rotate_around_y_axis!(points, par.misalignment_angle_in_degrees)
+    rotate_around_y_axis!(points, model.misalignment_angle_in_degrees)
 
     return dataframe
 
 end
+
 
