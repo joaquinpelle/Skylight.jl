@@ -4,6 +4,7 @@ struct SyntheticPolarCap <: EmissionModel end
 
     number_of_points::Int64
     NS_radius::Float64
+    angular_speed::Float64
     misalignment_angle_in_degrees::Float64 
     angular_radius_in_degrees::Float64
     temperature::Float64
@@ -14,7 +15,7 @@ end
 
 get_number_of_points(par::SyntheticPolarCapParameters) = par.number_of_points
 
-function synthetic_polar_cap(par::SyntheticPolarCapParameters)
+function synthetic_polar_cap(par::SyntheticPolarCapParameters, coord_system::CartesianKind)
 
     dataframe = zeros(4, par.number_of_points)
 
@@ -23,7 +24,7 @@ function synthetic_polar_cap(par::SyntheticPolarCapParameters)
         temperatures = dataframe[4,:]
     end
     
-    random_isotropic_unit_vectors_cone!(points, par.angular_radius_in_degrees)
+    random_uniform_points_unit_spherical_cap!(points, par.angular_radius_in_degrees)
     
     @. temperatures = par.temperature
     
@@ -33,4 +34,22 @@ function synthetic_polar_cap(par::SyntheticPolarCapParameters)
 
 end
 
+function synthetic_polar_cap(par::SyntheticPolarCapParameters)
+
+    dataframe = zeros(4, par.number_of_points)
+
+    @views begin
+        points = dataframe[1:3,:]
+        temperatures = dataframe[4,:]
+    end
+    
+    random_uniform_points_unit_spherical_cap!(points, par.angular_radius_in_degrees, CartesianKind())
+    
+    @. temperatures = par.temperature
+    
+    rotate_around_y_axis!(points, par.misalignment_angle_in_degrees)
+
+    return dataframe
+
+end
 
