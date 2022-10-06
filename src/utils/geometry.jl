@@ -58,7 +58,7 @@ function rotate_around_y_axis!(v, angle_in_degrees)
 
     rotation_matrix = [cos(ξ) 0.0 sin(ξ); 0.0 1.0 0.0; -sin(ξ) 0.0 cos(ξ)]
 
-    for i in range(Nvectors)
+    for i in 1:Nvectors
 
         v[:,i] .= rotation_matrix*v[:,i] 
     
