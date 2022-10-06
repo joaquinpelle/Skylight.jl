@@ -1,7 +1,6 @@
 using Skylight
 
-spacetime = KerrSpacetimeKerrSchildCoordinates(parameters = KerrSpacetimeParameters(M=1.0,
-                                                                                    a=0.9))
+spacetime = KerrSpacetimeKerrSchildCoordinates(M=1.0,a=0.9)
 
 image_plane = ImagePlane(observer_distance = 500.0,
                          observer_inclination_in_degrees = 45,

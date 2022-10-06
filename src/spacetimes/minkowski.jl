@@ -1,15 +1,7 @@
-export MinkowskiSpacetimeParameters 
-export MinkowskiSpacetimeCartesianCoordinates, MinkowskiSpacetimeSphericalCoordinates
+export MinkowskiSpacetimeCartesianCoordinates
+export MinkowskiSpacetimeSphericalCoordinates
 
-struct MinkowskiSpacetimeParameters <: SpacetimeParameters end
-
-#Cartesian coordinates
-
-@with_kw struct MinkowskiSpacetimeCartesianCoordinates <: AnalyticSpacetime
-
-    parameters::MinkowskiSpacetimeParameters = MinkowskiSpacetimeParameters() 
-
-end
+struct MinkowskiSpacetimeCartesianCoordinates <: AnalyticSpacetime end
 
 coordinate_system_kind(spacetime::MinkowskiSpacetimeCartesianCoordinates) = CartesianKind()
 
@@ -30,11 +22,7 @@ end
 
 #Spherical coordinates
 
-@with_kw struct MinkowskiSpacetimeSphericalCoordinates <: AnalyticSpacetime 
-
-    parameters::MinkowskiSpacetimeParameters = MinkowskiSpacetimeParameters()
-
-end
+struct MinkowskiSpacetimeSphericalCoordinates <: AnalyticSpacetime end
 
 coordinate_system_kind(spacetime::MinkowskiSpacetimeSphericalCoordinates) = SphericalKind()
 

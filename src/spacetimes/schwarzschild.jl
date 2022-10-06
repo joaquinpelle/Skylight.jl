@@ -1,17 +1,16 @@
-export SchwarzschildSpacetimeParameters
-export SchwarzschildSpacetimeKerrSchildCoordinates, SchwarzschildSpacetimeSphericalCoordinates
+export SchwarzschildSpacetimeKerrSchildCoordinates 
+export SchwarzschildSpacetimeSphericalCoordinates
 
-@with_kw struct SchwarzschildSpacetimeParameters <: SpacetimeParameters
-    
+@with_kw struct SchwarzschildSpacetimeKerrSchildCoordinates <: AnalyticSpacetime 
+
     M::Float64
     @assert M >= 0.0
 
 end
 
-# Kerr-Schild coordinates
+@with_kw struct SchwarzschildSpacetimeSphericalCoordinates <: AnalyticSpacetime 
 
-struct SchwarzschildSpacetimeKerrSchildCoordinates <: AnalyticSpacetime end
+    M::Float64
+    @assert M >= 0.0
 
-# Spherical coordinates
-
-struct SchwarzschildSpacetimeSphericalCoordinates <: AnalyticSpacetime end
+end

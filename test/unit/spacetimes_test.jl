@@ -28,7 +28,7 @@ using Skylight, Test
 
     @testset "kerr metric" begin
         
-        spacetime = KerrSpacetimeKerrSchildCoordinates(parameters = KerrSpacetimeParameters(M=1.0, a=0.0))
+        spacetime = KerrSpacetimeKerrSchildCoordinates(M=1.0, a=0.0)
 
         point = [rand(),1.0,0.0,0.0]
 
@@ -37,7 +37,7 @@ using Skylight, Test
 
         @test g1 == [1.0 2.0 0.0 0.0; 2.0 3.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
 
-        spacetime2 = KerrSpacetimeKerrSchildCoordinates(parameters = KerrSpacetimeParameters(M=1.0,a=1.0))
+        spacetime2 = KerrSpacetimeKerrSchildCoordinates(M=1.0,a=1.0)
         point = [rand(),1.0,1.0,1.0]
 
         g2 = zeros(4,4)
@@ -80,8 +80,8 @@ end
     
     @testset "kerr parameters" begin
         
-        @test_throws AssertionError KerrSpacetimeParameters(M=-1.0,a=0.0)
-        @test_throws AssertionError KerrSpacetimeParameters(M=1.0,a=1.5)
+        @test_throws AssertionError KerrSpacetimeKerrSchildCoordinates(M=-1.0,a=0.0)
+        @test_throws AssertionError KerrSpacetimeKerrSchildCoordinates(M=1.0,a=1.5)
     
     end
 end

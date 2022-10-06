@@ -4,7 +4,7 @@ using Skylight, Test
     
     @testset "configurations initialization" begin
 
-        spacetime = KerrSpacetimeKerrSchildCoordinates(parameters = KerrSpacetimeParameters(M=1.0,a=0.5))
+        spacetime = KerrSpacetimeKerrSchildCoordinates(M=1.0,a=0.5)
     
         image_plane = ImagePlane(observer_distance = 1.0,
                                     observer_inclination_in_degrees = 137.0,
@@ -28,7 +28,7 @@ using Skylight, Test
 
         @testset "set null ingoing past directed four-momentum" begin
 
-            spacetime = KerrSpacetimeKerrSchildCoordinates(parameters = KerrSpacetimeParameters(M=1.0, a=0.99))
+            spacetime = KerrSpacetimeKerrSchildCoordinates(M=1.0, a=0.99)
 
             position = [rand(),5.0,rand(),rand()]
             momentum = rand(4)
@@ -61,7 +61,7 @@ using Skylight, Test
 
     @testset "single ray" begin
         
-        spacetime = KerrSpacetimeKerrSchildCoordinates(parameters = KerrSpacetimeParameters(M=1.0, a=0.0))
+        spacetime = KerrSpacetimeKerrSchildCoordinates(M=1.0, a=0.0)
 
         image_plane = ImagePlane(observer_distance = sqrt(7.0),
                                     observer_inclination_in_degrees = 90.0,
@@ -98,7 +98,7 @@ using Skylight, Test
 
     @testset "all rays" begin
         
-        spacetime = KerrSpacetimeKerrSchildCoordinates(parameters = KerrSpacetimeParameters(M=1.0, a=0.0))
+        spacetime = KerrSpacetimeKerrSchildCoordinates(M=1.0, a=0.0)
 
         image_plane = ImagePlane(observer_distance = 3,
                                     observer_inclination_in_degrees = 90.0,

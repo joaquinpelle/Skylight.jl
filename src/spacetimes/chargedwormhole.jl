@@ -1,7 +1,7 @@
-export ChargedWormholeSpacetimeParameters
-export ChargedWormholeSpacetimeSphericalCoordinates, ChargedWormholeSpacetimeSphericalCoordinates
+export ChargedWormholeSpacetimeSphericalCoordinates
+export ChargedWormholeSpacetimeRegularCoordinates
 
-@with_kw struct ChargedWormholeSpacetimeParameters <: SpacetimeParameters
+@with_kw struct ChargedWormholeSpacetimeSphericalCoordinates <: AnalyticSpacetime
     
     b0::Float64
     Q::Float64
@@ -11,5 +11,12 @@ export ChargedWormholeSpacetimeSphericalCoordinates, ChargedWormholeSpacetimeSph
 
 end
 
-struct ChargedWormholeSpacetimeSphericalCoordinates <: AnalyticSpacetime end
-struct ChargedWormholeSpacetimeRegularCoordinates <: AnalyticSpacetime end
+@with_kw struct ChargedWormholeSpacetimeRegularCoordinates <: AnalyticSpacetime
+    
+    b0::Float64
+    Q::Float64
+
+    @assert b0 >= 0.0
+    @assert abs(Q) < b0
+
+end

@@ -17,7 +17,7 @@ using Skylight, Test
     end
 
     @testset "image plane" begin
-        spacetime = KerrSpacetimeKerrSchildCoordinates(parameters = KerrSpacetimeParameters(M=1.0,a=0.5))
+        spacetime = KerrSpacetimeKerrSchildCoordinates(M=1.0,a=0.5)
         
         image_plane = ImagePlane(observer_distance = 1.0,
                                     observer_inclination_in_degrees = 90.0,

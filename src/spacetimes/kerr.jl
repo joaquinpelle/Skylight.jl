@@ -1,21 +1,15 @@
-export KerrSpacetimeParameters 
-export KerrSpacetimeKerrSchildCoordinates, KerrSpacetimeBoyerLindquistCoordinates
-
-@with_kw struct KerrSpacetimeParameters <: SpacetimeParameters
-    
-    M::Float64
-    a::Float64
-
-    @assert M >= 0.0
-    @assert abs(a) <= M
-
-end
+export KerrSpacetimeKerrSchildCoordinates
+export KerrSpacetimeBoyerLindquistCoordinates
 
 # Kerr Schild coordinates
 
 @with_kw struct KerrSpacetimeKerrSchildCoordinates <: AnalyticSpacetime
 
-    parameters::KerrSpacetimeParameters 
+    M::Float64
+    a::Float64
+
+    @assert M >= 0.0
+    @assert abs(a) <= M 
 
 end
 
@@ -28,8 +22,8 @@ function set_metric!(g, q, spacetime::KerrSpacetimeKerrSchildCoordinates)
     q: spacetime position
     """
 
-    M = spacetime.parameters.M
-    a = spacetime.parameters.a
+    M = spacetime.M
+    a = spacetime.a
     
     t, x, y, z = q
     ρ2 = x^2 + y^2 + z^2

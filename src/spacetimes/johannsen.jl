@@ -1,7 +1,6 @@
-export JohannsenSpacetimeParameters
 export JohannsenSpacetimeBoyerLindquistCoordinates
 
-@with_kw struct JohannsenSpacetimeParameters <: SpacetimeParameters
+@with_kw struct JohannsenSpacetimeBoyerLindquistCoordinates <: AnalyticSpacetime
     
     M::Float64
     a::Float64
@@ -19,5 +18,3 @@ export JohannsenSpacetimeBoyerLindquistCoordinates
     @assert  ϵ3 > -factor^3
         
 end
-
-struct JohannsenSpacetimeBoyerLindquistCoordinates <: AnalyticSpacetime end

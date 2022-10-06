@@ -2,8 +2,7 @@ using Skylight, BenchmarkTools, BenchmarkPlots, StatsPlots
 
 suite = BenchmarkGroup()
 
-spacetime = KerrSpacetimeKerrSchildCoordinates(parameters = KerrSpacetimeParameters(M=1.0,
-                                                                                a=0.9))
+spacetime = KerrSpacetimeKerrSchildCoordinates(M=1.0,a=0.9)
 
 numbers = [100,200,400,800]
 
