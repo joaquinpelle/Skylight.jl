@@ -8,11 +8,8 @@ end
 
 function dump_metric_in!(container,position,spacetime::Spacetime)
 
-    pars = spacetime.parameters
-    metric! = spacetime.metric!
-    
     @views g = container[:,1:4]
-    metric!(g,position,pars)
+    set_metric!(g,position,spacetime)
     
 end
 

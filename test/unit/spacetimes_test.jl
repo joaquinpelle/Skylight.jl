@@ -6,22 +6,22 @@ using Skylight, Test
         
 
         g = zeros(4,4)
-        pars = MinkowskiSpacetimeParameters()
-        Skylight.minkowski_metric_cartesian_coordinates!(g,rand(4),pars)
+        spacetime = MinkowskiSpacetimeCartesianCoordinates()
+        Skylight.set_metric!(g,rand(4),spacetime)
         @test g == [-1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
 
         container = zeros(4,5)
         @views g1 = container[:,1:4]
-        Skylight.minkowski_metric_cartesian_coordinates!(g1,rand(4),pars)
+        Skylight.set_metric!(g1,rand(4),spacetime)
         @test g1 == [-1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
     
     end
 
     @testset "minkowski metric spherical coordinates" begin
         g = zeros(4,4)
-        pars = MinkowskiSpacetimeParameters()
+        spacetime = MinkowskiSpacetimeSphericalCoordinates()
         position = [rand(),2.0,π/2,rand()]
-        Skylight.minkowski_metric_spherical_coordinates!(g,position,pars)
+        Skylight.set_metric!(g,position,spacetime)
         @test g == [-1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 4.0 0.0; 0.0 0.0 0.0 4.0]
 
     end
@@ -29,12 +29,11 @@ using Skylight, Test
     @testset "kerr metric" begin
         
         spacetime = KerrSpacetimeKerrSchildCoordinates(parameters = KerrSpacetimeParameters(M=1.0, a=0.0))
-        metric! = spacetime.metric!
 
         point = [rand(),1.0,0.0,0.0]
 
         g1 = zeros(4,4)
-        metric!(g1,point,spacetime.parameters)
+        Skylight.set_metric!(g1,point,spacetime)
 
         @test g1 == [1.0 2.0 0.0 0.0; 2.0 3.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
 
@@ -42,7 +41,7 @@ using Skylight, Test
         point = [rand(),1.0,1.0,1.0]
 
         g2 = zeros(4,4)
-        metric!(g2,point,spacetime2.parameters)
+        Skylight.set_metric!(g2,point,spacetime2)
 
         r2 = 1.0 + sqrt(2.0)
         r = sqrt(r2)

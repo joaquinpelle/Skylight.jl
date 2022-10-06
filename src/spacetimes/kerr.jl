@@ -13,23 +13,22 @@ end
 
 # Kerr Schild coordinates
 
-@with_kw struct KerrSpacetimeKerrSchildCoordinates{T<:Function} <: AnalyticSpacetime
+@with_kw struct KerrSpacetimeKerrSchildCoordinates <: AnalyticSpacetime
 
     parameters::KerrSpacetimeParameters 
     coordinate_system_kind::CartesianKind = CartesianKind()
-    metric!::T = kerr_metric_kerr_schild_coordinates!
 
 end
 
-function kerr_metric_kerr_schild_coordinates!(g, q, par::KerrSpacetimeParameters)
+function set_metric!(g, q, spacetime::KerrSpacetimeKerrSchildCoordinates)
 
     """ 
     g: container for the metric 
     q: spacetime position
     """
 
-    M = par.M
-    a = par.a
+    M = spacetime.parameters.M
+    a = spacetime.parameters.a
     
     t, x, y, z = q
     ρ2 = x^2 + y^2 + z^2

@@ -5,15 +5,14 @@ struct MinkowskiSpacetimeParameters <: SpacetimeParameters end
 
 #Cartesian coordinates
 
-@with_kw struct MinkowskiSpacetimeCartesianCoordinates{T<:Function} <: AnalyticSpacetime
+@with_kw struct MinkowskiSpacetimeCartesianCoordinates <: AnalyticSpacetime
 
     parameters::MinkowskiSpacetimeParameters = MinkowskiSpacetimeParameters() 
     coordinate_system_kind::CartesianKind = CartesianKind()
-    metric!::T = minkowski_metric_cartesian_coordinates!
 
 end
 
-function minkowski_metric_cartesian_coordinates!(g, q, par::MinkowskiSpacetimeParameters)
+function set_metric!(g, q, spacetime::MinkowskiSpacetimeCartesianCoordinates)
     
     """ 
     g: container for the metric 
@@ -31,15 +30,14 @@ end
 
 #Spherical coordinates
 
-@with_kw struct MinkowskiSpacetimeSphericalCoordinates{T<:Function} <: AnalyticSpacetime 
+@with_kw struct MinkowskiSpacetimeSphericalCoordinates <: AnalyticSpacetime 
 
     parameters::MinkowskiSpacetimeParameters = MinkowskiSpacetimeParameters()
     coordinate_system_kind::SphericalKind = SphericalKind()
-    metric!::T = minkowski_metric_spherical_coordinates!
 
 end
 
-function minkowski_metric_spherical_coordinates!(g, q, par::MinkowskiSpacetimeParameters)
+function set_metric!(g, q, spacetime::MinkowskiSpacetimeSphericalCoordinates)
     
     """ 
     g: container for the metric 
