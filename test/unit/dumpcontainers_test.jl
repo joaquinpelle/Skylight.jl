@@ -1,6 +1,6 @@
 using Skylight, Test
 
-@testset "dumps in container" begin
+@testset "Container" begin
     
     container = zeros(4,5)
 
@@ -28,5 +28,10 @@ using Skylight, Test
     Skylight.dump_metric_in!(container,position,spacetime)
     
     @test container == [-1.0 0.0 0.0 0.0 1.0; 0.0 1.0 0.0 0.0 0.0; 0.0 0.0 1.0 0.0 0.0; 0.0 0.0 0.0 1.0 0.0]
+
+    gμν, tμ = Skylight.unpack_views(container)
+
+    @test gμν == container[:,1:4]
+    @test tμ == container[:,5]
 
 end

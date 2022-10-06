@@ -15,3 +15,14 @@ function dump_metric_in!(container,position,spacetime::Spacetime)
     metric!(g,position,pars)
     
 end
+
+function unpack_views(container)
+
+    @views begin
+        metric = container[:,1:4]
+        vector = container[:,5]
+    end
+
+    return metric, vector
+
+end

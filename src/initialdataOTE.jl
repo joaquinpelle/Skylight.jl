@@ -140,10 +140,7 @@ function set_null!(momentum,container)
     
     """returns with unit energy"""
 
-    @views begin
-        gμν = container[:,1:4]
-        tμ = container[:,5]
-    end
+    gμν, tμ = unpack_views(container)
 
     t2 = norm_squared(tμ,gμν)
     k2 = norm_squared(momentum,gμν)    
