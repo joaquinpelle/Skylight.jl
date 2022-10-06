@@ -52,11 +52,13 @@ end
 
 function rotate_around_y_axis!(v, angle_in_degrees)
 
+    Nvectors = size(v, 2)
+
     ξ = deg2rad(angle_in_degrees)
 
     rotation_matrix = [cos(ξ) 0.0 sin(ξ); 0.0 1.0 0.0; -sin(ξ) 0.0 cos(ξ)]
 
-    for i in range(1, size(v,2))
+    for i in range(Nvectors)
 
         v[:,i] .= rotation_matrix*v[:,i] 
     
