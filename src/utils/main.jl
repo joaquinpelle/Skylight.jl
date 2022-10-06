@@ -1,3 +1,3 @@
 include("geometry.jl")
-include("randomvectors.jl")
+include("randompoints.jl")
 include("dumpcontainers.jl")
