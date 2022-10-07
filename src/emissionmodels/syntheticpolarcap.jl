@@ -13,14 +13,14 @@ end
 
 get_number_of_points(model::SyntheticPolarCap) = model.number_of_points
 
-function set_local_four_velocity!(vector, position, gμν, model::SyntheticPolarCap)
+function set_local_four_velocity!(vector, position, gμν, model::SyntheticPolarCap, coord_system)
 
     angular_speed = model.angular_speed
-    tangent_vector_zaxis_rotation!(vector, position, angular_speed, gμν, CartesianKind())
+    tangent_vector_zaxis_rotation!(vector, position, angular_speed, gμν, coord_system)
     
 end
 
-function synthetic_polar_cap_dataframe(model::SyntheticPolarCap)
+function synthetic_polar_cap_dataframe(model::SyntheticPolarCap, coord_system::CartesianKind)
 
     dataframe = zeros(4, model.number_of_points)
 
@@ -29,7 +29,7 @@ function synthetic_polar_cap_dataframe(model::SyntheticPolarCap)
         temperatures = dataframe[4,:]
     end
     
-    random_uniform_points_unit_spherical_cap!(points, model.angular_radius_in_degrees, CartesianKind())
+    random_uniform_points_unit_spherical_cap!(points, model.angular_radius_in_degrees, coord_system)
     
     @. temperatures = model.temperature
     
