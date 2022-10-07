@@ -71,9 +71,9 @@ function set_points_on_unit_sphere!(points, θ, φ, coord_system::CartesianKind)
 
     @. begin
 
-        points[1,:] = sin(θ)*cos(φ)
-        points[2,:] = sin(θ)*sin(φ)
-        points[3,:] = cos(θ)
+        points[1,:] = cos(θ)  
+        points[2,:] = sin(θ)*cos(φ)
+        points[3,:] = sin(θ)*sin(φ)
     
     end
 
