@@ -11,6 +11,9 @@ export KerrSpacetimeBoyerLindquistCoordinates
     @assert M >= 0.0
     @assert abs(a) <= M 
 
+    #Cache
+    l::Vector{Float64} = zeros(4)
+
 end
 
 coordinate_system_kind(spacetime::KerrSpacetimeKerrSchildCoordinates) = CartesianKind()
@@ -32,7 +35,7 @@ function set_metric!(g, q, spacetime::KerrSpacetimeKerrSchildCoordinates)
     r = sqrt(r2)
     H2 = 2. * M * r / (r2 + a2 * z^2 / r2)
     
-    l = zeros(4)
+    l = spacetime.l
     l[1] = 1.
     l[2] = (r*x + a*y)/(r2 + a2)
     l[3] = (r*y - a*x)/(r2 + a2)

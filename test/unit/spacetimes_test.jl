@@ -10,8 +10,8 @@ using Skylight, Test
         Skylight.set_metric!(g,rand(4),spacetime)
         @test g == [-1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
 
-        container = zeros(4,5)
-        @views g1 = container[:,1:4]
+        cache = Skylight.OTEInitialDataCache()
+        @views g1 = cache.gμν
         Skylight.set_metric!(g1,rand(4),spacetime)
         @test g1 == [-1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
     
