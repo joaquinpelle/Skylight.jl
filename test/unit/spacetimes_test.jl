@@ -13,7 +13,11 @@ using Skylight, Test
         @views g1 = cache.metric
         Skylight.set_metric!(g1,rand(4),spacetime)
         @test g1 == [-1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
-    
+
+        ginv = zeros(4,4)
+        Skylight.set_metric_inverse!(ginv,rand(4),spacetime)
+        @test g*ginv == [1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
+        
     end
 
     @testset "minkowski metric spherical coordinates" begin
@@ -23,6 +27,10 @@ using Skylight, Test
         Skylight.set_metric!(g,position,spacetime)
         @test g == [-1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 4.0 0.0; 0.0 0.0 0.0 4.0]
 
+        ginv = zeros(4,4)
+        Skylight.set_metric_inverse!(ginv,position,spacetime)
+        @test g*ginv ≈ [1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
+    
     end
 
     @testset "kerr metric" begin
@@ -71,7 +79,16 @@ using Skylight, Test
         g[4,4]= 1. + H2 * l[4]*l[4]
 
         @test g2 == g
+
+        spacetime3 = KerrSpacetimeKerrSchildCoordinates(M=1.0,a=0.5)
+        position = [rand(), 4.0, 5.0, 1.0]
         
+        g3 = zeros(4,4)
+        Skylight.set_metric!(g3,point,spacetime3)
+
+        ginv = zeros(4,4)
+        Skylight.set_metric_inverse!(ginv,point,spacetime3)
+        @test g3*ginv ≈ [1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
     end
 end
 

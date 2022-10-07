@@ -1,6 +1,13 @@
 contract(vector, covector)  = vector'covector  
-lower_index(vector, metric) = metric*vector 
-raise_index(covector, metric) = metric*covector 
+
+function lower_index!(vector, metric)
+    vector .= metric*vector
+end
+
+function raise_index!(vector, metric_inverse)
+    vector .= metric_inverse*vector
+end
+
 scalar_product(v,u,metric) = v'*metric*u
 norm_squared(v,metric) = scalar_product(v,v,metric)
 ∂t() = [1.0, 0.0, 0.0, 0.0]
