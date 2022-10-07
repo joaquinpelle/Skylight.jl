@@ -1,47 +1,46 @@
 abstract type InitialDataCache end
 
 @with_kw mutable struct OTEInitialDataCache <: InitialDataCache
-    gμν::Matrix{Float64} = zeros(4,4)
-    tμ::Vector{Float64} = zeros(4)
+    metric::Matrix{Float64} = zeros(4,4)
+    vector::Vector{Float64} = zeros(4)
 end
 
 @with_kw mutable struct ETOInitialDataCache <: InitialDataCache
-    gμν::Matrix{Float64} = zeros(4,4)
-    tμ::Vector{Float64} = zeros(4)
-    eμa::Matrix{Float64} = zeros(4,4)
+    metric::Matrix{Float64} = zeros(4,4)
+    tetrad::Matrix{Float64} = zeros(4,4)
 end
 
 function dump_vector_in!(cache, vector)
-    cache.tμ = vector
+    cache.vector = vector
 end
 
 function dump_∂t_in!(cache)
-    cache.tμ = ∂t()
+    cache.vector = ∂t()
 end
 
 function dump_metric_in!(cache, position, spacetime::Spacetime)
-    set_metric!(cache.gμν, position, spacetime)
+    set_metric!(cache.metric, position, spacetime)
 end
 
 function unpack_views(cache::OTEInitialDataCache)
 
     @views begin
-        gμν = cache.gμν
-        tμ = cache.tμ
+        metric = cache.metric
+        vector = cache.vector
     end
 
-    return gμν, tμ
+    return metric, vector
 
 end
 
 function unpack_views(cache::ETOInitialDataCache)
 
     @views begin
-        gμν = cache.gμν
-        tμ = cache.tμ
-        eμa = cache.eμa
+        metric = cache.metric
+        vector = cache.tetrad[:,1]
+        triad  = cache.tetrad[:,2:4]
     end
 
-    return gμν, tμ, eμa
+    return metric, vector, triad
 
 end

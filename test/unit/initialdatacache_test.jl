@@ -6,12 +6,12 @@ using Skylight, Test
 
     vector = rand(4)
     Skylight.dump_vector_in!(cache, vector)
-    @test cache.tμ == vector
-    @test cache.gμν == zeros(4,4)
+    @test cache.vector == vector
+    @test cache.metric == zeros(4,4)
 
     Skylight.dump_∂t_in!(cache)
-    @test cache.tμ == [1.0, 0.0, 0.0, 0.0]
-    @test cache.gμν == zeros(4,4)
+    @test cache.vector == [1.0, 0.0, 0.0, 0.0]
+    @test cache.metric == zeros(4,4)
 
     spacetime = MinkowskiSpacetimeCartesianCoordinates()
 
@@ -29,12 +29,12 @@ using Skylight, Test
     position = rand(4)
     Skylight.dump_metric_in!(cache,position,spacetime)
     
-    @test cache.tμ == [1.0, 0.0, 0.0, 0.0]
-    @test cache.gμν == [-1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
+    @test cache.vector == [1.0, 0.0, 0.0, 0.0]
+    @test cache.metric == [-1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
 
-    gμν, tμ = Skylight.unpack_views(cache)
+    metric, vector = Skylight.unpack_views(cache)
 
-    @test gμν == cache.gμν
-    @test tμ == cache.tμ
+    @test metric == cache.metric
+    @test vector == cache.vector
 
 end
