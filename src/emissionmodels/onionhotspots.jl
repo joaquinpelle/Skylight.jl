@@ -1,1 +1,1 @@
-struct OnionHotSpots <: EmissionModel end
+struct OnionHotSpots <: SurfaceEmissionModel end

@@ -1,4 +1,4 @@
-@with_kw struct SyntheticPolarCap <: EmissionModel
+@with_kw struct SyntheticPolarCap <: OpaqueInteriorSurfaceEmissionModel
 
     number_of_points::Int64
     NS_radius::Float64
@@ -11,10 +11,33 @@
     
 end
 
-get_number_of_points(model::SyntheticPolarCap) = model.number_of_points
+function surface_function(position, model::SyntheticPolarCap, coord_system::CartesianKind)
+    
+    @views begin
+        t,x,y,z = position
+        R = model.NS_radius
+    end
+
+    return x^2+y^2+z^2-R^2
+
+end
+
+function set_surface_differential!(covector, position, model::SyntheticPolarCap, coord_system::CartesianKind)
+
+    @views begin
+        t,x,y,z = position
+        R = model.NS_radius
+    end
+
+    covector[1] = 0.0
+    covector[2] = 2x
+    covector[3] = 2y
+    covector[4] = 2z
+
+end
 
 function set_local_four_velocity!(vector, position, gμν, model::SyntheticPolarCap, coord_system)
-
+        
     angular_speed = model.angular_speed
     tangent_vector_zaxis_rotation!(vector, position, angular_speed, gμν, coord_system)
     
@@ -39,4 +62,5 @@ function synthetic_polar_cap_dataframe(model::SyntheticPolarCap, coord_system::C
 
 end
 
+get_number_of_points(model::SyntheticPolarCap) = model.number_of_points
 

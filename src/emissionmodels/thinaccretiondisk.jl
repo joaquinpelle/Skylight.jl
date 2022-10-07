@@ -1,1 +1,1 @@
-struct ThinAccretionDisk <: EmissionModel end
+struct ThinAccretionDisk <: SurfaceEmissionModel end
