@@ -1,11 +1,11 @@
 abstract type InitialDataCache end
 
-@with_kw mutable struct OTEInitialDataCache
+@with_kw mutable struct OTEInitialDataCache <: InitialDataCache
     gμν::Matrix{Float64} = zeros(4,4)
     tμ::Vector{Float64} = zeros(4)
 end
 
-@with_kw mutable struct ETOInitialDataCache
+@with_kw mutable struct ETOInitialDataCache <: InitialDataCache
     gμν::Matrix{Float64} = zeros(4,4)
     tμ::Vector{Float64} = zeros(4)
     eμa::Matrix{Float64} = zeros(4,4)
