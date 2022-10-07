@@ -27,4 +27,28 @@ using Skylight, Test
 
     @test vector ≈ [1.0/sqrt(0.9775), 0.0, 0.15/sqrt(0.9775), 0.0]
 
+    @test Skylight.surface_function(position, model, coord_system) ≈ 0.0
+    
+    df = zeros(4)
+    Skylight.set_surface_differential!(df, position, model, coord_system)
+    @test df == [0.0, 2*position[2], 2*position[3], 2*position[4]]
+
+
+    spacetime = Skylight.KerrSpacetimeKerrSchildCoordinates(M=1.0,a=0.5)
+
+    gcache = zeros(4,4)
+    Skylight.set_metric!(gcache, position, spacetime)
+
+    normal = zeros(4)
+    Skylight.set_unit_surface_normal!(normal, position, gcache, spacetime, model, coord_system)
+
+    tangent_vector = [0.0, -position[3], position[2], 0.0]
+
+    Skylight.set_metric!(gcache, position, spacetime)
+    @test Skylight.norm_squared(normal, gcache) ≈ 1.0
+    @test Skylight.scalar_product(normal, tangent_vector, gcache) ≈ 0.0 atol=1e-16
+    
+    Skylight.lower_index!(normal, gcache)
+    @test normal[2]/df[2] ≈ normal[4]/df[4]
+
 end
