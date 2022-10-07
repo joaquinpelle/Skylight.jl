@@ -4,7 +4,6 @@ using Skylight, Test
 
     @testset "minkowski metric cartesian coordinates" begin
         
-
         g = zeros(4,4)
         spacetime = MinkowskiSpacetimeCartesianCoordinates()
         Skylight.set_metric!(g,rand(4),spacetime)
