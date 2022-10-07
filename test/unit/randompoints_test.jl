@@ -14,14 +14,14 @@ using Skylight, Test
 
         Skylight.random_uniform_points_unit_hemisphere!(v, coord_system)
 
-        @test sum(v[3,:] .>= 0.0) == N 
+        @test sum(v[1,:] .>= 0.0) == N 
         @test sum(v[1,:].^2 + v[2,:].^2 + v[3,:].^2 .- 1.0) ≈ 0.0  atol = 1e-14
 
         
         angular_radius_in_degrees = 45
         Skylight.random_uniform_points_unit_spherical_cap!(v, angular_radius_in_degrees, coord_system)
         
-        @test sum(v[3,:] .>= 1/sqrt(2)) == N 
+        @test sum(v[1,:] .>= 1/sqrt(2)) == N 
         @test sum(v[1,:].^2 + v[2,:].^2 + v[3,:].^2 .- 1.0) ≈ 0.0  atol = 1e-14
         
         radius = 5.0
