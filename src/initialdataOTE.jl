@@ -3,9 +3,9 @@ export initialize
 function initialize(configurations::OTEInitialDataConfigurations)
 
     rays = my_zeros(configurations)
+    cache = get_cache(configurations)
 
-    container = zeros(4,5)
-    dump_∂t_in!(container)
+    dump_∂t_in!(cache)
     
     index = 1
     
@@ -13,7 +13,7 @@ function initialize(configurations::OTEInitialDataConfigurations)
         for pixel_coordinates in get_pixel_coordinates(configurations)
 
             @views ray = rays[:, index]
-            initialize_single!(ray, initial_time, pixel_coordinates, configurations, container)
+            initialize_single!(ray, initial_time, pixel_coordinates, configurations, cache)
             index += 1
 
         end
@@ -39,7 +39,7 @@ function get_pixel_coordinates(configs::OTEInitialDataConfigurations)
 
 end
 
-function initialize_single!(ray, initial_time, pixel_coordinates, configurations, container)
+function initialize_single!(ray, initial_time, pixel_coordinates, configurations, cache)
     
     @views begin 
         position = ray[1:4]
@@ -49,16 +49,16 @@ function initialize_single!(ray, initial_time, pixel_coordinates, configurations
     end
     
     spacetime = configurations.spacetime
-    coord_system = coordinate_system_kind(spacetime)
     image_plane = configurations.image_plane
+    coord_system = coordinate_system_kind(spacetime)
 
 
     ray[1] = initial_time
     space_position .= get_space_position_from(pixel_coordinates,image_plane,coord_system)
     space_momentum .= get_space_momentum_from(pixel_coordinates,image_plane,coord_system)
 
-    dump_metric_in!(container,position,spacetime)
-    set_null_ingoing_past_directed!(momentum,container)
+    dump_metric_in!(cache,position,spacetime)
+    set_null_ingoing_past_directed!(momentum,cache)
 
 end
 
@@ -127,20 +127,20 @@ function get_space_momentum_from(pixel_coordinates, image_plane::ImagePlane, coo
 
 end
 
-function set_null_ingoing_past_directed!(momentum,container)
+function set_null_ingoing_past_directed!(momentum,cache)
     
     """the input time component must be zero for this to work """
 
-    set_null!(momentum,container)
+    set_null!(momentum,cache)
     set_ingoing_past_directed!(momentum)
 
 end
 
-function set_null!(momentum,container)
+function set_null!(momentum,cache)
     
     """returns with unit energy"""
 
-    gμν, tμ = unpack_views(container)
+    gμν, tμ = unpack_views(cache)
 
     t2 = norm_squared(tμ,gμν)
     k2 = norm_squared(momentum,gμν)    

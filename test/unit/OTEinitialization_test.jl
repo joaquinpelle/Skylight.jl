@@ -34,11 +34,11 @@ using Skylight, Test
             momentum = rand(4)
             momentum[1] = 0.0
 
-            container = zeros(4,5)
-            Skylight.dump_∂t_in!(container)
-            Skylight.dump_metric_in!(container,position,spacetime)
+            cache = Skylight.OTEInitialDataCache()
+            Skylight.dump_∂t_in!(cache)
+            Skylight.dump_metric_in!(cache,position,spacetime)
 
-            Skylight.set_null!(momentum,container)
+            Skylight.set_null!(momentum,cache)
             
             g = zeros(4,4)
             g = Skylight.set_metric!(g,position,spacetime)
@@ -52,7 +52,7 @@ using Skylight, Test
             momentum = rand(4)
             momentum[1] = 0.0
 
-            Skylight.set_null_ingoing_past_directed!(momentum,container)
+            Skylight.set_null_ingoing_past_directed!(momentum,cache)
             
             @test Skylight.norm_squared(momentum,g) ≈ 0.0 atol=1e-15
             @test momentum[1] == -1.0
@@ -80,10 +80,10 @@ using Skylight, Test
 
         ray = zeros(8)
         pixel_coordinates = (1.0, 1.0)
-        container = zeros(4,5)
-        Skylight.dump_∂t_in!(container)
+        cache = Skylight.OTEInitialDataCache()
+        Skylight.dump_∂t_in!(cache)
 
-        Skylight.initialize_single!(ray,initial_time,pixel_coordinates,configurations,container)
+        Skylight.initialize_single!(ray,initial_time,pixel_coordinates,configurations,cache)
         
         @test ray[1] ==  initial_time
         @test ray[2] ≈   sqrt(7.0)

@@ -1,15 +1,17 @@
 using Skylight, Test
 
-@testset "Container" begin
+@testset "Cache" begin
     
-    container = zeros(4,5)
+    cache = Skylight.OTEInitialDataCache()
 
     vector = rand(4)
-    Skylight.dump_vector_in!(container, vector)
-    @test container == [0 0 0 0 vector[1]; 0 0 0 0 vector[2]; 0 0 0 0 vector[3]; 0 0 0 0 vector[4]]
+    Skylight.dump_vector_in!(cache, vector)
+    @test cache.tμ == vector
+    @test cache.gμν == zeros(4,4)
 
-    Skylight.dump_∂t_in!(container)
-    @test container == [0 0 0 0 1; 0 0 0 0 0; 0 0 0 0 0; 0 0 0 0 0]
+    Skylight.dump_∂t_in!(cache)
+    @test cache.tμ == [1.0, 0.0, 0.0, 0.0]
+    @test cache.gμν == zeros(4,4)
 
     spacetime = MinkowskiSpacetimeCartesianCoordinates()
 
@@ -25,13 +27,14 @@ using Skylight, Test
                                             initial_times = [0.0,1.0])
 
     position = rand(4)
-    Skylight.dump_metric_in!(container,position,spacetime)
+    Skylight.dump_metric_in!(cache,position,spacetime)
     
-    @test container == [-1.0 0.0 0.0 0.0 1.0; 0.0 1.0 0.0 0.0 0.0; 0.0 0.0 1.0 0.0 0.0; 0.0 0.0 0.0 1.0 0.0]
+    @test cache.tμ == [1.0, 0.0, 0.0, 0.0]
+    @test cache.gμν == [-1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
 
-    gμν, tμ = Skylight.unpack_views(container)
+    gμν, tμ = Skylight.unpack_views(cache)
 
-    @test gμν == container[:,1:4]
-    @test tμ == container[:,5]
+    @test gμν == cache.gμν
+    @test tμ == cache.tμ
 
 end

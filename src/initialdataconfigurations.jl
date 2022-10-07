@@ -24,6 +24,9 @@ my_zeros(configurations) = zeros(8, number_of_initial_conditions(configurations)
 
 get_initial_times(configurations) = configurations.initial_times
 
+get_cache(configurations::OTEInitialDataConfigurations) = OTEInitialDataCache()
+get_cache(configurations::ETOInitialDataConfigurations) = ETOInitialDataCache()
+
 function number_of_initial_conditions(configurations::OTEInitialDataConfigurations)
      
     number_of_times = length(configurations.initial_times)
