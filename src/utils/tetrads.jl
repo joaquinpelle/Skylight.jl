@@ -57,7 +57,6 @@ function set_coordinate_components_from_tetrad_components!(kμ, tetrad)
 
     for i in 1:nvectors
         
-        #kμ[:,i] = tetrad[:,1]*kμ[1,i] + tetrad[:,2]*kμ[2,i] + tetrad[:,3]*kμ[3,i] + tetrad[:,4]*kμ[4,i]  
         kμ[:,i] = tetrad*kμ[:,i]  
     
     end
