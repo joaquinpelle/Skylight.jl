@@ -8,16 +8,13 @@ abstract type TransparentSurfaceEmissionModel <: SurfaceEmissionModel end
 include("syntheticpolarcap.jl")
 include("onionhotspots.jl")
 include("thinaccretiondisk.jl")
+include("dummyextendedregion.jl")
 
 
-function set_unit_surface_normal!(vector, position, gcache, spacetime, model, coord_system)
+function set_unit_surface_normal!(vector, position, metric, metric_inverse, model, coord_system)
 
     set_surface_differential!(vector, position, model, coord_system)
-
-    set_metric_inverse!(gcache, position, spacetime)
-    raise_index!(vector,gcache)
-
-    set_metric!(gcache,position,spacetime)
-    normalize_spacelike!(vector, gcache)
+    vector .= raise_index(vector,metric_inverse)
+    normalize_spacelike!(vector, metric)
 
 end
