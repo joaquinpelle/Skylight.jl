@@ -1,15 +1,9 @@
-contract(vector, covector)  = vector'covector  
-
-function lower_index!(vector, metric)
-    vector .= metric*vector
-end
-
-function raise_index!(vector, metric_inverse)
-    vector .= metric_inverse*vector
-end
-
-scalar_product(v,u,metric) = v'*metric*u
+contract(v, u) = dot(v, u)  
+lower_index(v,metric) = metric*v
+raise_index(v, metric_inverse) = metric_inverse*v
+scalar_product(v,u,metric) = dot(v,metric,u)
 norm_squared(v,metric) = scalar_product(v,v,metric)
+
 ∂t() = [1.0, 0.0, 0.0, 0.0]
 
 function normalize_timelike!(v, metric)
