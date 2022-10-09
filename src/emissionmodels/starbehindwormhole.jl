@@ -1,0 +1,1 @@
+struct StarBehindWormhole <: OpaqueInteriorSurfaceEmissionModel end

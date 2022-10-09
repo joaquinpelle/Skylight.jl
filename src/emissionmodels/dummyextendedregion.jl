@@ -1,0 +1,1 @@
+struct DummyExtendedRegion <: EmissionModel end
