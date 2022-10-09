@@ -36,19 +36,21 @@ using Skylight, Test
 
     spacetime = Skylight.KerrSpacetimeKerrSchildCoordinates(M=1.0,a=0.5)
 
-    gcache = zeros(4,4)
-    Skylight.set_metric!(gcache, position, spacetime)
+    metric = zeros(4,4)
+    metric_inverse = zeros(4,4)
+
+    Skylight.set_metric!(metric, position, spacetime)
+    Skylight.set_metric_inverse!(metric_inverse, position, spacetime)
 
     normal = zeros(4)
-    Skylight.set_unit_surface_normal!(normal, position, gcache, spacetime, model, coord_system)
+    Skylight.set_unit_surface_normal!(normal, position, metric, metric_inverse, model, coord_system)
 
     tangent_vector = [0.0, -position[3], position[2], 0.0]
 
-    Skylight.set_metric!(gcache, position, spacetime)
-    @test Skylight.norm_squared(normal, gcache) ≈ 1.0
-    @test Skylight.scalar_product(normal, tangent_vector, gcache) ≈ 0.0 atol=1e-16
+    @test Skylight.norm_squared(normal, metric) ≈ 1.0
+    @test Skylight.scalar_product(normal, tangent_vector, metric) ≈ 0.0 atol=1e-16
     
-    Skylight.lower_index!(normal, gcache)
-    @test normal[2]/df[2] ≈ normal[4]/df[4]
+    vector = Skylight.lower_index(normal, metric)
+    @test vector[2]/df[2] ≈ vector[4]/df[4]
 
 end
