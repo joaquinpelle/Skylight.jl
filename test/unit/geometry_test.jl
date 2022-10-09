@@ -29,17 +29,14 @@ end
 
 @testset "Index lowering" begin
 
-    lower_index! = Skylight.lower_index!
+    lower_index = Skylight.lower_index
 
     metric = [-1 2 0 0 ; 2 1 0 0; 0 0 1 0; 0 0 0 1]
     vec1 = [1,0,0,0]
     vec2 = [0,1,0,0]
 
-    lower_index!(vec1,metric)
-    lower_index!(vec2,metric)
-    
-    @test vec1 == [-1, 2, 0, 0]
-    @test vec2 == [ 2, 1, 0, 0]
+    @test lower_index(vec1,metric) == [-1, 2, 0, 0]
+    @test lower_index(vec2,metric) == [ 2, 1, 0, 0]
 
 end
 
