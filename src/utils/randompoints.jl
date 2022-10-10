@@ -40,6 +40,13 @@ function random_uniform_points_unit_hemisphere!(points, coord_system)
 
 end
 
+function random_uniform_points_unit_hemisphere_xaxis!(v,coord_system::CartesianKind)
+
+    random_uniform_points_unit_hemisphere!(v, CartesianKind())
+    rotate_around_y_axis!(v,90)
+
+end
+
 random_cylindrical_radius(N, rmin, rmax) = sqrt.(rmin^2 .+ (rmax^2 - rmin^2)*rand(N))
 random_polar_angle(N, θmax) = acos.(1.0.-(1.0-cos(θmax))*rand(N))
 random_azimuthal_angle(N) = 2π*rand(N)
@@ -71,9 +78,9 @@ function set_points_on_unit_sphere!(points, θ, φ, coord_system::CartesianKind)
 
     @. begin
 
-        points[1,:] = cos(θ)  
-        points[2,:] = sin(θ)*cos(φ)
-        points[3,:] = sin(θ)*sin(φ)
+        points[1,:] = sin(θ)*cos(φ)
+        points[2,:] = sin(θ)*sin(φ)
+        points[3,:] = cos(θ)  
     
     end
 
