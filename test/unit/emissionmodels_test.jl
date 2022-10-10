@@ -14,10 +14,15 @@ using Skylight, Test
     @test Skylight.get_number_of_points(model) == 10
 
     coord_system = Skylight.CartesianKind()
-    dataframe = Skylight.synthetic_polar_cap_dataframe(model, coord_system)
+    points = Skylight.get_space_positions(model, coord_system)
 
-    @test size(dataframe,2) == 10
-    @test dataframe[4,:] == [model.temperature for i in 1:10]
+    for i in 1:10
+        point = points[:,i]
+
+        @test sum(point.*point) ≈ 25
+        @test point[1] >= 5*cos(π/3)
+    
+    end
 
     vector = zeros(4)
     position = [rand(), 3.0, 0.0, 4.0]

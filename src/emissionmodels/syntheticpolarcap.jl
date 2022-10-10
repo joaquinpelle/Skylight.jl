@@ -36,29 +36,24 @@ function set_surface_differential!(covector, position, model::SyntheticPolarCap,
 
 end
 
-function set_local_four_velocity!(vector, position, gμν, model::SyntheticPolarCap, coord_system)
+function set_local_four_velocity!(vector, position, metric, model::SyntheticPolarCap, coord_system)
         
     angular_speed = model.angular_speed
-    tangent_vector_zaxis_rotation!(vector, position, angular_speed, gμν, coord_system)
+    tangent_vector_zaxis_rotation!(vector, position, angular_speed, metric, coord_system)
     
 end
 
-function synthetic_polar_cap_dataframe(model::SyntheticPolarCap, coord_system::CartesianKind)
+function get_space_positions(model::SyntheticPolarCap, coord_system::CartesianKind)
 
-    dataframe = zeros(4, model.number_of_points)
+    space_positions = zeros(3, model.number_of_points)
 
-    @views begin
-        points = dataframe[1:3,:]
-        temperatures = dataframe[4,:]
-    end
-    
-    random_uniform_points_unit_spherical_cap!(points, model.angular_radius_in_degrees, coord_system)
-    
-    @. temperatures = model.temperature
-    
-    rotate_around_y_axis!(points, model.misalignment_angle_in_degrees)
+    random_uniform_points_unit_spherical_cap!(space_positions, model.angular_radius_in_degrees, coord_system)
 
-    return dataframe
+    rotate_around_y_axis!(space_positions, model.misalignment_angle_in_degrees)
+
+    space_positions .*= model.NS_radius
+
+    return space_positions
 
 end
 
