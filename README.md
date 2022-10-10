@@ -16,7 +16,7 @@ This is a minimal version of `skylight`, currently under development for adding 
   
 ### Requirements
 
-Julia v1.1 or higher
+At least Julia v1.4
 
 ### Folder contents
 
