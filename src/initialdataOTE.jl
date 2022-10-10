@@ -1,6 +1,6 @@
-export initialize
+export initialize_data
 
-function initialize(configurations::OTEInitialDataConfigurations)
+function initialize_data(configurations::OTEInitialDataConfigurations)
 
     rays = my_zeros(configurations)
     cache = get_cache(configurations)

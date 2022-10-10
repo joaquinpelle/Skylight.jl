@@ -111,7 +111,7 @@ using Skylight, Test
                                                 image_plane = image_plane,
                                                 initial_times = [0.1,1.5])
 
-        rays = initialize(configurations)
+        rays = initialize_data(configurations)
 
         @views ray = rays[:,14]
 
