@@ -11,5 +11,6 @@ using Skylight, Test, SafeTestsets
     @time @safetestset "Image plane" begin include("unit/image_plane_test.jl") end
     @time @safetestset "Pixel position and momentum" begin include("unit/pixel_position_momentum_test.jl") end
     @time @safetestset "Initialization OTE" begin include("unit/OTEinitialization_test.jl") end
+    @time @safetestset "Initialization ETO" begin include("unit/ETOinitialization_test.jl") end
 
 end
