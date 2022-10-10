@@ -3,7 +3,6 @@ abstract type EmissionModel end
 abstract type SurfaceEmissionModel <: EmissionModel end
 
 abstract type OpaqueInteriorSurfaceEmissionModel <: SurfaceEmissionModel end
-abstract type TransparentSurfaceEmissionModel <: SurfaceEmissionModel end
 
 include("syntheticpolarcap.jl")
 include("onionhotspots.jl")
