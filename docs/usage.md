@@ -63,5 +63,5 @@ configurations = OTEInitialDataConfigurations(spacetime=spacetime,
 Finally, for creating the initial data, use
 
 ```
-initial_data = initialize(configurations)
+initial_data = initialize_data(configurations)
 ```
