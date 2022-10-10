@@ -1,0 +1,1 @@
+struct BogdanovPolarCap <: OpaqueInteriorSurfaceEmissionModel end

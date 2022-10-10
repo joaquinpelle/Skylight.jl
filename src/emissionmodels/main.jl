@@ -6,7 +6,9 @@ abstract type OpaqueInteriorSurfaceEmissionModel <: SurfaceEmissionModel end
 
 include("syntheticpolarcap.jl")
 include("onionhotspots.jl")
+include("bogdanovpolarcap.jl")
 include("thinaccretiondisk.jl")
+include("starbehindwormhole.jl")
 include("dummyextendedregion.jl")
 
 
