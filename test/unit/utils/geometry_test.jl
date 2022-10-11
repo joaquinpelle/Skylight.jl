@@ -120,7 +120,7 @@ end
     
     end
 
-    @testset "Spherial coordinates" begin
+    @testset "Spherical coordinates" begin
 
         Skylight.tangent_vector_zaxis_rotation!(vector1,position,Ω,metric,Skylight.SphericalKind())
         
