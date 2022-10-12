@@ -8,6 +8,7 @@ include("syntheticpolarcap.jl")
 include("onionhotspots.jl")
 include("bogdanovpolarcap.jl")
 include("thinaccretiondisk.jl")
+include("blackholecorona.jl")
 include("starbehindwormhole.jl")
 include("dummyextendedregion.jl")
 
