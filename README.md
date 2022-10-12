@@ -22,9 +22,6 @@ At least Julia v1.4
 > Adapted from [this guide](https://github.com/kriasoft/Folder-Structure-Conventions)
 
     .
-    ├── data                    # Data files
-    │   ├── io                  # Input and output 
-    │   ├── meta                # Metadata files
     ├── docs                    # Documentation files
     │   ├── TOC.md              # Table of contents
     │   ├── faq.md              # Frequently asked questions
@@ -32,11 +29,14 @@ At least Julia v1.4
     │   ├── usage.md            # Getting started guide 
     ├── run                     # Scripts and notebooks to run the code
     ├── src                     # Source files
+    │   ├── spacetimes          # Spacetime files
+    │   ├── emisisonmodels      # Emisison models files
+    │   ├── initialdata         # Initial data files
+    │   ├── utils               # General utilities
     ├── test                    # Test files 
     │   ├── benchmarks          # Load and stress tests
     │   ├── integration         # End-to-end, integration tests
     │   └── unit                # Unit tests
-
 
 ### To run the unit tests
 
