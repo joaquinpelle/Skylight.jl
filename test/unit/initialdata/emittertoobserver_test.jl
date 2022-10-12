@@ -83,7 +83,7 @@ end
     Skylight.set_packets_momenta!(kμ, tetrad, model)
 
     for i in 1:10
-        @test Skylight.norm_squared(kμ[:,i], cache.metric) ≈ 0.0 atol=1e-15 
+        @test Skylight.norm_squared(kμ[:,i], cache.metric) ≈ 0.0 atol=1e-14 
         @test Skylight.scalar_product(kμ[:,i], cache.tetrad[:,2], cache.metric) >= 0.0 
     end
 end
@@ -153,7 +153,7 @@ end
     end
 
     for i in 1:10
-        @test Skylight.norm_squared(kμ[:,i], cache.metric) ≈ 0.0 atol=1e-15 
+        @test Skylight.norm_squared(kμ[:,i], cache.metric) ≈ 0.0 atol=1e-14 
         @test Skylight.scalar_product(kμ[:,i], cache.tetrad[:,2], cache.metric) >= 0.0 
     end
 end
@@ -191,7 +191,7 @@ end
             
             @test xμ[1,j] == 0.0
             @test Skylight.scalar_product(xμ[:,j], [0.0, 1.0, 0.0, 0.0], metric) >= 5*cos(π/3)
-            @test Skylight.norm_squared(kμ[:,j], metric) ≈ 0.0 atol=1e-15 
+            @test Skylight.norm_squared(kμ[:,j], metric) ≈ 0.0 atol=1e-14 
             @test Skylight.scalar_product(kμ[:,j], normal, metric) >= 0.0 
         end
     end
