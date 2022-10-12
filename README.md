@@ -6,12 +6,11 @@
 
 A general-relativistic ray tracing and radiative transport code for arbitrary spacetimes
 
-
 > [Reference](https://academic.oup.com/mnras/article-abstract/515/1/1316/6631564): Pelle, Joaquin, Oscar Reula, Federico Carrasco, and Carlos Bederian. "Skylight: a new code for general-relativistic ray-tracing and radiative transfer in arbitrary space–times." Monthly Notices of the Royal Astronomical Society 515, no. 1 (2022): 1316-1327.
 
 ### Purpose
 
-A minimal working version of `skylight`, currently under development for interfacing with 3D GRMHD simulations data
+A minimal working version of `skylight`. Currently under development for interfacing with 3D GRMHD simulations data.
   
 ### Requirements
 
