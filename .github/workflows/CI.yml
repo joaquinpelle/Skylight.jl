@@ -19,7 +19,7 @@ jobs:
       matrix:
         version:
           - '1.4'
-          - '1.7'
+          - '1.8'
         os:
           - [ubuntu-latest] #, windows-latest, macOS-latest]
         arch:
