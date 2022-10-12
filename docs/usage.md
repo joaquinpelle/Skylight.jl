@@ -11,7 +11,7 @@ First, you have to choose a spacetime (and coordinate system). Currently, the av
   * `MinkowskiSpacetimeSphericalCoordinates()`
   * `KerrSpacetimeKerrSchildCoordinates()`
 
-The following are under testing:
+The following will be implemented soon:
 
   * `SchwarzschildSpacetimeKerrSchildCoordinates()`
   * `SchwarzschildSpacetimeSphericalCoordinates()`
@@ -20,26 +20,53 @@ The following are under testing:
   * `ChargedWormholeSphericalCoordinates()`
   * `ChargedWormholeRegularCoordinates()`
 
-Some of the spacetimes require a set of parameters. For example, to create a Kerr spacetime in Kerr-Schild coordinates with $M=1$ and $a=0.5$, the call should be 
+Some of the spacetimes require a set of parameters. For example, to construct a Kerr spacetime in Kerr-Schild coordinates with mass $M=1$ and spin $a/M=0.5$, run 
 
 ```
-spacetime = KerrSpacetimeKerrSchildCoordinate(M=1.0,a=0.5)
+julia> spacetime = KerrSpacetimeKerrSchildCoordinate(M=1.0,a=0.5)
 ```
 
-This works analogously for the rest of the spacetimes. Spacetimes which do not have parameters can be created as
+Spacetimes without parameters are constructed just like
 
 ```
-spacetime = MinkowskiSpacetimeCartesianCoordinates()
+julia> spacetime = MinkowskiSpacetimeCartesianCoordinates()
 ```
 
-For more details about each spacetime and its parameters see the spacetimes documentation
+For more details about the spacetimes and the parameters they need, see the spacetimes documentation.
+
+#### The emission model
+
+The currently available emission model is:
+
+  * `SyntheticPolarCap()`
+
+The following will be implemented soon:
+
+  * `BogdanovPolarCap()`
+  * `OnionHotSpots()`
+  * `ThinAccretionDisk()`
+  * `BlackHoleCorona()`
+  * `StarBehindWormhole()`
+
+The emission models are determined by a set of parameters. To construct a synthetic polar cap, for example 
+
+```
+julia> model = Skylight.SyntheticPolarCap(number_of_points=10, 
+                                          NS_radius=5.0,
+                                          angular_speed = 0.05, 
+                                          misalignment_angle_in_degrees=90,
+                                          angular_radius_in_degrees=60, 
+                                          temperature=1.0)
+```
+
+For the details, see the emission models documentation. 
 
 #### Image plane
 
-To build an image plane, use
+For the observet-to-emitter scheme, use the following to construct an image plane
 
 ```
-image_plane = ImagePlane(observer_distance = 500.0,
+julia> image_plane = ImagePlane(observer_distance = 500.0,
                          observer_inclination_in_degrees = 45,
                          horizontal_side_image_plane = 10.0,
                          vertical_side_image_plane = 10.0,
@@ -49,13 +76,20 @@ image_plane = ImagePlane(observer_distance = 500.0,
 
 #### Configurations
 
-Before creating the initial data, you need to gather the information in a configurations data structure, which also
-requires the specification of the initial times you desire to have initial data.
+The initial data configurations in the observer-to-emitter scheme are constructed as follows
 
 ```
-configurations = OTEInitialDataConfigurations(spacetime=spacetime,
-                                              image_plane = image_plane,
-                                              initial_times = [0.0,1.0])
+julia> configurations = OTEInitialDataConfigurations(spacetime=spacetime,
+                                                     image_plane = image_plane,
+                                                     initial_times = [0.0,1.0])
+```
+
+In the emitter-to-observer scheme, use the following
+
+```
+julia> configurations = ETOInitialDataConfigurations(spacetime=spacetime,
+                                                     emission_model=model,
+                                                     number_of_packets_per_point = 100)
 ```
 
 #### Initial data
