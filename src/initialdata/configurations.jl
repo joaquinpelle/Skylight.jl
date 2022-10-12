@@ -27,6 +27,22 @@ get_cache(configurations::OTEInitialDataConfigurations) = OTEInitialDataCache()
 get_cache(configurations::ETOInitialDataConfigurations) = ETOInitialDataCache()
 
 
+function get_pixel_coordinates(configs::OTEInitialDataConfigurations)
+    
+    image_plane = configs.image_plane
+    
+    sα = image_plane.horizontal_side_image_plane
+    sβ = image_plane.vertical_side_image_plane
+    Nα = image_plane.horizontal_number_of_nodes
+    Nβ = image_plane.vertical_number_of_nodes
+
+    horizontal_coordinates = range(-0.5*sα, stop=0.5*sα; length=Nα)
+    vertical_coordinates = range(-0.5*sβ,0.5*sβ; length=Nβ)
+
+    return Iterators.product(horizontal_coordinates,vertical_coordinates)
+
+end
+
 function get_initial_positions(configurations::ETOInitialDataConfigurations)
     
     times = zero_times(configurations)
@@ -51,7 +67,6 @@ function zero_times(configurations::ETOInitialDataConfigurations)
     return repeat([0.0],npoints)
 
 end
-
 
 function number_of_initial_conditions(configurations::OTEInitialDataConfigurations)
      

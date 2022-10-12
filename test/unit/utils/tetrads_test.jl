@@ -1,14 +1,6 @@
-using Skylight, Test
+using Skylight, Random, Test
 
 @testset "Tetrads" begin
-    
-    @testset "Set random triad" begin
-        
-        triad = ones(4,3)
-        Skylight.set_random_triad!(triad)
-        @test sum(triad[1,:]) == 0.0
-
-    end
 
     @testset "Orthonormalization" begin
 
@@ -21,8 +13,9 @@ using Skylight, Test
         time_vector = [1.0, 0.0, 0.0, 0.0]
         Skylight.normalize_timelike!(time_vector, metric)
         
-        Skylight.set_random_triad!(triad)
-
+        @views triad_space_components = triad[2:4,:]
+        rand!(triad_space_components)
+        
         Skylight.orthonormalize!(triad, time_vector, metric)
 
         scalar_product = Skylight.scalar_product
@@ -39,7 +32,7 @@ using Skylight, Test
     
     end
 
-    @testset "Local triad" begin
+    @testset "Set triad" begin
         
         @testset "Random triad" begin
 
@@ -50,16 +43,11 @@ using Skylight, Test
             spacetime = Skylight.KerrSpacetimeKerrSchildCoordinates(M=1.0, a=0.9)
 
             Skylight.set_metric!(metric, position, spacetime)
-            Skylight.set_metric_inverse!(metric_inverse, position, spacetime)
-
+            
             time_vector = [1.0, 0.0, 0.0, 0.0]
             Skylight.normalize_timelike!(time_vector, metric)
-
-            model = Skylight.DummyExtendedRegion()
-            coord_system = Skylight.coordinate_system_kind(spacetime)
             
-
-            Skylight.set_local_triad!(triad, position, time_vector, metric, metric_inverse, model, coord_system)
+            Skylight.set_triad!(triad, time_vector, metric)
 
             scalar_product = Skylight.scalar_product
 
@@ -74,6 +62,7 @@ using Skylight, Test
             @test scalar_product(triad[:,3], triad[:,3], metric) ≈ 1.0 atol=1e-12
         
         end
+
         @testset "Surface emission triad" begin
 
             triad = zeros(4,3)
@@ -97,7 +86,7 @@ using Skylight, Test
 
             coord_system = Skylight.coordinate_system_kind(spacetime)
             
-            Skylight.set_local_triad!(triad, position, time_vector, metric, metric_inverse, model, coord_system)
+            Skylight.set_surface_adapted_triad!(triad, time_vector, position, metric, metric_inverse, model, coord_system)
 
             scalar_product = Skylight.scalar_product
 

@@ -36,7 +36,7 @@ function set_surface_differential!(covector, position, model::SyntheticPolarCap,
 
 end
 
-function set_local_four_velocity!(vector, position, metric, model::SyntheticPolarCap, coord_system)
+function set_model_four_velocity!(vector, position, metric, model::SyntheticPolarCap, coord_system)
         
     angular_speed = model.angular_speed
     tangent_vector_zaxis_rotation!(vector, position, angular_speed, metric, coord_system)

@@ -2,6 +2,7 @@ using Test
 using Skylight
 
 @testset "Tetrad components" begin
+    
     @testset "Set time and triad components" begin
         
         Nvectors = 8
@@ -40,7 +41,7 @@ using Skylight
     end
 end
 
-@testset "Set cache, position and momenta" begin
+@testset "Set position and momenta" begin
     
     spacetime = MinkowskiSpacetimeCartesianCoordinates()
     model = Skylight.SyntheticPolarCap(number_of_points=10, 
@@ -56,7 +57,7 @@ end
 
     position = [rand(), 3.0, 0.0, 4.0]
 
-    Skylight.set_metric_and_local_tetrad_in!(cache, position, configurations)
+    Skylight.dump_metric_and_tetrad_in!(cache, position, configurations)
 
     @views tetrad = cache.tetrad
 
