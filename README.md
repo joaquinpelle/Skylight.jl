@@ -18,8 +18,6 @@ At least Julia v1.4
 
 ### Folder contents
 
-> Adapted from [this guide](https://github.com/kriasoft/Folder-Structure-Conventions)
-
     .
     ├── docs                    # Documentation files
     │   ├── TOC.md              # Table of contents
