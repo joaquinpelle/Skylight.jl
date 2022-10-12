@@ -2,6 +2,7 @@ module Skylight
 
 using LinearAlgebra
 using Parameters
+using Random
 
 include("spacetimes/main.jl")
 include("emissionmodels/main.jl")
