@@ -13,10 +13,10 @@ First, you have to choose a spacetime (and coordinate system). Currently, the av
   * `SchwarzschildSpacetimeSphericalCoordinates()`
   * `KerrSpacetimeKerrSchildCoordinates()`
   * `KerrSpacetimeBoyerLindquistCoordinates()`
+  * `JohannsenSpacetimeBoyerLindquistCoordinates()`
 
 The following will be implemented soon:
 
-  * `JohannsenSpacetimeBoyerLindquistCoordinates()`
   * `ChargedWormholeSphericalCoordinates()`
   * `ChargedWormholeRegularCoordinates()`
 
