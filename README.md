@@ -48,7 +48,7 @@ At least Julia v1.4
 
 ### To cite this work
 
-If you use this software, we would we grateful if you could cite our work. You can use the following BibTex entry
+If you use this software, we would we grateful if you could cite our work.
 
 ```
 @article{pelle2022skylight,
