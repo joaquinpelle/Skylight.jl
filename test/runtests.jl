@@ -6,7 +6,7 @@ using Skylight, Test, SafeTestsets
     @safetestset "Random points" begin include("unit/utils/randompoints_test.jl") end
     @safetestset "Tetrads" begin include("unit/utils/tetrads_test.jl") end
     @safetestset "Emission models" begin include("unit/emissionmodels_test.jl") end
-    @safetestset "Spacetimes" begin include("unit/spacetimes_test.jl") end
+    @safetestset "Spacetimes" begin include("unit/spacetimes/test.jl") end
     @safetestset "Initial data cache" begin include("unit/initialdata/cache_test.jl") end
     @safetestset "Image plane" begin include("unit/initialdata/imageplane_test.jl") end
     @safetestset "Pixel position and momentum" begin include("unit/initialdata/pixel_position_momentum_test.jl") end
