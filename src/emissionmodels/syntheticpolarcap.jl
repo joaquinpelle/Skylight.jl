@@ -1,3 +1,5 @@
+export SyntheticPolarCap
+
 @with_kw struct SyntheticPolarCap <: OpaqueInteriorSurfaceEmissionModel
 
     number_of_points::Int64
