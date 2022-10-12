@@ -14,13 +14,10 @@ First, you have to choose a spacetime (and coordinate system). Currently, the av
   * `KerrSpacetimeKerrSchildCoordinates()`
   * `KerrSpacetimeBoyerLindquistCoordinates()`
   * `JohannsenSpacetimeBoyerLindquistCoordinates()`
-
-The following will be implemented soon:
-
   * `ChargedWormholeSphericalCoordinates()`
   * `ChargedWormholeRegularCoordinates()`
 
-Some of the spacetimes require a set of parameters. For example, to construct a Kerr spacetime in Kerr-Schild coordinates with mass $M=1$ and spin $a/M=0.5$, run 
+Most spacetimes depend on a set of parameters. For example, to construct a Kerr spacetime in Kerr-Schild coordinates with mass $M=1$ and spin $a/M=0.5$, run 
 
 ```
 julia> spacetime = KerrSpacetimeKerrSchildCoordinate(M=1.0,a=0.5)
