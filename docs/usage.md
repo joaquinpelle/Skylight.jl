@@ -9,13 +9,13 @@ First, you have to choose a spacetime (and coordinate system). Currently, the av
 
   * `MinkowskiSpacetimeCartesianCoordinates()`
   * `MinkowskiSpacetimeSphericalCoordinates()`
+  * `SchwarzschildSpacetimeKerrSchildCoordinates()`
+  * `SchwarzschildSpacetimeSphericalCoordinates()`
   * `KerrSpacetimeKerrSchildCoordinates()`
+  * `KerrSpacetimeBoyerLindquistCoordinates()`
 
 The following will be implemented soon:
 
-  * `SchwarzschildSpacetimeKerrSchildCoordinates()`
-  * `SchwarzschildSpacetimeSphericalCoordinates()`
-  * `KerrSpacetimeBoyerLindquistCoordinates()`
   * `JohannsenSpacetimeBoyerLindquistCoordinates()`
   * `ChargedWormholeSphericalCoordinates()`
   * `ChargedWormholeRegularCoordinates()`

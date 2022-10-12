@@ -1,11 +1,13 @@
 using Skylight, Test
 
-@testset "metrics" begin
+@testset "Metrics" begin
 
-    @testset "minkowski metric cartesian coordinates" begin
+    @testset "Minkowski metric cartesian coordinates" begin
         
         g = zeros(4,4)
         spacetime = MinkowskiSpacetimeCartesianCoordinates()
+
+        @test Skylight.coordinate_system_kind(spacetime) == Skylight.CartesianKind()
         Skylight.set_metric!(g,rand(4),spacetime)
         @test g == [-1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
 
@@ -20,9 +22,12 @@ using Skylight, Test
         
     end
 
-    @testset "minkowski metric spherical coordinates" begin
+    @testset "Minkowski metric spherical coordinates" begin
         g = zeros(4,4)
         spacetime = MinkowskiSpacetimeSphericalCoordinates()
+
+        @test Skylight.coordinate_system_kind(spacetime) == Skylight.SphericalKind()
+
         position = [rand(),2.0,π/2,rand()]
         Skylight.set_metric!(g,position,spacetime)
         @test g == [-1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 4.0 0.0; 0.0 0.0 0.0 4.0]
@@ -33,9 +38,52 @@ using Skylight, Test
     
     end
 
-    @testset "kerr metric" begin
+    @testset "Schwarzschild metric Kerr-Schild coordinates" begin
+        
+        spacetime = SchwarzschildSpacetimeKerrSchildCoordinates(M=1.0)
+        @test Skylight.coordinate_system_kind(spacetime) == Skylight.CartesianKind()
+
+
+        point = [rand(),0.0,3.0,4.0]
+
+        g = zeros(4,4)
+        Skylight.set_metric!(g,point,spacetime)
+        
+        @test g ≈ [-1.0+2/5 0.0 6/25 8/25; 0.0 1.0 0.0 0.0; 6/25 0.0 1.0+18/125 24/125; 8/25 0.0 24/125 1.0+32/125]
+        
+        ginv = zeros(4,4)
+        Skylight.set_metric_inverse!(ginv,point,spacetime)
+
+        @test ginv ≈ [-1.0-2/5 0.0 6/25 8/25; 0.0 1.0 0.0 0.0; 6/25 0.0 1.0-18/125 -24/125; 8/25 0.0 -24/125 1.0-32/125]
+        @test g*ginv ≈ [1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
+    end
+
+    @testset "Schwarzschild metric spherical coordinates" begin
+
+        spacetime = SchwarzschildSpacetimeSphericalCoordinates(M=1.0)
+        @test Skylight.coordinate_system_kind(spacetime) == Skylight.SphericalKind()
+
+
+        point = [rand(),5.0,π/3,0.0]
+
+        g = zeros(4,4)
+        Skylight.set_metric!(g,point,spacetime)
+        
+        @test g ≈ [-(1.0-2/5) 0.0 0.0 0.0; 0.0 1.0/(1.0-2/5) 0.0 0.0; 0.0 0.0 25.0 0.0; 0.0 0.0 0.0 25sin(π/3)^2]
+        
+        ginv = zeros(4,4)
+        Skylight.set_metric_inverse!(ginv,point,spacetime)
+        
+        @test ginv ≈ [-1.0/(1.0-2/5) 0.0 0.0 0.0; 0.0 1.0-2/5 0.0 0.0; 0.0 0.0 1/25 0.0; 0.0 0.0 0.0 1/(25sin(π/3)^2)]
+        @test g*ginv ≈ [1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
+
+    end
+
+    @testset "Kerr metric Kerr-Schild coordinates" begin
         
         spacetime = KerrSpacetimeKerrSchildCoordinates(M=1.0, a=0.0)
+
+        @test Skylight.coordinate_system_kind(spacetime) == Skylight.CartesianKind()
 
         point = [rand(),1.0,0.0,0.0]
 
@@ -90,14 +138,52 @@ using Skylight, Test
         Skylight.set_metric_inverse!(ginv,point,spacetime3)
         @test g3*ginv ≈ [1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
     end
+
+    @testset "Kerr metric Boyer-Lindquist coordinates" begin
+        
+        spacetime = KerrSpacetimeBoyerLindquistCoordinates(M=1.0, a=0.5)
+
+        @test Skylight.coordinate_system_kind(spacetime) == Skylight.SphericalKind()
+
+        point = [rand(),5.0,π/3,0.0]
+
+        g = zeros(4,4)
+        Skylight.set_metric!(g,point,spacetime)
+        
+        Σ = 25+0.25*0.25
+        Δ = 25-10+0.25
+
+        gtt = -1.0 + 10/Σ
+        gtφ = -15/(4*Σ)
+        gφφ = 0.75*(25+0.25+2.5*0.75/Σ)
+        
+
+        @test g ≈ [gtt 0.0 0.0 gtφ; 0.0 Σ/Δ 0.0 0.0; 0.0 0.0 Σ 0.0; gtφ 0.0 0.0 gφφ]
+        
+        ginv = zeros(4,4)
+        Skylight.set_metric_inverse!(ginv,point,spacetime)
+        
+        det = gtt*gφφ-gtφ^2
+
+        @test ginv ≈ [gφφ/det 0.0 0.0 -gtφ/det; 0.0 Δ/Σ 0.0 0.0; 0.0 0.0 1/Σ 0.0; -gtφ/det 0.0 0.0 gtt/det]
+        @test g*ginv ≈ [1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
+    end
 end
 
-@testset "spacetime parameters" begin
+@testset "Spacetime parameters" begin
     
-    @testset "kerr parameters" begin
+    @testset "Spacetime parameters" begin
+        
+        @test_throws AssertionError SchwarzschildSpacetimeKerrSchildCoordinates(M=-1.0)
+        @test_throws AssertionError SchwarzschildSpacetimeSphericalCoordinates(M=-1.0)
+    
+    end
+
+    @testset "Kerr parameters" begin
         
         @test_throws AssertionError KerrSpacetimeKerrSchildCoordinates(M=-1.0,a=0.0)
         @test_throws AssertionError KerrSpacetimeKerrSchildCoordinates(M=1.0,a=1.5)
     
     end
+
 end
