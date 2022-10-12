@@ -6,13 +6,12 @@
 
 A general-relativistic ray tracing and radiative transport code for arbitrary spacetimes
 
+
 > [Reference](https://academic.oup.com/mnras/article-abstract/515/1/1316/6631564): Pelle, Joaquin, Oscar Reula, Federico Carrasco, and Carlos Bederian. "Skylight: a new code for general-relativistic ray-tracing and radiative transfer in arbitrary space–times." Monthly Notices of the Royal Astronomical Society 515, no. 1 (2022): 1316-1327.
 
 ### Purpose
 
-This is a minimal version of `skylight`, currently under development for adding the following features: 
-  * Interfacing with 3D GRMHD simulations data
-  * Spacetimes from full numerical relativity
+A minimal working version of `skylight`, currently under development for interfacing with 3D GRMHD simulations data
   
 ### Requirements
 
@@ -47,4 +46,19 @@ At least Julia v1.4
 4. Activate the package environment by running the command `activate .`
 5. In the package mode, run the command `test`
 
+### To cite this work
 
+If you use this software, we would we grateful if you could cite our work. You can use the following BibTex entry
+
+```
+@article{pelle2022skylight,
+  title={Skylight: a new code for general-relativistic ray-tracing and radiative transfer in arbitrary space--times},
+  author={Pelle, Joaquin and Reula, Oscar and Carrasco, Federico and Bederian, Carlos},
+  journal={Monthly Notices of the Royal Astronomical Society},
+  volume={515},
+  number={1},
+  pages={1316--1327},
+  year={2022},
+  publisher={Oxford University Press}
+}
+```
