@@ -3,7 +3,7 @@ Under construction...
 
 Skylight uses geometrized units $c = G = 1$.
 
-#### The spacetime
+#### Spacetimes
 
 First, you have to choose a spacetime (and coordinate system). Currently, the available options are:
 
@@ -34,7 +34,7 @@ julia> spacetime = MinkowskiSpacetimeCartesianCoordinates()
 
 For more details about the spacetimes and the parameters they need, see the spacetimes documentation.
 
-#### The emission model
+#### Emission models
 
 The currently available emission model is:
 
@@ -97,5 +97,5 @@ julia> configurations = ETOInitialDataConfigurations(spacetime=spacetime,
 Finally, for creating the initial data, use
 
 ```
-initial_data = initialize_data(configurations)
+julia> initial_data = initialize_data(configurations)
 ```

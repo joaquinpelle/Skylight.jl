@@ -45,7 +45,7 @@ At least Julia v1.4
 
 ### To cite this work
 
-If you use this software, we would we grateful if you could cite our work.
+If you use this software in your work, please cite it using the following metadata
 
 ```
 @article{pelle2022skylight,
