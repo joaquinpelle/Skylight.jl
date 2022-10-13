@@ -1,5 +1,6 @@
 module Skylight
 
+using DifferentialEquations
 using LinearAlgebra
 using Parameters
 using Random
