@@ -1,4 +1,4 @@
-struct ThinAccretionDisk{T::Function} <: SurfaceEmissionModel end
+struct ThinAccretionDisk <: SurfaceEmissionModel end
 
 function surface_function(position, model::ThinAccretionDisk, coord_system::CartesianKind)
     @views z = position[4]
