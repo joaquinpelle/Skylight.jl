@@ -11,12 +11,22 @@ export KerrSpacetimeBoyerLindquistCoordinates
     @assert M >= 0.0
     @assert abs(a) <= M 
 
-    #Cache
+    #Metric cache
     l::Vector{Float64} = zeros(4)
 
 end
 
+@with_kw struct KerrKSChristoffelCache <: ChristoffelCache
+    
+    l::Vector{Float64} = zeros(4)
+    dH::Array{Float64, 1} = zeros(4)
+    dl::Array{Float64, 2} = zeros(4,4)
+    D::Array{Float64, 3} = zeros(4,4,4)
+
+end
+
 coordinate_system_kind(spacetime::KerrSpacetimeKerrSchildCoordinates) = CartesianKind()
+allocate_christoffel_cache(spacetime::KerrSpacetimeKerrSchildCoordinates) = KerrKSChristoffelCache()
 
 function set_metric!(g, position, spacetime::KerrSpacetimeKerrSchildCoordinates)
 
@@ -58,7 +68,7 @@ function set_metric!(g, position, spacetime::KerrSpacetimeKerrSchildCoordinates)
     g[4,3]= g[3,4]
     g[4,4]= 1. + H2 * l[4]*l[4]
     
-    return g
+    return nothing
     
 end
 
@@ -97,8 +107,94 @@ function set_metric_inverse!(g, position, spacetime::KerrSpacetimeKerrSchildCoor
     g[4,3]= g[3,4]
     g[4,4]= 1. - H2 * l[4]*l[4]
     
-    return g
+    return nothing
     
+end
+
+function set_christoffel!(Γ, position, spacetime::KerrSpacetimeKerrSchildCoordinates, cache::KerrKSChristoffelCache)
+
+    t, x, y, z = position
+    M = spacetime.M
+    a = spacetime.a
+
+    a2 = a^2
+    rho2 = x^2 .+ y^2 .+ z^2
+    r2 = 0.5*(rho2-a2) .+ sqrt(0.25*(rho2-a2)^2+a2*z^2)
+    r  = sqrt(r2)
+    r3 = r2*r
+    r4 = r2*r2
+
+    #Derivatives of r(x,y,z)
+    dr_dx = x*r3*(r2+a2)/(a2*z^2*(2*r2+a2)+r4*rho2)
+    dr_dy = y*r3*(r2+a2)/(a2*z^2*(2*r2+a2)+r4*rho2)
+    dr_dz = z*r*(r2+a2)^2/(a2*z^2*(2*r2+a2)+r4*rho2)
+
+    #The scalar function and the null vector of the metric
+
+    H = M*r3/(r4+a2*z^2)
+
+    l = cache.l
+    l[1] = 1.
+    l[2] = (r*x + a*y)/(r2 + a2)
+    l[3] = (r*y - a*x)/(r2 + a2)
+    l[4] = z/r
+
+    #Derivatives of the null vectors ( dl[a,b]=d_a l[b]). Indexes are down.
+
+    dl = cache.dl
+    fill!(dl, 0)
+
+    dl[2,2] =(dr_dx*(x-2 * r*l[2])+r)/(r2+a2)
+    dl[2,3] =(dr_dx*(y-2 * r*l[3])-a)/(r2+a2)
+    dl[2,4] =-z/r2*dr_dx
+
+    dl[3,2] =(dr_dy*(x-2 *r*l[2])+a)/(r2+a2)
+    dl[3,3] =(dr_dy*(y-2 *r*l[3])+r)/(r2+a2)
+    dl[3,4] =-z/r2*dr_dy
+
+    dl[4,2] =dr_dz*(x-2 *r*l[2])/(r2+a2)
+    dl[4,3] =dr_dz*(y-2 *r*l[3])/(r2+a2)
+    dl[4,4] =1.0/r-z/r2*dr_dz
+
+
+    #Derivatives of the scalar function H (dH[a]=d_a H). Index is down.
+
+    dH = cache.dH
+    fill!(dH, 0)
+
+    dH[2] = -M*r2*(r4-3*a2*z^2)/(r4+a2*z^2)^2*dr_dx
+    dH[3] = -M*r2*(r4-3*a2*z^2)/(r4+a2*z^2)^2*dr_dy
+    dH[4] = -M*r2*(2*a2*r*z+(r4-3*a2*z^2)*dr_dz)/(r4+a2*z^2)^2
+
+    # Directional derivative of H in the direction of the null vector l  (l^a d_a H)
+    l_dH = -M*r2*(r4-a2*z^2)/(r4+a2*z^2)^2
+
+    # Tensor product of the null vector derivatives with the null vector. dlablc[a,b,c]= dl[a,b]*l[c] 
+    # Derivatives of the products H*la*lb:  D[a,b,c]= d_a (H*lb*lc) (The order of fors gives the order of indexes)
+    # This computation is equivalent to D[a,b,c]=dH[a]*l[b]*l[c]+H*dl[a,b]*l[c]+H*dl[a,c]*l[b]
+
+    D = cache.D
+    for i = 1:4
+        for j = 1:4
+            for k = 1:4
+                D[i,j,k] = dH[i] * l[j] * l[k] + H * dl[i,j] * l[k] + H * dl[i,k] * l[j]
+            end
+        end
+    end
+
+    #Christoffel symbols
+
+    for i = 1:4
+        sign = i == 1 ? -1 : 1
+        for j = 1:4
+            for k = 1:4
+                Γ[i,j,k] = sign * (D[j,k,i] + D[k,j,i] - D[i,j,k] + 2 * H * l_dH * l[i]*l[j]*l[k])
+            end
+        end
+    end
+
+    return nothing
+
 end
 
 # Boyer Lindquist coordinates
@@ -141,7 +237,8 @@ function set_metric!(g, point, spacetime::KerrSpacetimeBoyerLindquistCoordinates
     g[4,1] = g[1,4]
     g[4,4] = senθ2*(r2+a2+2*M*a2*r*senθ2/Σ)
     
-    return g
+    return nothing
+
 end
 
 function set_metric_inverse!(ginv, point, spacetime::KerrSpacetimeBoyerLindquistCoordinates)
@@ -176,5 +273,6 @@ function set_metric_inverse!(ginv, point, spacetime::KerrSpacetimeBoyerLindquist
     ginv[4,1] = ginv[1,4]
     ginv[4,4] = cφφ/det
     
-    return ginv
+    return nothing
+
 end

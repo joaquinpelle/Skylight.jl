@@ -8,6 +8,8 @@ abstract type CoordinateSystemKind end
 struct CartesianKind <: CoordinateSystemKind end
 struct SphericalKind <: CoordinateSystemKind end
 
+abstract type ChristoffelCache end
+
 include("minkowski.jl")
 include("schwarzschild.jl")
 include("kerr.jl")
