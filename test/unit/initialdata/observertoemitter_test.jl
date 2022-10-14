@@ -41,7 +41,7 @@ using Skylight, Test
             Skylight.set_null!(momentum,cache)
             
             g = zeros(4,4)
-            g = Skylight.set_metric!(g,position,spacetime)
+            Skylight.set_metric!(g,position,spacetime)
             
             @test Skylight.norm_squared(momentum,g) ≈ 0.0 atol=1e-15
             

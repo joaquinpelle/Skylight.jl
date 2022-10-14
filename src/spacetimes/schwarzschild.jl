@@ -52,7 +52,7 @@ function set_metric!(g, position, spacetime::SchwarzschildSpacetimeKerrSchildCoo
     g[4,3]= g[3,4]
     g[4,4]= 1. + H*l[4]*l[4]
     
-    return g
+    return nothing
     
 end
 
@@ -93,7 +93,7 @@ function set_metric_inverse!(g, position, spacetime::SchwarzschildSpacetimeKerrS
     g[4,3]= g[3,4]
     g[4,4]= 1. - H*l[4]*l[4]
     
-    return g
+    return nothing
     
 end
 

@@ -70,10 +70,9 @@ function set_metric!(g,point,spacetime::JohannsenSpacetimeBoyerLindquistCoordina
     g[4,1] = g[1,4]
     g[4,4] = Σ*sinθ2*((r2+a2)^2*A1^2-a2*Δ*sinθ2)/C
 
-    return g
+    return nothing
 
 end
-
 
 function set_metric_inverse!(g, point, spacetime::JohannsenSpacetimeBoyerLindquistCoordinates)
 
@@ -119,6 +118,6 @@ function set_metric_inverse!(g, point, spacetime::JohannsenSpacetimeBoyerLindqui
     g[4,1] = g[1,4]
     g[4,4] = gtt/det 
 
-    return g
+    return nothing
 
 end

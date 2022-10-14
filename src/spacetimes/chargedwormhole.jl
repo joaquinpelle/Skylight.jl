@@ -42,7 +42,8 @@ function set_metric!(g, point, spacetime::ChargedWormholeSpacetimeSphericalCoord
     g[4,3]= 0.
     g[4,4]= r^2*sin(θ)^2
     
-    return g
+    return nothing
+
 end
 
 function set_metric_inverse!(g, point, spacetime::ChargedWormholeSpacetimeSphericalCoordinates)
@@ -74,7 +75,8 @@ function set_metric_inverse!(g, point, spacetime::ChargedWormholeSpacetimeSpheri
     g[4,3]= 0.
     g[4,4]= 1.0/(r^2*sin(θ)^2)
     
-    return g
+    return nothing
+
 end
 
 @with_kw struct ChargedWormholeSpacetimeRegularCoordinates <: AnalyticSpacetime
@@ -118,7 +120,8 @@ function set_metric!(g, point, spacetime::ChargedWormholeSpacetimeRegularCoordin
     g[4,3]= 0.
     g[4,4]= r^2*sin(θ)^2
     
-    return g
+    return nothing
+
 end
 
 function set_metric_inverse!(g, point, spacetime::ChargedWormholeSpacetimeRegularCoordinates)
@@ -150,5 +153,6 @@ function set_metric_inverse!(g, point, spacetime::ChargedWormholeSpacetimeRegula
     g[4,3]= 0.
     g[4,4]= 1.0/(r^2*sin(θ)^2)
     
-    return g
+    return nothing
+    
 end
