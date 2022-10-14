@@ -10,7 +10,7 @@ A general-relativistic ray tracing and radiative transport code for arbitrary sp
 
 ### Purpose
 
-A minimal working version of `skylight`. Currently under development for interfacing with 3D GRMHD simulations data.
+A minimal working version of `skylight`. Currently under development for interfacing with 3D GRMHD simulations.
   
 ### Requirements
 
