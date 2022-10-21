@@ -8,9 +8,11 @@
 
 end
 
-@with_kw mutable struct GeodesicsCache{S<:Spacetime,T<:ChristoffelCache}
+@with_kw mutable struct GeodesicsCache{S<:Spacetime,M<:EmissionModel,C<:CoordinateSystemKind,T<:ChristoffelCache}
     spacetime::S
+    model::M
     multi_thread::Array{ThreadCache{T},1}
+    coord_system::C = coordinate_system_kind(spacetime)
 end
 
 function allocate_single_thread_cache(spacetime) 
