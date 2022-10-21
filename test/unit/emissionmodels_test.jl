@@ -3,7 +3,7 @@ using Skylight, Test
 @testset "Synthetic polar cap" begin
     
     model = Skylight.SyntheticPolarCap(number_of_points=10, 
-                                    NS_radius=5.0,
+                                    star_radius=5.0,
                                     angular_speed = 0.05, 
                                     misalignment_angle_in_degrees=90,
                                     angular_radius_in_degrees=60, 
@@ -32,8 +32,6 @@ using Skylight, Test
 
     @test vector ≈ [1.0/sqrt(0.9775), 0.0, 0.15/sqrt(0.9775), 0.0]
 
-    @test Skylight.surface_function(position, model, coord_system) ≈ 0.0
-    
     df = zeros(4)
     Skylight.set_surface_differential!(df, position, model, coord_system)
     @test df == [0.0, 2*position[2], 2*position[3], 2*position[4]]

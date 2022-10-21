@@ -3,7 +3,7 @@ export SyntheticPolarCap
 @with_kw struct SyntheticPolarCap <: OpaqueInteriorSurfaceEmissionModel
 
     number_of_points::Int64
-    NS_radius::Float64
+    star_radius::Float64
     angular_speed::Float64
     misalignment_angle_in_degrees::Float64 
     angular_radius_in_degrees::Float64
@@ -13,22 +13,11 @@ export SyntheticPolarCap
     
 end
 
-function surface_function(position, model::SyntheticPolarCap, coord_system::CartesianKind)
-    
-    @views begin
-        t,x,y,z = position
-        R = model.NS_radius
-    end
-
-    return x^2+y^2+z^2-R^2
-
-end
-
 function set_surface_differential!(covector, position, model::SyntheticPolarCap, coord_system::CartesianKind)
 
     @views begin
         t,x,y,z = position
-        R = model.NS_radius
+        R = model.star_radius
     end
 
     covector[1] = 0.0
@@ -53,7 +42,7 @@ function get_space_positions(model::SyntheticPolarCap, coord_system::CartesianKi
 
     rotate_around_y_axis!(space_positions, model.misalignment_angle_in_degrees)
 
-    space_positions .*= model.NS_radius
+    space_positions .*= model.star_radius
 
     return space_positions
 
