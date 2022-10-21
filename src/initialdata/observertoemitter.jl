@@ -34,8 +34,7 @@ function initialize_single!(ray, initial_time, pixel_coordinates, configurations
     
     spacetime = configurations.spacetime
     image_plane = configurations.image_plane
-    coord_system = coordinate_system_kind(spacetime)
-
+    coord_system = configurations.coord_system
 
     ray[1] = initial_time
     space_position .= get_space_position_from(pixel_coordinates,image_plane,coord_system)

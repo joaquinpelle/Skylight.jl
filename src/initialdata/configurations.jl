@@ -3,19 +3,21 @@ export ETOInitialDataConfigurations
 
 abstract type InitialDataConfigurations end
 
-@with_kw struct OTEInitialDataConfigurations{S<:Spacetime} <: InitialDataConfigurations
+@with_kw struct OTEInitialDataConfigurations{S<:Spacetime, C<:CoordinateSystemKind} <: InitialDataConfigurations
     
     spacetime::S
     image_plane::ImagePlane 
     initial_times::Vector{Float64}
+    coord_system::C = coordinate_system_kind(spacetime)
 
 end
 
-@with_kw struct ETOInitialDataConfigurations{S<:Spacetime, M<:EmissionModel} <: InitialDataConfigurations
+@with_kw struct ETOInitialDataConfigurations{S<:Spacetime, C<:CoordinateSystemKind, M<:EmissionModel} <: InitialDataConfigurations
     
     spacetime::S
     emission_model::M
     number_of_packets_per_point::Int64
+    coord_system::C = coordinate_system_kind(spacetime)
 
 end
 
@@ -54,7 +56,7 @@ end
 
 function get_space_positions(configurations::ETOInitialDataConfigurations)
     
-    coord_system = coordinate_system_kind(configurations.spacetime)
+    coord_system = configurations.coord_system
     space_positions = get_space_positions(configurations.emission_model, coord_system)
 
     return space_positions
