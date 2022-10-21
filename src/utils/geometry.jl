@@ -52,6 +52,16 @@ function spherical_from_cartesian(v)
     
 end
 
+function cartesian_from_spherical(v)
+
+    x = v[1]*sin(v[2])*cos(v[3])
+    y = v[1]*sin(v[2])*sin(v[3])
+    x = v[1]*cos(v[2])
+    
+    return [x, y, z]
+    
+end
+
 function rotate_around_y_axis!(v, angle_in_degrees)
 
     Nvectors = size(v, 2)
