@@ -32,6 +32,8 @@ export JohannsenSpacetimeBoyerLindquistCoordinates
         
 end
 
+event_horizon_radius(spacetime::JohannsenSpacetimeBoyerLindquistCoordinates) = spacetime.M*(1+sqrt(1-spacetime.a^2))
+
 coordinate_system_kind(spacetime::JohannsenSpacetimeBoyerLindquistCoordinates) = SphericalKind()
 
 function set_metric!(g,point,spacetime::JohannsenSpacetimeBoyerLindquistCoordinates)

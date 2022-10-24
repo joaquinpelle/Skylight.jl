@@ -97,6 +97,8 @@ function set_metric_inverse!(g, position, spacetime::SchwarzschildSpacetimeKerrS
     
 end
 
+event_horizon_radius(spacetime::SchwarzschildSpacetimeKerrSchildCoordinates) = 2*spacetime.M
+
 #Spherical coordinates
 
 @with_kw struct SchwarzschildSpacetimeSphericalCoordinates <: AnalyticSpacetime 
@@ -149,3 +151,5 @@ function set_metric_inverse!(g, q, spacetime::SchwarzschildSpacetimeSphericalCoo
     return nothing
 
 end
+
+event_horizon_radius(spacetime::SchwarzschildSpacetimeSphericalCoordinates) = 2*spacetime.M

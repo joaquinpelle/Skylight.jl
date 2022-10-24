@@ -26,6 +26,9 @@ end
 end
 
 coordinate_system_kind(spacetime::KerrSpacetimeKerrSchildCoordinates) = CartesianKind()
+
+event_horizon_radius(spacetime::KerrSpacetimeKerrSchildCoordinates) = spacetime.M*(1+sqrt(1-spacetime.a^2))
+
 allocate_christoffel_cache(spacetime::KerrSpacetimeKerrSchildCoordinates) = KerrKSChristoffelCache()
 
 function set_metric!(g, position, spacetime::KerrSpacetimeKerrSchildCoordinates)
@@ -209,7 +212,10 @@ end
 
 end   
 
+
 coordinate_system_kind(spacetime::KerrSpacetimeBoyerLindquistCoordinates) = SphericalKind()
+
+event_horizon_radius(spacetime::KerrSpacetimeBoyerLindquistCoordinates) = spacetime.M*(1+sqrt(1-spacetime.a^2))
 
 function set_metric!(g, point, spacetime::KerrSpacetimeBoyerLindquistCoordinates)
     
