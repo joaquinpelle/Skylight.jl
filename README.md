@@ -32,7 +32,7 @@ At least Julia v1.4
     │   ├── utils               # General utilities
     ├── test                    # Test files 
     │   ├── benchmarks          # Load and stress tests
-    │   ├── endtoend            # End-to-end, integration tests
+    │   ├── integration            # End-to-end, integration tests
     │   └── unit                # Unit tests
 
 ### To run the unit tests
