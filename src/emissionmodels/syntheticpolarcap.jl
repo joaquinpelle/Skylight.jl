@@ -50,3 +50,5 @@ end
 
 get_number_of_points(model::SyntheticPolarCap) = model.number_of_points
 
+get_callback(model::SyntheticPolarCap, coord_system::CartesianKind) = star_cartesian_callback()
+get_callback(model::SyntheticPolarCap, coord_system::SphericalKind) = star_spherical_callback()
