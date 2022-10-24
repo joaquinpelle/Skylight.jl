@@ -10,6 +10,7 @@ struct SphericalKind <: CoordinateSystemKind end
 
 abstract type ChristoffelCache end
 
+include("coordinate_alias.jl")
 include("minkowski.jl")
 include("schwarzschild.jl")
 include("kerr.jl")
