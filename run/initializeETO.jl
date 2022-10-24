@@ -9,7 +9,7 @@ model = Skylight.SyntheticPolarCap(number_of_points=10,
                                    angular_radius_in_degrees=60, 
                                    temperature=1.0)
 
-configurations = ETOInitialDataConfigurations(spacetime=spacetime,
+configurations = ETOConfigurations(spacetime=spacetime,
                                               emission_model = model,
                                               number_of_packets_per_point = 100)
 

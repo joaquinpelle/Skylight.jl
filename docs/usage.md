@@ -76,7 +76,7 @@ julia> image_plane = ImagePlane(observer_distance = 500.0,
 The initial data configurations in the observer-to-emitter scheme are constructed as follows
 
 ```
-julia> configurations = OTEInitialDataConfigurations(spacetime=spacetime,
+julia> configurations = OTEConfigurations(spacetime=spacetime,
                                                      image_plane = image_plane,
                                                      initial_times = [0.0,1.0])
 ```
@@ -84,7 +84,7 @@ julia> configurations = OTEInitialDataConfigurations(spacetime=spacetime,
 In the emitter-to-observer scheme, use the following
 
 ```
-julia> configurations = ETOInitialDataConfigurations(spacetime=spacetime,
+julia> configurations = ETOConfigurations(spacetime=spacetime,
                                                      emission_model=model,
                                                      number_of_packets_per_point = 100)
 ```
@@ -96,3 +96,7 @@ Finally, for creating the initial data, use
 ```
 julia> initial_data = initialize_data(configurations)
 ```
+
+#### Geodesics
+
+Or you can specify another callback or method by...

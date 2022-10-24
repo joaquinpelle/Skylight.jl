@@ -9,7 +9,7 @@ image_plane = ImagePlane(observer_distance = 500.0,
                          horizontal_number_of_nodes = 50,
                          vertical_number_of_nodes = 50)
 
-configurations = OTEInitialDataConfigurations(spacetime=spacetime,
+configurations = OTEConfigurations(spacetime=spacetime,
                                               image_plane = image_plane,
                                               initial_times = [0.0,1.0])
 

@@ -1,18 +1,19 @@
-export OTEInitialDataConfigurations
-export ETOInitialDataConfigurations
+export OTEConfigurations
+export ETOConfigurations
 
-abstract type InitialDataConfigurations end
+abstract type Configurations end
 
-@with_kw struct OTEInitialDataConfigurations{S<:Spacetime, C<:CoordinateSystemKind} <: InitialDataConfigurations
+@with_kw struct OTEConfigurations{S<:Spacetime, M<:EmissionModel, C<:CoordinateSystemKind} <: Configurations
     
     spacetime::S
+    emission_model::M
     image_plane::ImagePlane 
     initial_times::Vector{Float64}
     coord_system::C = coordinate_system_kind(spacetime)
 
 end
 
-@with_kw struct ETOInitialDataConfigurations{S<:Spacetime, C<:CoordinateSystemKind, M<:EmissionModel} <: InitialDataConfigurations
+@with_kw struct ETOConfigurations{S<:Spacetime, M<:EmissionModel, C<:CoordinateSystemKind} <: Configurations
     
     spacetime::S
     emission_model::M
@@ -23,29 +24,12 @@ end
 
 my_zeros(configurations) = zeros(8, number_of_initial_conditions(configurations))
 
-get_initial_times(configurations::OTEInitialDataConfigurations) = configurations.initial_times
+get_initial_times(configurations::OTEConfigurations) = configurations.initial_times
 
-get_cache(configurations::OTEInitialDataConfigurations) = OTEInitialDataCache()
-get_cache(configurations::ETOInitialDataConfigurations) = ETOInitialDataCache()
+get_initial_data_cache(configurations::OTEConfigurations) = OTEInitialDataCache()
+get_initial_data_cache(configurations::ETOConfigurations) = ETOInitialDataCache()
 
-
-function get_pixel_coordinates(configs::OTEInitialDataConfigurations)
-    
-    image_plane = configs.image_plane
-    
-    sα = image_plane.horizontal_side_image_plane
-    sβ = image_plane.vertical_side_image_plane
-    Nα = image_plane.horizontal_number_of_nodes
-    Nβ = image_plane.vertical_number_of_nodes
-
-    horizontal_coordinates = range(-0.5*sα, stop=0.5*sα; length=Nα)
-    vertical_coordinates = range(-0.5*sβ,0.5*sβ; length=Nβ)
-
-    return Iterators.product(horizontal_coordinates,vertical_coordinates)
-
-end
-
-function get_initial_positions(configurations::ETOInitialDataConfigurations)
+function get_initial_positions(configurations::ETOConfigurations)
     
     times = zero_times(configurations)
     space_positions = get_space_positions(configurations)
@@ -54,7 +38,7 @@ function get_initial_positions(configurations::ETOInitialDataConfigurations)
 
 end
 
-function get_space_positions(configurations::ETOInitialDataConfigurations)
+function get_space_positions(configurations::ETOConfigurations)
     
     coord_system = configurations.coord_system
     space_positions = get_space_positions(configurations.emission_model, coord_system)
@@ -63,14 +47,14 @@ function get_space_positions(configurations::ETOInitialDataConfigurations)
 
 end
 
-function zero_times(configurations::ETOInitialDataConfigurations)
+function zero_times(configurations::ETOConfigurations)
     
     npoints = get_number_of_points(configurations.emission_model)
     return repeat([0.0],npoints)
 
 end
 
-function number_of_initial_conditions(configurations::OTEInitialDataConfigurations)
+function number_of_initial_conditions(configurations::OTEConfigurations)
      
     number_of_times = length(configurations.initial_times)
     
@@ -78,7 +62,7 @@ function number_of_initial_conditions(configurations::OTEInitialDataConfiguratio
     
 end
 
-function number_of_initial_conditions(configurations::ETOInitialDataConfigurations)
+function number_of_initial_conditions(configurations::ETOConfigurations)
     
     number_of_points = get_number_of_points(configurations.emission_model)
     number_of_packets_per_point = configurations.number_of_packets_per_point

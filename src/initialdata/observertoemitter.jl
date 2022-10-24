@@ -1,16 +1,16 @@
 export initialize_data
 
-function initialize_data(configurations::OTEInitialDataConfigurations)
+function initialize_data(configurations::OTEConfigurations)
 
     rays = my_zeros(configurations)
-    cache = get_cache(configurations)
+    cache = get_initial_data_cache(configurations)
 
     dump_∂t_in!(cache)
     
     index = 1
     
     for initial_time in get_initial_times(configurations)
-        for pixel_coordinates in get_pixel_coordinates(configurations)
+        for pixel_coordinates in get_pixel_coordinates(configurations.image_plane)
 
             @views ray = rays[:, index]
             initialize_single!(ray, initial_time, pixel_coordinates, configurations, cache)

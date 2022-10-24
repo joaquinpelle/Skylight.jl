@@ -1,8 +1,8 @@
 export initialize_data
 
-function initialize_data(configurations::ETOInitialDataConfigurations)
+function initialize_data(configurations::ETOConfigurations)
     
-    cache = get_cache(configurations)
+    cache = get_initial_data_cache(configurations)
     packets = my_zeros(configurations)
 
     Npp = configurations.number_of_packets_per_point

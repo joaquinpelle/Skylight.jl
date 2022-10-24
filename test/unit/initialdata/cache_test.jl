@@ -25,7 +25,7 @@ using Skylight, Test
                                             misalignment_angle_in_degrees=90,
                                             angular_radius_in_degrees=60, 
                                             temperature=rand())
-        configurations = Skylight.ETOInitialDataConfigurations(spacetime = spacetime, emission_model = model, number_of_packets_per_point = 10)
+        configurations = Skylight.ETOConfigurations(spacetime = spacetime, emission_model = model, number_of_packets_per_point = 10)
 
         Skylight.dump_metric_and_tetrad_in!(cache, position, configurations)
 
@@ -63,7 +63,7 @@ using Skylight, Test
                 spacetime = MinkowskiSpacetimeCartesianCoordinates()
                 model = Skylight.DummyExtendedRegion()
 
-                configurations = Skylight.ETOInitialDataConfigurations(spacetime = spacetime, emission_model = model, number_of_packets_per_point = 10)
+                configurations = Skylight.ETOConfigurations(spacetime = spacetime, emission_model = model, number_of_packets_per_point = 10)
 
                 packets = Skylight.my_zeros(configurations)
                 cache = Skylight.ETOInitialDataCache()
@@ -100,7 +100,7 @@ using Skylight, Test
                                                     misalignment_angle_in_degrees=90,
                                                     angular_radius_in_degrees=60, 
                                                     temperature=rand())
-                configurations = Skylight.ETOInitialDataConfigurations(spacetime = spacetime, emission_model = model, number_of_packets_per_point = 10)
+                configurations = Skylight.ETOConfigurations(spacetime = spacetime, emission_model = model, number_of_packets_per_point = 10)
 
                 packets = Skylight.my_zeros(configurations)
                 cache = Skylight.ETOInitialDataCache()

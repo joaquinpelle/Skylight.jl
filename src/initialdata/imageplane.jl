@@ -12,6 +12,20 @@ export ImagePlane
 
 end
 
+function get_pixel_coordinates(image_plane::ImagePlane)
+    
+    sα = image_plane.horizontal_side_image_plane
+    sβ = image_plane.vertical_side_image_plane
+    Nα = image_plane.horizontal_number_of_nodes
+    Nβ = image_plane.vertical_number_of_nodes
+
+    horizontal_coordinates = range(-0.5*sα, stop=0.5*sα; length=Nα)
+    vertical_coordinates = range(-0.5*sβ,0.5*sβ; length=Nβ)
+
+    return Iterators.product(horizontal_coordinates,vertical_coordinates)
+
+end
+
 function number_of_nodes(image_plane::ImagePlane)
     return image_plane.horizontal_number_of_nodes*image_plane.vertical_number_of_nodes
 end

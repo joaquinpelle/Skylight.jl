@@ -15,7 +15,7 @@ for n in numbers
                         horizontal_number_of_nodes = n,
                         vertical_number_of_nodes = n)
 
-    configurations = OTEInitialDataConfigurations(spacetime=spacetime,
+    configurations = OTEConfigurations(spacetime=spacetime,
                                             image_plane = image_plane,
                                             initial_times = [0.0])
 
