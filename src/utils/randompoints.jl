@@ -40,9 +40,9 @@ function random_uniform_points_unit_hemisphere!(points, coord_system)
 
 end
 
-function random_uniform_points_unit_hemisphere_xaxis!(v,coord_system::CartesianKind)
+function random_uniform_points_unit_hemisphere_xaxis!(v,coord_system::CartesianClass)
 
-    random_uniform_points_unit_hemisphere!(v, CartesianKind())
+    random_uniform_points_unit_hemisphere!(v, CartesianClass())
     rotate_around_y_axis!(v,90)
 
 end
@@ -51,7 +51,7 @@ random_cylindrical_radius(N, rmin, rmax) = sqrt.(rmin^2 .+ (rmax^2 - rmin^2)*ran
 random_polar_angle(N, θmax) = acos.(1.0.-(1.0-cos(θmax))*rand(N))
 random_azimuthal_angle(N) = 2π*rand(N)
 
-function set_points_on_equatorial_plane!(points, r, φ, coord_system::CartesianKind)
+function set_points_on_equatorial_plane!(points, r, φ, coord_system::CartesianClass)
     
     @. begin
     
@@ -62,7 +62,7 @@ function set_points_on_equatorial_plane!(points, r, φ, coord_system::CartesianK
 
 end
 
-function set_points_on_equatorial_plane!(points, r, φ, coord_system::SphericalKind)
+function set_points_on_equatorial_plane!(points, r, φ, coord_system::SphericalClass)
 
     @. begin
 
@@ -74,7 +74,7 @@ function set_points_on_equatorial_plane!(points, r, φ, coord_system::SphericalK
 
 end
 
-function set_points_on_unit_sphere!(points, θ, φ, coord_system::CartesianKind)
+function set_points_on_unit_sphere!(points, θ, φ, coord_system::CartesianClass)
 
     @. begin
 
@@ -86,7 +86,7 @@ function set_points_on_unit_sphere!(points, θ, φ, coord_system::CartesianKind)
 
 end
 
-function set_points_on_unit_sphere!(points, θ, φ, coord_system::SphericalKind)
+function set_points_on_unit_sphere!(points, θ, φ, coord_system::SphericalClass)
 
     @. begin
 
