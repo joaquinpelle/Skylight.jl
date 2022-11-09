@@ -1,20 +1,19 @@
-export GeodesicsConfigurations
+export SolverOptions
+export SaveEndpoint, SaveGeodesics
 
 abstract type OutputType end
 
-struct SaveGeodesic <: OutputType end
+struct SaveGeodesics <: OutputType end
 struct SaveEndpoint <: OutputType end
 
 output_func(output_type::SaveGeodesics) = (sol, i) -> (sol, false)
 output_func(output_type::SaveEndpoint) = (sol, i) -> (sol[end], false)
 
-@with_kw struct GeodesicsConfigurations{T<:InitialDataConfigurations, O<:IntegrationOutput, M}
+@with_kw struct SolverOptions{M, O}
     
-    Rmax::Float64
-    output::O = SaveEndpoint()
+    method::M = VCABM()
+    output_type::O = SaveEndpoint()
     abstol::Float64 = 1e-21
     reltol::Float64 = 1e-13
-    method::M = VCABM()
 
 end
-
