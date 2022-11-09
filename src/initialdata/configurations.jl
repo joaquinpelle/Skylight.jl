@@ -3,24 +3,32 @@ export ETOConfigurations
 
 abstract type Configurations end
 
-@with_kw struct OTEConfigurations{S<:Spacetime, M<:EmissionModel, C<:CoordinateSystemKind} <: Configurations
+abstract type TransferScheme end
+
+struct ObserverToEmitter <: TransferScheme end
+struct EmitterToObserver <: TransferScheme end
+
+@with_kw struct OTEConfigurations{S<:Spacetime, M<:EmissionModel} <: Configurations
     
     spacetime::S
     emission_model::M
-    image_plane::ImagePlane 
-    initial_times::Vector{Float64}
-    coord_system::C = coordinate_system_kind(spacetime)
+    image_plane::ImagePlane
+    initial_times::Vector{Float64} 
 
 end
 
-@with_kw struct ETOConfigurations{S<:Spacetime, M<:EmissionModel, C<:CoordinateSystemKind} <: Configurations
+transfer_scheme(configurations::OTEConfigurations) = ObserverToEmitter()
+
+@with_kw struct ETOConfigurations{S<:Spacetime, M<:EmissionModel} <: Configurations
     
     spacetime::S
     emission_model::M
     number_of_packets_per_point::Int64
-    coord_system::C = coordinate_system_kind(spacetime)
+    observer_distance::Float64
 
 end
+
+transfer_scheme(configurations::ETOConfigurations) = EmitterToObserver()
 
 my_zeros(configurations) = zeros(8, number_of_initial_conditions(configurations))
 
@@ -28,6 +36,7 @@ get_initial_times(configurations::OTEConfigurations) = configurations.initial_ti
 
 get_initial_data_cache(configurations::OTEConfigurations) = OTEInitialDataCache()
 get_initial_data_cache(configurations::ETOConfigurations) = ETOInitialDataCache()
+
 
 function get_initial_positions(configurations::ETOConfigurations)
     
@@ -40,7 +49,7 @@ end
 
 function get_space_positions(configurations::ETOConfigurations)
     
-    coord_system = configurations.coord_system
+    coord_system = coordinate_system_class(configurations.spacetime)
     space_positions = get_space_positions(configurations.emission_model, coord_system)
 
     return space_positions
