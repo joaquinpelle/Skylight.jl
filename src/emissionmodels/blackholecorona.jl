@@ -1,1 +1,0 @@
-struct BlackHoleCorona <: SurfaceEmissionModel end
