@@ -8,21 +8,23 @@
 
 end
 
-@with_kw mutable struct GeodesicsCache{S<:Spacetime,M<:EmissionModel,C<:CoordinateSystemKind,T<:ChristoffelCache}
+mutable struct GeodesicsCache{S<:Spacetime, C<:CallbackParameters, T<:ChristoffelCache}
+    
     spacetime::S
-    model::M
+    cb_params::C
     multi_thread::Array{ThreadCache{T},1}
-    coord_system::C = coordinate_system_kind(spacetime)
+
 end
 
-function allocate_single_thread_cache(spacetime) 
-    return ThreadCache(christoffel_cache = allocate_christoffel_cache(spacetime))
+function allocate_geodesics_cache(spacetime, cb_params)
+    return GeodesicsCache(spacetime, cb_params, allocate_multi_thread_cache(spacetime))
 end
 
 function allocate_multi_thread_cache(spacetime)
     return [allocate_single_thread_cache(spacetime) for i in 1:Threads.nthreads()]
 end
 
-function allocate_geodesics_cache(spacetime)
-    return GeodesicsCache(spacetime=spacetime, multi_thread=allocate_multi_thread_cache(spacetime))
+function allocate_single_thread_cache(spacetime) 
+    return ThreadCache(christoffel_cache = allocate_christoffel_cache(spacetime))
 end
+
