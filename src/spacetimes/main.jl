@@ -3,10 +3,14 @@ abstract type Spacetime end
 abstract type AnalyticSpacetime <: Spacetime end
 abstract type NumericalSpacetime <: Spacetime end
 
-abstract type CoordinateSystemKind end
+abstract type FlatSpacetime <: AnalyticSpacetime end
+abstract type BlackHoleSpacetime <: AnalyticSpacetime end
+abstract type WormholeSpacetime <: AnalyticSpacetime end
 
-struct CartesianKind <: CoordinateSystemKind end
-struct SphericalKind <: CoordinateSystemKind end
+abstract type CoordinateSystemClass end
+
+struct CartesianClass <: CoordinateSystemClass end
+struct SphericalClass <: CoordinateSystemClass end
 
 abstract type ChristoffelCache end
 
