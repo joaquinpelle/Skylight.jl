@@ -1,6 +1,6 @@
-export initialize_data
+export get_initial_data
 
-function initialize_data(configurations::ETOConfigurations)
+function get_initial_data(configurations::ETOConfigurations)
     
     cache = get_initial_data_cache(configurations)
     packets = my_zeros(configurations)
@@ -65,7 +65,7 @@ end
 function set_unit_random_triad_components!(kμ, model)
     
     @views ki = kμ[2:4,:] 
-    random_uniform_points_unit_sphere!(ki, CartesianKind())
+    random_uniform_points_unit_sphere!(ki, CartesianClass())
 
 end
 
@@ -74,6 +74,6 @@ function set_unit_random_triad_components!(kμ, model::OpaqueInteriorSurfaceEmis
     #Sets only positive components along the surface normal    
     
     @views ki = kμ[2:4,:] 
-    random_uniform_points_unit_hemisphere_xaxis!(ki, CartesianKind())
+    random_uniform_points_unit_hemisphere_xaxis!(ki, CartesianClass())
 
 end
