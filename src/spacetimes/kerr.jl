@@ -3,7 +3,7 @@ export KerrSpacetimeBoyerLindquistCoordinates
 
 # Kerr Schild coordinates
 
-@with_kw struct KerrSpacetimeKerrSchildCoordinates <: AnalyticSpacetime
+@with_kw struct KerrSpacetimeKerrSchildCoordinates <: BlackHoleSpacetime
 
     M::Float64
     a::Float64
@@ -25,11 +25,21 @@ end
 
 end
 
-coordinate_system_kind(spacetime::KerrSpacetimeKerrSchildCoordinates) = CartesianKind()
+coordinate_system_class(spacetime::KerrSpacetimeKerrSchildCoordinates) = CartesianClass()
 
 event_horizon_radius(spacetime::KerrSpacetimeKerrSchildCoordinates) = spacetime.M*(1+sqrt(1-spacetime.a^2))
 
 allocate_christoffel_cache(spacetime::KerrSpacetimeKerrSchildCoordinates) = KerrKSChristoffelCache()
+
+function get_kerr_radius(position, spacetime::KerrSpacetimeKerrSchildCoordinates)
+    
+    t, x, y, z = position
+    ρ2 = x^2 + y^2 + z^2
+    a2 = spacetime.a^2
+    r2 = 0.5 * (ρ2 - a2) + sqrt(0.25 * (ρ2 - a2)^2 + a2 * z^2)
+
+    return sqrt(r2) 
+end
 
 function set_metric!(g, position, spacetime::KerrSpacetimeKerrSchildCoordinates)
 
@@ -202,7 +212,7 @@ end
 
 # Boyer Lindquist coordinates
 
-@with_kw struct KerrSpacetimeBoyerLindquistCoordinates <: AnalyticSpacetime 
+@with_kw struct KerrSpacetimeBoyerLindquistCoordinates <: BlackHoleSpacetime 
 
     M::Float64
     a::Float64
@@ -213,7 +223,7 @@ end
 end   
 
 
-coordinate_system_kind(spacetime::KerrSpacetimeBoyerLindquistCoordinates) = SphericalKind()
+coordinate_system_class(spacetime::KerrSpacetimeBoyerLindquistCoordinates) = SphericalClass()
 
 event_horizon_radius(spacetime::KerrSpacetimeBoyerLindquistCoordinates) = spacetime.M*(1+sqrt(1-spacetime.a^2))
 

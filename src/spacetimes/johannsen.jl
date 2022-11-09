@@ -1,6 +1,6 @@
 export JohannsenSpacetimeBoyerLindquistCoordinates
 
-@with_kw struct JohannsenSpacetimeBoyerLindquistCoordinates <: AnalyticSpacetime
+@with_kw struct JohannsenSpacetimeBoyerLindquistCoordinates <: BlackHoleSpacetime
     
     """Johannsen (2013) spacetime to lowest order in the deformation parameters from the Kerr metric
 
@@ -34,7 +34,7 @@ end
 
 event_horizon_radius(spacetime::JohannsenSpacetimeBoyerLindquistCoordinates) = spacetime.M*(1+sqrt(1-spacetime.a^2))
 
-coordinate_system_kind(spacetime::JohannsenSpacetimeBoyerLindquistCoordinates) = SphericalKind()
+coordinate_system_class(spacetime::JohannsenSpacetimeBoyerLindquistCoordinates) = SphericalClass()
 
 function set_metric!(g,point,spacetime::JohannsenSpacetimeBoyerLindquistCoordinates)
 
