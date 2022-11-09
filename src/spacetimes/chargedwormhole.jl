@@ -1,7 +1,7 @@
 export ChargedWormholeSpacetimeSphericalCoordinates
 export ChargedWormholeSpacetimeRegularCoordinates
 
-@with_kw struct ChargedWormholeSpacetimeSphericalCoordinates <: AnalyticSpacetime
+@with_kw struct ChargedWormholeSpacetimeSphericalCoordinates <: WormholeSpacetime
     
     b0::Float64
     Q::Float64
@@ -11,7 +11,7 @@ export ChargedWormholeSpacetimeRegularCoordinates
 
 end
 
-coordinate_system_kind(spacetime::ChargedWormholeSpacetimeSphericalCoordinates) = SphericalKind()
+coordinate_system_class(spacetime::ChargedWormholeSpacetimeSphericalCoordinates) = SphericalClass()
 
 function set_metric!(g, point, spacetime::ChargedWormholeSpacetimeSphericalCoordinates)
         
@@ -79,7 +79,7 @@ function set_metric_inverse!(g, point, spacetime::ChargedWormholeSpacetimeSpheri
 
 end
 
-@with_kw struct ChargedWormholeSpacetimeRegularCoordinates <: AnalyticSpacetime
+@with_kw struct ChargedWormholeSpacetimeRegularCoordinates <: WormholeSpacetime
     
     b0::Float64
     Q::Float64
@@ -89,7 +89,16 @@ end
 
 end
 
-coordinate_system_kind(spacetime::ChargedWormholeSpacetimeRegularCoordinates) = SphericalKind()
+function get_wormhole_radius(l, spacetime::WormholeSpacetime)
+
+    b0 = spacetime.b0
+    Q = spacetime.Q
+
+    return sqrt(l^2+b0^2-Q^2)
+
+end
+
+coordinate_system_class(spacetime::ChargedWormholeSpacetimeRegularCoordinates) = SphericalClass()
 
 function set_metric!(g, point, spacetime::ChargedWormholeSpacetimeRegularCoordinates)
         
@@ -155,4 +164,51 @@ function set_metric_inverse!(g, point, spacetime::ChargedWormholeSpacetimeRegula
     
     return nothing
     
+end
+
+struct ChargedWormholeChristoffelCache <: ChristoffelCache end
+
+allocate_christoffel_cache(spacetime::ChargedWormholeSpacetimeRegularCoordinates) = ChargedWormholeChristoffelCache()
+
+function set_christoffel!(Γ,position,spacetime::ChargedWormholeSpacetimeRegularCoordinates,cache::ChargedWormholeChristoffelCache)
+
+    #Spacetime coordinates
+    t, l, θ, φ = position
+
+    b0 = spacetime.b0
+    Q = spacetime.Q
+    
+    r = sqrt(l^2+b0^2-Q^2)
+
+    gtt = -(1+Q^2/r^2)
+    gθθ = r^2
+    gφφ = r^2*sin(θ)^2
+
+    dr_dl = l/r
+
+    dlgtt = 2*Q^2/r^3*dr_dl
+    dlgθθ = 2*l
+    dlgφφ = 2*l*sin(θ)^2
+    dθgφφ = r^2*2*sin(θ)*cos(θ)
+
+    #The Christoffel symbols
+
+    Γ[1,1,2] = 0.5*dlgtt/gtt
+    Γ[1,2,1] = Γ[1,1,2]
+
+    Γ[2,1,1] = -dlgtt/2
+    Γ[2,3,3] = -dlgθθ/2
+    Γ[2,4,4] = -dlgφφ/2
+
+    Γ[3,2,3] = 0.5*dlgθθ/gθθ
+    Γ[3,4,4] = -sin(θ)*cos(θ)
+    Γ[3,3,2] = Γ[3,2,3]
+
+    Γ[4,2,4] = 0.5*dlgφφ/gφφ
+    Γ[4,3,4] = cos(θ)/sin(θ)
+    Γ[4,4,2] = Γ[4,2,4]
+    Γ[4,4,3] = Γ[4,3,4]
+
+    return nothing
+
 end
