@@ -1,7 +1,7 @@
 function geodesic_equations!(du, u::Array{Float64,1}, p::GeodesicsCache, t)
 
     spacetime = p.spacetime
-    cache = p.multi_threads[Threads.threadid()]
+    cache = p.multi_thread[Threads.threadid()]
 
     point = cache.point
     vel = cache.velocity
