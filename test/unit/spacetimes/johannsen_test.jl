@@ -54,7 +54,7 @@ end
                                                             α52=0.3,
                                                             ϵ3=0.5)
 
-    @test Skylight.coordinate_system_kind(spacetime) == Skylight.SphericalKind()
+    @test Skylight.coordinate_system_class(spacetime) == Skylight.SphericalClass()
 
 
     r = 5.0

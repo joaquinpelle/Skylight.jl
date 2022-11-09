@@ -50,7 +50,7 @@ end
                                         misalignment_angle_in_degrees=90,
                                         angular_radius_in_degrees=60, 
                                         temperature=rand())
-    configurations = Skylight.ETOConfigurations(spacetime = spacetime, emission_model = model, number_of_packets_per_point = 10)
+    configurations = Skylight.ETOConfigurations(spacetime = spacetime, emission_model = model, number_of_packets_per_point = 10, observer_distance = 500.0)
 
     packets = Skylight.my_zeros(configurations)
     cache = Skylight.ETOInitialDataCache()
@@ -65,11 +65,11 @@ end
     @test cache.metric_inverse == [-1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
     @test tetrad[:,1] ≈ [1.0/sqrt(0.9775), 0.0, 0.15/sqrt(0.9775), 0.0]
     @test tetrad[:,2] ≈ [0.0, 0.6, 0.0, 0.8]
-    @test Skylight.scalar_product(tetrad[:,2], tetrad[:,3], cache.metric) ≈ 0.0 atol = 1e-14 
-    @test Skylight.scalar_product(tetrad[:,2], tetrad[:,4], cache.metric) ≈ 0.0 atol = 1e-14
-    @test Skylight.scalar_product(tetrad[:,3], tetrad[:,3], cache.metric) ≈ 1.0 atol = 1e-14
-    @test Skylight.scalar_product(tetrad[:,3], tetrad[:,4], cache.metric) ≈ 0.0 atol = 1e-14
-    @test Skylight.scalar_product(tetrad[:,4], tetrad[:,4], cache.metric) ≈ 1.0 atol = 1e-14
+    @test Skylight.scalar_product(tetrad[:,2], tetrad[:,3], cache.metric) ≈ 0.0 atol = 1e-13 
+    @test Skylight.scalar_product(tetrad[:,2], tetrad[:,4], cache.metric) ≈ 0.0 atol = 1e-13
+    @test Skylight.scalar_product(tetrad[:,3], tetrad[:,3], cache.metric) ≈ 1.0 atol = 1e-13
+    @test Skylight.scalar_product(tetrad[:,3], tetrad[:,4], cache.metric) ≈ 0.0 atol = 1e-13
+    @test Skylight.scalar_product(tetrad[:,4], tetrad[:,4], cache.metric) ≈ 1.0 atol = 1e-13
 
     @views xμ = packets[1:4,1:10]
     Skylight.set_packets_position!(xμ,position)
@@ -83,7 +83,7 @@ end
     Skylight.set_packets_momenta!(kμ, tetrad, model)
 
     for i in 1:10
-        @test Skylight.norm_squared(kμ[:,i], cache.metric) ≈ 0.0 atol=1e-14 
+        @test Skylight.norm_squared(kμ[:,i], cache.metric) ≈ 0.0 atol=1e-13 
         @test Skylight.scalar_product(kμ[:,i], cache.tetrad[:,2], cache.metric) >= 0.0 
     end
 end
@@ -97,7 +97,7 @@ end
                                         misalignment_angle_in_degrees=90,
                                         angular_radius_in_degrees=60, 
                                         temperature=rand())
-    configurations = Skylight.ETOConfigurations(spacetime = spacetime, emission_model = model, number_of_packets_per_point = 3)
+    configurations = Skylight.ETOConfigurations(spacetime = spacetime, emission_model = model, number_of_packets_per_point = 3, observer_distance = 500.0)
 
     metric = zeros(4,4)
     Skylight.set_metric!(metric, zeros(4), spacetime)
@@ -132,7 +132,7 @@ end
                                         angular_radius_in_degrees=60, 
                                         temperature=rand())
                                         
-    configurations = Skylight.ETOConfigurations(spacetime = spacetime, emission_model = model, number_of_packets_per_point = 10)
+    configurations = Skylight.ETOConfigurations(spacetime = spacetime, emission_model = model, number_of_packets_per_point = 10, observer_distance = 500.0)
 
     packets = Skylight.my_zeros(configurations)
     cache = Skylight.ETOInitialDataCache()
@@ -153,7 +153,7 @@ end
     end
 
     for i in 1:10
-        @test Skylight.norm_squared(kμ[:,i], cache.metric) ≈ 0.0 atol=1e-14 
+        @test Skylight.norm_squared(kμ[:,i], cache.metric) ≈ 0.0 atol=1e-13 
         @test Skylight.scalar_product(kμ[:,i], cache.tetrad[:,2], cache.metric) >= 0.0 
     end
 end
@@ -167,9 +167,9 @@ end
                                         misalignment_angle_in_degrees=90,
                                         angular_radius_in_degrees=60, 
                                         temperature=rand())
-    configurations = Skylight.ETOConfigurations(spacetime = spacetime, emission_model = model, number_of_packets_per_point = 3)
+    configurations = Skylight.ETOConfigurations(spacetime = spacetime, emission_model = model, number_of_packets_per_point = 3, observer_distance = 500.0)
 
-    packets = Skylight.initialize_data(configurations)
+    packets = Skylight.get_initial_data(configurations)
 
     metric = zeros(4,4)
     Skylight.set_metric!(metric, zeros(4), spacetime)
@@ -191,7 +191,7 @@ end
             
             @test xμ[1,j] == 0.0
             @test Skylight.scalar_product(xμ[:,j], [0.0, 1.0, 0.0, 0.0], metric) >= 5*cos(π/3)
-            @test Skylight.norm_squared(kμ[:,j], metric) ≈ 0.0 atol=1e-14 
+            @test Skylight.norm_squared(kμ[:,j], metric) ≈ 0.0 atol=1e-13 
             @test Skylight.scalar_product(kμ[:,j], normal, metric) >= 0.0 
         end
     end

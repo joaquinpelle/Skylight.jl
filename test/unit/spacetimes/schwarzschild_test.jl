@@ -8,7 +8,7 @@ end
 @testset "Kerr-Schild coordinates" begin
         
     spacetime = SchwarzschildSpacetimeKerrSchildCoordinates(M=1.0)
-    @test Skylight.coordinate_system_kind(spacetime) == Skylight.CartesianKind()
+    @test Skylight.coordinate_system_class(spacetime) == Skylight.CartesianClass()
 
 
     point = [rand(),0.0,3.0,4.0]
@@ -28,7 +28,7 @@ end
 @testset "Spherical coordinates" begin
 
     spacetime = SchwarzschildSpacetimeSphericalCoordinates(M=1.0)
-    @test Skylight.coordinate_system_kind(spacetime) == Skylight.SphericalKind()
+    @test Skylight.coordinate_system_class(spacetime) == Skylight.SphericalClass()
 
 
     point = [rand(),5.0,π/3,0.0]

@@ -11,7 +11,7 @@ end
 
     spacetime = ChargedWormholeSpacetimeSphericalCoordinates(b0=1.0, Q=0.5)
     
-    @test Skylight.coordinate_system_kind(spacetime) == Skylight.SphericalKind()
+    @test Skylight.coordinate_system_class(spacetime) == Skylight.SphericalClass()
 
     point = [rand(),5.0,π/3,0.0]
 
@@ -35,7 +35,7 @@ end
 
     spacetime = ChargedWormholeSpacetimeRegularCoordinates(b0=1.0, Q=0.5)
     
-    @test Skylight.coordinate_system_kind(spacetime) == Skylight.SphericalKind()
+    @test Skylight.coordinate_system_class(spacetime) == Skylight.SphericalClass()
 
     point = [rand(),5.0,π/3,0.0]
 

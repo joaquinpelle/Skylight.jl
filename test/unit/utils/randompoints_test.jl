@@ -6,7 +6,7 @@ using Skylight, Test
 
         N = 5
         v = zeros(3, N)
-        coord_system = Skylight.CartesianKind()
+        coord_system = Skylight.CartesianClass()
 
         Skylight.random_uniform_points_unit_sphere!(v, coord_system)
 
@@ -59,7 +59,7 @@ using Skylight, Test
 
         N = 5
         v = zeros(3, N)
-        coord_system = Skylight.SphericalKind()
+        coord_system = Skylight.SphericalClass()
 
         Skylight.random_uniform_points_unit_sphere!(v, coord_system)
 

@@ -13,7 +13,7 @@ using Skylight, Test
     @test model.angular_radius_in_radians ≈ π/3
     @test Skylight.get_number_of_points(model) == 10
 
-    coord_system = Skylight.CartesianKind()
+    coord_system = Skylight.CartesianClass()
     points = Skylight.get_space_positions(model, coord_system)
 
     for i in 1:10

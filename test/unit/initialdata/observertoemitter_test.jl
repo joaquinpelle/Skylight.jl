@@ -14,6 +14,7 @@ using Skylight, Test
                                     vertical_number_of_nodes = 3)
         
         configurations = OTEConfigurations(spacetime=spacetime,
+                                            emission_model = Skylight.DummyExtendedRegion(),
                                                    image_plane = image_plane,
                                                    initial_times = [0.0,1.0])
         
@@ -71,12 +72,14 @@ using Skylight, Test
                                     vertical_number_of_nodes = 3)
         
         configurations = OTEConfigurations(spacetime=spacetime,
+                                            emission_model = Skylight.DummyExtendedRegion(),
                                                 image_plane = image_plane,
                                                 initial_times = [0.0,rand()])
 
         initial_time = configurations.initial_times[2]
         image_plane = configurations.image_plane
-        coord_system = configurations.coord_system
+        coord_system = Skylight.coordinate_system_class(spacetime)
+        
 
         ray = zeros(8)
         pixel_coordinates = (1.0, 1.0)
@@ -108,10 +111,11 @@ using Skylight, Test
                                     vertical_number_of_nodes = 3)
         
         configurations = OTEConfigurations(spacetime=spacetime,
+                                            emission_model = Skylight.DummyExtendedRegion(),
                                                 image_plane = image_plane,
                                                 initial_times = [0.1,1.5])
 
-        rays = initialize_data(configurations)
+        rays = get_initial_data(configurations)
 
         @views ray = rays[:,14]
 
