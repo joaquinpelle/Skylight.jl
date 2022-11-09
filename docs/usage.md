@@ -86,7 +86,7 @@ In the emitter-to-observer scheme, use the following
 ```
 julia> configurations = ETOConfigurations(spacetime=spacetime,
                                                      emission_model=model,
-                                                     number_of_packets_per_point = 100)
+                                                     number_of_packets_per_point = 100, observer_distance = 500.0)
 ```
 
 #### Initial data
@@ -94,7 +94,7 @@ julia> configurations = ETOConfigurations(spacetime=spacetime,
 Finally, for creating the initial data, use
 
 ```
-julia> initial_data = initialize_data(configurations)
+julia> initial_data = get_initial_data(configurations)
 ```
 
 #### Geodesics
