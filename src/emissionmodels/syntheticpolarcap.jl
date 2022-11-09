@@ -1,6 +1,6 @@
 export SyntheticPolarCap
 
-@with_kw struct SyntheticPolarCap <: OpaqueInteriorSurfaceEmissionModel
+@with_kw struct SyntheticPolarCap <: NeutronStarHotSpots
 
     number_of_points::Int64
     star_radius::Float64
@@ -13,7 +13,7 @@ export SyntheticPolarCap
     
 end
 
-function set_surface_differential!(covector, position, model::SyntheticPolarCap, coord_system::CartesianKind)
+function set_surface_differential!(covector, position, model::SyntheticPolarCap, coord_system::CartesianClass)
 
     @views begin
         t,x,y,z = position
@@ -34,7 +34,7 @@ function set_model_four_velocity!(vector, position, metric, model::SyntheticPola
     
 end
 
-function get_space_positions(model::SyntheticPolarCap, coord_system::CartesianKind)
+function get_space_positions(model::SyntheticPolarCap, coord_system::CartesianClass)
 
     space_positions = zeros(3, model.number_of_points)
 
@@ -50,5 +50,5 @@ end
 
 get_number_of_points(model::SyntheticPolarCap) = model.number_of_points
 
-get_callback(model::SyntheticPolarCap, coord_system::CartesianKind) = star_cartesian_callback()
-get_callback(model::SyntheticPolarCap, coord_system::SphericalKind) = star_spherical_callback()
+get_callback(model::SyntheticPolarCap, coord_system::CartesianClass) = star_cartesian_coordinates_callback()
+get_callback(model::SyntheticPolarCap, coord_system::SphericalClass) = star_spherical_coordinates_callback()
