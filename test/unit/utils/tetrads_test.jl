@@ -77,7 +77,7 @@ using Skylight, Random, Test
             time_vector = [1.0, 0.0, 0.0, 0.0]
             Skylight.normalize_timelike!(time_vector, metric)
 
-            model = Skylight.SyntheticPolarCap(number_of_points=10, 
+            model = Skylight.SyntheticPolarCap( 
                                     star_radius=5.0,
                                     angular_speed = 0.05, 
                                     misalignment_angle_in_degrees=90,

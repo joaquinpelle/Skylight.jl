@@ -48,8 +48,7 @@ The following will be implemented soon:
 The emission models are determined by a set of parameters. To construct a synthetic polar cap, for example 
 
 ```
-julia> model = Skylight.SyntheticPolarCap(number_of_points=10, 
-                                          star_radius=5.0,
+julia> model = Skylight.SyntheticPolarCap(star_radius=5.0,
                                           angular_speed = 0.05, 
                                           misalignment_angle_in_degrees=90,
                                           angular_radius_in_degrees=60, 
@@ -86,6 +85,7 @@ In the emitter-to-observer scheme, use the following
 ```
 julia> configurations = ETOConfigurations(spacetime=spacetime,
                                                      emission_model=model,
+                                                     number_of_points = 100
                                                      number_of_packets_per_point = 100, observer_distance = 500.0)
 ```
 

@@ -13,7 +13,7 @@ struct EmitterToObserver <: TransferScheme end
     spacetime::S
     emission_model::M
     image_plane::ImagePlane
-    initial_times::Vector{Float64} 
+    initial_times::Vector{Float64}
 
 end
 
@@ -23,6 +23,7 @@ transfer_scheme(configurations::OTEConfigurations) = ObserverToEmitter()
     
     spacetime::S
     emission_model::M
+    number_of_points::Int64
     number_of_packets_per_point::Int64
     observer_distance::Float64
 
@@ -49,8 +50,10 @@ end
 
 function get_space_positions(configurations::ETOConfigurations)
     
+    npoints = configurations.number_of_points
+
     coord_system = coordinate_system_class(configurations.spacetime)
-    space_positions = get_space_positions(configurations.emission_model, coord_system)
+    space_positions = get_space_positions(npoints, configurations.emission_model, coord_system)
 
     return space_positions
 
@@ -58,7 +61,7 @@ end
 
 function zero_times(configurations::ETOConfigurations)
     
-    npoints = get_number_of_points(configurations.emission_model)
+    npoints = configurations.number_of_points
     return repeat([0.0],npoints)
 
 end
@@ -73,7 +76,7 @@ end
 
 function number_of_initial_conditions(configurations::ETOConfigurations)
     
-    number_of_points = get_number_of_points(configurations.emission_model)
+    number_of_points = configurations.number_of_points
     number_of_packets_per_point = configurations.number_of_packets_per_point
 
     return number_of_points*number_of_packets_per_point

@@ -2,7 +2,6 @@ export SyntheticPolarCap
 
 @with_kw struct SyntheticPolarCap <: NeutronStarHotSpots
 
-    number_of_points::Int64
     star_radius::Float64
     angular_speed::Float64
     misalignment_angle_in_degrees::Float64 
@@ -34,9 +33,9 @@ function set_model_four_velocity!(vector, position, metric, model::SyntheticPola
     
 end
 
-function get_space_positions(model::SyntheticPolarCap, coord_system::CartesianClass)
+function get_space_positions(npoints, model::SyntheticPolarCap, coord_system::CartesianClass)
 
-    space_positions = zeros(3, model.number_of_points)
+    space_positions = zeros(3, npoints)
 
     random_uniform_points_unit_spherical_cap!(space_positions, model.angular_radius_in_degrees, coord_system)
 
@@ -47,8 +46,6 @@ function get_space_positions(model::SyntheticPolarCap, coord_system::CartesianCl
     return space_positions
 
 end
-
-get_number_of_points(model::SyntheticPolarCap) = model.number_of_points
 
 get_callback(model::SyntheticPolarCap, coord_system::CartesianClass) = star_cartesian_coordinates_callback()
 get_callback(model::SyntheticPolarCap, coord_system::SphericalClass) = star_spherical_coordinates_callback()

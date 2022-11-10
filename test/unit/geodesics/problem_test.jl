@@ -22,7 +22,7 @@ end
                             horizontal_number_of_nodes = 10,
                             vertical_number_of_nodes = 10)
 
-    model = SyntheticPolarCap(number_of_points=10, 
+    model = SyntheticPolarCap(
                             star_radius=5.0,
                             angular_speed = 0.05, 
                             misalignment_angle_in_degrees=90,

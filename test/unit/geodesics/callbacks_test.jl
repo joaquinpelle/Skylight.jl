@@ -17,7 +17,7 @@ using Skylight, Test, DifferentialEquations
 
     @testset "Neutron star hot spots" begin
 
-        model = SyntheticPolarCap(number_of_points=10, 
+        model = SyntheticPolarCap( 
                           star_radius=5.0,
                           angular_speed = 0.05, 
                           misalignment_angle_in_degrees=90,

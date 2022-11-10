@@ -2,7 +2,7 @@ using Skylight, Test
 
 @testset "Synthetic polar cap" begin
     
-    model = Skylight.SyntheticPolarCap(number_of_points=10, 
+    model = Skylight.SyntheticPolarCap( 
                                     star_radius=5.0,
                                     angular_speed = 0.05, 
                                     misalignment_angle_in_degrees=90,
@@ -11,10 +11,9 @@ using Skylight, Test
 
     @test model.misalignment_angle_in_radians ≈ π/2
     @test model.angular_radius_in_radians ≈ π/3
-    @test Skylight.get_number_of_points(model) == 10
 
     coord_system = Skylight.CartesianClass()
-    points = Skylight.get_space_positions(model, coord_system)
+    points = Skylight.get_space_positions(10,model, coord_system)
 
     for i in 1:10
         point = points[:,i]
