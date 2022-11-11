@@ -8,12 +8,7 @@ export NovikovThorneDisk
 
 end
 
-
 function set_surface_differential!(covector, position, model::BlackHoleAccretionDisk, coord_system::CartesianClass)
-
-    @views begin
-        t,x,y,z = position
-    end
 
     covector[1] = 0.0
     covector[2] = 0.0
@@ -23,10 +18,6 @@ function set_surface_differential!(covector, position, model::BlackHoleAccretion
 end
 
 function set_surface_differential!(covector, position, model::BlackHoleAccretionDisk, coord_system::SphericalClass)
-
-    @views begin
-        t,r,θ,φ = position
-    end
 
     covector[1] = 0.0
     covector[2] = 0.0
