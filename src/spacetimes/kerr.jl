@@ -292,3 +292,75 @@ function set_metric_inverse!(ginv, point, spacetime::KerrSpacetimeBoyerLindquist
     return nothing
 
 end
+
+struct KerrBLChristoffelCache <: ChristoffelCache end
+
+allocate_christoffel_cache(spacetime::KerrSpacetimeBoyerLindquistCoordinates) = KerrBLChristoffelCache()
+
+function set_christoffel!(Γ, point, spacetime::KerrSpacetimeBoyerLindquistCoordinates, cache) 
+    
+    t, r, θ, φ = point
+    
+    M = spacetime.M
+    a = spacetime.a
+
+    rs = 2*M
+    a2 = a^2
+    
+    r2 = r^2
+    r3 = r^3
+    r4 = r^4
+    
+    sinθ2 = sin(θ)^2
+    cosθ2 = cos(θ)^2
+    sin2θ = sin(2*θ)
+    cotθ = cot(θ)
+    
+    Δ = r2 - 2*M*r + a2
+    Σ = r2 + a2*cosθ2
+    Σ2 = Σ^2
+    Σ3 = Σ^3
+    
+    A = (r2+a2)*Σ+rs*a2*r*sinθ2
+        
+    # Now we build the Christoffel symbols
+    
+    fill!(Γ,0.0)
+    
+    Γ[2,1,1] = rs*Δ*(r2-a2*cosθ2)/(2*Σ3)
+    Γ[3,1,1] = -rs*a2*r*sin2θ/(2*Σ3)
+    Γ[1,1,2] = rs*(r2+a2)*(r2-a2*cosθ2)/(2*Σ2*Δ)
+    Γ[4,1,2] = rs*a*(r2-a2*cosθ2)/(2*Σ2*Δ)
+    Γ[1,1,3] = -rs*a2*r*sin2θ/(2*Σ2)
+    Γ[4,1,3] = -rs*a*r*cotθ/Σ2
+    Γ[2,1,4] = -rs*Δ*(r2-a2*cosθ2)*a*sinθ2/(2*Σ3)
+    Γ[3,1,4] = rs*a*(r2+a2)*r*sin2θ/(2*Σ3)
+    Γ[2,2,2] = (2*r*a2*sinθ2-rs*(r2-a2*cosθ2))/(2*Σ*Δ)
+    Γ[3,2,2] = a2*sin2θ/(2*Σ*Δ)
+    Γ[2,2,3] = -a2*sin2θ/(2*Σ)
+    Γ[3,2,3] = r/Σ
+    Γ[2,3,3] = -r*Δ/Σ
+    Γ[3,3,3] = -a2*sin2θ/(2*Σ)
+    Γ[4,3,4] = cotθ*(Σ2+rs*a2*r*sinθ2)/Σ2
+    Γ[1,3,4] = rs*a^3*r*sinθ2*sin2θ/(2*Σ2)
+    Γ[1,2,4] = rs*a*sinθ2*(a2*cosθ2*(a2-r2)-r2*(a2+3*r2))/(2*Σ2*Δ)
+    Γ[4,2,4] = (2*r*Σ2+rs*(a^4*sinθ2*cosθ2-r2*(Σ+r2+a2)))/(2*Σ2*Δ)
+    Γ[2,4,4] = Δ*sinθ2*(-2*r*Σ2+rs*a2*sinθ2*(r2-a2*cosθ2))/(2*Σ3)
+    Γ[3,4,4] = -sin2θ*(A*Σ+(r2+a2)*rs*a2*r*sinθ2)/(2*Σ3)
+    
+    Γ[1,2,1] = Γ[1,1,2]
+    Γ[4,2,1] = Γ[4,1,2]
+    Γ[1,3,1] = Γ[1,1,3]
+    Γ[4,3,1] = Γ[4,1,3]
+    Γ[2,4,1] = Γ[2,1,4]
+    Γ[3,4,1] = Γ[3,1,4]
+    Γ[2,3,2] = Γ[2,2,3]
+    Γ[3,3,2] = Γ[3,2,3]
+    Γ[4,4,3] = Γ[4,3,4]
+    Γ[1,4,3] = Γ[1,3,4]
+    Γ[1,4,2] = Γ[1,2,4]
+    Γ[4,4,2] = Γ[4,2,4]
+     
+    return nothing
+
+end

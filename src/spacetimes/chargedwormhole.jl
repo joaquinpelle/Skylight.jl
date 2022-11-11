@@ -170,7 +170,7 @@ struct ChargedWormholeChristoffelCache <: ChristoffelCache end
 
 allocate_christoffel_cache(spacetime::ChargedWormholeSpacetimeRegularCoordinates) = ChargedWormholeChristoffelCache()
 
-function set_christoffel!(Γ,position,spacetime::ChargedWormholeSpacetimeRegularCoordinates,cache::ChargedWormholeChristoffelCache)
+function set_christoffel!(Γ, position, spacetime::ChargedWormholeSpacetimeRegularCoordinates, cache)
 
     #Spacetime coordinates
     t, l, θ, φ = position
