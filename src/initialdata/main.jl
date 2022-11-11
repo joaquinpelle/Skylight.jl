@@ -1,5 +1,4 @@
 include("cache.jl")
 include("imageplane.jl")
-include("configurations.jl")
 include("emittertoobserver.jl")
 include("observertoemitter.jl")
