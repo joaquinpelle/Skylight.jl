@@ -16,7 +16,6 @@ function set_surface_differential!(covector, position, model::SyntheticPolarCap,
 
     @views begin
         t,x,y,z = position
-        R = model.star_radius
     end
 
     covector[1] = 0.0
