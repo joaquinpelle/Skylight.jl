@@ -12,7 +12,7 @@ function get_initial_data(configurations::OTEConfigurations)
     for initial_time in get_initial_times(configurations)
         for pixel_coordinates in get_pixel_coordinates(configurations.image_plane)
 
-            @views ray = rays[:, index]
+            @views ray = rays[1:8, index]
             initialize_single!(ray, initial_time, pixel_coordinates, configurations, cache)
             index += 1
 

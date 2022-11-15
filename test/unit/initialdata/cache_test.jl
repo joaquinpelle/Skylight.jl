@@ -25,7 +25,7 @@ using Skylight, Test
                                             misalignment_angle_in_degrees=90,
                                             angular_radius_in_degrees=60, 
                                             temperature=rand())
-        configurations = Skylight.ETOConfigurations(spacetime = spacetime, emission_model = model, number_of_points=10, number_of_packets_per_point = 10, observer_distance = 500.0)
+        configurations = Skylight.VacuumETOConfigurations(spacetime = spacetime, radiative_model = model, number_of_points=10, number_of_packets_per_point = 10, observer_distance = 500.0)
 
         Skylight.dump_metric_and_tetrad_in!(cache, position, configurations)
 
@@ -63,7 +63,7 @@ using Skylight, Test
                 spacetime = MinkowskiSpacetimeCartesianCoordinates()
                 model = Skylight.DummyExtendedRegion()
 
-                configurations = Skylight.ETOConfigurations(spacetime = spacetime, emission_model = model, number_of_points=10, number_of_packets_per_point = 10, observer_distance = 500.0)
+                configurations = Skylight.VacuumETOConfigurations(spacetime = spacetime, radiative_model = model, number_of_points=10, number_of_packets_per_point = 10, observer_distance = 500.0)
 
                 packets = Skylight.my_zeros(configurations)
                 cache = Skylight.ETOInitialDataCache()
@@ -100,7 +100,7 @@ using Skylight, Test
                                                     misalignment_angle_in_degrees=90,
                                                     angular_radius_in_degrees=60, 
                                                     temperature=rand())
-                configurations = Skylight.ETOConfigurations(spacetime = spacetime, emission_model = model, number_of_points=10, number_of_packets_per_point = 10, observer_distance = 500.0)
+                configurations = Skylight.VacuumETOConfigurations(spacetime = spacetime, radiative_model = model, number_of_points=10, number_of_packets_per_point = 10, observer_distance = 500.0)
 
                 packets = Skylight.my_zeros(configurations)
                 cache = Skylight.ETOInitialDataCache()

@@ -50,7 +50,7 @@ end
 function dump_metric_and_tetrad_in!(cache, position, configurations)
 
     spacetime = configurations.spacetime
-    model = configurations.emission_model
+    model = configurations.radiative_model
     coord_system = coordinate_system_class(spacetime)
     
     dump_metric_in!(cache, position, spacetime)

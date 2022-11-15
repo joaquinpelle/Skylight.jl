@@ -13,8 +13,8 @@ using Skylight, Test
                                     horizontal_number_of_nodes = 3,
                                     vertical_number_of_nodes = 3)
         
-        configurations = OTEConfigurations(spacetime=spacetime,
-                                            emission_model = Skylight.DummyExtendedRegion(),
+        configurations = VacuumOTEConfigurations(spacetime=spacetime,
+                                            radiative_model = Skylight.DummyExtendedRegion(),
                                                    image_plane = image_plane,
                                                    initial_times = [0.0,1.0])
         
@@ -71,8 +71,8 @@ using Skylight, Test
                                     horizontal_number_of_nodes = 3,
                                     vertical_number_of_nodes = 3)
         
-        configurations = OTEConfigurations(spacetime=spacetime,
-                                            emission_model = Skylight.DummyExtendedRegion(),
+        configurations = VacuumOTEConfigurations(spacetime=spacetime,
+                                            radiative_model = Skylight.DummyExtendedRegion(),
                                                 image_plane = image_plane,
                                                 initial_times = [0.0,rand()])
 
@@ -110,8 +110,8 @@ using Skylight, Test
                                     horizontal_number_of_nodes = 3,
                                     vertical_number_of_nodes = 3)
         
-        configurations = OTEConfigurations(spacetime=spacetime,
-                                            emission_model = Skylight.DummyExtendedRegion(),
+        configurations = VacuumOTEConfigurations(spacetime=spacetime,
+                                            radiative_model = Skylight.DummyExtendedRegion(),
                                                 image_plane = image_plane,
                                                 initial_times = [0.1,1.5])
 

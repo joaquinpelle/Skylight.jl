@@ -24,10 +24,10 @@ using Skylight, Test, DifferentialEquations
                           angular_radius_in_degrees=60, 
                           temperature=1.0)
                           
-        configurations = OTEConfigurations(spacetime=spacetime,
+        configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                    image_plane = image_plane,
                                    initial_times = [0.0,1.0],
-                                   emission_model = model)
+                                   radiative_model = model)
 
         
         @test Skylight.get_rmax(configurations) ≈ rmax
@@ -58,10 +58,10 @@ using Skylight, Test, DifferentialEquations
 
         model = NovikovThorneDisk(inner_radius=6.0, outer_radius=15.0)
 
-        configurations = OTEConfigurations(spacetime=spacetime,
+        configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                    image_plane = image_plane,
                                    initial_times = [0.0,1.0],
-                                   emission_model = model)
+                                   radiative_model = model)
 
         cb_params = Skylight.get_cb_params(model, configurations)
 
@@ -124,10 +124,10 @@ using Skylight, Test, DifferentialEquations
 
         model = StarAcrossWormhole(l_center=10.0, star_radius=5.0)
 
-        configurations = OTEConfigurations(spacetime=spacetime,
+        configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                    image_plane = image_plane,
                                    initial_times = [0.0,1.0],
-                                   emission_model = model)
+                                   radiative_model = model)
 
         cb_params = Skylight.get_cb_params(model, configurations)
 

@@ -33,7 +33,7 @@ For more details about the spacetimes and the parameters they need, see the spac
 
 #### Emission models
 
-The currently available emission model is:
+The currently available radiative model is:
 
   * `SyntheticPolarCap()`
 
@@ -45,7 +45,7 @@ The following will be implemented soon:
   * `BlackHoleCorona()`
   * `StarBehindWormhole()`
 
-The emission models are determined by a set of parameters. To construct a synthetic polar cap, for example 
+The radiative models are determined by a set of parameters. To construct a synthetic polar cap, for example 
 
 ```
 julia> model = Skylight.SyntheticPolarCap(star_radius=5.0,
@@ -55,7 +55,7 @@ julia> model = Skylight.SyntheticPolarCap(star_radius=5.0,
                                           temperature=1.0)
 ```
 
-For the details, see the emission models documentation. 
+For the details, see the radiative models documentation. 
 
 #### Image plane
 
@@ -75,7 +75,7 @@ julia> image_plane = ImagePlane(observer_distance = 500.0,
 The initial data configurations in the observer-to-emitter scheme are constructed as follows
 
 ```
-julia> configurations = OTEConfigurations(spacetime=spacetime,
+julia> configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                                      image_plane = image_plane,
                                                      initial_times = [0.0,1.0])
 ```
@@ -83,8 +83,8 @@ julia> configurations = OTEConfigurations(spacetime=spacetime,
 In the emitter-to-observer scheme, use the following
 
 ```
-julia> configurations = ETOConfigurations(spacetime=spacetime,
-                                                     emission_model=model,
+julia> configurations = VacuumETOConfigurations(spacetime=spacetime,
+                                                     radiative_model=model,
                                                      number_of_points = 100
                                                      number_of_packets_per_point = 100, observer_distance = 500.0)
 ```

@@ -48,10 +48,10 @@ end
                             horizontal_number_of_nodes = 50,
                             vertical_number_of_nodes = 50)   
 
-    configurations = OTEConfigurations(spacetime=spacetime,
+    configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                 image_plane = image_plane,
                                 initial_times = [0.0,1.0],
-                                emission_model = model)
+                                radiative_model = model)
     rmax = 1.1*sqrt(6000)
     
     cb_params = Skylight.get_cb_params(model, configurations)

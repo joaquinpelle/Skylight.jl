@@ -50,7 +50,7 @@ end
                                         misalignment_angle_in_degrees=90,
                                         angular_radius_in_degrees=60, 
                                         temperature=rand())
-    configurations = Skylight.ETOConfigurations(spacetime = spacetime, emission_model = model, number_of_points=10, number_of_packets_per_point = 10, observer_distance = 500.0)
+    configurations = Skylight.VacuumETOConfigurations(spacetime = spacetime, radiative_model = model, number_of_points=10, number_of_packets_per_point = 10, observer_distance = 500.0)
 
     packets = Skylight.my_zeros(configurations)
     cache = Skylight.ETOInitialDataCache()
@@ -97,7 +97,7 @@ end
                                         misalignment_angle_in_degrees=90,
                                         angular_radius_in_degrees=60, 
                                         temperature=rand())
-    configurations = Skylight.ETOConfigurations(spacetime = spacetime, emission_model = model, number_of_points=3, number_of_packets_per_point = 3, observer_distance = 500.0)
+    configurations = Skylight.VacuumETOConfigurations(spacetime = spacetime, radiative_model = model, number_of_points=3, number_of_packets_per_point = 3, observer_distance = 500.0)
 
     metric = zeros(4,4)
     Skylight.set_metric!(metric, zeros(4), spacetime)
@@ -132,7 +132,7 @@ end
                                         angular_radius_in_degrees=60, 
                                         temperature=rand())
                                         
-    configurations = Skylight.ETOConfigurations(spacetime = spacetime, emission_model = model, number_of_points=10, number_of_packets_per_point = 10, observer_distance = 500.0)
+    configurations = Skylight.VacuumETOConfigurations(spacetime = spacetime, radiative_model = model, number_of_points=10, number_of_packets_per_point = 10, observer_distance = 500.0)
 
     packets = Skylight.my_zeros(configurations)
     cache = Skylight.ETOInitialDataCache()
@@ -167,7 +167,7 @@ end
                                         misalignment_angle_in_degrees=90,
                                         angular_radius_in_degrees=60, 
                                         temperature=rand())
-    configurations = Skylight.ETOConfigurations(spacetime = spacetime, emission_model = model, number_of_points=3, number_of_packets_per_point = 3, observer_distance = 500.0)
+    configurations = Skylight.VacuumETOConfigurations(spacetime = spacetime, radiative_model = model, number_of_points=3, number_of_packets_per_point = 3, observer_distance = 500.0)
 
     packets = Skylight.get_initial_data(configurations)
 

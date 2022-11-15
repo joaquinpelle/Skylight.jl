@@ -16,15 +16,15 @@ model = SyntheticPolarCap(number_of_points=10,
                           angular_radius_in_degrees=60, 
                           temperature=1.0)
         
-configurations = OTEConfigurations(spacetime=spacetime,
+configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                    image_plane = image_plane,
                                    initial_times = [0.0,1.0],
-                                   emission_model = model)
+                                   radiative_model = model)
 
 initial_data = get_initial_data(configurations)
 
 cb, cb_params = get_callback_and_params(configurations) #... or, define your own cb and cb_params
 
-solver_options = SolverOptions(method=VCABM(), reltol=1e-13, abstol=1e-21, output_type = SaveEndpoint())
+solver_options = SolverOptions(method=VCABM(), reltol=1e-13, abstol=1e-21, output_type = SaveEndstate())
 
 output_data = integrate_geodesics(initial_data, configurations, cb, cb_params, solver_options)

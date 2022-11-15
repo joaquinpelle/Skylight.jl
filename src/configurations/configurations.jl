@@ -1,37 +1,51 @@
-export OTEConfigurations
-export ETOConfigurations
+export VacuumOTEConfigurations
+export VacuumETOConfigurations
 
 abstract type Configurations end
 
-abstract type TransferScheme end
+abstract type OTEConfigurations end
+abstract type ETOConfigurations end
 
-struct ObserverToEmitter <: TransferScheme end
-struct EmitterToObserver <: TransferScheme end
-
-@with_kw struct OTEConfigurations{S<:Spacetime, M<:EmissionModel} <: Configurations
+@with_kw struct NonVacuumOTEConfigurations{S<:Spacetime, M<:RadiativeModel} <: OTEConfigurations
     
     spacetime::S
-    emission_model::M
+    radiative_model::M
+    image_plane::ImagePlane
+    initial_times::Vector{Float64}
+    observed_energies::Vector{Float64}
+    τmax::Float64
+
+end
+
+@with_kw struct VacuumOTEConfigurations{S<:Spacetime, M<:RadiativeModel} <: OTEConfigurations
+    
+    spacetime::S
+    radiative_model::M
     image_plane::ImagePlane
     initial_times::Vector{Float64}
 
 end
 
-transfer_scheme(configurations::OTEConfigurations) = ObserverToEmitter()
-
-@with_kw struct ETOConfigurations{S<:Spacetime, M<:EmissionModel} <: Configurations
+@with_kw struct VacuumETOConfigurations{S<:Spacetime, M<:RadiativeModel} <: ETOConfigurations
     
     spacetime::S
-    emission_model::M
+    radiative_model::M
     number_of_points::Int64
     number_of_packets_per_point::Int64
     observer_distance::Float64
 
 end
 
-transfer_scheme(configurations::ETOConfigurations) = EmitterToObserver()
+function my_zeros(configurations::NonVacuumOTEConfigurations)
 
-my_zeros(configurations) = zeros(8, number_of_initial_conditions(configurations))
+    NE = length(configurations.observed_energies)
+    
+    return zeros(8+2*NE, number_of_initial_conditions(configurations))
+
+end
+
+my_zeros(configurations::VacuumOTEConfigurations) = zeros(8, number_of_initial_conditions(configurations))
+my_zeros(configurations::VacuumETOConfigurations) = zeros(8, number_of_initial_conditions(configurations))
 
 get_initial_times(configurations::OTEConfigurations) = configurations.initial_times
 
@@ -53,7 +67,7 @@ function get_space_positions(configurations::ETOConfigurations)
     npoints = configurations.number_of_points
 
     coord_system = coordinate_system_class(configurations.spacetime)
-    space_positions = get_space_positions(npoints, configurations.emission_model, coord_system)
+    space_positions = get_space_positions(npoints, configurations.radiative_model, coord_system)
 
     return space_positions
 

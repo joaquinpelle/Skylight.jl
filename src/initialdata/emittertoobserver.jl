@@ -1,6 +1,6 @@
 export get_initial_data
 
-function get_initial_data(configurations::ETOConfigurations)
+function get_initial_data(configurations::VacuumETOConfigurations)
     
     cache = get_initial_data_cache(configurations)
     packets = my_zeros(configurations)
@@ -22,7 +22,7 @@ end
 
 function initialize_packets_at_position!(packets_at_position, position, cache, configurations)
 
-    model = configurations.emission_model
+    model = configurations.radiative_model
 
     @views begin
         xμ = packets_at_position[1:4,:]
