@@ -6,8 +6,6 @@ export DummyExtendedRegion
 
 end
 
-coordinate_system_class(DummyExtendedRegion) = SphericalClass()
-
 function set_model_four_velocity!(vector, position, metric, model::DummyExtendedRegion, coord_system)
     vector .= ∂t()
 end
