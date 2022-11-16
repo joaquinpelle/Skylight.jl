@@ -15,7 +15,7 @@ using Skylight, Test
     @test cache.christoffel_cache.D == zeros(4,4,4)
 
 
-    cache = Skylight.allocate_multi_thread_cache(spacetime)
+    cache = Skylight.allocate_geodesics_multi_thread_cache(spacetime)
     @test length(cache) == Threads.nthreads()
     cache2 = cache[1]
 

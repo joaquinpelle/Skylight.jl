@@ -17,7 +17,7 @@ mutable struct GeodesicsCache{S<:Spacetime, C<:CallbackParameters, T<:Christoffe
 end
 
 function allocate_geodesics_cache(spacetime, cb_params)
-    return GeodesicsCache(spacetime, cb_params, allocate_multi_thread_cache(spacetime))
+    return GeodesicsCache(spacetime, cb_params, allocate_geodesics_multi_thread_cache(spacetime))
 end
 
 function allocate_geodesics_multi_thread_cache(spacetime)
@@ -25,7 +25,7 @@ function allocate_geodesics_multi_thread_cache(spacetime)
 end
 
 function allocate_geodesic_single_thread_cache(spacetime) 
-    return ThreadCache(christoffel_cache = allocate_christoffel_cache(spacetime))
+    return GeodesicThreadCache(christoffel_cache = allocate_christoffel_cache(spacetime))
 end
 
 
