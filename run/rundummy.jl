@@ -29,40 +29,41 @@ solver_options = SolverOptions(method=VCABM(), reltol=1e-13, abstol=1e-21, outpu
 output_data = integrate_transfer(initial_data, configurations, cb, cb_params, solver_options)
 
 
+get_number_of_energies(output_data) = Int((size(output_data, 1)-8)/2)
 
-function intensities_on(image_plane, output_data, E_idx)
+function get_coordinate_arrays(configurations)
 
-    NE = Int((size(output_data, 1)-8)/2)
+    image_plane = configurations.image_plane
+
+    sα = image_plane.horizontal_side_image_plane
+    sβ = image_plane.horizontal_side_image_plane
+    Nα = image_plane.horizontal_number_of_nodes
+    Nβ = image_plane.horizontal_number_of_nodes
+
+    return range(-0.5*sα, stop=0.5*sα; length=Nα), range(-0.5*sβ, stop=0.5*sβ; length=Nβ)
+
+end
+
+function view_intensities_matrix(output_data, configurations; E_idx)
+
+    image_plane = configurations.image_plane
+
+    NE = length(configurations.observed_energies)
     Nα = image_plane.horizontal_number_of_nodes
     Nβ = image_plane.vertical_number_of_nodes
     
-    return [output_data[8+NE+E_idx,j+(i-1)*Nβ] for i in 1:Nα, j in 1:Nβ]
+    return reverse!(reshape(output_data[8+NE+E_idx,:], (Nα, Nβ)))
 
 end
 
-function get_horizontal_coordinates(image_plane)
+xs, ys = get_coordinate_arrays(configurations)
+zs = view_intensities_matrix(output_data, configurations, E_idx=1)
 
-    sα = image_plane.horizontal_side_image_plane
-    Nα = image_plane.horizontal_number_of_nodes
-
-    return range(-0.5*sα, stop=0.5*sα; length=Nα)
-
-end
-
-function get_vertical_coordinates(image_plane)
-
-    sβ = image_plane.horizontal_side_image_plane
-    Nβ = image_plane.horizontal_number_of_nodes
-
-    return range(-0.5*sβ, stop=0.5*sβ; length=Nβ)
-
-end
-
-xs = get_horizontal_coordinates(image_plane)
-ys = get_vertical_coordinates(image_plane)
-zs = intensities_on(image_plane, output_data, 1)
-
-fig, ax, hm = heatmap(xs, ys, zs)
-Colorbar(fig[:, end+1], hm)
-
+fig = Figure(font = "CMU Serif") #resolution=(600,400)
+ax = Axis(fig[1,1], xlabel=L"\alpha", ylabel=L"\beta", ylabelsize = 26, xlabelsize = 26) 
+hmap = heatmap!(xs, ys, zs; colormap=:gist_heat, interpolate=true)
+Colorbar(fig[:, end+1], hmap, label=L"I", labelsize=26, width = 15, ticksize = 18, tickalign = 1)
+colsize!(fig.layout, 1, Aspect(1, 1.0))
+colgap!(fig.layout, 7)
 CairoMakie.save("plot.png", fig)
+
