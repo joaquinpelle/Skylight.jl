@@ -1,3 +1,4 @@
+export NonVacuumOTEConfigurations
 export VacuumOTEConfigurations
 export VacuumETOConfigurations
 
