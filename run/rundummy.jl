@@ -29,33 +29,6 @@ solver_options = SolverOptions(method=VCABM(), reltol=1e-13, abstol=1e-21, outpu
 output_data = integrate_transfer(initial_data, configurations, cb, cb_params, solver_options)
 
 
-get_number_of_energies(output_data) = Int((size(output_data, 1)-8)/2)
-
-function get_coordinate_arrays(configurations)
-
-    image_plane = configurations.image_plane
-
-    sα = image_plane.horizontal_side_image_plane
-    sβ = image_plane.horizontal_side_image_plane
-    Nα = image_plane.horizontal_number_of_nodes
-    Nβ = image_plane.horizontal_number_of_nodes
-
-    return range(-0.5*sα, stop=0.5*sα; length=Nα), range(-0.5*sβ, stop=0.5*sβ; length=Nβ)
-
-end
-
-function view_intensities_matrix(output_data, configurations; E_idx)
-
-    image_plane = configurations.image_plane
-
-    NE = length(configurations.observed_energies)
-    Nα = image_plane.horizontal_number_of_nodes
-    Nβ = image_plane.vertical_number_of_nodes
-    
-    return reverse!(reshape(output_data[8+NE+E_idx,:], (Nα, Nβ)))
-
-end
-
 xs, ys = get_coordinate_arrays(configurations)
 zs = view_intensities_matrix(output_data, configurations, E_idx=1)
 
