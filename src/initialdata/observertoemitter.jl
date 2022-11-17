@@ -9,7 +9,7 @@ function get_initial_data(configurations::OTEConfigurations)
     
     index = 1
     
-    for initial_time in get_initial_times(configurations)
+    for initial_time in get_observed_times(configurations)
         for pixel_coordinates in get_pixel_coordinates(configurations.image_plane)
 
             @views ray = rays[1:8, index]

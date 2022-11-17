@@ -13,7 +13,7 @@ model = NovikovThorneDisk(inner_radius=6.0, outer_radius=18.0, rbound=2e-1)
         
 configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                    image_plane = image_plane,
-                                   initial_times = [0.0],
+                                   observed_times = [0.0],
                                    radiative_model = model)
 
 solver_options = SolverOptions(method=VCABM(), reltol=1e-13, abstol=1e-21, output_type = SaveEndstate())

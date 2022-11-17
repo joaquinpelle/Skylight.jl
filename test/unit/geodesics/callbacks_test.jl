@@ -26,7 +26,7 @@ using Skylight, Test
                           
         configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                    image_plane = image_plane,
-                                   initial_times = [0.0,1.0],
+                                   observed_times = [0.0,1.0],
                                    radiative_model = model)
 
         
@@ -60,7 +60,7 @@ using Skylight, Test
 
         configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                    image_plane = image_plane,
-                                   initial_times = [0.0,1.0],
+                                   observed_times = [0.0,1.0],
                                    radiative_model = model)
 
         cb_params = Skylight.get_cb_params(model, configurations)
@@ -126,7 +126,7 @@ using Skylight, Test
 
         configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                    image_plane = image_plane,
-                                   initial_times = [0.0,1.0],
+                                   observed_times = [0.0,1.0],
                                    radiative_model = model)
 
         cb_params = Skylight.get_cb_params(model, configurations)

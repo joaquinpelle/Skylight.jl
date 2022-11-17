@@ -17,7 +17,7 @@ for n in numbers
 
     configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                             image_plane = image_plane,
-                                            initial_times = [0.0])
+                                            observed_times = [0.0])
 
     suite[string(n)] = @benchmarkable get_initial_data($configurations)
     

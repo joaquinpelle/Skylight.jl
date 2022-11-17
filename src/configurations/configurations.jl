@@ -12,7 +12,7 @@ abstract type ETOConfigurations end
     spacetime::S
     radiative_model::M
     image_plane::ImagePlane
-    initial_times::Vector{Float64}
+    observed_times::Vector{Float64}
     observed_energies::Vector{Float64}
     τmax::Float64
 
@@ -23,7 +23,7 @@ end
     spacetime::S
     radiative_model::M
     image_plane::ImagePlane
-    initial_times::Vector{Float64}
+    observed_times::Vector{Float64}
 
 end
 
@@ -48,7 +48,7 @@ end
 my_zeros(configurations::VacuumOTEConfigurations) = zeros(8, number_of_initial_conditions(configurations))
 my_zeros(configurations::VacuumETOConfigurations) = zeros(8, number_of_initial_conditions(configurations))
 
-get_initial_times(configurations::OTEConfigurations) = configurations.initial_times
+get_observed_times(configurations::OTEConfigurations) = configurations.observed_times
 
 get_initial_data_cache(configurations::OTEConfigurations) = OTEInitialDataCache()
 get_initial_data_cache(configurations::ETOConfigurations) = ETOInitialDataCache()
@@ -83,7 +83,7 @@ end
 
 function number_of_initial_conditions(configurations::OTEConfigurations)
      
-    number_of_times = length(configurations.initial_times)
+    number_of_times = length(configurations.observed_times)
     
     return number_of_nodes(configurations.image_plane)*number_of_times 
     

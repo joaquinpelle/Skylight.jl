@@ -50,7 +50,7 @@ end
 
     configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                 image_plane = image_plane,
-                                initial_times = [0.0,1.0],
+                                observed_times = [0.0,1.0],
                                 radiative_model = model)
     rmax = 1.1*sqrt(6000)
     
