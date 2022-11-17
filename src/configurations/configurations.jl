@@ -37,6 +37,9 @@ end
 
 end
 
+VacuumConfigurations = Union{VacuumOTEConfigurations, VacuumETOConfigurations}
+NonVacuumConfigurations = Union{NonVacuumOTEConfigurations,}
+
 function my_zeros(configurations::NonVacuumOTEConfigurations)
 
     NE = length(configurations.observed_energies)
