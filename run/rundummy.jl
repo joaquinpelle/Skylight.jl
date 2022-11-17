@@ -1,5 +1,4 @@
 using Skylight
-using DifferentialEquations
 using CairoMakie
 
 spacetime = KerrSpacetimeBoyerLindquistCoordinates(M=1.0,a=0.9)

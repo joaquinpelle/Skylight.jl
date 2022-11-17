@@ -1,4 +1,4 @@
-using Skylight, Test, DifferentialEquations
+using Skylight, Test
 
 @testset "Callbacks" begin
 

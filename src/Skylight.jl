@@ -1,9 +1,11 @@
 module Skylight
 
-using DifferentialEquations
 using LinearAlgebra
 using Parameters
 using Random
+using Reexport
+
+@reexport using DifferentialEquations
 
 include("spacetimes/main.jl")
 include("radiativemodels/main.jl")
