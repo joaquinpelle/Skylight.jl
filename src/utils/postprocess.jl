@@ -21,6 +21,6 @@ function view_intensities_matrix(output_data, configurations; E_idx)
     Nα = image_plane.horizontal_number_of_nodes
     Nβ = image_plane.vertical_number_of_nodes
     
-    return reverse!(reshape(output_data[8+NE+E_idx,:], (Nα, Nβ)))
+    return reverse!(reshape(output_data[8+NE+E_idx,:], (Nα, Nβ)), dims=1)
 
 end
