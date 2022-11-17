@@ -75,6 +75,7 @@ function transfer_equations!(du, u::Array{Float64,1}, p::TransferCache, t)
 
     model = p.model
     observed_energies = p.observed_energies
+    NE = p.NE
 
     ε  = cache.ε
     αε = cache.αε
@@ -84,8 +85,6 @@ function transfer_equations!(du, u::Array{Float64,1}, p::TransferCache, t)
 
     set_invariant_absorptivity!(αε, point, ε, model)
     set_invariant_emissivity!(jε, point, ε, model)
-
-    NE = length(observed_energies)
 
     for i in 1:NE
  
