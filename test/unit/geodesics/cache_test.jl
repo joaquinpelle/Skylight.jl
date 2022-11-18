@@ -3,7 +3,7 @@ using Skylight, Test
 @testset "Thread" begin
     
     spacetime = Skylight.KerrSpacetimeKerrSchildCoordinates(M=1.0,a=0.5)
-    cache = Skylight.GeodesicThreadCache(christoffel_cache = Skylight.allocate_christoffel_cache(spacetime))
+    cache = Skylight.VacuumThreadCache(christoffel_cache = Skylight.allocate_christoffel_cache(spacetime))
 
     @test cache.point == zeros(4)
     @test cache.velocity == zeros(4)
@@ -15,7 +15,7 @@ using Skylight, Test
     @test cache.christoffel_cache.D == zeros(4,4,4)
 
 
-    cache = Skylight.allocate_geodesics_multi_thread_cache(spacetime)
+    cache = Skylight.allocate_vacuum_multi_thread_cache(spacetime)
     @test length(cache) == Threads.nthreads()
     cache2 = cache[1]
 
@@ -56,11 +56,11 @@ end
     
     cb_params = Skylight.get_cb_params(model, configurations)
     
-    geo_cache = Skylight.allocate_geodesics_cache(spacetime, cb_params)
+    geo_cache = Skylight.allocate_vacuum_cache(configurations, cb_params)
 
     @test geo_cache.spacetime == spacetime
     @test geo_cache.cb_params == cb_params
     @test length(geo_cache.multi_thread) == Threads.nthreads()
-    @test typeof(geo_cache.multi_thread[1]) == Skylight.GeodesicThreadCache{Skylight.KerrKSChristoffelCache}
+    @test typeof(geo_cache.multi_thread[1]) == Skylight.VacuumThreadCache{Skylight.KerrKSChristoffelCache}
 
 end

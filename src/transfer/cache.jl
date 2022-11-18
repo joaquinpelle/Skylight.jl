@@ -1,4 +1,24 @@
-@with_kw mutable struct GeodesicThreadCache{T<:ChristoffelCache}
+# Vacuum
+
+function allocate_cache(configurations::VacuumConfigurations, cb_params)
+    return allocate_vacuum_cache(configurations, cb_params)
+end
+
+function allocate_vacuum_cache(configurations, cb_params)
+    spacetime = configurations.spacetime
+    return VacuumCache(spacetime, cb_params, allocate_vacuum_multi_thread_cache(spacetime))
+end
+
+function allocate_vacuum_multi_thread_cache(spacetime)
+    return [allocate_vacuum_single_thread_cache(spacetime) for i in 1:Threads.nthreads()]
+end
+
+function allocate_vacuum_single_thread_cache(spacetime) 
+    return VacuumThreadCache(christoffel_cache = allocate_christoffel_cache(spacetime))
+end
+
+
+@with_kw mutable struct VacuumThreadCache{T<:ChristoffelCache}
 
     point::Array{Float64, 1} = zeros(4)
     velocity::Array{Float64, 1} = zeros(4)
@@ -8,28 +28,52 @@
 
 end
 
-mutable struct GeodesicsCache{S<:Spacetime, C<:CallbackParameters, T<:ChristoffelCache}
+mutable struct VacuumCache{S<:Spacetime, C<:CallbackParameters, T<:ChristoffelCache}
     
     spacetime::S
     cb_params::C
-    multi_thread::Array{GeodesicThreadCache{T},1}
+    multi_thread::Array{VacuumThreadCache{T},1}
 
 end
 
-function allocate_geodesics_cache(spacetime, cb_params)
-    return GeodesicsCache(spacetime, cb_params, allocate_geodesics_multi_thread_cache(spacetime))
+# Non vacuum
+
+function allocate_cache(configurations::NonVacuumConfigurations, cb_params)
+    return allocate_non_vacuum_cache(configurations, cb_params)
 end
 
-function allocate_geodesics_multi_thread_cache(spacetime)
-    return [allocate_geodesic_single_thread_cache(spacetime) for i in 1:Threads.nthreads()]
+function allocate_non_vacuum_cache(configurations, cb_params)
+
+    spacetime = configurations.spacetime
+    model = configurations.radiative_model
+    observed_energies = configurations.observed_energies
+    NE = length(observed_energies)
+
+    return NonVacuumCache(spacetime, 
+                         model, 
+                         cb_params, 
+                         observed_energies,
+                         length(observed_energies), 
+                         allocate_non_vacuum_multi_thread_cache(spacetime, NE))
+
 end
 
-function allocate_geodesic_single_thread_cache(spacetime) 
-    return GeodesicThreadCache(christoffel_cache = allocate_christoffel_cache(spacetime))
+function allocate_non_vacuum_multi_thread_cache(spacetime, NE)
+   
+    return [allocate_non_vacuum_single_thread_cache(spacetime, NE) for i in 1:Threads.nthreads()]
+
 end
 
+function allocate_non_vacuum_single_thread_cache(spacetime, NE)
+    
+    return NonVacuumThreadCache(christoffel_cache = allocate_christoffel_cache(spacetime),
+                               ε = zeros(NE),
+                               αε = zeros(NE),
+                               jε = zeros(NE))
 
-@with_kw mutable struct TransferThreadCache{T<:ChristoffelCache}
+end
+
+@with_kw mutable struct NonVacuumThreadCache{T<:ChristoffelCache}
 
     point::Array{Float64, 1} = zeros(4)
     velocity::Array{Float64, 1} = zeros(4)
@@ -42,41 +86,13 @@ end
 
 end
 
-mutable struct TransferCache{S<:Spacetime, M<:RadiativeModel, C<:CallbackParameters, T<:ChristoffelCache}
+mutable struct NonVacuumCache{S<:Spacetime, M<:RadiativeModel, C<:CallbackParameters, T<:ChristoffelCache}
     
     spacetime::S
     model::M
     cb_params::C
     observed_energies::Array{Float64, 1}
     NE::Int64
-    multi_thread::Array{TransferThreadCache{T},1}
-
-end
-
-function allocate_transfer_cache(spacetime, model, cb_params, observed_energies)
-
-    NE = length(observed_energies)
-
-    return TransferCache(spacetime, 
-                         model, 
-                         cb_params, 
-                         observed_energies,
-                         NE, 
-                         allocate_transfer_multi_thread_cache(spacetime, NE))
-
-end
-
-function allocate_transfer_multi_thread_cache(spacetime, NE)
-   
-    return [allocate_transfer_single_thread_cache(spacetime, NE) for i in 1:Threads.nthreads()]
-
-end
-
-function allocate_transfer_single_thread_cache(spacetime, NE)
-    
-    return TransferThreadCache(christoffel_cache = allocate_christoffel_cache(spacetime),
-                               ε = zeros(NE),
-                               αε = zeros(NE),
-                               jε = zeros(NE))
+    multi_thread::Array{NonVacuumThreadCache{T},1}
 
 end
