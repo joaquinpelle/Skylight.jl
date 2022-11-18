@@ -1,7 +1,12 @@
 export get_callback_and_params
 
-include("callbacks.jl")
-include("cb_params.jl")
+abstract type CallbackParameters end
+
+include("neutronstarhotspots.jl")
+include("blackholeaccretiondisk.jl")
+include("staracrosswormhole.jl")
+include("dummyextendedregion.jl")
+include("opacities.jl")
 
 function get_callback_and_params(configurations)
         
@@ -9,5 +14,16 @@ function get_callback_and_params(configurations)
     cb_params = get_cb_params(configurations.radiative_model, configurations)
 
     return cb, cb_params
+
+end
+
+get_rmax(configurations::ETOConfigurations) = configurations.observer_distance
+
+function get_rmax(configurations::OTEConfigurations) 
+    
+    d = configurations.image_plane.observer_distance
+    hs = configurations.image_plane.horizontal_side_image_plane
+    vs = configurations.image_plane.vertical_side_image_plane
+    return 1.1*sqrt(d^2 + vs^2 + hs^2)
 
 end
