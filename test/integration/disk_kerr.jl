@@ -16,10 +16,8 @@ configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                    observed_times = [0.0],
                                    radiative_model = model)
 
-solver_options = SolverOptions(method=VCABM(), reltol=1e-13, abstol=1e-21, output_type = SaveEndstate())
-
 initial_data = get_initial_data(configurations)
 
 cb, cb_params = get_callback_and_params(configurations) #... or, define your own cb and cb_params
 
-output_data = integrate_geodesics(initial_data, configurations, cb, cb_params, solver_options)
+output_data = integrate(initial_data, configurations, cb, cb_params; method=VCABM(), reltol=1e-13, abstol=1e-21)

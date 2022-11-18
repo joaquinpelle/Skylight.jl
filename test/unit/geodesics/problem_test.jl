@@ -1,16 +1,5 @@
 using Skylight, Test
 
-@testset "Solver options" begin
-    
-    solver_options = SolverOptions(output_type = SaveEndstate())
-
-    func1 = Skylight.output_func(SaveEndstate())
-    func2 = Skylight.output_func(SaveSolution()) 
-    @test func1([0,1],1) == (1, false)
-    @test func2([0,1],1) == ([0,1], false)
-
-end
-
 @testset "Collect output" begin
     
     spacetime = KerrSpacetimeKerrSchildCoordinates(M=1.0,a=0.9)
@@ -38,18 +27,12 @@ end
 
     cb, cb_params = get_callback_and_params(configurations) #... or, define your own cb and cb_params
 
-    solver_options = SolverOptions(method=VCABM(), reltol=1e-13, abstol=1e-21, output_type = SaveEndstate())
-
-    ensembleprob = Skylight.set_ensemble_problem(initial_data, configurations, cb_params, solver_options)
+    ensembleprob = Skylight.set_ensemble_problem(initial_data, configurations, cb_params)
     
-    method = solver_options.method
-    reltol = solver_options.reltol
-    abstol = solver_options.abstol
-        
     #Also consider EnsembleSplitThreads() for multinodes and EnsembleGPUArray() for GPU
 
-    stats = @timed sim = solve(ensembleprob, method, reltol=reltol, abstol=abstol, callback = cb, EnsembleThreads(); trajectories = 100)
+    stats = @timed sim = solve(ensembleprob, VCABM(), EnsembleThreads(); reltol=1e-14, abstol=1e-21, callback = cb, trajectories = 100)
 
-    Skylight.collect_output(sim, solver_options.output_type)
+    Skylight.collect_output(sim)
     
 end
