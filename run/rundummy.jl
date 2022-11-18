@@ -10,23 +10,19 @@ image_plane = ImagePlane(observer_distance = 500.0,
                          horizontal_number_of_nodes = 200,
                          vertical_number_of_nodes = 200)
 
-model = Skylight.DummyExtendedRegion(rbound=0.3)
+model = Skylight.DummyExtendedRegion()
 
-configurations = Skylight.NonVacuumOTEConfigurations(spacetime=spacetime,
+configurations = NonVacuumOTEConfigurations(spacetime=spacetime,
                                    image_plane = image_plane,
                                    radiative_model = model,
-                                   initial_times = [0.0],
-                                   observed_energies = [1.0],
-                                   τmax = 2.0)
+                                   observed_times = [0.0],
+                                   observed_energies = [1.0])
 
 initial_data = get_initial_data(configurations)
 
-cb, cb_params = get_callback_and_params(configurations) #... or, define your own cb and cb_params
+cb, cb_params = get_callback_and_params(configurations; τmax = 2.0, rbound = 0.3) #... or, define your own cb and cb_params
 
-solver_options = SolverOptions(method=VCABM(), reltol=1e-13, abstol=1e-21, output_type = SaveEndstate())
-
-output_data = integrate_transfer(initial_data, configurations, cb, cb_params, solver_options)
-
+output_data = integrate(initial_data, configurations, cb, cb_params; method=VCABM(), reltol=1e-13, abstol=1e-21)
 
 xs, ys = get_coordinate_arrays(configurations)
 zs = view_intensities_matrix(output_data, configurations, E_idx=1)
