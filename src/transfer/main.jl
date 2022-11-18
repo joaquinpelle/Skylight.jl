@@ -1,6 +1,4 @@
 include("callbacks/main.jl")
 include("cache.jl")
-include("solver_options.jl")
 include("equations.jl")
-include("geodesic_integration.jl")
-include("transfer_integration.jl")
+include("problem.jl")
