@@ -14,7 +14,6 @@ abstract type ETOConfigurations end
     image_plane::ImagePlane
     observed_times::Vector{Float64}
     observed_energies::Vector{Float64}
-    τmax::Float64
 
 end
 
