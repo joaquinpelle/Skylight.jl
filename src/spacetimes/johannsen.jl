@@ -217,8 +217,6 @@ function set_christoffel!(Γ, point, spacetime::JohannsenSpacetimeBoyerLindquist
     
     det = gtt*gφφ-gtφ^2
     
-    fill!(Γ,0)
-    
     Γ[1,1,2] = 0.5*(gφφ*∂rgtt-gtφ*∂rgtφ)/det
     Γ[1,2,1] = Γ[1,1,2]
     Γ[1,1,3] = 0.5*(gφφ*∂θgtt-gtφ*∂θgtφ)/det

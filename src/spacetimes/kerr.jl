@@ -325,8 +325,6 @@ function set_christoffel!(Γ, point, spacetime::KerrSpacetimeBoyerLindquistCoord
         
     # Now we build the Christoffel symbols
     
-    fill!(Γ,0.0)
-    
     Γ[2,1,1] = rs*Δ*(r2-a2*cosθ2)/(2*Σ3)
     Γ[3,1,1] = -rs*a2*r*sin2θ/(2*Σ3)
     Γ[1,1,2] = rs*(r2+a2)*(r2-a2*cosθ2)/(2*Σ2*Δ)
