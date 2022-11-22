@@ -79,6 +79,54 @@ function set_metric_inverse!(g, point, spacetime::ChargedWormholeSpacetimeSpheri
 
 end
 
+struct ChargedWormholeChristoffelCache <: ChristoffelCache end
+
+allocate_christoffel_cache(spacetime::WormholeSpacetime) = ChargedWormholeChristoffelCache()
+
+function set_christoffel!(Γ,point,spacetime::ChargedWormholeSpacetimeSphericalCoordinates, cache)
+    
+    #Spacetime coordinates
+    t, r, θ, φ = point
+    
+    b0 = spacetime.b0
+    Q = spacetime.Q
+
+    b = b0^2/r
+    db = -b0^2/r^2
+
+    gtt = -(1+Q^2/r^2)
+    grr = 1/(1-b/r+Q^2/r^2)
+
+    dgtt = 2*Q^2/r^3
+    dgrr = grr^2*(db/r-b/r^2+2*Q^2/r^3)
+
+    #Metric functions and derivatives
+    dα = dgtt/(2*gtt)
+    dβ = dgrr/(2*grr)
+    
+    #The Christoffel symbols
+    Γ[1,1,2] = dα
+    Γ[1,2,1] = Γ[1,1,2]
+    
+    Γ[2,1,1] = -gtt/grr*dα
+    Γ[2,2,2] = dβ
+    Γ[2,3,3] = -r/grr
+    Γ[2,4,4] = -r/grr*sin(θ)^2
+    
+    Γ[3,2,3] = 1.0/r
+    Γ[3,4,4] = -sin(θ)*cos(θ)
+    Γ[3,3,2] = Γ[3,2,3]
+    
+    Γ[4,2,4] = 1.0/r
+    Γ[4,3,4] = cos(θ)/sin(θ)
+    Γ[4,4,2] = Γ[4,2,4]
+    Γ[4,4,3] = Γ[4,3,4]
+    
+    return nothing
+end
+
+
+
 @with_kw struct ChargedWormholeSpacetimeRegularCoordinates <: WormholeSpacetime
     
     b0::Float64
@@ -165,10 +213,6 @@ function set_metric_inverse!(g, point, spacetime::ChargedWormholeSpacetimeRegula
     return nothing
     
 end
-
-struct ChargedWormholeChristoffelCache <: ChristoffelCache end
-
-allocate_christoffel_cache(spacetime::ChargedWormholeSpacetimeRegularCoordinates) = ChargedWormholeChristoffelCache()
 
 function set_christoffel!(Γ, position, spacetime::ChargedWormholeSpacetimeRegularCoordinates, cache)
 
