@@ -39,7 +39,7 @@ end
 VacuumConfigurations = Union{VacuumOTEConfigurations, VacuumETOConfigurations}
 NonVacuumConfigurations = Union{NonVacuumOTEConfigurations,}
 
-function my_zeros(configurations::NonVacuumOTEConfigurations)
+function my_zeros(configurations::NonVacuumConfigurations)
 
     NE = length(configurations.observed_energies)
     
@@ -47,8 +47,7 @@ function my_zeros(configurations::NonVacuumOTEConfigurations)
 
 end
 
-my_zeros(configurations::VacuumOTEConfigurations) = zeros(8, number_of_initial_conditions(configurations))
-my_zeros(configurations::VacuumETOConfigurations) = zeros(8, number_of_initial_conditions(configurations))
+my_zeros(configurations::VacuumConfigurations) = zeros(8, number_of_initial_conditions(configurations))
 
 get_observed_times(configurations::OTEConfigurations) = configurations.observed_times
 
