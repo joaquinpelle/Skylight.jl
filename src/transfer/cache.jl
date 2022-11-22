@@ -1,10 +1,6 @@
 # Vacuum
 
 function allocate_cache(configurations::VacuumConfigurations, cb_params)
-    return allocate_vacuum_cache(configurations, cb_params)
-end
-
-function allocate_vacuum_cache(configurations, cb_params)
     spacetime = configurations.spacetime
     return VacuumCache(spacetime, cb_params, allocate_vacuum_multi_thread_cache(spacetime))
 end
@@ -38,11 +34,7 @@ end
 
 # Non vacuum
 
-function allocate_cache(configurations::NonVacuumConfigurations, cb_params)
-    return allocate_non_vacuum_cache(configurations, cb_params)
-end
-
-function allocate_non_vacuum_cache(configurations, cb_params)
+function allocate_cache(configurations::NonVacuumConfigurations, cb_params, τmax)
 
     spacetime = configurations.spacetime
     model = configurations.radiative_model
@@ -51,7 +43,8 @@ function allocate_non_vacuum_cache(configurations, cb_params)
 
     return NonVacuumCache(spacetime, 
                          model, 
-                         cb_params, 
+                         cb_params,
+                         τmax, 
                          observed_energies,
                          length(observed_energies), 
                          allocate_non_vacuum_multi_thread_cache(spacetime, NE))
@@ -91,6 +84,7 @@ mutable struct NonVacuumCache{S<:Spacetime, M<:RadiativeModel, C<:CallbackParame
     spacetime::S
     model::M
     cb_params::C
+    τmax::Float64
     observed_energies::Array{Float64, 1}
     NE::Int64
     multi_thread::Array{NonVacuumThreadCache{T},1}

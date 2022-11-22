@@ -1,11 +1,10 @@
-function get_cb_params(model::BlackHoleAccretionDisk, configurations)
+function get_cb_params(model::BlackHoleAccretionDisk, configurations; rhorizon_bound)
     
     inner_radius = model.inner_radius
     outer_radius = model.outer_radius
 
     rhorizon = event_horizon_radius(configurations.spacetime)
-    rbound = model.rbound
-    rmin = rhorizon + rbound
+    rmin = rhorizon + rhorizon_bound
     rmax = get_rmax(configurations)
     
     return BlackHoleAccretionDiskCallbackParameters(inner_radius=inner_radius, outer_radius=outer_radius, rmin=rmin, rmax=rmax)

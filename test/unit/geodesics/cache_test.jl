@@ -56,7 +56,7 @@ end
     
     cb_params = Skylight.get_cb_params(model, configurations)
     
-    geo_cache = Skylight.allocate_vacuum_cache(configurations, cb_params)
+    geo_cache = Skylight.allocate_cache(configurations, cb_params)
 
     @test geo_cache.spacetime == spacetime
     @test geo_cache.cb_params == cb_params

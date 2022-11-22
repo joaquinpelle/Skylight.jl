@@ -8,10 +8,11 @@ include("staracrosswormhole.jl")
 include("dummyextendedregion.jl")
 include("opacities.jl")
 
-function get_callback_and_params(configurations)
+
+function get_callback_and_params(configurations; kwargs...)
         
     cb = get_callback(configurations.radiative_model, coordinate_system_class(configurations.spacetime))
-    cb_params = get_cb_params(configurations.radiative_model, configurations)
+    cb_params = get_cb_params(configurations.radiative_model, configurations; kwargs...)
 
     return cb, cb_params
 

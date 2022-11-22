@@ -1,8 +1,8 @@
-opacities_callback() = DiscreteCallback(opacities_condition, opacities_affect!)
+opacities_callback() = DiscreteCallback(opacities_condition, terminate!)
 
 function opacities_condition(u, t, integrator)
     
-    τmax = integrator.p.cb_params.τmax
+    τmax = integrator.p.τmax
     NE = integrator.p.NE
 
     @inbounds for i in 1:NE
@@ -12,5 +12,3 @@ function opacities_condition(u, t, integrator)
     return true
     
 end
-
-opacities_affect!(integrator) = terminate!(integrator)

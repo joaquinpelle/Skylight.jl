@@ -4,7 +4,6 @@ export NovikovThorneDisk
 
     inner_radius::Float64
     outer_radius::Float64 
-    rbound::Float64 = 1e-6
 
 end
 

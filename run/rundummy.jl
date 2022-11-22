@@ -20,11 +20,11 @@ configurations = NonVacuumOTEConfigurations(spacetime=spacetime,
 
 initial_data = get_initial_data(configurations)
 
-cb, cb_params = get_callback_and_params(configurations; τmax = 2.0, rbound = 0.3) #... or, define your own cb and cb_params
+cb, cb_params = get_callback_and_params(configurations; rhorizon_bound = 0.3) #... or, define your own cb and cb_params
 
-output_data = integrate(initial_data, configurations, cb, cb_params; method=VCABM(), reltol=1e-13, abstol=1e-21)
+output_data = integrate(initial_data, configurations, cb, cb_params; τmax=2.0, method=VCABM(), reltol=1e-13, abstol=1e-21)
 
-xs, ys = get_coordinate_arrays(configurations)
+xs, ys = get_coordinate_arrays(configurations) 
 zs = view_intensities_matrix(output_data, configurations, E_idx=1)
 
 fig = Figure(font = "CMU Serif") #resolution=(600,400)

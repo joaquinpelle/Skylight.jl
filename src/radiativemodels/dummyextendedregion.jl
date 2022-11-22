@@ -1,10 +1,6 @@
 export DummyExtendedRegion
 
-@with_kw struct DummyExtendedRegion <: RadiativeModel 
-
-    rbound::Float64 = 0.2
-
-end
+struct DummyExtendedRegion <: RadiativeModel end
 
 function set_model_four_velocity!(vector, position, metric, model::DummyExtendedRegion, coord_system)
     vector .= ∂t()
