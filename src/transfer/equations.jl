@@ -1,13 +1,6 @@
 equations(configurations::VacuumConfigurations) = geodesic_equations!
 equations(configurations::NonVacuumConfigurations) = non_vacuum_equations!
 
-function non_vacuum_equations!(du, u::Array{Float64,1}, p::NonVacuumCache, t)
-
-    geodesic_equations!(du, u, p, t)
-    transfer_equations!(du, u, p, t)
-
-end
-
 function geodesic_equations!(du, u::Array{Float64,1}, p, t)
 
     spacetime = p.spacetime
@@ -45,11 +38,23 @@ function geodesic_equations!(du, u::Array{Float64,1}, p, t)
 
 end
 
+function non_vacuum_equations!(du, u::Array{Float64,1}, p::NonVacuumCache, t)
+
+    geodesic_equations!(du, u, p, t)
+    transfer_equations!(du, u, p, t)
+
+end
+
 function transfer_equations!(du, u::Array{Float64,1}, p, t)
 
     model = p.model
     observed_energies = p.observed_energies
     NE = p.NE
+
+    cache = p.multi_thread[Threads.threadid()]
+
+    point = cache.point
+    vel = cache.velocity
 
     ε  = cache.ε
     αε = cache.αε
