@@ -100,5 +100,3 @@ function geometrized_unit_magnitude_in_CGS(dim; M1)
 end
 
 end
-
-using Dimensions
