@@ -20,11 +20,17 @@ end
 
 function set_emitter_four_velocity!(vector, position, model::BosonStarAccretionDisk, coord_system::SphericalClass)
 
-    
+
 
 end
 
+function get_local_total_flux() = thermal_emission_total_flux()
+
+end
+
+
 function temperature(positions, )
+end
 function build_interpolator(temperature)
 
 
