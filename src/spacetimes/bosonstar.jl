@@ -78,7 +78,7 @@ allocate_christoffel_cache(spacetime::BosonStarSpacetime) = BosonStarChristoffel
 function set_christoffel!(Γ, position, spacetime::BosonStarSpacetime, cache)
 
     #Spacetime coordinates
-    t, l, θ, φ = position
+    t, r, θ, φ = position
 
     a = spacetime.a
     b = spacetime.b
@@ -122,5 +122,27 @@ function set_christoffel!(Γ, position, spacetime::BosonStarSpacetime, cache)
     Γ[4,4,3] = Γ[4,3,4]
     
     return nothing
+
+end
+
+function circular_geodesic_angular_speed(position, spacetime::BosonStarSpacetime)
+
+    #Spacetime coordinates
+    t, r, θ, φ = position
+
+    a = spacetime.a
+
+    numa = 1+r*a[1]+r^2*a[2]+r^3*a[3]+r^4*a[4]+r^5*a[5]+r^6*a[6]
+    dena = a[7]+r*a[8]+r^2*a[9]+r^3*a[10]+r^4*a[11]+r^5*a[12]+r^6*a[13]+r^7*a[14]
+    
+    ∂r_numa = a[1]+2r*a[2]+3r^2*a[3]+4r^3*a[4]+5r^4*a[5]+6r^5*a[6]
+    ∂r_dena = a[8]+2r*a[9]+3r^2*a[10]+4r^3*a[11]+5r^4*a[12]+6r^5*a[13]+7r^6*a[14]
+    
+    ∂r_gtt =  ∂r_numa/dena - numa*∂r_dena/dena^2
+    ∂r_gφφ = 2r
+
+    Ω = sqrt(-∂r_gtt/∂r_gφφ)
+
+    return Ω
 
 end
