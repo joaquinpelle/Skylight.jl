@@ -18,22 +18,11 @@ function set_surface_differential!(covector, position, model::BosonStarAccretion
   
 end
 
-function get_observed_bolometric_fluxes(rays, model::BosonStarAccretionDisk)
+function set_emitter_four_velocity!(vector, position, model::BosonStarAccretionDisk, coord_system::SphericalClass)
 
-    #get_Q_factors
-    #get_local_emission
-    #return Q**4*Fem
+    
 
 end
-
-
-function get_observed_specific_fluxes(rays, model::BosonStarAccretionDisk)
-
-
-
-end
-
-
 
 function temperature(positions, )
 function build_interpolator(temperature)
