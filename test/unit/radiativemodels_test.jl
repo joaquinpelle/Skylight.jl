@@ -27,7 +27,9 @@ using Skylight, Test
     position = [rand(), 3.0, 0.0, 4.0]
     gμν = [-1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
 
-    Skylight.set_model_four_velocity!(vector, position, gμν, model, coord_system)
+    spacetime = Skylight.MinkowskiSpacetimeCartesianCoordinates()
+
+    Skylight.set_emitter_four_velocity!(vector, position, gμν, spacetime, model, coord_system)
 
     @test vector ≈ [1.0/sqrt(0.9775), 0.0, 0.15/sqrt(0.9775), 0.0]
 

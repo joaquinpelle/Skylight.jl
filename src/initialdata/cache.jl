@@ -55,22 +55,21 @@ function dump_metric_and_tetrad_in!(cache, position, configurations)
     
     dump_metric_in!(cache, position, spacetime)
     dump_metric_inverse_in!(cache, position, spacetime)
-    dump_tetrad_in!(cache, position, model, coord_system)
+    dump_tetrad_in!(cache, position, spacetime, model, coord_system)
 
 end
 
-function dump_tetrad_in!(cache, position, model, coord_system)
+function dump_tetrad_in!(cache, position, spacetime, model, coord_system)
     
-    dump_model_four_velocity_in!(cache, position, model, coord_system)     
+    dump_emitter_four_velocity_in!(cache, position, spacetime, model, coord_system)     
     dump_triad_in!(cache, position, model, coord_system)
 
 end
 
-function dump_model_four_velocity_in!(cache, position, model, coord_system)
+function dump_emitter_four_velocity_in!(cache, position, spacetime, model, coord_system)
     @views time_vector = cache.tetrad[:,1]
-    set_model_four_velocity!(time_vector, position, cache.metric, model, coord_system)
+    set_emitter_four_velocity!(time_vector, position, cache.metric, spacetime, model, coord_system)
 end
-
 
 function dump_triad_in!(cache, position, model, coord_system)
 
