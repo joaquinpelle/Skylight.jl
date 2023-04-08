@@ -54,6 +54,7 @@ get_observed_times(configurations::OTEConfigurations) = configurations.observed_
 get_initial_data_cache(configurations::OTEConfigurations) = OTEInitialDataCache()
 get_initial_data_cache(configurations::ETOConfigurations) = ETOInitialDataCache()
 
+get_postprocess_cache(configurations::OTEConfigurations) = OTEPostProcessCache()
 
 function get_initial_positions(configurations::ETOConfigurations)
     
