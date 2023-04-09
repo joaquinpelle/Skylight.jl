@@ -4,6 +4,7 @@ abstract type CallbackParameters end
 
 include("neutronstarhotspots.jl")
 include("blackholeaccretiondisk.jl")
+include("bosonstaraccretiondisk.jl")
 include("staracrosswormhole.jl")
 include("dummyextendedregion.jl")
 include("opacities.jl")
