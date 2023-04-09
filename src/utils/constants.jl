@@ -1,4 +1,4 @@
-module Constants
+module PhysicalConstants
 
 #Physical and astrophysical constants
 # Values taken from Particle Data Group "Physical constants" and "Astrophysical constants"
@@ -10,7 +10,7 @@ h = 6.62607015e-27        #Planck constant in CGS  6.626 070 15       (exact)
 h_eV = 4.13566769692e-15  #Planck's constant in eV*s                  (exact*)
 h_bar = 1.054571817e-27   #Reduced Planck constant in CGS             (exact*) 
 k_B = 1.380649e-16        #Boltzmann constant in CGS                  (exact)    
-sigma = 5.670374419e-5    #Stefan-Boltzmann constant in CGS           (exact*)
+σ = 5.670374419e-5        #Stefan-Boltzmann constant in CGS           (exact*)
 eV = 1.602176634e-12      #1eV in erg                                 (exact)
 me = 9.109383701528e-28   #Electron mass in CGS 
 ce = 4.80320471257e-10    #Electron charge in esu-CGS and Gaussian-CGS (statC)   (exact*) 
@@ -21,4 +21,4 @@ pc = 3.08567758149e18     #1pc in cm                                            
 
 end
 
-using Constants
+using PhysicalConstants
