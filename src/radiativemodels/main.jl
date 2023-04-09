@@ -8,6 +8,7 @@ abstract type NeutronStarHotSpots <: OpaqueInteriorSurfaceEmissionModel end
 abstract type BlackHoleAccretionDisk <: SurfaceEmissionModel end
 abstract type BlackHoleCorona <: SurfaceEmissionModel end
 
+include("utils/main.jl")
 include("syntheticpolarcap.jl")
 include("onionhotspots.jl")
 include("bogdanovpolarcap.jl")
@@ -16,4 +17,3 @@ include("bosonstaraccretiondisk.jl")
 include("staracrosswormhole.jl")
 include("dummyextendedregion.jl")
 include("dummymodel.jl")
-include("utils.jl")
