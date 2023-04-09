@@ -14,6 +14,7 @@ abstract type ETOConfigurations end
     image_plane::ImagePlane
     observed_times::Vector{Float64}
     observed_energies::Vector{Float64}
+    unit_mass_in_solar_masses::Float64
 
 end
 
@@ -23,6 +24,7 @@ end
     radiative_model::M
     image_plane::ImagePlane
     observed_times::Vector{Float64}
+    unit_mass_in_solar_masses::Float64
 
 end
 
@@ -33,6 +35,7 @@ end
     number_of_points::Int64
     number_of_packets_per_point::Int64
     observer_distance::Float64
+    unit_mass_in_solar_masses::Float64
 
 end
 

@@ -51,7 +51,8 @@ end
     configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                 image_plane = image_plane,
                                 observed_times = [0.0,1.0],
-                                radiative_model = model)
+                                radiative_model = model,
+                                unit_mass_in_solar_masses=1.0)
     rmax = 1.1*sqrt(6000)
     
     cb_params = Skylight.get_cb_params(model, configurations)

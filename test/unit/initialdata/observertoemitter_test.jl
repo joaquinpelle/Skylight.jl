@@ -16,7 +16,8 @@ using Skylight, Test
         configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                             radiative_model = Skylight.DummyModel(),
                                                    image_plane = image_plane,
-                                                   observed_times = [0.0,1.0])
+                                                   observed_times = [0.0,1.0],
+                                                   unit_mass_in_solar_masses=1.0)
         
         rays = Skylight.my_zeros(configurations)
         @test sum(rays) == 0.0
@@ -74,7 +75,8 @@ using Skylight, Test
         configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                             radiative_model = Skylight.DummyModel(),
                                                 image_plane = image_plane,
-                                                observed_times = [0.0,rand()])
+                                                observed_times = [0.0,rand()],
+                                                unit_mass_in_solar_masses=1.0)
 
         initial_time = configurations.observed_times[2]
         image_plane = configurations.image_plane
@@ -113,7 +115,8 @@ using Skylight, Test
         configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                             radiative_model = Skylight.DummyModel(),
                                                 image_plane = image_plane,
-                                                observed_times = [0.1,1.5])
+                                                observed_times = [0.1,1.5],
+                                                unit_mass_in_solar_masses=1.0)
 
         rays = get_initial_data(configurations)
 

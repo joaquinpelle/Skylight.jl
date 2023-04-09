@@ -1,6 +1,6 @@
-module Dimensions
+module Units
 
-using Constants
+using PhysicalConstants
 
 export geometrized_to_CGS
 export CGS_to_geometrized
@@ -79,17 +79,20 @@ permittivity = adim
 resistance = length^-1*time
 resistivity = time
 
-geometrized_to_CGS(magnitude; dim, M1) = magnitude*geometrized_unit_magnitude_in_CGS(dim; M1=M1) 
-CGS_to_geometrized(magnitude; dim, M1) = magnitude/geometrized_unit_magnitude_in_CGS(dim; M1=M1) 
+geometrized_to_CGS(magnitude; dim, M1::Number) = magnitude*geometrized_unit_magnitude_in_CGS(dim; M1=M1) 
+CGS_to_geometrized(magnitude; dim, M1::Number) = magnitude/geometrized_unit_magnitude_in_CGS(dim; M1=M1)
+
+geometrized_to_CGS(magnitude; dim, configurations::Configurations) = magnitude*geometrized_unit_magnitude_in_CGS(dim; M1=configurations.M1) 
+CGS_to_geometrized(magnitude; dim, configurations::Configurations) = magnitude/geometrized_unit_magnitude_in_CGS(dim; M1=configurations.M1)
 
 function geometrized_unit_magnitude_in_CGS(dim; M1)
 
     #Returns the value in CGS of the geometrized system unit of dimension dim
-    #M1 is the geometrized system unit mass in solar masses 
+    #M1 is the chosen unit mass in solar masses 
 
-    c = Constants.c
-    G = Constants.G
-    M_sun = Constants.M_sun
+    c = PhysicalConstants.c
+    G = PhysicalConstants.G
+    M_sun = PhysicalConstants.M_sun
 
     M1_cgs = M1*M_sun        #Geometrized unit mass in CGS 
     L1_cgs = G*M1_cgs/c^2    #Geometrized unit length in CGS
@@ -100,3 +103,5 @@ function geometrized_unit_magnitude_in_CGS(dim; M1)
 end
 
 end
+
+using Units
