@@ -1,11 +1,12 @@
 export BosonStarAccretionDisk 
 
-@with_kw struct BosonStarAccretionDisk <: SurfaceEmissionModel
+@with_kw struct BosonStarAccretionDisk{T} <: SurfaceEmissionModel
 
     inner_radius::Float64
     outer_radius::Float64
 
     temperature_file::String
+    temperature_interpolator::T = build_temperature_interpolator(temperature_file)
 
 end
 
@@ -25,50 +26,31 @@ function set_emitter_four_velocity!(vector, position, metric, spacetime, model::
 
 end
 
-function get_emitted_bolometric_flux(position, momentum, emitter_four_velocity, metric, spacetime, model::BosonStarAccretionDisk, coord_system)
+function get_emitted_bolometric_flux(position, momentum, emitter_four_velocity, metric, spacetime, model::BosonStarAccretionDisk, coord_system::SphericalClass)
 
-    T = get_temperature(position, model, coord_system)
-
+    r = position[2]
+    T = model.temperature_interpolator(r)
+    
     return thermal_emission_bolometric_flux(T)
 
 end
 
-function get_emitted_specific_flux(position, momentum, energy, emitter_four_velocity, metric, spacetime, model::BosonStarAccretionDisk, coord_system)
+function get_emitted_specific_flux(position, momentum, energy, emitter_four_velocity, metric, spacetime, model::BosonStarAccretionDisk, coord_system::SphericalClass)
 
-    T = get_temperature(position, model, coord_system)
+    r = position[2]
+    T = model.temperature_interpolator(r)
     
     return thermal_emission_specific_flux(energy, T)
 
 end
 
+function build_interpolator(temperature_file)
 
-function get_temperature(position, model::BosonStarAccretionDisk, coord_system::SphericalClass)
+    data = readdlm(temperature_file, ' ', Float64, '\n')
 
-    t, r, θ, φ = position
-
-    return model.temperature_interpolator(r)
-
-end
-
-function build_interpolator(temperature)
-
-
+    return my_interpolation(data[:,2], data[:,1], kind="cubicspline")
 
 end
-
-function temperature(position, model::BosonStarAccretionDisk)
-
-
-
-
-
-
-function read_temperature_file(model::BosonStarAccretionDisk)
-
-    temperature = readdlm(model.temperature_file, ' ', Float64, '\n')
-
-end
-
 
 
     
