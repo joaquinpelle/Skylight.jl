@@ -9,16 +9,16 @@ abstract type PostProcessCache end
 
 end
 
-function dump_metrics_and_emitter_four_velocity_in!(cache::OTEPostProcessCache, posi, posf, spacetime, model, coord_system)
+function dump_metrics_and_emitter_four_velocity_in!(cache::OTEPostProcessCache, initial_position, final_position, spacetime, model, coord_system)
 
-    set_metric!(cache.observer_metric, posi, spacetime) 
-    set_metric!(cache.emitter_metric, posf, spacetime)
+    set_metric!(cache.observer_metric, initial_position, spacetime) 
+    set_metric!(cache.emitter_metric, final_position, spacetime)
 
-    set_emitter_four_velocity!(cache.emitter_four_velocity, posf, cache.emitter_metric, spacetime, model, coord_system)
+    set_emitter_four_velocity!(cache.emitter_four_velocity, final_position, cache.emitter_metric, spacetime, model, coord_system)
 
 end
 
-function dump_observer_four_velocity_in!(cache::PostProcessCache)
+function dump_observer_four_velocity_in!(cache::OTEPostProcessCache)
     cache.observer_four_velocity = ∂t()
 end
 
