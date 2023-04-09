@@ -106,10 +106,9 @@ end
 
 function set_fluxes_normalization_at_image_plane!(fluxes, configurations)
 
-    dArea_CGS = geometrized_to_CGS(configurations.image_plane.dArea, Dimensions.area; configurations)
     image_plane_distance_CGS = geometrized_to_CGS(configurations.image_plane.distance, Dimensions.length; configurations) 
     
-    fluxes .*= dArea_CGS/image_plane_distance_CGS^2
+    fluxes ./= image_plane_distance_CGS^2
 
 end
 
