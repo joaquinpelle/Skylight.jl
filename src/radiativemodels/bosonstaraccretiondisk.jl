@@ -33,6 +33,14 @@ function get_emitted_bolometric_flux(position, momentum, emitter_four_velocity, 
 
 end
 
+function get_emitted_specific_flux(position, momentum, energy, emitter_four_velocity, metric, spacetime, model::BosonStarAccretionDisk, coord_system)
+
+    T = get_temperature(position, model, coord_system)
+    
+    return thermal_emission_specific_flux(energy, T)
+
+end
+
 
 function get_temperature(position, model::BosonStarAccretionDisk, coord_system::SphericalClass)
 
