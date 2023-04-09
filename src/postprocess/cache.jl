@@ -9,23 +9,12 @@ abstract type PostProcessCache end
 
 end
 
-function dump_metrics_and_emitter_four_velocity_in!(cache::OTEPostProcessCache, ui, uf, configurations)
+function dump_metrics_and_emitter_four_velocity_in!(cache::OTEPostProcessCache, posi, posf, spacetime, model, coord_system)
 
-    spacetime = configurations.spacetime
-    model = configurations.model
-    coord_system = coordinate_system_class(spacetime)
+    set_metric!(cache.observer_metric, posi, spacetime) 
+    set_metric!(cache.emitter_metric, posf, spacetime)
 
-    @views begin
-        
-        initial_position = ui[1:4]
-        final_position = uf[1:4]
-
-    end
-
-    set_metric!(cache.observer_metric, initial_position, spacetime) 
-    set_metric!(cache.emitter_metric, final_position, spacetime)
-
-    set_emitter_four_velocity!(cache.emitter_four_velocity, final_position, cache.emitter_metric, spacetime, model, coord_system)
+    set_emitter_four_velocity!(cache.emitter_four_velocity, posf, cache.emitter_metric, spacetime, model, coord_system)
 
 end
 
