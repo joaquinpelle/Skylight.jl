@@ -1,5 +1,6 @@
 export get_observed_bolometric_fluxes
 export get_observed_specific_fluxes
+export rescale_fluxes_normalization_at_real_observer!
 
 function get_observed_bolometric_fluxes(initial_data, output_data, configurations::VacuumOTEConfigurations)
     
@@ -37,6 +38,8 @@ function get_observed_bolometric_fluxes(initial_data, output_data, configuration
         observed_bolometric_fluxes[i] = q^4*emitted_bolometric_flux
 
     end
+
+    set_fluxes_normalization_at_image_plane!(observed_specific_fluxes, configurations)
 
     return observed_bolometric_fluxes
 
@@ -85,11 +88,12 @@ function get_observed_specific_fluxes(initial_data, output_data, observed_energi
         end
 
     end
+
+    set_fluxes_normalization_at_image_plane!(observed_specific_fluxes, configurations)
     
     return observed_specific_fluxes
 
 end
-
 
 function get_energies_quotient(ki, kf, cache)
     
@@ -100,3 +104,19 @@ function get_energies_quotient(ki, kf, cache)
 
 end
 
+function set_fluxes_normalization_at_image_plane!(fluxes, configurations)
+
+    dArea_CGS = geometrized_to_CGS(configurations.image_plane.dArea, Dimensions.area; configurations)
+    image_plane_distance_CGS = geometrized_to_CGS(configurations.image_plane.distance, Dimensions.length; configurations) 
+    
+    fluxes .*= dArea_CGS/image_plane_distance_CGS^2
+
+end
+
+function rescale_fluxes_normalization_at_real_observer!(fluxes, real_observer_distance_CGS, configurations)
+
+    image_plane_distance_CGS = geometrized_to_CGS(configurations.image_plane.distance, Dimensions.length; configurations) 
+    
+    fluxes .*= (image_plane_distance_CGS/real_observer_distance_CGS)^2
+
+end
