@@ -23,7 +23,7 @@ get_rmax(configurations::ETOConfigurations) = configurations.observer_distance
 
 function get_rmax(configurations::OTEConfigurations) 
     
-    d = configurations.image_plane.observer_distance
+    d = configurations.image_plane.distance
     hs = configurations.image_plane.horizontal_side_image_plane
     vs = configurations.image_plane.vertical_side_image_plane
     return 1.1*sqrt(d^2 + vs^2 + hs^2)

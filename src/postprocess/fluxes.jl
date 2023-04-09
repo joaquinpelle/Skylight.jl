@@ -3,6 +3,8 @@ export get_observed_specific_fluxes
 
 function get_observed_bolometric_fluxes(initial_data, output_data, configurations::VacuumOTEConfigurations)
     
+    #Returns fluxes in CGS
+
     spacetime = configurations.spacetime
     model = configurations.model
     coord_system = coordinate_system_class(spacetime)
@@ -40,7 +42,9 @@ function get_observed_bolometric_fluxes(initial_data, output_data, configuration
 
 end
 
-function get_observed_specific_fluxes(initial_data, output_data, observed_energies, configurations::VacuumOTEConfigurations)
+function get_observed_specific_fluxes(initial_data, output_data, observed_energies_CGS, configurations::VacuumOTEConfigurations)
+
+    #Returns fluxes in CGS
 
     spacetime = configurations.spacetime
     model = configurations.model
@@ -72,7 +76,7 @@ function get_observed_specific_fluxes(initial_data, output_data, observed_energi
 
         for j in 1:NE
 
-            emitted_energy = observed_energies[j]/q
+            emitted_energy = observed_energies_CGS[j]/q
 
             #Check: the only difference with the ETO scheme here should be the minus sign in front of the final momentum
             emitted_specific_flux = get_emitted_specific_flux(pf, -kf, emitted_energy, cache.emitter_four_velocity, cache.metric, spacetime, model, coord_system)

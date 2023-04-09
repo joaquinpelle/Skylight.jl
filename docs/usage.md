@@ -62,7 +62,7 @@ For the details, see the radiative models documentation.
 For the observet-to-emitter scheme, use the following to construct an image plane
 
 ```
-julia> image_plane = ImagePlane(observer_distance = 500.0,
+julia> image_plane = ImagePlane(distance = 500.0,
                                 observer_inclination_in_degrees = 45,
                                 horizontal_side_image_plane = 10.0,
                                 vertical_side_image_plane = 10.0,

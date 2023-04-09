@@ -49,7 +49,7 @@ function get_space_position_from(pixel_coordinates, image_plane::ImagePlane, coo
 
     α,β = pixel_coordinates
     ξ = image_plane.observer_inclination_in_radians
-    d = image_plane.observer_distance
+    d = image_plane.distance
     
     sinξ = sin(ξ)
     cosξ = cos(ξ)
@@ -66,7 +66,7 @@ function get_space_position_from(pixel_coordinates, image_plane::ImagePlane, coo
 
     α,β = pixel_coordinates
     ξ = image_plane.observer_inclination_in_radians
-    d = image_plane.observer_distance
+    d = image_plane.distance
     
     sinξ = sin(ξ)
     cosξ = cos(ξ)
@@ -83,7 +83,7 @@ function get_space_momentum_from(pixel_coordinates, image_plane::ImagePlane, coo
 
     α,β = pixel_coordinates
     ξ = image_plane.observer_inclination_in_radians
-    d = image_plane.observer_distance
+    d = image_plane.distance
     
     r = sqrt(α^2+β^2+d^2)
     

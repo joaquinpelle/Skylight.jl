@@ -41,7 +41,7 @@ end
                           angular_radius_in_degrees=60, 
                           temperature=1.0)
 
-    image_plane = ImagePlane(observer_distance = 50.0,
+    image_plane = ImagePlane(distance = 50.0,
                             observer_inclination_in_degrees = 45,
                             horizontal_side_image_plane = 30.0,
                             vertical_side_image_plane = 40.0,

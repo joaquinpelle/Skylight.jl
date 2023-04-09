@@ -6,7 +6,7 @@ using Skylight, Test
 
         coord_system = Skylight.SphericalClass()
             
-        image_plane = ImagePlane(observer_distance = 1.0,
+        image_plane = ImagePlane(distance = 1.0,
                                 observer_inclination_in_degrees = 90.0,
                                 horizontal_side_image_plane = 1.0,
                                 vertical_side_image_plane = 1.0,
@@ -37,7 +37,7 @@ using Skylight, Test
 
         coord_system = Skylight.SphericalClass()
             
-        image_plane = ImagePlane(observer_distance = 1.0,
+        image_plane = ImagePlane(distance = 1.0,
                                 observer_inclination_in_degrees = 0.0,
                                 horizontal_side_image_plane = 1.0,
                                 vertical_side_image_plane = 1.0,
@@ -73,7 +73,7 @@ end
         
         coord_system = Skylight.CartesianClass()
             
-        image_plane = ImagePlane(observer_distance = 1.0,
+        image_plane = ImagePlane(distance = 1.0,
                                 observer_inclination_in_degrees = 0.0,
                                 horizontal_side_image_plane = 1.0,
                                 vertical_side_image_plane = 1.0,
@@ -109,7 +109,7 @@ end
     @testset "equatorial plane" begin
         coord_system = Skylight.CartesianClass()
             
-        image_plane = ImagePlane(observer_distance = 1.0,
+        image_plane = ImagePlane(distance = 1.0,
                                 observer_inclination_in_degrees = 90.0,
                                 horizontal_side_image_plane = 1.0,
                                 vertical_side_image_plane = 1.0,

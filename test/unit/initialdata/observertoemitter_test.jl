@@ -6,7 +6,7 @@ using Skylight, Test
 
         spacetime = KerrSpacetimeKerrSchildCoordinates(M=1.0,a=0.5)
     
-        image_plane = ImagePlane(observer_distance = 1.0,
+        image_plane = ImagePlane(distance = 1.0,
                                     observer_inclination_in_degrees = 137.0,
                                     horizontal_side_image_plane = 1.0,
                                     vertical_side_image_plane = 1.0,
@@ -65,7 +65,7 @@ using Skylight, Test
         
         spacetime = KerrSpacetimeKerrSchildCoordinates(M=1.0, a=0.0)
 
-        image_plane = ImagePlane(observer_distance = sqrt(7.0),
+        image_plane = ImagePlane(distance = sqrt(7.0),
                                     observer_inclination_in_degrees = 90.0,
                                     horizontal_side_image_plane = 1.0,
                                     vertical_side_image_plane = 1.0,
@@ -105,7 +105,7 @@ using Skylight, Test
         
         spacetime = KerrSpacetimeKerrSchildCoordinates(M=1.0, a=0.0)
 
-        image_plane = ImagePlane(observer_distance = 3,
+        image_plane = ImagePlane(distance = 3,
                                     observer_inclination_in_degrees = 90.0,
                                     horizontal_side_image_plane = 1.0,
                                     vertical_side_image_plane = 1.0,

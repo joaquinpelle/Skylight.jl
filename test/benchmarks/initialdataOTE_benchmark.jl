@@ -8,7 +8,7 @@ numbers = [100,200,400,800]
 
 for n in numbers
 
-    image_plane = ImagePlane(observer_distance = 500.0,
+    image_plane = ImagePlane(distance = 500.0,
                         observer_inclination_in_degrees = 90,
                         horizontal_side_image_plane = 10.0,
                         vertical_side_image_plane = 10.0,

@@ -2,7 +2,7 @@ export ImagePlane
 
 @with_kw struct ImagePlane
 
-    observer_distance :: Float64
+    distance :: Float64
     observer_inclination_in_degrees :: Float64
     horizontal_side_image_plane :: Float64
     vertical_side_image_plane :: Float64

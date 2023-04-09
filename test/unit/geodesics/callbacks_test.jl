@@ -6,7 +6,7 @@ using Skylight, Test
     
     rhor = 1.0+sqrt(0.19)
 
-    image_plane = ImagePlane(observer_distance = 50.0,
+    image_plane = ImagePlane(distance = 50.0,
                             observer_inclination_in_degrees = 45,
                             horizontal_side_image_plane = 30.0,
                             vertical_side_image_plane = 40.0,
