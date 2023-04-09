@@ -48,7 +48,7 @@ using Skylight, Test
 
         Skylight.star_affect!(integrator)
 
-        @test integrator.sol.retcode == :Terminated
+        @test integrator.sol.retcode == SciMLBase.ReturnCode.Terminated
 
         get_callback_and_params(configurations) 
 
@@ -91,28 +91,28 @@ using Skylight, Test
         
         Skylight.black_hole_accretion_disk_cartesian_coordinates_affect!(integrator, 1)
 
-        @test integrator.sol.retcode == :Terminated
+        @test integrator.sol.retcode == SciMLBase.ReturnCode.Terminated
 
         integrator = init(prob, VCABM(),save_everystep=false,dt=1.0)
         set_u!(integrator, u) 
 
         Skylight.black_hole_accretion_disk_cartesian_coordinates_affect!(integrator, 2)
 
-        @test integrator.sol.retcode == :Terminated
+        @test integrator.sol.retcode == SciMLBase.ReturnCode.Terminated
 
         integrator = init(prob, VCABM(),save_everystep=false,dt=1.0)
         set_u!(integrator, u) 
 
         Skylight.black_hole_accretion_disk_spherical_coordinates_affect!(integrator, 1)
 
-        @test integrator.sol.retcode == :Terminated
+        @test integrator.sol.retcode == SciMLBase.ReturnCode.Terminated
 
         integrator = init(prob, VCABM(),save_everystep=false,dt=1.0)
         set_u!(integrator, u) 
 
         Skylight.black_hole_accretion_disk_spherical_coordinates_affect!(integrator, 2)
 
-        @test integrator.sol.retcode == :Terminated
+        @test integrator.sol.retcode == SciMLBase.ReturnCode.Terminated
         
         get_callback_and_params(configurations, rhorizon_bound=1e-6) 
 
@@ -146,7 +146,7 @@ using Skylight, Test
         Skylight.star_across_wormhole_condition(out, u, 0.0, integrator)
 
         Skylight.star_across_wormhole_affect!(integrator, 1)
-        @test integrator.sol.retcode != :Terminated
+        @test integrator.sol.retcode != SciMLBase.ReturnCode.Terminated
 
         get_callback_and_params(configurations) 
 
