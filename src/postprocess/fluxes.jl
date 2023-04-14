@@ -28,15 +28,21 @@ function get_observed_bolometric_fluxes(initial_data, output_data, configuration
 
         end
 
+        #The difference with the ETO scheme here should be the minus sign in front of the final momentum
+        #at get emitted flux, and the is_final_position_at_source call (at observer in ETO)...
+
+        if !is_final_position_at_source(pf, spacetime, model)
+            continue
+        end
+
         dump_metrics_and_emitter_four_velocity_in!(cache, pi, pf, spacetime, model, coord_system)
         
         q = get_energies_quotient(ki, kf, cache)
 
-        #Check: the only difference with the ETO scheme here should be the minus sign in front of the final momentum
         emitted_bolometric_flux = get_emitted_bolometric_flux(pf, -kf, cache.emitter_four_velocity, cache.metric, spacetime, model, coord_system)
 
         observed_bolometric_fluxes[i] = q^4*emitted_bolometric_flux
-
+        
     end
 
     set_fluxes_normalization_at_image_plane!(observed_specific_fluxes, configurations)
@@ -73,6 +79,13 @@ function get_observed_specific_fluxes(initial_data, output_data, observed_energi
 
         end
 
+        #The difference with the ETO scheme here should be the minus sign in front of the final momentum
+        #at get emitted flux, and the is_final_position_at_source call (at observer in ETO)...
+
+        if !is_final_position_at_source(pf, spacetime, model)
+            continue
+        end
+
         dump_metrics_and_emitter_four_velocity_in!(cache, pi, pf, spacetime, model, coord_system)
         
         q = get_energies_quotient(ki, kf, cache)
@@ -81,7 +94,6 @@ function get_observed_specific_fluxes(initial_data, output_data, observed_energi
 
             emitted_energy = observed_energies_CGS[j]/q
 
-            #Check: the only difference with the ETO scheme here should be the minus sign in front of the final momentum
             emitted_specific_flux = get_emitted_specific_flux(pf, -kf, emitted_energy, cache.emitter_four_velocity, cache.metric, spacetime, model, coord_system)
             observed_specific_fluxes[j, i] = q^3*emitted_specific_flux
         
