@@ -25,3 +25,10 @@ function set_surface_differential!(covector, position, model::BlackHoleAccretion
 
 end    
 
+function is_final_position_at_source(position, spacetime, model::BlackHoleAccretionDisk)
+
+    r = position[2]
+
+    return (r >= model.inner_radius) && (r <= model.outer_radius)
+
+end

@@ -19,6 +19,15 @@ function set_surface_differential!(covector, position, model::BosonStarAccretion
   
 end
 
+## The following function is used to check if the ray is inside the accretion disk
+function is_final_position_at_source(position, spacetime, model::BosonStarAccretionDisk)
+
+    r = position[2]
+
+    return (r >= model.inner_radius) && (r <= model.outer_radius)
+    
+end
+
 function set_emitter_four_velocity!(vector, position, metric, spacetime, model::BosonStarAccretionDisk, coord_system)
 
     angular_speed = circular_geodesic_angular_speed(position, spacetime)
