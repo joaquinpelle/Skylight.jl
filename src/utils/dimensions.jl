@@ -1,5 +1,7 @@
 module Dimensions
 
+using Parameters
+
 @with_kw struct Dimension{S}
     L::S = 0
     M::S = 0
@@ -75,5 +77,3 @@ resistance = length^-1*time
 resistivity = time
 
 end
-
-using Dimensions

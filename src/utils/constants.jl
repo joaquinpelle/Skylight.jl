@@ -20,5 +20,3 @@ M_sun = 1.988414e33       #Solar mass in CGS
 pc = 3.08567758149e18     #1pc in cm                                             (exact)
 
 end
-
-using PhysicalConstants
