@@ -6,7 +6,7 @@ export BosonStarAccretionDisk
     outer_radius::Float64
 
     temperature_file::String
-    temperature_interpolator::T = build_temperature_interpolator(temperature_file)
+    temperature_interpolator::T = build_interpolator(temperature_file)
 
 end
 
@@ -52,15 +52,6 @@ function get_emitted_specific_flux(position, momentum, energy, emitter_four_velo
     return thermal_emission_specific_flux(energy, T)
 
 end
-
-function build_interpolator(temperature_file)
-
-    data = readdlm(temperature_file, ' ', Float64, '\n')
-
-    return my_interpolation(data[:,2], data[:,1], kind="cubicspline")
-
-end
-
 
     
     

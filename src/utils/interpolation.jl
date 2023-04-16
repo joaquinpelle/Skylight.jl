@@ -1,3 +1,12 @@
+function build_interpolator(file; delim='\t', col_x=1, col_y=2, kind="linear")
+
+    data = readdlm(file, delim, Float64, '\n')
+
+    return my_interpolation(data[:,col_y], data[:,col_x], kind=kind)
+
+end
+
+
 function my_interpolation(ydata, xdata; kind=nothing)
     
     if kind == "linear"
