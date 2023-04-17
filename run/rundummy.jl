@@ -7,8 +7,8 @@ image_plane = ImagePlane(distance = 500.0,
                          observer_inclination_in_degrees = 45,
                          horizontal_side_image_plane = 20.0,
                          vertical_side_image_plane = 20.0,
-                         horizontal_number_of_nodes = 200,
-                         vertical_number_of_nodes = 200)
+                         horizontal_number_of_nodes = 50,
+                         vertical_number_of_nodes = 50)
 
 model = Skylight.DummyExtendedRegion()
 
@@ -26,7 +26,7 @@ cb, cb_params = get_callback_and_params(configurations; rhorizon_bound = 0.3) #.
 output_data = integrate(initial_data, configurations, cb, cb_params; τmax=2.0, method=VCABM(), reltol=1e-13, abstol=1e-21)
 
 xs, ys = get_coordinate_arrays(configurations) 
-zs = view_intensities_grid(output_data, configurations, E_idx=1)
+zs = view_intensities_grid(output_data, configurations, 1)
 
 fig = Figure(font = "CMU Serif") #resolution=(600,400)
 ax = Axis(fig[1,1], xlabel=L"\alpha", ylabel=L"\beta", ylabelsize = 26, xlabelsize = 26) 
