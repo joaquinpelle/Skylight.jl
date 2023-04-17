@@ -1,6 +1,7 @@
 using Skylight
 using CairoMakie
 
+include("bosonstar_parameters.jl")
 
 spacetime = BosonStarSpacetime(a=a_LBS1,b=b_LBS1)
 
