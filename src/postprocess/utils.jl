@@ -1,6 +1,6 @@
-export get_coordinate_arrays, view_intensities_grid
+export get_pixel_coordinates_vectors, view_intensities_grid
 
-function get_coordinate_arrays(configurations::OTEConfigurations)
+function get_pixel_coordinates_vectors(configurations::OTEConfigurations)
 
     image_plane = configurations.image_plane
 
@@ -13,7 +13,7 @@ function get_coordinate_arrays(configurations::OTEConfigurations)
 
 end
 
-function view_intensities_grid(output_data, configurations::NonVacuumConfigurations, E_idx)
+function view_intensities_grid(output_data, configurations::NonVacuumOTEConfigurations, E_idx)
 
     image_plane = configurations.image_plane
 
@@ -21,7 +21,8 @@ function view_intensities_grid(output_data, configurations::NonVacuumConfigurati
     Nα = image_plane.horizontal_number_of_nodes
     Nβ = image_plane.vertical_number_of_nodes
     
-    @views intensities_grid = reverse!(reshape(output_data[8+NE+E_idx,:], (Nα, Nβ)), dims=1)
+    # @views intensities_grid = reverse!(reshape(output_data[8+NE+E_idx,:], (Nα, Nβ)), dims=1)
+    @views intensities_grid = reshape(output_data[8+NE+E_idx,:], (Nα, Nβ))
     
     return intensities_grid
 
@@ -34,7 +35,8 @@ function view_intensities_grid(intensities, configurations::VacuumOTEConfigurati
     Nα = image_plane.horizontal_number_of_nodes
     Nβ = image_plane.vertical_number_of_nodes
     
-    @views intensities_grid = reverse!(reshape(intensities, (Nα, Nβ)), dims=1)
+    # @views intensities_grid = reverse!(reshape(output_data[8+NE+E_idx,:], (Nα, Nβ)), dims=1)
+    @views intensities_grid = reshape(output_data[8+NE+E_idx,:], (Nα, Nβ))
     
     return intensities_grid
 
@@ -47,7 +49,8 @@ function view_intensities_grid(intensities, configurations::VacuumOTEConfigurati
     Nα = image_plane.horizontal_number_of_nodes
     Nβ = image_plane.vertical_number_of_nodes
     
-    @views intensities_grid = reverse!(reshape(intensities[E_idx,:], (Nα, Nβ)), dims=1)
+    # @views intensities_grid = reverse!(reshape(output_data[8+NE+E_idx,:], (Nα, Nβ)), dims=1)
+    @views intensities_grid = reshape(output_data[8+NE+E_idx,:], (Nα, Nβ))
     
     return intensities_grid
 

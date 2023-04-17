@@ -25,7 +25,7 @@ cb, cb_params = get_callback_and_params(configurations; rhorizon_bound = 0.3) #.
 
 output_data = integrate(initial_data, configurations, cb, cb_params; τmax=2.0, method=VCABM(), reltol=1e-13, abstol=1e-21)
 
-xs, ys = get_coordinate_arrays(configurations) 
+xs, ys = get_pixel_coordinates_vectors(configurations) 
 zs = view_intensities_grid(output_data, configurations, 1)
 
 fig = Figure(font = "CMU Serif") #resolution=(600,400)
