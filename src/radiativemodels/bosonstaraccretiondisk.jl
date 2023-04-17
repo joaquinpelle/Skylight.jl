@@ -35,21 +35,21 @@ function set_emitter_four_velocity!(vector, position, metric, spacetime, model::
 
 end
 
-function get_emitted_bolometric_flux(position, momentum, emitter_four_velocity, metric, spacetime, model::BosonStarAccretionDisk, coord_system::SphericalClass)
+function get_emitted_bolometric_intensity(position, momentum, emitter_four_velocity, metric, spacetime, model::BosonStarAccretionDisk, coord_system::SphericalClass)
 
     r = position[2]
     T = model.temperature_interpolator(r)
     
-    return thermal_emission_bolometric_flux(T)
+    return thermal_emission_bolometric_intensity(T)
 
 end
 
-function get_emitted_specific_flux(position, momentum, energy, emitter_four_velocity, metric, spacetime, model::BosonStarAccretionDisk, coord_system::SphericalClass)
+function get_emitted_specific_intensity(position, momentum, energy, emitter_four_velocity, metric, spacetime, model::BosonStarAccretionDisk, coord_system::SphericalClass)
 
     r = position[2]
     T = model.temperature_interpolator(r)
     
-    return thermal_emission_specific_flux(energy, T)
+    return thermal_emission_specific_intensity(energy, T)
 
 end
 

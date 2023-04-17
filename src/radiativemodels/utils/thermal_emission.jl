@@ -1,6 +1,6 @@
-thermal_emission_bolometric_flux(T) = stefan_boltzmann_function(T)
-thermal_emission_window_flux(E1, E2, T) = planck_integral(E1, T) - planck_integral(E2, T)
-thermal_emission_specific_flux(E, T) = planck_function(E, T)
+thermal_emission_bolometric_intensity(T) = stefan_boltzmann_function(T)/π
+thermal_emission_window_intensity(E1, E2, T) = planck_integral(E1, T) - planck_integral(E2, T)
+thermal_emission_specific_intensity(E, T) = planck_function(E, T)
 
 function stefan_boltzmann_function(T)
 
