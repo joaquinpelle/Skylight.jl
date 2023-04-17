@@ -15,5 +15,6 @@ include("configurations/main.jl")
 include("utils/main.jl")
 include("initialdata/main.jl")
 include("transfer/main.jl")
+include("postprocess/main.jl")
 
 end
