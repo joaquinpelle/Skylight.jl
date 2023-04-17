@@ -6,7 +6,7 @@ export get_filter_mask
 function get_filter_mask(output_data, configurations::VacuumOTEConfigurations)
 
     spacetime = configurations.spacetime
-    model = configurations.model
+    model = configurations.radiative_model
 
     Nrays = number_of_initial_conditions(configurations)
     filter_mask = zeros(Bool, Nrays)
@@ -32,7 +32,7 @@ end
 function get_filter_mask(output_data, configurations::VacuumETOConfigurations)
 
     spacetime = configurations.spacetime
-    model = configurations.model
+    model = configurations.radiative_model
 
     Nrays = number_of_initial_conditions(configurations)
     filter_mask = zeros(Bool, Nrays)
