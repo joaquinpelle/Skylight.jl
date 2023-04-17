@@ -1,17 +1,5 @@
 using Skylight
-
-a_LBS1 = [-0.12835651132329287, 0.013682816437869968, -0.0000481174714805307, 
-      0.00005645401289538938, -4.950385183447073e-6, 1.2257668397193955e-6, 
-      2.234495931121217, -0.286705001384064, 0.0535085065184157, 
-      -0.002796436948776261, 0.00043953642633610485, 1.5216185242475638e-5, 
-      -2.2791584430232886e-6, 6.116664949485882e-7]
-
-b_LBS1 = [0.002169200852262319, -0.19546743355115126, 0.06287130575728342, 
-      -0.010651955590611452, 0.0009203500154294379, -3.751481658539803e-5, 
-      13.99470385461245, -3.910737098471579, 0.3926444282051113, 
-      0.1007509282796355, -0.03817380739469051, 0.00609572731408874, 
-      -0.0004946554674560391, 1.8733095859225056e-5]
-
+using CairoMakie
 
 spacetime = BosonStarSpacetime(a=a_LBS1,b=b_LBS1)
 
@@ -38,9 +26,9 @@ output_data = integrate(initial_data, configurations, cb, cb_params; method=VCAB
 
 bolometric_intensities = get_observed_bolometric_intensities(initial_data, output_data, configurations)
 
+xs,ys = get_coordinate_arrays(configurations)
 
-xs, ys = get_coordinate_arrays(configurations) 
-zs = view_intensities_grid(output_data, configurations, E_idx=1)
+zs = view_intensities_grid(bolometric_intensities, configurations)
 
 fig = Figure(font = "CMU Serif") #resolution=(600,400)
 ax = Axis(fig[1,1], xlabel=L"\alpha", ylabel=L"\beta", ylabelsize = 26, xlabelsize = 26) 
