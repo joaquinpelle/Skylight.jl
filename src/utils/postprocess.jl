@@ -1,6 +1,6 @@
-export get_coordinate_arrays, view_intensities_matrix
+export get_coordinate_arrays, view_intensities_grid
 
-function get_coordinate_arrays(configurations)
+function get_coordinate_arrays(configurations::OTEConfigurations)
 
     image_plane = configurations.image_plane
 
@@ -13,7 +13,7 @@ function get_coordinate_arrays(configurations)
 
 end
 
-function view_intensities_matrix(output_data, configurations; E_idx)
+function view_intensities_grid(output_data, configurations::NonVacuumConfigurations; E_idx)
 
     image_plane = configurations.image_plane
 
@@ -21,6 +21,34 @@ function view_intensities_matrix(output_data, configurations; E_idx)
     Nα = image_plane.horizontal_number_of_nodes
     Nβ = image_plane.vertical_number_of_nodes
     
-    return reverse!(reshape(output_data[8+NE+E_idx,:], (Nα, Nβ)), dims=1)
+    @views intensities_grid = reverse!(reshape(output_data[8+NE+E_idx,:], (Nα, Nβ)), dims=1)
+    
+    return intensities_grid
+
+end
+
+function view_intensities_grid(intensities, configurations::OTEVacuumConfigurations)
+
+    image_plane = configurations.image_plane
+
+    Nα = image_plane.horizontal_number_of_nodes
+    Nβ = image_plane.vertical_number_of_nodes
+    
+    @views intensities_grid = reverse!(reshape(intensities, (Nα, Nβ)), dims=1)
+    
+    return intensities_grid
+
+end
+
+function view_intensities_grid(intensities, configurations::OTEVacuumConfigurations; E_idx)
+
+    image_plane = configurations.image_plane
+
+    Nα = image_plane.horizontal_number_of_nodes
+    Nβ = image_plane.vertical_number_of_nodes
+    
+    @views intensities_grid = reverse!(reshape(intensities[E_idx,:], (Nα, Nβ)), dims=1)
+    
+    return intensities_grid
 
 end
