@@ -27,7 +27,7 @@ function view_intensities_grid(output_data, configurations::NonVacuumConfigurati
 
 end
 
-function view_intensities_grid(intensities, configurations::OTEVacuumConfigurations)
+function view_intensities_grid(intensities, configurations::VacuumOTEConfigurations)
 
     image_plane = configurations.image_plane
 
@@ -40,7 +40,7 @@ function view_intensities_grid(intensities, configurations::OTEVacuumConfigurati
 
 end
 
-function view_intensities_grid(intensities, configurations::OTEVacuumConfigurations; E_idx)
+function view_intensities_grid(intensities, configurations::VacuumOTEConfigurations; E_idx)
 
     image_plane = configurations.image_plane
 
