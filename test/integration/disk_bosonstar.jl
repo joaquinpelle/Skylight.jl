@@ -1,6 +1,7 @@
 using Skylight
 using CairoMakie
 
+
 spacetime = BosonStarSpacetime(a=a_LBS1,b=b_LBS1)
 
 image_plane = ImagePlane(distance = 500.0,
@@ -26,7 +27,7 @@ output_data = integrate(initial_data, configurations, cb, cb_params; method=VCAB
 
 bolometric_intensities = get_observed_bolometric_intensities(initial_data, output_data, configurations)
 
-xs,ys = get_coordinate_arrays(configurations)
+xs,ys = get_pixel_coordinates_vectors(configurations)
 
 zs = view_intensities_grid(bolometric_intensities, configurations)
 
