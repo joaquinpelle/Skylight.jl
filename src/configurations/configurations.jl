@@ -4,8 +4,8 @@ export VacuumETOConfigurations
 
 abstract type Configurations end
 
-abstract type OTEConfigurations end
-abstract type ETOConfigurations end
+abstract type OTEConfigurations <: Configurations end
+abstract type ETOConfigurations <: Configurations end
 
 @with_kw struct NonVacuumOTEConfigurations{S<:Spacetime, M<:RadiativeModel} <: OTEConfigurations
     
