@@ -32,7 +32,7 @@ xs,ys = get_pixel_coordinates_vectors(configurations)
 
 zs = view_intensities_grid(bolometric_intensities, configurations)
 
-fig = Figure(font = "CMU Serif") #resolution=(600,400)
+fig = Figure(font = "CMU Serif")
 ax = Axis(fig[1,1], xlabel=L"\alpha", ylabel=L"\beta", ylabelsize = 26, xlabelsize = 26) 
 hmap = heatmap!(xs, ys, zs; colormap=:gist_heat, interpolate=true)
 Colorbar(fig[:, end+1], hmap, label=L"I", labelsize=26, width = 15, ticksize = 18, tickalign = 1)

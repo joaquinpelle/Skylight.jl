@@ -13,7 +13,9 @@ function get_pixel_coordinates_vectors(configurations::OTEConfigurations)
 
 end
 
-function view_intensities_grid(output_data, configurations::NonVacuumOTEConfigurations, E_idx)
+@kwdispatch view_intensities_grid
+
+@kwmethod function view_intensities_grid(output_data, configurations::NonVacuumOTEConfigurations; E_idx)
 
     image_plane = configurations.image_plane
 
@@ -40,7 +42,7 @@ function view_intensities_grid(intensities, configurations::VacuumOTEConfigurati
 
 end
 
-function view_intensities_grid(intensities, configurations::VacuumOTEConfigurations, E_idx)
+@kwmethod function view_intensities_grid(intensities, configurations::VacuumOTEConfigurations; E_idx)
 
     image_plane = configurations.image_plane
 
