@@ -1,5 +1,12 @@
-equations(configurations::VacuumConfigurations) = geodesic_equations!
 equations(configurations::NonVacuumConfigurations) = non_vacuum_equations!
+equations(configurations::VacuumConfigurations) = geodesic_equations!
+
+function non_vacuum_equations!(du, u::Array{Float64,1}, p::NonVacuumCache, t)
+
+    geodesic_equations!(du, u, p, t)
+    transfer_equations!(du, u, p, t)
+
+end
 
 function geodesic_equations!(du, u::Array{Float64,1}, p, t)
 
@@ -35,13 +42,6 @@ function geodesic_equations!(du, u::Array{Float64,1}, p, t)
         du[i] = vel[i]
         du[4+i] = a[i]
     end
-
-end
-
-function non_vacuum_equations!(du, u::Array{Float64,1}, p::NonVacuumCache, t)
-
-    geodesic_equations!(du, u, p, t)
-    transfer_equations!(du, u, p, t)
 
 end
 
