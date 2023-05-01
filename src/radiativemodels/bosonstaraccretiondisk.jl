@@ -10,7 +10,7 @@ export BosonStarAccretionDisk
 
 end
 
-function set_emitter_four_velocity!(vector, position, metric, spacetime, model::BosonStarAccretionDisk, coord_system)
+function set_emitter_four_velocity!(vector, position, metric, spacetime::BosonStarSpacetime, model::BosonStarAccretionDisk, coord_system)
 
     angular_speed = circular_geodesic_angular_speed(position, spacetime)
     tangent_vector_zaxis_rotation!(vector, position, angular_speed, metric, coord_system)
