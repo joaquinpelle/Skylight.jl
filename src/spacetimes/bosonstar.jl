@@ -1,5 +1,7 @@
 export BosonStarSpacetime
 
+#TODO add reference
+
 @with_kw struct BosonStarSpacetime <: AnalyticSpacetime
 
     a::Vector{Float64}
@@ -7,7 +9,7 @@ export BosonStarSpacetime
 
 end
 
-coordinate_system_class(spacetime::BosonStarSpacetime) = SphericalClass()
+coordinate_system_class(spacetime::BosonStarSpacetime) = SphericalClass() 
 
 function set_metric!(g, point, spacetime::BosonStarSpacetime)
         
