@@ -2,9 +2,11 @@ module Skylight
 
 using DataInterpolations
 using DelimitedFiles
+using ForwardDiff
 using KeywordDispatch
 using LinearAlgebra
 using Parameters
+using PreallocationTools
 using Random
 using Reexport
 
