@@ -35,3 +35,6 @@ include("chargedwormhole.jl")
 include("bosonstar.jl")
 include("fullnumerical.jl")
 include("RAR.jl")
+
+export CartesianClass, SphericalClass
+export coordinate_system_class, set_metric!, allocate_christoffel_cache, set_christoffel!
