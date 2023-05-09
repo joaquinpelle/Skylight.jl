@@ -41,12 +41,12 @@ function get_kerr_radius(position, spacetime::KerrSpacetimeKerrSchildCoordinates
     return sqrt(r2) 
 end
 
-function set_metric!(g, position, spacetime::KerrSpacetimeKerrSchildCoordinates)
+""" 
+g: container for the metric 
+q: spacetime position
+"""
 
-    """ 
-    g: container for the metric 
-    q: spacetime position
-    """
+function set_metric!(g, position, spacetime::KerrSpacetimeKerrSchildCoordinates)
 
     M = spacetime.M
     a = spacetime.a
