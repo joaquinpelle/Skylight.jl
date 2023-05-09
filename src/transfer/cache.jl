@@ -79,7 +79,7 @@ end
 
 end
 
-mutable struct NonVacuumCache{S<:Spacetime, M<:RadiativeModel, C<:CallbackParameters, T<:ChristoffelCache}
+mutable struct NonVacuumCache{S, M, C, T}
     
     spacetime::S
     model::M
