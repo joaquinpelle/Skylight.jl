@@ -14,7 +14,7 @@ function allocate_vacuum_single_thread_cache(spacetime)
 end
 
 
-@with_kw mutable struct VacuumThreadCache{T<:ChristoffelCache}
+@with_kw mutable struct VacuumThreadCache{T}
 
     point::Array{Float64, 1} = zeros(4)
     velocity::Array{Float64, 1} = zeros(4)
@@ -24,7 +24,7 @@ end
 
 end
 
-mutable struct VacuumCache{S<:Spacetime, C<:CallbackParameters, T<:ChristoffelCache}
+mutable struct VacuumCache{S, C, T}
     
     spacetime::S
     cb_params::C
@@ -66,7 +66,7 @@ function allocate_non_vacuum_single_thread_cache(spacetime, NE)
 
 end
 
-@with_kw mutable struct NonVacuumThreadCache{T<:ChristoffelCache}
+@with_kw mutable struct NonVacuumThreadCache{T}
 
     point::Array{Float64, 1} = zeros(4)
     velocity::Array{Float64, 1} = zeros(4)
