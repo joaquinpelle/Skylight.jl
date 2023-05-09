@@ -1,7 +1,7 @@
-abstract type Spacetime end
+abstract type AbstractSpacetime end
 
-abstract type AnalyticSpacetime <: Spacetime end
-abstract type NumericalSpacetime <: Spacetime end
+abstract type AnalyticSpacetime <: AbstractSpacetime end
+abstract type NumericalSpacetime <: AbstractSpacetime end
 
 abstract type FlatSpacetime <: AnalyticSpacetime end
 abstract type BlackHoleSpacetime <: AnalyticSpacetime end
@@ -15,15 +15,15 @@ struct SphericalClass <: CoordinateSystemClass end
 abstract type ChristoffelCache end
 
 #Required
-coordinate_system_class(spacetime::Spacetime) = error("Coordinate system not defined for this spacetime.")
-set_metric!(spacetime::Spacetime) = error("Metric not defined for this spacetime.")
-allocate_christoffel_cache(spacetime::Spacetime) = error("Christoffel cache not defined for this spacetime.")
-set_christoffel!(Γ, position, spacetime::Spacetime, cache) = error("Christoffel symbols not defined for this spacetime.")
+coordinate_system_class(spacetime::AbstractSpacetime) = error("Coordinate system not defined for this spacetime.")
+set_metric!(spacetime::AbstractSpacetime) = error("Metric not defined for this spacetime.")
+allocate_christoffel_cache(spacetime::AbstractSpacetime) = error("Christoffel cache not defined for this spacetime.")
+set_christoffel!(Γ, position, spacetime::AbstractSpacetime, cache) = error("Christoffel symbols not defined for this spacetime.")
 
 #Optional
-set_metric_inverse!(spacetime::Spacetime) = error("Metric inverse not defined for this spacetime.")
-event_horizon_radius(spacetime::Spacetime) = error("Event horizon radius not defined for this spacetime.")
-circular_geodesic_angular_speed(spacetime::Spacetime) = error("Circular geodesic angular speed not defined for this spacetime.")
+set_metric_inverse!(spacetime::AbstractSpacetime) = error("Metric inverse not defined for this spacetime.")
+event_horizon_radius(spacetime::AbstractSpacetime) = error("Event horizon radius not defined for this spacetime.")
+circular_geodesic_angular_speed(spacetime::AbstractSpacetime) = error("Circular geodesic angular speed not defined for this spacetime.")
 
 
 include("coordinate_alias.jl")
