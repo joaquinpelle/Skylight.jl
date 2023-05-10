@@ -1,3 +1,9 @@
+@with_kw mutable struct GeneralChristoffelCache
+    g::Array{Float64,2} = zeros(4,4)
+    ginv::Array{Float64,2} = zeros(4,4)
+    ∂g::Array{Float64,3} = zeros(4,4,4)
+end
+
 """
 Calculates the Christoffel symbols of a given spacetime metric using the forward-mode automatic differentiation package ForwardDiff.
 
@@ -94,12 +100,6 @@ function set_metric_inverse!(ginv, position, spacetime, g)
     set_metric!(g, position, spacetime)
     inverse_4x4_symmetric!(ginv, g)
     return nothing
-end
-
-@with_kw mutable struct GeneralChristoffelCache
-    g::Array{Float64,2} = zeros(4,4)
-    ginv::Array{Float64,2} = zeros(4,4)
-    ∂g::Array{Float64,3} = zeros(4,4,4)
 end
 
 allocate_christoffel_cache(spacetime) = GeneralChristoffelCache()
