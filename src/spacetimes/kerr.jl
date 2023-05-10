@@ -3,7 +3,7 @@ export KerrSpacetimeBoyerLindquistCoordinates
 
 # Kerr Schild coordinates
 
-@with_kw struct KerrSpacetimeKerrSchildCoordinates <: BlackHoleSpacetime
+@with_kw struct KerrSpacetimeKerrSchildCoordinates{T} <: BlackHoleSpacetime
 
     M::Float64
     a::Float64
@@ -12,7 +12,7 @@ export KerrSpacetimeBoyerLindquistCoordinates
     @assert abs(a) <= M 
 
     #Metric cache
-    l::Vector{Float64} = DiffCache(zeros(4))
+    l::T = DiffCache(zeros(4))
 
 end
 
@@ -58,7 +58,7 @@ function set_metric!(g, position, spacetime::KerrSpacetimeKerrSchildCoordinates)
     r = sqrt(r2)
     H2 = 2. * M * r / (r2 + a2 * z^2 / r2)
     
-    l = get_tmp(spacetime.l)
+    l = get_tmp(spacetime.l, position)
     l[1] = 1.
     l[2] = (r*x + a*y)/(r2 + a2)
     l[3] = (r*y - a*x)/(r2 + a2)
@@ -97,7 +97,7 @@ function set_metric_inverse!(g, position, spacetime::KerrSpacetimeKerrSchildCoor
     r = sqrt(r2)
     H2 = 2. * M * r / (r2 + a2 * z^2 / r2)
     
-    l = get_tmp(spacetime.l)
+    l = get_tmp(spacetime.l, position)
     l[1] = -1.0
     l[2] = (r*x + a*y)/(r2 + a2)
     l[3] = (r*y - a*x)/(r2 + a2)
