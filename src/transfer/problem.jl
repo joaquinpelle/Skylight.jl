@@ -11,9 +11,9 @@ function integrate(initial_data, configurations::VacuumConfigurations, cb, cb_pa
     
     print_stats(stats)
 
-    output_data = collect_output(sim)
+    run = collect_run(sim, cb, cb_params, method; kwargs...)
 
-    return output_data
+    return run
 
 end
 
@@ -30,10 +30,10 @@ function integrate(initial_data, configurations::NonVacuumConfigurations, cb, cb
     
     print_stats(stats)
 
-    output_data = collect_output(sim)
+    run = collect_run(sim, cb, cb_params, τmax, method; kwargs...)
 
-    return output_data
-
+    return run
+    
 end
 
 function set_ensemble_problem(initial_data, configurations::VacuumConfigurations, cb_params)
@@ -64,6 +64,16 @@ function set_ensemble_problem(initial_data, configurations::NonVacuumConfigurati
     
 end
 
+
+function collect_run(sim, cb, cb_params, args...; kwargs...)
+
+    output_data = collect_output(sim)
+    kwargs_dict = collect_args(args...; kwargs...)
+
+    return (output_data, cb, cb_params, kwargs_dict)
+
+end
+
 function collect_output(sim)
     
     N = size(sim.u, 1)
@@ -77,6 +87,15 @@ function collect_output(sim)
 
     return output_data
 
+end
+
+function collect_args(args...; kwargs...)
+    
+    args_dict = Dict{Symbol, Any}([Symbol("arg", i) => arg for (i, arg) in enumerate(args)]...)
+    kwargs_dict = Dict{Symbol, Any}(pairs(kwargs))
+    merged_dict = merge(args_dict, kwargs_dict)
+
+    return merged_dict
 end
 
 
