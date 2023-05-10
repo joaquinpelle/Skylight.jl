@@ -2,10 +2,10 @@ export NonVacuumOTEConfigurations
 export VacuumOTEConfigurations
 export VacuumETOConfigurations
 
-abstract type Configurations end
+abstract type AbstractConfigurations end
 
-abstract type OTEConfigurations <: Configurations end
-abstract type ETOConfigurations <: Configurations end
+abstract type OTEConfigurations <: AbstractConfigurations end
+abstract type ETOConfigurations <: AbstractConfigurations end
 
 @with_kw struct NonVacuumOTEConfigurations{S, M} <: OTEConfigurations
     
