@@ -8,6 +8,30 @@ Parameters:
 - cache: object of type GeneralChristoffelCache with containers for metric elements and derivatives.
 
 Returns: nothing.
+
+Note: for the automatic differentiation to work on a given spacetime, any cache array stored in the spacetime
+struct for metric calculations must be wrapped by the DiffCache() method as:
+    
+    ```
+    @with_kw struct KerrSpacetimeKerrSchildCoordinates{T} <: BlackHoleSpacetime
+
+        M::Float64
+        a::Float64
+    
+        @assert M >= 0.0
+        @assert abs(a) <= M 
+    
+        #Metric cache
+        l::T = DiffCache(zeros(4))
+    
+    end
+    ```
+
+This is because automatic differentiation keeps two versions of each variable, a Real and a Dual version, the latter being used
+to compute derivatives at each node of the chain rule. Also, in the `set_metric!(g, position, spacetime)` function, the caches must be accessed via the function `get_tmp` as in
+`get_tmp(spacetime.l, position)`, so that the appropriate version of the cache is returned according to the element type of position
+when `set_metric!` is called.
+
 """
 function set_christoffel!(Γ₂, position, spacetime, cache::GeneralChristoffelCache)
     
