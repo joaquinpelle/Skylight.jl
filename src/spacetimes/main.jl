@@ -27,6 +27,7 @@ circular_geodesic_angular_speed(spacetime::AbstractSpacetime) = error("Circular 
 
 
 include("coordinate_alias.jl")
+include("general.jl")
 include("minkowski.jl")
 include("schwarzschild.jl")
 include("kerr.jl")
