@@ -1,7 +1,8 @@
 @testset "Automatic differentiation" begin
     
     M, a = 1.0, 0.5
-
+    position = [ 2.64500435e+03, -7.59516667e+00, -7.59516667e+00,  1.35200090e+00]
+    g = zeros(4,4)
     spacetime = KerrSpacetimeKerrSchildCoordinates(M=M, a=a)
     Γ = zeros(4,4,4)     
     cache = allocate_christoffel_cache(spacetime)
