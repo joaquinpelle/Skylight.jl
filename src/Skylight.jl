@@ -3,6 +3,7 @@ module Skylight
 using DataInterpolations
 using DelimitedFiles
 using ForwardDiff
+using HDF5
 using KeywordDispatch
 using LinearAlgebra
 using Parameters
