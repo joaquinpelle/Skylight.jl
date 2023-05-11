@@ -7,11 +7,11 @@ using HDF5
 using KeywordDispatch
 using LinearAlgebra
 using Parameters
-using PreallocationTools
 using Random
 using Reexport
 
 @reexport using DifferentialEquations
+@reexport using PreallocationTools
 
 include("spacetimes/main.jl")
 include("radiativemodels/main.jl")

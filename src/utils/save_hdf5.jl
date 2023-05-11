@@ -16,7 +16,7 @@ The file will be organized as follows:
 
 # Arguments
 * `filename`: The name of the HDF5 file to save the data to. If the file already exists, new data will be appended without overwriting existing content.
-* `configurations`: A custom type containing the configurations data. It will be converted to a dictionary using the `to_dict` function.
+* `configurations`: A custom type containing the configurations data. It will be converted to a dictionary using the `to_hdf5_compatible_dict` function.
 * `initial_data`: The initial data for the equations.
 * `runs`: An array of tuples containing output_data, callback custom type, callback_parameters, and kwargs for each run. The callback custom type and callback_parameters should be custom types, which will be converted to dictionaries using the `to_dict` function.
 
@@ -189,9 +189,9 @@ function to_hdf5_compatible_dict(dict::Dict{T, Any}; depth::Int=0, max_depth::In
         elseif value === nothing
             hdf5_dict[key] = "Nothing"
         else
-            fields_dict = to_dict(value, depth=depth+1, max_depth=max_depth)
+            fields_dict = to_hdf5_compatible_dict(value, depth=depth+1, max_depth=max_depth)
             if !isempty(fields_dict)
-                hdf5_dict[key] = to_hdf5_compatible_dict(fields_dict, depth=depth+1, max_depth=max_depth)
+                hdf5_dict[key] = fields_dict
             end
         end
     end
@@ -246,7 +246,59 @@ function to_hdf5_compatible_dict(obj::T; depth::Int=0, max_depth::Int=8) where T
     return d
 end
 
+"""
+    to_hdf5_compatible_dict(obj::T; depth::Int=0, max_depth::Int=8) where {T<:SciMLBase.DECallback}
 
+Converts a DifferentialEquations.jl callback into a dictionary that can be saved to an HDF5 file
+for later instantiation.
+
+# Arguments
+- `cb`: The callback to be converted into a dictionary.
+- `depth`: The current depth of recursion. This is used to prevent infinite recursion. 
+  (default: 0)
+- `max_depth`: The maximum allowed depth of recursion. If the `depth` exceeds this value, 
+  the function returns `nothing`. (default: 8)
+
+# Returns
+- A dictionary where the keys are the names of the fields of the object and the values are 
+  the corresponding field values. Field values are recursively converted to dictionaries 
+  if they are of custom types not supported by HDF5.jl.
+
+# Notes
+- The dictionary includes an additional entry with the key "_typename" and the name of the type 
+  of the object as the value. This is used to reconstruct the original object when loading 
+  the data from the HDF5 file.
+- The function specifically handles certain fields of the DECallback type.
+"""
+function to_hdf5_compatible_dict(cb::T; depth::Int=0, max_depth::Int=8) where {T<:SciMLBase.DECallback}
+    if depth > max_depth
+        return nothing
+    end
+
+    d = Dict{String, Any}()
+    d["_typename"] = string(T)
+    for field in fieldnames(T)
+        value = getfield(cb, field)
+        
+        if field == :repeat_nudge
+            value = string(:(Rational($(numerator(value)), $(denominator(value)))))
+        elseif field == :save_positions
+            value = string(:(BitVector($([Bool(x) for x in value])))) 
+        # Check if the field is of type Nothing
+        elseif isa(value, Nothing)
+            value = "nothing"
+        # Check if the field is a subtype of Function
+        elseif isa(value, Function)
+            value = string(value)
+        # Check if the field is a custom type not supported by HDF5.jl
+        elseif !is_hdf5_supported_type(value)
+            value = to_hdf5_compatible_dict(value, depth=depth+1, max_depth=max_depth)
+        end
+        
+        d[string(field)] = value
+    end
+    return d
+end
 
 """
     is_hdf5_supported_type(value)
