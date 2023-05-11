@@ -7,8 +7,8 @@ export CGS_to_geometrized
 @kwmethod geometrized_to_CGS(magnitude, dim; M1::Number) = magnitude*geometrized_unit_magnitude_in_CGS(dim; M1=M1) 
 @kwmethod CGS_to_geometrized(magnitude, dim; M1::Number) = magnitude/geometrized_unit_magnitude_in_CGS(dim; M1=M1)
 
-@kwmethod geometrized_to_CGS(magnitude, dim, configurations::Configurations;) = magnitude*geometrized_unit_magnitude_in_CGS(dim; M1=configurations.unit_mass_in_solar_masses)
-@kwmethod CGS_to_geometrized(magnitude, dim, configurations::Configurations;) = magnitude/geometrized_unit_magnitude_in_CGS(dim; M1=configurations.unit_mass_in_solar_masses)
+@kwmethod geometrized_to_CGS(magnitude, dim, configurations::AbstractConfigurations;) = magnitude*geometrized_unit_magnitude_in_CGS(dim; M1=configurations.unit_mass_in_solar_masses)
+@kwmethod CGS_to_geometrized(magnitude, dim, configurations::AbstractConfigurations;) = magnitude/geometrized_unit_magnitude_in_CGS(dim; M1=configurations.unit_mass_in_solar_masses)
 
 function geometrized_unit_magnitude_in_CGS(dim; M1)
 
