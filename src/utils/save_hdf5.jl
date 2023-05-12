@@ -18,7 +18,7 @@ The file will be organized as follows:
 * `filename`: The name of the HDF5 file to save the data to. If the file already exists, new data will be appended without overwriting existing content.
 * `configurations`: A custom type containing the configurations data. It will be converted to a dictionary using the `to_hdf5_compatible_dict` function.
 * `initial_data`: The initial data for the equations.
-* `runs`: An array of tuples containing output_data, callback custom type, callback_parameters, and kwargs for each run. The callback custom type and callback_parameters should be custom types, which will be converted to dictionaries using the `to_dict` function.
+* `runs`: An array of tuples containing output_data, callback custom type, callback_parameters, and kwargs for each run. The callback custom type and callback_parameters should be custom types, which will be converted to dictionaries using the `to_hdf5_compatible_dict` function.
 
 # Returns
 * Nothing.
@@ -40,7 +40,7 @@ function save_to_hdf5(filename, configurations, initial_data, runs)
 end
 
 """
-    append_runs_to_hdf5(filename::String, runs::Vector{Tuple{AbstractArray, Any, Any, Dict{Symbol, Any}}})
+    append_runs_to_hdf5(filename::String, runs::Vector{Tuple{AbstractArray, Any, Any, Dict{Symbol,}}})
 
 Appends a set of runs to an existing HDF5 file containing simulation data. The runs are saved
 under separate groups named "run_N", where N is the run index. The input `runs` is a vector of
@@ -49,7 +49,7 @@ tuples, each containing the output data, callback, callback parameters, and keyw
 
 # Arguments
 - `filename::String`: The path to the HDF5 file where the runs will be appended.
-- `runs::Vector{Tuple{AbstractArray, Any, Any, Dict{Symbol, Any}}}`: A vector of tuples containing
+- `runs::Vector{Tuple{AbstractArray, Any, Any, Dict{Symbol,}}}`: A vector of tuples containing
   the output data, callback, callback parameters, and kwargs for each run to be appended.
 
 # Example
@@ -75,7 +75,7 @@ function append_runs_to_hdf5(filename, runs)
 end
 
 """
-    save_runs_to_hdf5(file::HDF5File, runs::Vector{Tuple{AbstractArray, Any, Any, Dict{Symbol, Any}}}; num_runs::Int=0)
+    save_runs_to_hdf5(file::HDF5File, runs::Vector{Tuple{AbstractArray, Any, Any, Dict{Symbol,}}}; num_runs::Int=0)
 
 Saves a set of runs to an open HDF5 file containing simulation data. The runs are saved
 under separate groups named "run_N", where N is the run index. The input `runs` is a vector of
@@ -85,7 +85,7 @@ the run numbering.
 
 # Arguments
 - `file::HDF5File`: An open HDF5 file where the runs will be saved.
-- `runs::Vector{Tuple{AbstractArray, Any, Any, Dict{Symbol, Any}}}`: A vector of tuples containing
+- `runs::Vector{Tuple{AbstractArray, Any, Any, Dict{Symbol,}}}`: A vector of tuples containing
   the output data, callback, callback parameters, and kwargs for each run to be saved.
 - `num_runs::Int` (optional, default: 0): The starting index for the run numbering.
 
@@ -138,7 +138,7 @@ function save_obj_to_hdf5(group, name, obj)
 end
 
 """
-    save_nested_dict_to_hdf5(group::HDF5File, nested_dict::Dict{Symbol, Any})
+    save_nested_dict_to_hdf5(group::HDF5File, nested_dict::Dict{Symbol,})
 
 Recursively save a nested dictionary to an HDF5 group. The function iterates through the key-value pairs in the input dictionary. If a value is a dictionary, it creates a new subgroup and recursively saves the nested dictionary. If a value is not a dictionary, it is saved directly to the current group.
 
@@ -158,7 +158,7 @@ function save_nested_dict_to_hdf5(group, nested_dict)
 end
 
 """
-    to_hdf5_compatible_dict(dict::Dict{Symbol, Any}, max_depth::Int) -> Dict{Symbol, Any}
+    to_hdf5_compatible_dict(dict::Dict{Symbol,}, max_depth::Int) -> Dict{Symbol,}
 
 Recursively convert a Julia dictionary into an HDF5 compatible dictionary, up to a specified maximum depth. The function checks each value in the input dictionary to see if it is an HDF5 supported type, and if not, it attempts to convert the value into a compatible format.
 
@@ -172,12 +172,12 @@ The resulting HDF5 compatible dictionary can be used to save data to an HDF5 fil
 * An HDF5 compatible dictionary with keys of type `Symbol` and values of supported types.
 """
 
-function to_hdf5_compatible_dict(dict::Dict{T, Any}; depth::Int=0, max_depth::Int=8 ) where {T}
+function to_hdf5_compatible_dict(dict::Dict{T, S}; depth::Int=0, max_depth::Int=8 ) where {T, S}
     if depth > max_depth
         return nothing
     end
 
-    hdf5_dict = Dict{T, Any}()
+    hdf5_dict = Dict{T, S}()
 
     for (key, value) in dict
         if is_hdf5_supported_type(value)
