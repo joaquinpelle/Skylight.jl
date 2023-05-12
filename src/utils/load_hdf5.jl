@@ -181,7 +181,7 @@ created using the `@with_kw` macro from the Parameters.jl package and handles ne
 dictionaries. The dictionary and its nested subdictionaries must contain a `_typename` key whose value is the name of the custom type. 
 
 # Arguments
-- `dict::Dict{Symbol, Any}`: A dictionary containing the custom type's name (stored in the `_typename` key) and field values.
+- `dict::Dict{Symbol, }`: A dictionary containing the custom type's name (stored in the `_typename` key) and field values.
 
 # Returns
 - An instance of the custom type with the field values specified in the input dictionary, including instances created from nested dictionaries.
@@ -207,7 +207,7 @@ my_dict = Dict(:_typename => "MyTypeWithKW",
 
 my_instance = instantiate_custom_type(my_dict)
 """
-function instantiate_custom_type(dict::Dict{Symbol, Any})
+function instantiate_custom_type(dict::Dict{Symbol, })
     typename = dict[:_typename]
     T = eval(Meta.parse(typename))
 
@@ -223,9 +223,9 @@ function instantiate_custom_type(dict::Dict{Symbol, Any})
     return T(; kwarg_dict...)
 end
 
-function instantiate_custom_type(dict::Dict{String, Any})
+function instantiate_custom_type(dict::Dict{String, T}) where T
     # Convert the dictionary keys to symbols
-    symbol_dict = Dict{Symbol, Any}(Symbol(k) => v for (k, v) in dict)
+    symbol_dict = Dict{Symbol, T}(Symbol(k) => v for (k, v) in dict)
     return instantiate_custom_type(symbol_dict)
 end
 
