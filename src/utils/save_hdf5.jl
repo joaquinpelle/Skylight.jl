@@ -106,10 +106,13 @@ end
 
 function save_runs_to_hdf5(file, runs; num_runs=0)
     
-    for (i, (output_data, callback, callback_parameters, kwargs)) in enumerate(runs)
+    for (i, run) in enumerate(runs)
 
         run_group = create_group(file, "run_$(num_runs + i)")
-
+        
+        # Unpack the run tuple
+        output_data, callback, callback_parameters, kwargs = to_tuple(run)
+        
         # Save output data, callback, callback_parameters, and kwargs to the new run group
         write(run_group, "output_data", output_data)
         save_obj_to_hdf5(run_group, "callback", callback)
