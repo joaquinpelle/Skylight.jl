@@ -1,4 +1,4 @@
-using Skylight, Test
+using Skylight, HDF5, Test
 
 # Custom type for testing
 struct CustomType
@@ -39,8 +39,8 @@ configurations = VacuumOTEConfigurations(spacetime=spacetime,
 
 
 callback, callback_parameters = get_callback_and_params(configurations; rhorizon_bound=2e-1)
-initial_data = rand(10)
-output_data = rand(10)
+initial_data = rand(10,10)
+output_data = rand(10,10)
 
 @testset "Save and load tests" begin
     mktempdir() do dir
@@ -77,7 +77,7 @@ output_data = rand(10)
             filename = joinpath(dir, "test2.h5")
             obj = CustomType(6, 7.0, "save_obj")
             h5open(filename, "w") do file
-                save_obj_to_hdf5(file, "custom_type", obj)
+                Skylight.save_obj_to_hdf5(file, "custom_type", obj)
                 @test keys(file) == ["custom_type"]
                 @test length(keys(file["custom_type"])) == 4
             end
@@ -88,7 +88,7 @@ output_data = rand(10)
             filename = joinpath(dir, "test3.h5")
             nested_dict = Dict(:key1 => "value1", :key2 => Dict(:key3 => "value3"))
             h5open(filename, "w") do file
-                save_nested_dict_to_hdf5(file, nested_dict)
+                Skylight.save_nested_dict_to_hdf5(file, nested_dict)
                 @test keys(file) == ["key1", "key2"]
                 @test keys(file["key2"]) == ["key3"]
             end
@@ -100,17 +100,17 @@ output_data = rand(10)
             test_obj = MyType2(1, 2.0, 3 + 4im, "test", sin)
 
             @testset "is_hdf5_supported_type" begin
-                @test is_hdf5_supported_type(1)
-                @test is_hdf5_supported_type(1.0)
-                @test is_hdf5_supported_type(1 + 2im)
-                @test is_hdf5_supported_type("test")
-                @test !is_hdf5_supported_type(sin)
-                @test !is_hdf5_supported_type(test_obj)
-                @test !is_hdf5_supported_type(test_dict)
+                @test Skylight.is_hdf5_supported_type(1)
+                @test Skylight.is_hdf5_supported_type(1.0)
+                @test Skylight.is_hdf5_supported_type(1 + 2im)
+                @test Skylight.is_hdf5_supported_type("test")
+                @test !Skylight.is_hdf5_supported_type(sin)
+                @test !Skylight.is_hdf5_supported_type(test_obj)
+                @test !Skylight.is_hdf5_supported_type(test_dict)
             end
 
             @testset "to_hdf5_compatible_dict for Dict" begin
-                hdf5_dict = to_hdf5_compatible_dict(test_dict)
+                hdf5_dict = Skylight.to_hdf5_compatible_dict(test_dict)
                 
                 @test hdf5_dict[:a] == 1
                 @test hdf5_dict[:b] == 2.0
@@ -122,7 +122,7 @@ output_data = rand(10)
             end
 
             @testset "to_hdf5_compatible_dict for custom type" begin
-                hdf5_dict = to_hdf5_compatible_dict(test_obj)
+                hdf5_dict = Skylight.to_hdf5_compatible_dict(test_obj)
                 
                 @test hdf5_dict["a"] == 1
                 @test hdf5_dict["b"] == 2.0
@@ -134,7 +134,7 @@ output_data = rand(10)
 
         @testset "to_hdf5_compatible_dict for DECallback" begin
             # Assuming 'callback' is an instance of VectorContinuousCallback
-            hdf5_dict = to_hdf5_compatible_dict(callback)
+            hdf5_dict = Skylight.to_hdf5_compatible_dict(callback)
 
             # '_typename' should be the type of the callback
             @test hdf5_dict["_typename"] == string(typeof(callback))
