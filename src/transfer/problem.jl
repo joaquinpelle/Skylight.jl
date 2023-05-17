@@ -1,4 +1,5 @@
 export integrate
+export output_data
 
 mutable struct Run{C,CB}
     output_data::Array{Float64, 2}
