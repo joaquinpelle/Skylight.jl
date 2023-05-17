@@ -24,7 +24,9 @@ initial_data = get_initial_data(configurations)
 
 cb, cb_params = get_callback_and_params(configurations) #... or, define your own cb and cb_params
 
-output_data = integrate(initial_data, configurations, cb, cb_params; method=VCABM(), reltol=1e-13, abstol=1e-21)
+run = integrate(initial_data, configurations, cb, cb_params; method=VCABM(), reltol=1e-13, abstol=1e-21)
+
+output_data = output_data(run)
 
 bolometric_intensities = get_observed_bolometric_intensities(initial_data, output_data, configurations)
 

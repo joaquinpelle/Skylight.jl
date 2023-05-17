@@ -23,7 +23,8 @@ initial_data = get_initial_data(configurations)
 
 cb, cb_params = get_callback_and_params(configurations; rhorizon_bound = 0.3) #... or, define your own cb and cb_params
 
-output_data = integrate(initial_data, configurations, cb, cb_params; τmax=2.0, method=VCABM(), reltol=1e-13, abstol=1e-21)
+run = integrate(initial_data, configurations, cb, cb_params; τmax=2.0, method=VCABM(), reltol=1e-13, abstol=1e-21)
+output_data = output_data(run)
 
 xs, ys = get_pixel_coordinates_vectors(configurations) 
 zs = view_intensities_grid(output_data, configurations; E_idx = 1)
