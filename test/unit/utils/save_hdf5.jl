@@ -51,7 +51,7 @@ output_data = rand(10)
         @testset "save_to_hdf5" begin
             filename = joinpath(dir, "test.h5")
             kwargs = Dict(:key1 => "value1", :key2 => "value2")
-            runs = [(output_data, callback, callback_parameters, kwargs)]
+            runs = [Skylight.Run(output_data, callback, callback_parameters, kwargs)]
             save_to_hdf5(filename, configurations, initial_data, runs)
             @test isfile(filename)
             h5open(filename, "r") do file
@@ -64,7 +64,7 @@ output_data = rand(10)
         @testset "append_runs_to_hdf5" begin
             filename = joinpath(dir, "test.h5")
             kwargs = Dict(:key3 => "value3", :key4 => "value4")
-            new_runs = [(output_data, callback, callback_parameters, kwargs)]
+            new_runs = [Skylight.Run(output_data, callback, callback_parameters, kwargs)]
             append_runs_to_hdf5(filename, new_runs)
             h5open(filename, "r") do file
                 @test keys(file) == ["configs", "initial_data", "run_1", "run_2"]
