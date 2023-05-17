@@ -1,3 +1,5 @@
+export save_to_hdf5, append_runs_to_hdf5
+ 
 """
     save_to_hdf5(filename, configurations, initial_data, runs)
 
