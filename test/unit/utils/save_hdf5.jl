@@ -29,7 +29,7 @@ image_plane = ImagePlane(distance = 500.0,
                          horizontal_number_of_nodes = 3,
                          vertical_number_of_nodes = 3)
 
-model = NovikovThorneDisk(inner_radius=6.0, outer_radius=18.0)
+model = BlackHoleAccretionDisk(inner_radius=6.0, outer_radius=18.0)
         
 configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                    image_plane = image_plane,

@@ -1,4 +1,4 @@
-export NovikovThorneDisk
+export BlackHoleAccretionDisk
 
 @with_kw struct BlackHoleAccretionDisk <: SurfaceEmissionModel 
 
