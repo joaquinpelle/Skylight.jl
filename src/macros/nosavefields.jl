@@ -64,3 +64,14 @@ macro with_kw_nosave(ex::Expr)
         @with_kw struct $(name){$(params...)} <: $(supertype) $(fields_new...) end
     end)
 end
+
+function getproperty_nosave(obj::SkylightCustomType, field::Symbol)
+
+    value = getfield(obj, field)
+    if value isa NoSaveField
+        return value.value
+    else
+        return value
+    end
+
+end

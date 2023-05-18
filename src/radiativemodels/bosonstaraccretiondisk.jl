@@ -10,16 +10,7 @@ export BosonStarAccretionDisk
 
 end
 
-function getproperty(model::RadiativeModel, field::Symbol)
-
-    value = getfield(model, field)
-    if value isa NoSaveField
-        return value.value
-    else
-        return value
-    end
-
-end
+getproperty(model::BosonStarAccretionDisk, field) = getproperty_nosave(model, field)
 
 function set_emitter_four_velocity!(vector, position, metric, spacetime::BosonStarSpacetime, model::BosonStarAccretionDisk, coord_system)
 
