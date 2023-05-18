@@ -1,4 +1,4 @@
 include("cache.jl")
 include("utils.jl")
-include("filter_mask.jl")
+include("filtermask.jl")
 include("intensities.jl")

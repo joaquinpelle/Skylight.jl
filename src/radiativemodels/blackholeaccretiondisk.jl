@@ -1,6 +1,6 @@
 export NovikovThorneDisk
 
-@with_kw struct NovikovThorneDisk <: BlackHoleAccretionDisk
+@with_kw struct BlackHoleAccretionDisk <: SurfaceEmissionModel 
 
     inner_radius::Float64
     outer_radius::Float64 

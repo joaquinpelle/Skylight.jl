@@ -1,16 +1,6 @@
 export integrate
 export output_data
 
-mutable struct Run{C,CB}
-    output_data::Array{Float64, 2}
-    callback::C
-    callback_parameters::CB
-    kwargs::Dict
-end
-
-to_tuple(run::Run) = (run.output_data, run.callback, run.callback_parameters, run.kwargs)
-output_data(run::Run) = run.output_data
-
 function integrate(initial_data, configurations::VacuumConfigurations, cb, cb_params; method = VCABM(), kwargs...)
 
     N = size(initial_data, 2)  
@@ -117,3 +107,6 @@ function print_stats(stats)
     println("Memory allocated: ",Base.format_bytes(stats.bytes))
 
 end
+
+to_tuple(run::Run) = (run.output_data, run.callback, run.callback_parameters, run.kwargs)
+output_data(run::Run) = run.output_data

@@ -1,19 +1,3 @@
-abstract type AbstractSpacetime end
-
-abstract type AnalyticSpacetime <: AbstractSpacetime end
-abstract type NumericalSpacetime <: AbstractSpacetime end
-
-abstract type FlatSpacetime <: AnalyticSpacetime end
-abstract type BlackHoleSpacetime <: AnalyticSpacetime end
-abstract type WormholeSpacetime <: AnalyticSpacetime end
-
-abstract type CoordinateSystemClass end
-
-struct CartesianClass <: CoordinateSystemClass end
-struct SphericalClass <: CoordinateSystemClass end
-
-abstract type ChristoffelCache end
-
 #Required
 coordinate_system_class(spacetime::AbstractSpacetime) = error("Coordinate system not defined for this spacetime.")
 set_metric!(spacetime::AbstractSpacetime) = error("Metric not defined for this spacetime.")

@@ -1,47 +1,3 @@
-export NonVacuumOTEConfigurations
-export VacuumOTEConfigurations
-export VacuumETOConfigurations
-
-abstract type AbstractConfigurations end
-
-abstract type OTEConfigurations <: AbstractConfigurations end
-abstract type ETOConfigurations <: AbstractConfigurations end
-
-@with_kw struct NonVacuumOTEConfigurations{S, M} <: OTEConfigurations
-    
-    spacetime::S
-    radiative_model::M
-    image_plane::ImagePlane
-    observed_times::Vector{Float64}
-    observed_energies::Vector{Float64}
-    unit_mass_in_solar_masses::Float64
-
-end
-
-@with_kw struct VacuumOTEConfigurations{S, M} <: OTEConfigurations
-    
-    spacetime::S
-    radiative_model::M
-    image_plane::ImagePlane
-    observed_times::Vector{Float64}
-    unit_mass_in_solar_masses::Float64
-
-end
-
-@with_kw struct VacuumETOConfigurations{S, M} <: ETOConfigurations
-    
-    spacetime::S
-    radiative_model::M
-    number_of_points::Int64
-    number_of_packets_per_point::Int64
-    observer_distance::Float64
-    unit_mass_in_solar_masses::Float64
-
-end
-
-VacuumConfigurations = Union{VacuumOTEConfigurations, VacuumETOConfigurations}
-NonVacuumConfigurations = Union{NonVacuumOTEConfigurations,}
-
 function my_zeros(configurations::NonVacuumConfigurations)
 
     NE = length(configurations.observed_energies)
@@ -101,4 +57,47 @@ function number_of_initial_conditions(configurations::ETOConfigurations)
 
     return number_of_points*number_of_packets_per_point
     
+end
+
+function get_pixel_coordinates(image_plane::ImagePlane)
+    
+    sα = image_plane.horizontal_side_image_plane
+    sβ = image_plane.vertical_side_image_plane
+    Nα = image_plane.horizontal_number_of_nodes
+    Nβ = image_plane.vertical_number_of_nodes
+
+    horizontal_coordinates = range(-0.5*sα, stop=0.5*sα; length=Nα)
+    vertical_coordinates = range(-0.5*sβ,0.5*sβ; length=Nβ)
+
+    return Iterators.product(horizontal_coordinates,vertical_coordinates)
+
+end
+
+function number_of_nodes(image_plane::ImagePlane)
+    return image_plane.horizontal_number_of_nodes*image_plane.vertical_number_of_nodes
+end
+
+function pixel_area(image_plane::ImagePlane)
+    
+    sα = image_plane.horizontal_side_image_plane
+    sβ = image_plane.vertical_side_image_plane
+    Nα = image_plane.horizontal_number_of_nodes
+    Nβ = image_plane.vertical_number_of_nodes
+    
+    dα = sα/(Nα-1)
+    dβ = sβ/(Nβ-1)
+    
+    return dα*dβ 
+
+end
+
+function area(image_plane::ImagePlane)
+
+    Nα = image_plane.horizontal_number_of_nodes
+    Nβ = image_plane.vertical_number_of_nodes
+
+    dA = pixel_area(image_plane)
+
+    return Nα*Nβ*dA
+
 end

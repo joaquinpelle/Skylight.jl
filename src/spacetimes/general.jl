@@ -19,7 +19,7 @@ Note: for the automatic differentiation to work on a given spacetime, any cache 
 struct for metric calculations must be wrapped by the DiffCache() method as:
     
     ```
-    @with_kw struct KerrSpacetimeKerrSchildCoordinates{T} <: BlackHoleSpacetime
+    @with_kw struct KerrSpacetimeKerrSchildCoordinates{T} <: AbstractSpacetime
 
         M::Float64
         a::Float64

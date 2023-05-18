@@ -3,7 +3,7 @@ export SchwarzschildSpacetimeSphericalCoordinates
 
 #Kerr-Schild coordinates
 
-@with_kw struct SchwarzschildSpacetimeKerrSchildCoordinates <: BlackHoleSpacetime 
+@with_kw struct SchwarzschildSpacetimeKerrSchildCoordinates <: AbstractSpacetime 
 
     M::Float64
     @assert M >= 0.0
@@ -101,7 +101,7 @@ event_horizon_radius(spacetime::SchwarzschildSpacetimeKerrSchildCoordinates) = 2
 
 #Spherical coordinates
 
-@with_kw struct SchwarzschildSpacetimeSphericalCoordinates <: BlackHoleSpacetime 
+@with_kw struct SchwarzschildSpacetimeSphericalCoordinates <: AbstractSpacetime 
 
     M::Float64
     @assert M >= 0.0

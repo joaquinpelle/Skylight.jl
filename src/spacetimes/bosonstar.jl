@@ -2,7 +2,7 @@ export BosonStarSpacetime
 
 #TODO add reference
 
-@with_kw struct BosonStarSpacetime <: AnalyticSpacetime
+@with_kw struct BosonStarSpacetime <: AbstractSpacetime
 
     a::Vector{Float64}
     b::Vector{Float64}

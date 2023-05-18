@@ -1,7 +1,9 @@
 export ChargedWormholeSpacetimeSphericalCoordinates
 export ChargedWormholeSpacetimeRegularCoordinates
 
-@with_kw struct ChargedWormholeSpacetimeSphericalCoordinates <: WormholeSpacetime
+abstract type ChargedWormholeSpacetime <: AbstractSpacetime end
+
+@with_kw struct ChargedWormholeSpacetimeSphericalCoordinates <: ChargedWormholeSpacetime
     
     b0::Float64
     Q::Float64
@@ -81,7 +83,7 @@ end
 
 struct ChargedWormholeChristoffelCache <: ChristoffelCache end
 
-allocate_christoffel_cache(spacetime::WormholeSpacetime) = ChargedWormholeChristoffelCache()
+allocate_christoffel_cache(spacetime::ChargedWormholeSpacetime) = ChargedWormholeChristoffelCache()
 
 function set_christoffel!(Γ,point,spacetime::ChargedWormholeSpacetimeSphericalCoordinates, cache)
     
@@ -127,7 +129,7 @@ end
 
 
 
-@with_kw struct ChargedWormholeSpacetimeRegularCoordinates <: WormholeSpacetime
+@with_kw struct ChargedWormholeSpacetimeRegularCoordinates <: ChargedWormholeSpacetime
     
     b0::Float64
     Q::Float64
@@ -137,7 +139,7 @@ end
 
 end
 
-function get_wormhole_radius(l, spacetime::WormholeSpacetime)
+function get_wormhole_radius(l, spacetime::ChargedWormholeSpacetime)
 
     b0 = spacetime.b0
     Q = spacetime.Q

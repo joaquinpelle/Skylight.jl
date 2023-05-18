@@ -26,7 +26,7 @@ The file will be organized as follows:
 * Nothing.
 """
 
-function save_to_hdf5(filename, configurations, initial_data, runs)
+function save_to_hdf5(filename::String, configurations::AbstractConfigurations, initial_data::Array, runs::Array{Run,})
     
     mode = isfile(filename) ? "r+" : "w"
 
@@ -64,7 +64,7 @@ runs = [
 append_runs_to_hdf5(filename, runs)
 """
 
-function append_runs_to_hdf5(filename, runs)
+function append_runs_to_hdf5(filename::String, runs::Array{Run,})
     
     h5open(filename, "r+") do file
         # Count the number of existing runs
@@ -185,7 +185,9 @@ function to_hdf5_compatible_dict(dict::Dict{T, S}; depth::Int=0, max_depth::Int=
     hdf5_dict = Dict{T, S}()
 
     for (key, value) in dict
-        if is_hdf5_supported_type(value)
+        if isa(value, NoSaveField)
+            continue
+        elseif is_hdf5_supported_type(value)
             hdf5_dict[key] = value
         elseif isa(value, Dict)
             hdf5_dict[key] = to_hdf5_compatible_dict(value, depth=depth+1, max_depth=max_depth)
@@ -235,8 +237,11 @@ function to_hdf5_compatible_dict(obj::T; depth::Int=0, max_depth::Int=8) where T
     for field in fieldnames(T)
         value = getfield(obj, field)
         
+        # Check if the field is no-save
+        if isa(value, NoSaveField)
+            continue
         # Check if the field is of type Nothing
-        if isa(value, Nothing)
+        elseif isa(value, Nothing)
             value = "nothing"
         # Check if the field is a subtype of Function
         elseif isa(value, Function)
@@ -252,7 +257,7 @@ function to_hdf5_compatible_dict(obj::T; depth::Int=0, max_depth::Int=8) where T
 end
 
 """
-    to_hdf5_compatible_dict(obj::T; depth::Int=0, max_depth::Int=8) where {T<:SciMLBase.DECallback}
+    to_hdf5_compatible_dict(cb::T; depth::Int=0, max_depth::Int=8) where {T<:SciMLBase.DECallback}
 
 Converts a DifferentialEquations.jl callback into a dictionary that can be saved to an HDF5 file
 for later instantiation.

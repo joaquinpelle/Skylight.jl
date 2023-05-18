@@ -1,8 +1,6 @@
 export get_callback_and_params
 
-abstract type CallbackParameters end
-
-include("neutronstarhotspots.jl")
+include("syntheticpolarcap.jl")
 include("blackholeaccretiondisk.jl")
 include("bosonstaraccretiondisk.jl")
 include("staracrosswormhole.jl")

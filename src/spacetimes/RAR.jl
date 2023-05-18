@@ -27,7 +27,7 @@ function RARInterpolator(data_dir)
 
 end
 
-@with_kw struct RARSpacetime{T} <: NumericalSpacetime
+@with_kw struct RARSpacetime{T} <: AbstractSpacetime
     
     data_dir::String  
     interp::RARInterpolator{T} = RARInterpolator(data_dir)

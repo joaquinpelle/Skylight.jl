@@ -6,7 +6,18 @@ export BosonStarAccretionDisk
     outer_radius::Float64
 
     temperature_file::String
-    temperature_interpolator::T = build_interpolator(temperature_file)
+    temperature_interpolator::NoSaveField{T} = NoSaveField(build_interpolator(temperature_file))
+
+end
+
+function getproperty(model::RadiativeModel, field::Symbol)
+
+    value = getfield(model, field)
+    if value isa NoSaveField
+        return value.value
+    else
+        return value
+    end
 
 end
 

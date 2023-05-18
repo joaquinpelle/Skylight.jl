@@ -3,7 +3,7 @@ export KerrSpacetimeBoyerLindquistCoordinates
 
 # Kerr Schild coordinates
 
-@with_kw struct KerrSpacetimeKerrSchildCoordinates{T} <: BlackHoleSpacetime
+@with_kw struct KerrSpacetimeKerrSchildCoordinates{T} <: AbstractSpacetime
 
     M::Float64
     a::Float64
@@ -212,7 +212,7 @@ end
 
 # Boyer Lindquist coordinates
 
-@with_kw struct KerrSpacetimeBoyerLindquistCoordinates <: BlackHoleSpacetime 
+@with_kw struct KerrSpacetimeBoyerLindquistCoordinates <: AbstractSpacetime 
 
     M::Float64
     a::Float64

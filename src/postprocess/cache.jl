@@ -1,14 +1,3 @@
-abstract type PostProcessCache end
-
-@with_kw mutable struct OTEPostProcessCache <: PostProcessCache
-    
-    observer_metric::Matrix{Float64} = zeros(4,4)
-    emitter_metric::Matrix{Float64} = zeros(4,4)
-    observer_four_velocity::Vector{Float64} = zeros(4)
-    emitter_four_velocity::Vector{Float64} = zeros(4)
-
-end
-
 function dump_metrics_and_emitter_four_velocity_in!(cache::OTEPostProcessCache, initial_position, final_position, spacetime, model, coord_system)
 
     set_metric!(cache.observer_metric, initial_position, spacetime) 

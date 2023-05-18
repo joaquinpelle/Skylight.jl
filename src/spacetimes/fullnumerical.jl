@@ -1,3 +1,3 @@
-export FullNumericalSpacetime
+export NumericalSpacetime
 
-struct FullNumericalSpacetime <: NumericalSpacetime end
+struct NumericalSpacetime <: AbstractSpacetime end

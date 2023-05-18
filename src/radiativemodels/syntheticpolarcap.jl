@@ -1,6 +1,6 @@
 export SyntheticPolarCap
 
-@with_kw struct SyntheticPolarCap <: NeutronStarHotSpots
+@with_kw struct SyntheticPolarCap <: OpaqueInteriorSurfaceEmissionModel
 
     star_radius::Float64
     angular_speed::Float64
