@@ -1,14 +1,17 @@
+export CartesianClass, SphericalClass
+export coordinate_system_class, set_metric!, allocate_christoffel_cache, set_christoffel!
+
 #Required
 coordinate_system_class(::AbstractSpacetime) = error("Coordinate system not defined for this spacetime.")
-set_metric!(spacetime::AbstractSpacetime) = error("Metric not defined for this spacetime.")
-allocate_christoffel_cache(::AbstractSpacetime) = error("Christoffel cache not defined for this spacetime.")
-set_christoffel!(Γ, position, spacetime::AbstractSpacetime, cache) = error("Christoffel symbols not defined for this spacetime.")
+set_metric!(::AbstractSpacetime) = error("Metric not defined for this spacetime.")
+set_christoffel!(Γ, position, ::AbstractSpacetime, cache) = error("Christoffel symbols not defined for this spacetime.")
+set_christoffel!(Γ, position, ::AbstractSpacetime) = error("Christoffel symbols not defined for this spacetime.")
 
 #Optional
-set_metric_inverse!(spacetime::AbstractSpacetime) = error("Metric inverse not defined for this spacetime.")
-event_horizon_radius(spacetime::AbstractSpacetime) = error("Event horizon radius not defined for this spacetime.")
-circular_geodesic_angular_speed(spacetime::AbstractSpacetime) = error("Circular geodesic angular speed not defined for this spacetime.")
-
+set_metric_inverse!(::AbstractSpacetime) = error("Metric inverse not defined for this spacetime.")
+event_horizon_radius(::AbstractSpacetime) = error("Event horizon radius not defined for this spacetime.")
+circular_geodesic_angular_speed(::AbstractSpacetime) = error("Circular geodesic angular speed not defined for this spacetime.")
+allocate_christoffel_cache(::AbstractSpacetime) = nothing
 
 include("coordinate_alias.jl")
 include("general.jl")
@@ -18,8 +21,7 @@ include("kerr.jl")
 include("johannsen.jl")
 include("chargedwormhole.jl")
 include("bosonstar.jl")
-include("fullnumerical.jl")
+include("numerical.jl")
 include("RAR.jl")
 
-export CartesianClass, SphericalClass
-export coordinate_system_class, set_metric!, allocate_christoffel_cache, set_christoffel!
+set_christoffel!(Γ, position, spacetime::AbstractSpacetime, ::Nothing) = set_christoffel!(Γ, position, spacetime::AbstractSpacetime)
