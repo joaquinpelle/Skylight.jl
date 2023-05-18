@@ -45,6 +45,3 @@ function get_space_positions(npoints, model::SyntheticPolarCap, coord_system::Ca
     return space_positions
 
 end
-
-get_callback(model::SyntheticPolarCap, coord_system::CartesianClass) = star_cartesian_coordinates_callback()
-get_callback(model::SyntheticPolarCap, coord_system::SphericalClass) = star_spherical_coordinates_callback()
