@@ -26,7 +26,7 @@ The file will be organized as follows:
 * Nothing.
 """
 
-function save_to_hdf5(filename::String, configurations::AbstractConfigurations, initial_data::Array, runs::Array{Run,})
+function save_to_hdf5(filename::String, configurations::AbstractConfigurations, initial_data::Array, runs::Array{T,}) where {T<:Run}
     
     mode = isfile(filename) ? "r+" : "w"
 
@@ -64,7 +64,7 @@ runs = [
 append_runs_to_hdf5(filename, runs)
 """
 
-function append_runs_to_hdf5(filename::String, runs::Array{Run,})
+function append_runs_to_hdf5(filename::String, runs::Array{T,}) where {T<:Run}
     
     h5open(filename, "r+") do file
         # Count the number of existing runs
