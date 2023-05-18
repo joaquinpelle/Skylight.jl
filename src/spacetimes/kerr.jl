@@ -293,11 +293,7 @@ function set_metric_inverse!(ginv, point, spacetime::KerrSpacetimeBoyerLindquist
 
 end
 
-struct KerrBLChristoffelCache <: ChristoffelCache end
-
-allocate_christoffel_cache(::KerrSpacetimeBoyerLindquistCoordinates) = KerrBLChristoffelCache()
-
-function set_christoffel!(Γ, point, spacetime::KerrSpacetimeBoyerLindquistCoordinates, cache) 
+function set_christoffel!(Γ, point, spacetime::KerrSpacetimeBoyerLindquistCoordinates) 
     
     t, r, θ, φ = point
     

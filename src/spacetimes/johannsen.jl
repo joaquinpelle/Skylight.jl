@@ -124,11 +124,7 @@ function set_metric_inverse!(g, point, spacetime::JohannsenSpacetimeBoyerLindqui
 
 end
 
-struct JohannsenChristoffelCache <: ChristoffelCache end
-
-allocate_christoffel_cache(::JohannsenSpacetimeBoyerLindquistCoordinates) = JohannsenChristoffelCache()
-
-function set_christoffel!(Γ, point, spacetime::JohannsenSpacetimeBoyerLindquistCoordinates, cache) 
+function set_christoffel!(Γ, point, spacetime::JohannsenSpacetimeBoyerLindquistCoordinates) 
     
     t, r, θ, φ = point
 

@@ -73,11 +73,7 @@ function set_metric_inverse!(g, point, spacetime::BosonStarSpacetime)
 
 end
 
-struct BosonStarChristoffelCache <: ChristoffelCache end
-
-allocate_christoffel_cache(::BosonStarSpacetime) = BosonStarChristoffelCache()
-
-function set_christoffel!(Γ, position, spacetime::BosonStarSpacetime, cache)
+function set_christoffel!(Γ, position, spacetime::BosonStarSpacetime)
 
     #Spacetime coordinates
     t, r, θ, φ = position

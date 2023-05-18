@@ -81,11 +81,7 @@ function set_metric_inverse!(g, point, spacetime::ChargedWormholeSpacetimeSpheri
 
 end
 
-struct ChargedWormholeChristoffelCache <: ChristoffelCache end
-
-allocate_christoffel_cache(::ChargedWormholeSpacetime) = ChargedWormholeChristoffelCache()
-
-function set_christoffel!(Γ,point,spacetime::ChargedWormholeSpacetimeSphericalCoordinates, cache)
+function set_christoffel!(Γ,point,spacetime::ChargedWormholeSpacetimeSphericalCoordinates)
     
     #Spacetime coordinates
     t, r, θ, φ = point
@@ -216,7 +212,7 @@ function set_metric_inverse!(g, point, spacetime::ChargedWormholeSpacetimeRegula
     
 end
 
-function set_christoffel!(Γ, position, spacetime::ChargedWormholeSpacetimeRegularCoordinates, cache)
+function set_christoffel!(Γ, position, spacetime::ChargedWormholeSpacetimeRegularCoordinates)
 
     #Spacetime coordinates
     t, l, θ, φ = position

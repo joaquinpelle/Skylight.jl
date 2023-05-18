@@ -71,6 +71,8 @@ end
 function set_metric_inverse!(g, point, spacetime::RARSpacetime)
     
     t, r, θ, φ = point
+
+    interp = spacetime.interp
     
     gtt = interp.gtt(r)
     grr = interp.grr(r)
@@ -96,13 +98,9 @@ function set_metric_inverse!(g, point, spacetime::RARSpacetime)
 
 end
 
-struct RARChristoffelCache <: ChristoffelCache end
+function set_christoffel!(Γ, position, spacetime::RARSpacetime)
 
-allocate_christoffel_cache(::RARSpacetime) = RARChristoffelCache()
-
-function set_christoffel!(Γ, position, spacetime::RARSpacetime, cache)
-
-    t, r, θ, φ = point
+    t, r, θ, φ = position
     
     interp = spacetime.interp
 
