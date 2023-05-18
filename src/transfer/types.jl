@@ -1,4 +1,4 @@
-abstract type CallbackParameters end
+abstract type AbstractCallbackParameters end
 
 struct Run{C,CB}
     output_data::Array{Float64, 2}
