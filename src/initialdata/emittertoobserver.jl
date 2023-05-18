@@ -69,7 +69,7 @@ function set_unit_random_triad_components!(kμ, model)
 
 end
 
-function set_unit_random_triad_components!(kμ, model::OpaqueInteriorSurfaceEmissionModel)
+function set_unit_random_triad_components!(kμ, ::OpaqueInteriorSurfaceEmissionModel)
     
     #Sets only positive components along the surface normal    
     

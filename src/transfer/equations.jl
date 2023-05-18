@@ -1,5 +1,5 @@
-equations(configurations::NonVacuumConfigurations) = non_vacuum_equations!
-equations(configurations::VacuumConfigurations) = geodesic_equations!
+equations(::NonVacuumConfigurations) = non_vacuum_equations!
+equations(::VacuumConfigurations) = geodesic_equations!
 
 function non_vacuum_equations!(du, u::Array{Float64,1}, p::NonVacuumCache, t)
 
