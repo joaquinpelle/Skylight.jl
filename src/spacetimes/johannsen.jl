@@ -34,7 +34,7 @@ end
 
 event_horizon_radius(spacetime::JohannsenSpacetimeBoyerLindquistCoordinates) = spacetime.M*(1+sqrt(1-spacetime.a^2))
 
-coordinate_system_class(spacetime::JohannsenSpacetimeBoyerLindquistCoordinates) = SphericalClass()
+coordinate_system_class(::JohannsenSpacetimeBoyerLindquistCoordinates) = SphericalClass()
 
 function set_metric!(g,point,spacetime::JohannsenSpacetimeBoyerLindquistCoordinates)
 
@@ -126,7 +126,7 @@ end
 
 struct JohannsenChristoffelCache <: ChristoffelCache end
 
-allocate_christoffel_cache(spacetime::JohannsenSpacetimeBoyerLindquistCoordinates) = JohannsenChristoffelCache()
+allocate_christoffel_cache(::JohannsenSpacetimeBoyerLindquistCoordinates) = JohannsenChristoffelCache()
 
 function set_christoffel!(Γ, point, spacetime::JohannsenSpacetimeBoyerLindquistCoordinates, cache) 
     

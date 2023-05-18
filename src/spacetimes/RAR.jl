@@ -34,7 +34,7 @@ end
 
 end
 
-coordinate_system_class(spacetime::RARSpacetime) = SphericalClass()
+coordinate_system_class(::RARSpacetime) = SphericalClass()
 
 function set_metric!(g,point, spacetime::RARSpacetime)
     
@@ -98,7 +98,7 @@ end
 
 struct RARChristoffelCache <: ChristoffelCache end
 
-allocate_christoffel_cache(spacetime::RARSpacetime) = RARChristoffelCache()
+allocate_christoffel_cache(::RARSpacetime) = RARChristoffelCache()
 
 function set_christoffel!(Γ, position, spacetime::RARSpacetime, cache)
 

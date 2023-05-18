@@ -1,4 +1,4 @@
-@with_kw struct StarAcrossWormholeCallbackParameters <: CallbackParameters
+@with_kw struct StarAcrossWormholeCallbackParameters <: AbstractCallbackParameters
     
     rmax::Float64
     l_center::Float64
@@ -16,7 +16,7 @@ function get_cb_params(model::StarAcrossWormhole, configurations)
 
 end
 
-get_callback(model::StarAcrossWormhole, coord_system) = star_across_wormhole_callback()
+get_callback(::StarAcrossWormhole, ) = star_across_wormhole_callback()
 
 star_across_wormhole_callback() = VectorContinuousCallback(star_across_wormhole_condition, star_across_wormhole_affect!, 2)
 

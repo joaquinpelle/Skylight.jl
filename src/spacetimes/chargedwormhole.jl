@@ -13,7 +13,7 @@ abstract type ChargedWormholeSpacetime <: AbstractSpacetime end
 
 end
 
-coordinate_system_class(spacetime::ChargedWormholeSpacetimeSphericalCoordinates) = SphericalClass()
+coordinate_system_class(::ChargedWormholeSpacetimeSphericalCoordinates) = SphericalClass()
 
 function set_metric!(g, point, spacetime::ChargedWormholeSpacetimeSphericalCoordinates)
         
@@ -83,7 +83,7 @@ end
 
 struct ChargedWormholeChristoffelCache <: ChristoffelCache end
 
-allocate_christoffel_cache(spacetime::ChargedWormholeSpacetime) = ChargedWormholeChristoffelCache()
+allocate_christoffel_cache(::ChargedWormholeSpacetime) = ChargedWormholeChristoffelCache()
 
 function set_christoffel!(Γ,point,spacetime::ChargedWormholeSpacetimeSphericalCoordinates, cache)
     
@@ -148,7 +148,7 @@ function get_wormhole_radius(l, spacetime::ChargedWormholeSpacetime)
 
 end
 
-coordinate_system_class(spacetime::ChargedWormholeSpacetimeRegularCoordinates) = SphericalClass()
+coordinate_system_class(::ChargedWormholeSpacetimeRegularCoordinates) = SphericalClass()
 
 function set_metric!(g, point, spacetime::ChargedWormholeSpacetimeRegularCoordinates)
         

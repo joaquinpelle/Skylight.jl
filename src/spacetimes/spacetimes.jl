@@ -1,7 +1,7 @@
 #Required
-coordinate_system_class(spacetime::AbstractSpacetime) = error("Coordinate system not defined for this spacetime.")
+coordinate_system_class(::AbstractSpacetime) = error("Coordinate system not defined for this spacetime.")
 set_metric!(spacetime::AbstractSpacetime) = error("Metric not defined for this spacetime.")
-allocate_christoffel_cache(spacetime::AbstractSpacetime) = error("Christoffel cache not defined for this spacetime.")
+allocate_christoffel_cache(::AbstractSpacetime) = error("Christoffel cache not defined for this spacetime.")
 set_christoffel!(Γ, position, spacetime::AbstractSpacetime, cache) = error("Christoffel symbols not defined for this spacetime.")
 
 #Optional

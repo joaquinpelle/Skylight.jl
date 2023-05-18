@@ -25,11 +25,11 @@ end
 
 end
 
-coordinate_system_class(spacetime::KerrSpacetimeKerrSchildCoordinates) = CartesianClass()
+coordinate_system_class(::KerrSpacetimeKerrSchildCoordinates) = CartesianClass()
 
 event_horizon_radius(spacetime::KerrSpacetimeKerrSchildCoordinates) = spacetime.M*(1+sqrt(1-spacetime.a^2))
 
-allocate_christoffel_cache(spacetime::KerrSpacetimeKerrSchildCoordinates) = KerrKSChristoffelCache()
+allocate_christoffel_cache(::KerrSpacetimeKerrSchildCoordinates) = KerrKSChristoffelCache()
 
 function get_kerr_radius(position, spacetime::KerrSpacetimeKerrSchildCoordinates)
     
@@ -223,7 +223,7 @@ end
 end   
 
 
-coordinate_system_class(spacetime::KerrSpacetimeBoyerLindquistCoordinates) = SphericalClass()
+coordinate_system_class(::KerrSpacetimeBoyerLindquistCoordinates) = SphericalClass()
 
 event_horizon_radius(spacetime::KerrSpacetimeBoyerLindquistCoordinates) = spacetime.M*(1+sqrt(1-spacetime.a^2))
 
@@ -295,7 +295,7 @@ end
 
 struct KerrBLChristoffelCache <: ChristoffelCache end
 
-allocate_christoffel_cache(spacetime::KerrSpacetimeBoyerLindquistCoordinates) = KerrBLChristoffelCache()
+allocate_christoffel_cache(::KerrSpacetimeBoyerLindquistCoordinates) = KerrBLChristoffelCache()
 
 function set_christoffel!(Γ, point, spacetime::KerrSpacetimeBoyerLindquistCoordinates, cache) 
     

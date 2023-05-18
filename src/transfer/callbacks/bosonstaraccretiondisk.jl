@@ -9,7 +9,7 @@ function get_cb_params(model::BosonStarAccretionDisk, configurations)
 
 end
 
-@with_kw struct BosonStarAccretionDiskCallbackParameters <: CallbackParameters
+@with_kw struct BosonStarAccretionDiskCallbackParameters <: AbstractCallbackParameters
     
     rmax::Float64
     inner_radius::Float64
@@ -17,7 +17,7 @@ end
 
 end
 
-get_callback(model::BosonStarAccretionDisk, coord_system::SphericalClass) = boson_star_accretion_disk_spherical_coordinates_callback()
+get_callback(::BosonStarAccretionDisk, ::SphericalClass) = boson_star_accretion_disk_spherical_coordinates_callback()
 
 boson_star_accretion_disk_spherical_coordinates_callback() = VectorContinuousCallback(boson_star_accretion_disk_spherical_coordinates_condition, boson_star_accretion_disk_spherical_coordinates_affect!, 2)
 

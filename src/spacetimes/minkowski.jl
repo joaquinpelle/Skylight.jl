@@ -3,7 +3,7 @@ export MinkowskiSpacetimeSphericalCoordinates
 
 struct MinkowskiSpacetimeCartesianCoordinates <: AbstractSpacetime end
 
-coordinate_system_class(spacetime::MinkowskiSpacetimeCartesianCoordinates) = CartesianClass()
+coordinate_system_class(::MinkowskiSpacetimeCartesianCoordinates) = CartesianClass()
 
 function set_metric!(g, q, spacetime::MinkowskiSpacetimeCartesianCoordinates)
     
@@ -28,7 +28,7 @@ set_metric_inverse!(g, q, spacetime::MinkowskiSpacetimeCartesianCoordinates) = s
 
 struct MinkowskiSpacetimeSphericalCoordinates <: AbstractSpacetime end
 
-coordinate_system_class(spacetime::MinkowskiSpacetimeSphericalCoordinates) = SphericalClass()
+coordinate_system_class(::MinkowskiSpacetimeSphericalCoordinates) = SphericalClass()
 
 function set_metric!(g, q, spacetime::MinkowskiSpacetimeSphericalCoordinates)
     

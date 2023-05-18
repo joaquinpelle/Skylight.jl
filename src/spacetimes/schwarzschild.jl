@@ -13,7 +13,7 @@ export SchwarzschildSpacetimeSphericalCoordinates
 
 end
 
-coordinate_system_class(spacetime::SchwarzschildSpacetimeKerrSchildCoordinates) = CartesianClass()
+coordinate_system_class(::SchwarzschildSpacetimeKerrSchildCoordinates) = CartesianClass()
 
 function set_metric!(g, position, spacetime::SchwarzschildSpacetimeKerrSchildCoordinates)
 
@@ -108,7 +108,7 @@ event_horizon_radius(spacetime::SchwarzschildSpacetimeKerrSchildCoordinates) = 2
 
 end
 
-coordinate_system_class(spacetime::SchwarzschildSpacetimeSphericalCoordinates) = SphericalClass()
+coordinate_system_class(::SchwarzschildSpacetimeSphericalCoordinates) = SphericalClass()
 
 function set_metric!(g, q, spacetime::SchwarzschildSpacetimeSphericalCoordinates)
     

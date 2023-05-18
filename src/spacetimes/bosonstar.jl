@@ -9,7 +9,7 @@ export BosonStarSpacetime
 
 end
 
-coordinate_system_class(spacetime::BosonStarSpacetime) = SphericalClass() 
+coordinate_system_class(::BosonStarSpacetime) = SphericalClass() 
 
 function set_metric!(g, point, spacetime::BosonStarSpacetime)
         
@@ -75,7 +75,7 @@ end
 
 struct BosonStarChristoffelCache <: ChristoffelCache end
 
-allocate_christoffel_cache(spacetime::BosonStarSpacetime) = BosonStarChristoffelCache()
+allocate_christoffel_cache(::BosonStarSpacetime) = BosonStarChristoffelCache()
 
 function set_christoffel!(Γ, position, spacetime::BosonStarSpacetime, cache)
 

@@ -1,6 +1,6 @@
 # Dummy extended region
 
-function get_cb_params(model::DummyExtendedRegion, configurations; rhorizon_bound) 
+function get_cb_params(::DummyExtendedRegion, configurations; rhorizon_bound) 
 
     rmax = get_rmax(configurations)
 
@@ -11,14 +11,14 @@ function get_cb_params(model::DummyExtendedRegion, configurations; rhorizon_boun
 
 end
 
-@with_kw struct DummyExtendedRegionCallbackParameters <: CallbackParameters
+@with_kw struct DummyExtendedRegionCallbackParameters <: AbstractCallbackParameters
     
     rmin::Float64
     rmax::Float64
 
 end
 
-get_callback(model::DummyExtendedRegion, coord_system) = dummy_extended_region_callback()
+get_callback(::DummyExtendedRegion, ) = dummy_extended_region_callback()
 
 dummy_extended_region_callback() = ContinuousCallback(dummy_extended_region_condition, dummy_extended_region_affect!, 2)
 

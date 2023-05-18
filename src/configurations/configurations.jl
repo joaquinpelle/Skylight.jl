@@ -10,10 +10,10 @@ my_zeros(configurations::VacuumConfigurations) = zeros(8, number_of_initial_cond
 
 get_observed_times(configurations::OTEConfigurations) = configurations.observed_times
 
-get_initial_data_cache(configurations::OTEConfigurations) = OTEInitialDataCache()
-get_initial_data_cache(configurations::ETOConfigurations) = ETOInitialDataCache()
+get_initial_data_cache(::OTEConfigurations) = OTEInitialDataCache()
+get_initial_data_cache(::ETOConfigurations) = ETOInitialDataCache()
 
-get_postprocess_cache(configurations::OTEConfigurations) = OTEPostProcessCache()
+get_postprocess_cache(::OTEConfigurations) = OTEPostProcessCache()
 
 function get_initial_positions(configurations::ETOConfigurations)
     

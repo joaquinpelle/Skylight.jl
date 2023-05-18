@@ -11,7 +11,7 @@ function get_cb_params(model::BlackHoleAccretionDisk, configurations; rhorizon_b
 
 end
 
-@with_kw struct BlackHoleAccretionDiskCallbackParameters <: CallbackParameters
+@with_kw struct BlackHoleAccretionDiskCallbackParameters <: AbstractCallbackParameters
     
     rmax::Float64
     rmin::Float64
@@ -20,8 +20,8 @@ end
 
 end
 
-get_callback(model::BlackHoleAccretionDisk, coord_system::CartesianClass) = black_hole_accretion_disk_cartesian_coordinates_callback()
-get_callback(model::BlackHoleAccretionDisk, coord_system::SphericalClass) = black_hole_accretion_disk_spherical_coordinates_callback()
+get_callback(::BlackHoleAccretionDisk, ::CartesianClass) = black_hole_accretion_disk_cartesian_coordinates_callback()
+get_callback(::BlackHoleAccretionDisk, ::SphericalClass) = black_hole_accretion_disk_spherical_coordinates_callback()
 
 black_hole_accretion_disk_cartesian_coordinates_callback() = VectorContinuousCallback(black_hole_accretion_disk_cartesian_coordinates_condition, black_hole_accretion_disk_cartesian_coordinates_affect!, 2)
 black_hole_accretion_disk_spherical_coordinates_callback() = VectorContinuousCallback(black_hole_accretion_disk_spherical_coordinates_condition, black_hole_accretion_disk_spherical_coordinates_affect!, 2)
