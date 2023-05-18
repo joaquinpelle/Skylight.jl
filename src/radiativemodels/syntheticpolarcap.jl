@@ -12,7 +12,7 @@ export SyntheticPolarCap
     
 end
 
-function set_surface_differential!(covector, position, model::SyntheticPolarCap, coord_system::CartesianClass)
+function set_surface_differential!(covector, position, model::SyntheticPolarCap, ::CartesianClass)
 
     @views begin
         t,x,y,z = position
@@ -32,7 +32,7 @@ function set_emitter_four_velocity!(vector, position, metric, spacetime, model::
     
 end
 
-function get_space_positions(npoints, model::SyntheticPolarCap, coord_system::CartesianClass)
+function get_space_positions(npoints, model::SyntheticPolarCap, ::CartesianClass)
 
     space_positions = zeros(3, npoints)
 

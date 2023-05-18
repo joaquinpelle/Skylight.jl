@@ -12,14 +12,14 @@ end
 
 getproperty(model::BosonStarAccretionDisk, field) = getproperty_nosave(model, field)
 
-function set_emitter_four_velocity!(vector, position, metric, spacetime::BosonStarSpacetime, model::BosonStarAccretionDisk, coord_system)
+function set_emitter_four_velocity!(vector, position, metric, spacetime::BosonStarSpacetime, ::BosonStarAccretionDisk, coord_system)
 
     angular_speed = circular_geodesic_angular_speed(position, spacetime)
     tangent_vector_zaxis_rotation!(vector, position, angular_speed, metric, coord_system)
 
 end
 
-function get_emitted_bolometric_intensity(position, momentum, emitter_four_velocity, metric, spacetime, model::BosonStarAccretionDisk, coord_system::SphericalClass)
+function get_emitted_bolometric_intensity(position, momentum, emitter_four_velocity, metric, spacetime, model::BosonStarAccretionDisk, ::SphericalClass)
 
     r = position[2]
     T = model.temperature_interpolator(r)
@@ -28,7 +28,7 @@ function get_emitted_bolometric_intensity(position, momentum, emitter_four_veloc
 
 end
 
-function get_emitted_specific_intensity(position, momentum, energy, emitter_four_velocity, metric, spacetime, model::BosonStarAccretionDisk, coord_system::SphericalClass)
+function get_emitted_specific_intensity(position, momentum, energy, emitter_four_velocity, metric, spacetime, model::BosonStarAccretionDisk, ::SphericalClass)
 
     r = position[2]
     T = model.temperature_interpolator(r)

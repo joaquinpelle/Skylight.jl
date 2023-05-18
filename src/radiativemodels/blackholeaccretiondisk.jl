@@ -7,7 +7,7 @@ export BlackHoleAccretionDisk
 
 end
 
-function set_surface_differential!(covector, position, model::BlackHoleAccretionDisk, coord_system::CartesianClass)
+function set_surface_differential!(covector, position, ::BlackHoleAccretionDisk, ::CartesianClass)
 
     covector[1] = 0.0
     covector[2] = 0.0
@@ -16,7 +16,7 @@ function set_surface_differential!(covector, position, model::BlackHoleAccretion
 
 end
 
-function set_surface_differential!(covector, position, model::BlackHoleAccretionDisk, coord_system::SphericalClass)
+function set_surface_differential!(covector, position, ::BlackHoleAccretionDisk, ::SphericalClass)
 
     covector[1] = 0.0
     covector[2] = 0.0

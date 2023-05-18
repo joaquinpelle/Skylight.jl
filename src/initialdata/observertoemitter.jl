@@ -45,7 +45,7 @@ function initialize_single!(ray, initial_time, pixel_coordinates, configurations
 
 end
 
-function get_space_position_from(pixel_coordinates, image_plane::ImagePlane, coord_system::CartesianClass)
+function get_space_position_from(pixel_coordinates, image_plane::ImagePlane, ::CartesianClass)
 
     α,β = pixel_coordinates
     ξ = image_plane.observer_inclination_in_radians
@@ -62,7 +62,7 @@ function get_space_position_from(pixel_coordinates, image_plane::ImagePlane, coo
 
 end
 
-function get_space_position_from(pixel_coordinates, image_plane::ImagePlane, coord_system::SphericalClass)
+function get_space_position_from(pixel_coordinates, image_plane::ImagePlane, ::SphericalClass)
 
     α,β = pixel_coordinates
     ξ = image_plane.observer_inclination_in_radians
@@ -79,7 +79,7 @@ function get_space_position_from(pixel_coordinates, image_plane::ImagePlane, coo
 
 end
 
-function get_space_momentum_from(pixel_coordinates, image_plane::ImagePlane, coord_system::SphericalClass)
+function get_space_momentum_from(pixel_coordinates, image_plane::ImagePlane, ::SphericalClass)
 
     α,β = pixel_coordinates
     ξ = image_plane.observer_inclination_in_radians
@@ -98,7 +98,7 @@ function get_space_momentum_from(pixel_coordinates, image_plane::ImagePlane, coo
 
 end
 
-function get_space_momentum_from(pixel_coordinates, image_plane::ImagePlane, coord_system::CartesianClass)
+function get_space_momentum_from(pixel_coordinates, image_plane::ImagePlane, ::CartesianClass)
     
     ξ = image_plane.observer_inclination_in_radians
     
