@@ -44,14 +44,16 @@ export AbstractSpacetime,
     BosonStarSpacetime,
     NumericalSpacetime
 
+export AbstractChristoffelCache
+
+export AbstractCoordinatesTopology, 
+    CartesianTopology,
+    SphericalTopology
+
 export set_metric!, 
     allocate_christoffel_cache, 
     set_christoffel!
-
-export CartesianTopology,
-    SphericalTopology
-
-export coordinates_topology 
+    coordinates_topology 
 
 export AbstractRadiativeModel,
     DummyExtendedRegion,
@@ -84,7 +86,6 @@ export get_filter_mask,
     rescale_intensities_normalization_at_real_observer!, 
     get_pixel_coordinates_vectors, view_intensities_grid
 
-    
 export save_to_hdf5,
     append_runs_to_hdf5,
     load_initial_data_from_hdf5,
