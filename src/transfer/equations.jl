@@ -16,9 +16,11 @@ function geodesic_equations!(du, u::Array{Float64,1}, p, t)
     point = cache.point
     vel = cache.velocity
 
-    @inbounds for i in 1:4
-        point[i] = u[i]
-        vel[i] = u[4+i]
+    @inbounds begin 
+        for i in 1:4
+            point[i] = u[i]
+            vel[i] = u[4+i]
+        end
     end
 
     Γ = cache.christoffel
@@ -30,17 +32,19 @@ function geodesic_equations!(du, u::Array{Float64,1}, p, t)
     a = cache.acceleration
     fill!(a, 0.0)
 
-    @inbounds for i in 1:4
-        for j in 1:4
-            for k in 1:4
-                a[i] += -Γ[i,j,k]*vel[j]*vel[k]
+    @inbounds begin 
+        for i in 1:4
+            for j in 1:4
+                for k in 1:4
+                    a[i] += -Γ[i,j,k]*vel[j]*vel[k]
+                end
             end
         end
-    end
 
-    @inbounds for i in 1:4
-        du[i] = vel[i]
-        du[4+i] = a[i]
+        for i in 1:4
+            du[i] = vel[i]
+            du[4+i] = a[i]
+        end
     end
 
 end
@@ -65,11 +69,11 @@ function transfer_equations!(du, u::Array{Float64,1}, p, t)
     set_invariant_absorptivity!(αε, point, ε, model)
     set_invariant_emissivity!(jε, point, ε, model)
 
-    @inbounds for i in 1:NE
- 
-        du[8+i] = αε[i]
-        du[8+NE+i] = jε[i]*exp(-u[8+i])
- 
+    @inbounds begin    
+        for i in 1:NE
+            du[8+i] = αε[i]
+            du[8+NE+i] = jε[i]*exp(-u[8+i])
+        end
     end
 
 end
