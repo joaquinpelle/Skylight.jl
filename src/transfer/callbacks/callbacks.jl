@@ -15,9 +15,9 @@ function get_callback_and_params(configurations; kwargs...)
 
 end
 
-get_rmax(configurations::ETOConfigurations) = configurations.observer_distance
+get_rmax(configurations::AbstractETOConfigurations) = configurations.observer_distance
 
-function get_rmax(configurations::OTEConfigurations) 
+function get_rmax(configurations::AbstractOTEConfigurations) 
     
     d = configurations.image_plane.distance
     hs = configurations.image_plane.horizontal_side_image_plane

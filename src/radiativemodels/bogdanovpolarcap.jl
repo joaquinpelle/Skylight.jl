@@ -1,1 +1,1 @@
-struct BogdanovPolarCap <: OpaqueInteriorSurfaceEmissionModel end
+struct BogdanovPolarCap <: AbstractOpaqueInteriorSurfaceEmissionModel end

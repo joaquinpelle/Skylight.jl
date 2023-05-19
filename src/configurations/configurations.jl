@@ -8,14 +8,14 @@ end
 
 my_zeros(configurations::VacuumConfigurations) = zeros(8, number_of_initial_conditions(configurations))
 
-get_observed_times(configurations::OTEConfigurations) = configurations.observed_times
+get_observed_times(configurations::AbstractOTEConfigurations) = configurations.observed_times
 
-get_initial_data_cache(::OTEConfigurations) = OTEInitialDataCache()
-get_initial_data_cache(::ETOConfigurations) = ETOInitialDataCache()
+get_initial_data_cache(::AbstractOTEConfigurations) = OTEInitialDataCache()
+get_initial_data_cache(::AbstractETOConfigurations) = ETOInitialDataCache()
 
-get_postprocess_cache(::OTEConfigurations) = OTEPostProcessCache()
+get_postprocess_cache(::AbstractOTEConfigurations) = OTEPostProcessCache()
 
-function get_initial_positions(configurations::ETOConfigurations)
+function get_initial_positions(configurations::AbstractETOConfigurations)
     
     times = zero_times(configurations)
     space_positions = get_space_positions(configurations)
@@ -24,7 +24,7 @@ function get_initial_positions(configurations::ETOConfigurations)
 
 end
 
-function get_space_positions(configurations::ETOConfigurations)
+function get_space_positions(configurations::AbstractETOConfigurations)
     
     npoints = configurations.number_of_points
 
@@ -35,14 +35,14 @@ function get_space_positions(configurations::ETOConfigurations)
 
 end
 
-function zero_times(configurations::ETOConfigurations)
+function zero_times(configurations::AbstractETOConfigurations)
     
     npoints = configurations.number_of_points
     return repeat([0.0],npoints)
 
 end
 
-function number_of_initial_conditions(configurations::OTEConfigurations)
+function number_of_initial_conditions(configurations::AbstractOTEConfigurations)
      
     number_of_times = length(configurations.observed_times)
     
@@ -50,7 +50,7 @@ function number_of_initial_conditions(configurations::OTEConfigurations)
     
 end
 
-function number_of_initial_conditions(configurations::ETOConfigurations)
+function number_of_initial_conditions(configurations::AbstractETOConfigurations)
     
     number_of_points = configurations.number_of_points
     number_of_packets_per_point = configurations.number_of_packets_per_point

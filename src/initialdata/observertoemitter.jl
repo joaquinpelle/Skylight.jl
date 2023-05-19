@@ -1,4 +1,4 @@
-function get_initial_data(configurations::OTEConfigurations)
+function get_initial_data(configurations::AbstractOTEConfigurations)
 
     rays = my_zeros(configurations)
     cache = get_initial_data_cache(configurations)

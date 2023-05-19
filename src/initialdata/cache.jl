@@ -65,7 +65,7 @@ function dump_triad_in!(cache, position, model, coords_top)
 
 end
 
-function dump_triad_in!(cache, position, model::SurfaceEmissionModel, coords_top)
+function dump_triad_in!(cache, position, model::AbstractSurfaceEmissionModel, coords_top)
 
     metric, metric_inverse, time_vector, triad = unpack_views(cache)
     set_surface_adapted_triad!(triad, time_vector, position, metric, metric_inverse, model, coords_top)

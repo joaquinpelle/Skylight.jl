@@ -1,5 +1,5 @@
 abstract type AbstractRadiativeModel end
 
-abstract type SurfaceEmissionModel <: AbstractRadiativeModel end
+abstract type AbstractSurfaceEmissionModel <: AbstractRadiativeModel end
 
-abstract type OpaqueInteriorSurfaceEmissionModel <: SurfaceEmissionModel end
+abstract type AbstractOpaqueInteriorSurfaceEmissionModel <: AbstractSurfaceEmissionModel end

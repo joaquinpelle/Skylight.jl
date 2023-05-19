@@ -12,10 +12,10 @@ end
 
 abstract type AbstractConfigurations end
 
-abstract type OTEConfigurations <: AbstractConfigurations end
-abstract type ETOConfigurations <: AbstractConfigurations end
+abstract type AbstractOTEConfigurations <: AbstractConfigurations end
+abstract type AbstractETOConfigurations <: AbstractConfigurations end
 
-@with_kw struct NonVacuumOTEConfigurations{S, M} <: OTEConfigurations
+@with_kw struct NonVacuumOTEConfigurations{S, M} <: AbstractOTEConfigurations
     
     spacetime::S
     radiative_model::M
@@ -26,7 +26,7 @@ abstract type ETOConfigurations <: AbstractConfigurations end
 
 end
 
-@with_kw struct VacuumOTEConfigurations{S, M} <: OTEConfigurations
+@with_kw struct VacuumOTEConfigurations{S, M} <: AbstractOTEConfigurations
     
     spacetime::S
     radiative_model::M
@@ -36,7 +36,7 @@ end
 
 end
 
-@with_kw struct VacuumETOConfigurations{S, M} <: ETOConfigurations
+@with_kw struct VacuumETOConfigurations{S, M} <: AbstractETOConfigurations
     
     spacetime::S
     radiative_model::M

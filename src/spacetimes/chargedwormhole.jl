@@ -1,6 +1,6 @@
-abstract type ChargedWormholeSpacetime <: AbstractSpacetime end
+abstract type AbstractChargedWormholeSpacetime <: AbstractSpacetime end
 
-@with_kw struct ChargedWormholeSpacetimeSphericalCoordinates <: ChargedWormholeSpacetime
+@with_kw struct ChargedWormholeSpacetimeSphericalCoordinates <: AbstractChargedWormholeSpacetime
     
     b0::Float64
     Q::Float64
@@ -122,7 +122,7 @@ end
 
 
 
-@with_kw struct ChargedWormholeSpacetimeRegularCoordinates <: ChargedWormholeSpacetime
+@with_kw struct ChargedWormholeSpacetimeRegularCoordinates <: AbstractChargedWormholeSpacetime
     
     b0::Float64
     Q::Float64
@@ -132,7 +132,7 @@ end
 
 end
 
-function get_wormhole_radius(l, spacetime::ChargedWormholeSpacetime)
+function get_wormhole_radius(l, spacetime::ChargedWormholeSpacetimeRegularCoordinates)
 
     b0 = spacetime.b0
     Q = spacetime.Q

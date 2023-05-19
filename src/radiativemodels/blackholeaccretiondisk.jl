@@ -1,4 +1,4 @@
-@with_kw struct BlackHoleAccretionDisk <: SurfaceEmissionModel 
+@with_kw struct BlackHoleAccretionDisk <: AbstractSurfaceEmissionModel 
 
     inner_radius::Float64
     outer_radius::Float64 

@@ -1,4 +1,4 @@
-@with_kw struct SyntheticPolarCap <: OpaqueInteriorSurfaceEmissionModel
+@with_kw struct SyntheticPolarCap <: AbstractOpaqueInteriorSurfaceEmissionModel
 
     star_radius::Float64
     angular_speed::Float64

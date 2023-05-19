@@ -60,14 +60,14 @@ function set_unit_time_component!(kμ)
     kμ[1,:] .= 1.0
 end
 
-function set_unit_random_triad_components!(kμ, model)
+function set_unit_random_triad_components!(kμ, ::AbstractSurfaceEmissionModel)
     
     @views ki = kμ[2:4,:] 
     random_uniform_points_unit_sphere!(ki, CartesianTopology())
 
 end
 
-function set_unit_random_triad_components!(kμ, ::OpaqueInteriorSurfaceEmissionModel)
+function set_unit_random_triad_components!(kμ, ::AbstractOpaqueInteriorSurfaceEmissionModel)
     
     #Sets only positive components along the surface normal    
     

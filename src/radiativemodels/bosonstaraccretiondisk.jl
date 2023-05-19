@@ -1,4 +1,4 @@
-@with_kw struct BosonStarAccretionDisk{T} <: SurfaceEmissionModel
+@with_kw struct BosonStarAccretionDisk{T} <: AbstractSurfaceEmissionModel
 
     inner_radius::Float64
     outer_radius::Float64

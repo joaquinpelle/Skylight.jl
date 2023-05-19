@@ -1,4 +1,4 @@
-function get_pixel_coordinates_vectors(configurations::OTEConfigurations)
+function get_pixel_coordinates_vectors(configurations::AbstractOTEConfigurations)
 
     image_plane = configurations.image_plane
 

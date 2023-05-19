@@ -5,7 +5,7 @@ get_emitted_specific_intensity(position, momentum, energy, emitter_four_velocity
 is_final_position_at_source(position, spacetime, ::AbstractRadiativeModel) = error("is_final_position_at_source not defined for this model.")
 
 #Optional
-set_surface_differential!(differential, position, metric, spacetime, ::SurfaceEmissionModel, coords_top) = error("Surface differential not defined for this model.")
+set_surface_differential!(differential, position, metric, spacetime, ::AbstractSurfaceEmissionModel, coords_top) = error("Surface differential not defined for this model.")
 
 
 include("utils/utils.jl")
