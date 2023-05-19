@@ -52,22 +52,22 @@ export AbstractCoordinatesTopology,
 
 export set_metric!, 
     allocate_christoffel_cache, 
-    set_christoffel!
+    set_christoffel!,
     coordinates_topology 
 
 export AbstractRadiativeModel,
     DummyExtendedRegion,
     DummyModel,
     BlackHoleAccretionDisk,
-    SyntheticPolarCap
+    SyntheticPolarCap,
     StarAcrossWormhole,
-    BosonStarAccretionDisk,
+    BosonStarAccretionDisk
 
 export set_emitter_four_velocity!,
-    set_surface_differential!
+    set_surface_differential!,
     get_emitted_bolometric_intensity,
     get_emitted_specific_intensity,
-    is_final_position_at_source,
+    is_final_position_at_source
 
 export ImagePlane,
     AbstractConfigurations,
@@ -90,9 +90,9 @@ export save_to_hdf5,
     append_runs_to_hdf5,
     load_initial_data_from_hdf5,
     load_configurations_from_hdf5,
-    load_runs_from_hdf5
+    load_runs_from_hdf5,
     load_output_data_from_hdf5,
-    load_params_dictionary_from_hdf5,
+    load_callback_params_from_hdf5,
     load_kwargs_from_hdf5,
     load_callback_from_hdf5
     
@@ -102,7 +102,7 @@ export nosave,
 export geometrized_to_CGS,
     CGS_to_geometrized
 
-export TT
+export TT,
     XX,
     YY,
     ZZ,
