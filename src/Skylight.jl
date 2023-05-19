@@ -14,10 +14,15 @@ using Reexport
 @reexport using DifferentialEquations
 @reexport using PreallocationTools
 
-include("types.jl")
-include("utils/utils.jl")
+include("utils/types.jl")
+include("spacetimes/types.jl")
+include("radiativemodels/types.jl")
+include("configurations/types.jl")
+include("initialdata/types.jl")
+include("transfer/types.jl")
+include("postprocess/types.jl")
 
-include("macros/macros.jl")
+include("utils/utils.jl")
 include("spacetimes/spacetimes.jl")
 include("radiativemodels/radiativemodels.jl")
 include("configurations/configurations.jl")
