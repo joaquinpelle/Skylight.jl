@@ -10,7 +10,9 @@ event_horizon_radius(::AbstractSpacetime) = error("Event horizon radius not defi
 circular_geodesic_angular_speed(::AbstractSpacetime) = error("Circular geodesic angular speed not defined for this spacetime.")
 allocate_christoffel_cache(::AbstractSpacetime) = nothing
 
-include("coordinate_alias.jl")
+set_christoffel!(Γ, position, spacetime::AbstractSpacetime, ::Nothing) = set_christoffel!(Γ, position, spacetime::AbstractSpacetime)
+
+include("coordinatealias.jl")
 include("general.jl")
 include("minkowski.jl")
 include("schwarzschild.jl")
@@ -20,5 +22,3 @@ include("chargedwormhole.jl")
 include("bosonstar.jl")
 include("numerical.jl")
 include("RAR.jl")
-
-set_christoffel!(Γ, position, spacetime::AbstractSpacetime, ::Nothing) = set_christoffel!(Γ, position, spacetime::AbstractSpacetime)
