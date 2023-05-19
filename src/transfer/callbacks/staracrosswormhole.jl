@@ -16,7 +16,7 @@ function get_cb_params(model::StarAcrossWormhole, configurations)
 
 end
 
-get_callback(::StarAcrossWormhole, ::AbstractCoordinateTopology) = star_across_wormhole_callback()
+get_callback(::StarAcrossWormhole, ::AbstractCoordinatesTopology) = star_across_wormhole_callback()
 
 star_across_wormhole_callback() = VectorContinuousCallback(star_across_wormhole_condition, star_across_wormhole_affect!, 2)
 
