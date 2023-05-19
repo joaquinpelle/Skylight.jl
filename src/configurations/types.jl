@@ -1,3 +1,7 @@
+abstract type AbstractConfigurations end
+abstract type AbstractOTEConfigurations <: AbstractConfigurations end
+abstract type AbstractETOConfigurations <: AbstractConfigurations end
+
 @with_kw struct ImagePlane
 
     distance :: Float64
@@ -9,11 +13,6 @@
     observer_inclination_in_radians::Float64 = deg2rad(observer_inclination_in_degrees)
 
 end
-
-abstract type AbstractConfigurations end
-
-abstract type AbstractOTEConfigurations <: AbstractConfigurations end
-abstract type AbstractETOConfigurations <: AbstractConfigurations end
 
 @with_kw struct NonVacuumOTEConfigurations{S, M} <: AbstractOTEConfigurations
     
