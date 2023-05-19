@@ -17,10 +17,3 @@ include("bosonstaraccretiondisk.jl")
 include("staracrosswormhole.jl")
 include("dummyextendedregion.jl")
 include("dummymodel.jl")
-
-#Required
-export set_emitter_four_velocity!
-export get_emitted_bolometric_intensity
-export get_emitted_specific_intensity
-export is_final_position_at_source
-export set_surface_differential!

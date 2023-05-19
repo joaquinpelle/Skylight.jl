@@ -1,5 +1,3 @@
-export BosonStarAccretionDisk 
-
 @with_kw struct BosonStarAccretionDisk{T} <: SurfaceEmissionModel
 
     inner_radius::Float64

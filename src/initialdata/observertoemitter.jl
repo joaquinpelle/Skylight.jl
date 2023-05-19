@@ -1,5 +1,3 @@
-export get_initial_data
-
 function get_initial_data(configurations::OTEConfigurations)
 
     rays = my_zeros(configurations)

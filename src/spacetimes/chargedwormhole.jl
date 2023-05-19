@@ -1,6 +1,3 @@
-export ChargedWormholeSpacetimeSphericalCoordinates
-export ChargedWormholeSpacetimeRegularCoordinates
-
 abstract type ChargedWormholeSpacetime <: AbstractSpacetime end
 
 @with_kw struct ChargedWormholeSpacetimeSphericalCoordinates <: ChargedWormholeSpacetime

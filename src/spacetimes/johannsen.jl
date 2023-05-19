@@ -1,5 +1,3 @@
-export JohannsenSpacetimeBoyerLindquistCoordinates
-
 @with_kw struct JohannsenSpacetimeBoyerLindquistCoordinates <: AbstractSpacetime
     
     """Johannsen (2013) spacetime to lowest order in the deformation parameters from the Kerr metric

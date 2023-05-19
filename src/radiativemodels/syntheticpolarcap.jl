@@ -1,5 +1,3 @@
-export SyntheticPolarCap
-
 @with_kw struct SyntheticPolarCap <: OpaqueInteriorSurfaceEmissionModel
 
     star_radius::Float64

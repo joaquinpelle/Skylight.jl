@@ -1,6 +1,3 @@
-export SchwarzschildSpacetimeKerrSchildCoordinates 
-export SchwarzschildSpacetimeSphericalCoordinates
-
 #Kerr-Schild coordinates
 
 @with_kw struct SchwarzschildSpacetimeKerrSchildCoordinates <: AbstractSpacetime 

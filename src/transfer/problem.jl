@@ -1,6 +1,3 @@
-export integrate
-export output_data
-
 function integrate(initial_data, configurations::VacuumConfigurations, cb, cb_params; method = VCABM(), kwargs...)
 
     N = size(initial_data, 2)  

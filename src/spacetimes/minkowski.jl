@@ -1,6 +1,3 @@
-export MinkowskiSpacetimeCartesianCoordinates
-export MinkowskiSpacetimeSphericalCoordinates
-
 struct MinkowskiSpacetimeCartesianCoordinates <: AbstractSpacetime end
 
 coordinate_system_class(::MinkowskiSpacetimeCartesianCoordinates) = CartesianClass()

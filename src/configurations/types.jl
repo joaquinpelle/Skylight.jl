@@ -1,10 +1,3 @@
-export ImagePlane
-
-export NonVacuumOTEConfigurations
-export VacuumOTEConfigurations
-export VacuumETOConfigurations
-
-
 @with_kw struct ImagePlane
 
     distance :: Float64

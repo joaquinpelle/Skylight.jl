@@ -1,28 +1,21 @@
-export tt,xx,yy,zz
-export rr,θθ,φφ
-export ll
-export ktt,kxx,kyy,kzz
-export krr,kθθ,kφφ
-export kll
+const TT = 1
+const XX = 2
+const YY = 3
+const ZZ = 4
 
-const tt = 1
-const xx = 2
-const yy = 3
-const zz = 4
+const RR = 2
+const TH = 3
+const PH = 4
 
-const rr = 2
-const θθ = 3
-const φφ = 4
+const LL = 2
 
-const ll = 2
+const KTT = 5
+const KXX = 6
+const KYY = 7
+const KZZ = 8
 
-const ktt = 5
-const kxx = 6
-const kyy = 7
-const kzz = 8
+const KRR = 6
+const KTH = 7
+const KPH = 8
 
-const krr = 6
-const kθθ = 7
-const kφφ = 8
-
-const kll = 6
+const KLL = 6

@@ -1,5 +1,3 @@
-export BosonStarSpacetime
-
 #TODO add reference
 
 @with_kw struct BosonStarSpacetime <: AbstractSpacetime

@@ -1,5 +1,3 @@
-export nosave, with_kw_nosave
-
 """
     @nosave
 
@@ -65,7 +63,29 @@ macro with_kw_nosave(ex::Expr)
     end)
 end
 
-function getproperty_nosave(obj::SkylightCustomType, field::Symbol)
+function getproperty_nosave(obj::AbstractSpacetime, field::Symbol)
+
+    value = getfield(obj, field)
+    if value isa NoSaveField
+        return value.value
+    else
+        return value
+    end
+
+end
+
+function getproperty_nosave(obj::AbstractRadiativeModel, field::Symbol)
+
+    value = getfield(obj, field)
+    if value isa NoSaveField
+        return value.value
+    else
+        return value
+    end
+
+end
+
+function getproperty_nosave(obj::AbstractCallbackParameters, field::Symbol)
 
     value = getfield(obj, field)
     if value isa NoSaveField

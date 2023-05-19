@@ -1,5 +1,3 @@
-export RARSpacetime
-
 @with_kw struct RARInterpolator{T}
     
     gtt :: T

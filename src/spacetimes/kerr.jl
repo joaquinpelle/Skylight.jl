@@ -1,6 +1,3 @@
-export KerrSpacetimeKerrSchildCoordinates
-export KerrSpacetimeBoyerLindquistCoordinates
-
 # Kerr Schild coordinates
 
 @with_kw struct KerrSpacetimeKerrSchildCoordinates{T} <: AbstractSpacetime

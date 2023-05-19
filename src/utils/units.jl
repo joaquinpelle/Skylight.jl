@@ -1,6 +1,3 @@
-export geometrized_to_CGS
-export CGS_to_geometrized
-
 @kwdispatch geometrized_to_CGS
 @kwdispatch CGS_to_geometrized
 

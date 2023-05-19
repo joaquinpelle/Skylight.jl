@@ -1,5 +1,3 @@
-export get_filter_mask
-
 # Take the output data array and the configurations, and return a boolean array 
 # that will filter out the rays which are away from the source
 

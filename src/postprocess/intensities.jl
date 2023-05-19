@@ -1,7 +1,3 @@
-export get_observed_bolometric_intensities
-export get_observed_specific_intensities
-export rescale_intensities_normalization_at_real_observer!
-
 function get_observed_bolometric_intensities(initial_data, output_data, configurations::VacuumOTEConfigurations)
     
     #Returns intensities in CGS

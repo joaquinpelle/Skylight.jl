@@ -1,6 +1,3 @@
-export CartesianClass, SphericalClass
-export coordinate_system_class, set_metric!, allocate_christoffel_cache, set_christoffel!
-
 #Required
 coordinate_system_class(::AbstractSpacetime) = error("Coordinate system not defined for this spacetime.")
 set_metric!(::AbstractSpacetime) = error("Metric not defined for this spacetime.")

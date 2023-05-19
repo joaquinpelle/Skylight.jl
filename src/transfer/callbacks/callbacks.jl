@@ -1,5 +1,3 @@
-export get_callback_and_params
-
 include("syntheticpolarcap.jl")
 include("blackholeaccretiondisk.jl")
 include("bosonstaraccretiondisk.jl")

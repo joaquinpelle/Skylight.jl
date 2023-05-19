@@ -1,5 +1,3 @@
-export BlackHoleAccretionDisk
-
 @with_kw struct BlackHoleAccretionDisk <: SurfaceEmissionModel 
 
     inner_radius::Float64

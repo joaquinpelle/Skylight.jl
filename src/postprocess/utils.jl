@@ -1,5 +1,3 @@
-export get_pixel_coordinates_vectors, view_intensities_grid
-
 function get_pixel_coordinates_vectors(configurations::OTEConfigurations)
 
     image_plane = configurations.image_plane
