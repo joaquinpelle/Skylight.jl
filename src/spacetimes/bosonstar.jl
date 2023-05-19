@@ -7,7 +7,7 @@
 
 end
 
-coordinate_system_class(::BosonStarSpacetime) = SphericalClass() 
+coordinates_topology(::BosonStarSpacetime) = SphericalTopology() 
 
 function set_metric!(g, point, spacetime::BosonStarSpacetime)
         

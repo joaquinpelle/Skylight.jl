@@ -38,36 +38,36 @@ function dump_metric_and_tetrad_in!(cache, position, configurations)
 
     spacetime = configurations.spacetime
     model = configurations.radiative_model
-    coord_system = coordinate_system_class(spacetime)
+    coords_top = coordinates_topology(spacetime)
     
     dump_metric_in!(cache, position, spacetime)
     dump_metric_inverse_in!(cache, position, spacetime)
-    dump_tetrad_in!(cache, position, spacetime, model, coord_system)
+    dump_tetrad_in!(cache, position, spacetime, model, coords_top)
 
 end
 
-function dump_tetrad_in!(cache, position, spacetime, model, coord_system)
+function dump_tetrad_in!(cache, position, spacetime, model, coords_top)
     
-    dump_emitter_four_velocity_in!(cache, position, spacetime, model, coord_system)     
-    dump_triad_in!(cache, position, model, coord_system)
+    dump_emitter_four_velocity_in!(cache, position, spacetime, model, coords_top)     
+    dump_triad_in!(cache, position, model, coords_top)
 
 end
 
-function dump_emitter_four_velocity_in!(cache, position, spacetime, model, coord_system)
+function dump_emitter_four_velocity_in!(cache, position, spacetime, model, coords_top)
     @views time_vector = cache.tetrad[:,1]
-    set_emitter_four_velocity!(time_vector, position, cache.metric, spacetime, model, coord_system)
+    set_emitter_four_velocity!(time_vector, position, cache.metric, spacetime, model, coords_top)
 end
 
-function dump_triad_in!(cache, position, model, coord_system)
+function dump_triad_in!(cache, position, model, coords_top)
 
     metric, metric_inverse, time_vector, triad = unpack_views(cache)
     set_triad!(triad, time_vector, metric)
 
 end
 
-function dump_triad_in!(cache, position, model::SurfaceEmissionModel, coord_system)
+function dump_triad_in!(cache, position, model::SurfaceEmissionModel, coords_top)
 
     metric, metric_inverse, time_vector, triad = unpack_views(cache)
-    set_surface_adapted_triad!(triad, time_vector, position, metric, metric_inverse, model, coord_system)
+    set_surface_adapted_triad!(triad, time_vector, position, metric, metric_inverse, model, coords_top)
 
 end

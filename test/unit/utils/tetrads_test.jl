@@ -84,9 +84,9 @@ using Skylight, Random, Test
                                     angular_radius_in_degrees=60, 
                                     temperature=rand())
 
-            coord_system = Skylight.coordinate_system_class(spacetime)
+            coords_top = Skylight.coordinates_topology(spacetime)
             
-            Skylight.set_surface_adapted_triad!(triad, time_vector, position, metric, metric_inverse, model, coord_system)
+            Skylight.set_surface_adapted_triad!(triad, time_vector, position, metric, metric_inverse, model, coords_top)
 
             scalar_product = Skylight.scalar_product
 

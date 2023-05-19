@@ -4,7 +4,7 @@ function get_observed_bolometric_intensities(initial_data, output_data, configur
 
     spacetime = configurations.spacetime
     model = configurations.radiative_model
-    coord_system = coordinate_system_class(spacetime)
+    coords_top = coordinates_topology(spacetime)
 
     cache = get_postprocess_cache(configurations)
     dump_observer_four_velocity_in!(cache)
@@ -31,11 +31,11 @@ function get_observed_bolometric_intensities(initial_data, output_data, configur
             continue
         end
 
-        dump_metrics_and_emitter_four_velocity_in!(cache, pi, pf, spacetime, model, coord_system)
+        dump_metrics_and_emitter_four_velocity_in!(cache, pi, pf, spacetime, model, coords_top)
         
         q = get_energies_quotient(ki, kf, cache)
 
-        emitted_bolometric_intensity = get_emitted_bolometric_intensity(pf, -kf, cache.emitter_four_velocity, cache.emitter_metric, spacetime, model, coord_system)
+        emitted_bolometric_intensity = get_emitted_bolometric_intensity(pf, -kf, cache.emitter_four_velocity, cache.emitter_metric, spacetime, model, coords_top)
 
         observed_bolometric_intensities[i] = q^4*emitted_bolometric_intensity
         
@@ -53,7 +53,7 @@ function get_observed_specific_intensities(initial_data, output_data, observed_e
 
     spacetime = configurations.spacetime
     model = configurations.radiative_model
-    coord_system = coordinate_system_class(spacetime)
+    coords_top = coordinates_topology(spacetime)
 
     cache = get_postprocess_cache(configurations)
     dump_observer_four_velocity_in!(cache)
@@ -82,7 +82,7 @@ function get_observed_specific_intensities(initial_data, output_data, observed_e
             continue
         end
 
-        dump_metrics_and_emitter_four_velocity_in!(cache, pi, pf, spacetime, model, coord_system)
+        dump_metrics_and_emitter_four_velocity_in!(cache, pi, pf, spacetime, model, coords_top)
         
         q = get_energies_quotient(ki, kf, cache)
 
@@ -90,7 +90,7 @@ function get_observed_specific_intensities(initial_data, output_data, observed_e
 
             emitted_energy = observed_energies_CGS[j]/q
 
-            emitted_specific_intensity = get_emitted_specific_intensity(pf, -kf, emitted_energy, cache.emitter_four_velocity, cache.emitter_metric, spacetime, model, coord_system)
+            emitted_specific_intensity = get_emitted_specific_intensity(pf, -kf, emitted_energy, cache.emitter_four_velocity, cache.emitter_metric, spacetime, model, coords_top)
             observed_specific_intensities[j, i] = q^3*emitted_specific_intensity
         
         end

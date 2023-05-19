@@ -10,7 +10,7 @@ abstract type ChargedWormholeSpacetime <: AbstractSpacetime end
 
 end
 
-coordinate_system_class(::ChargedWormholeSpacetimeSphericalCoordinates) = SphericalClass()
+coordinates_topology(::ChargedWormholeSpacetimeSphericalCoordinates) = SphericalTopology()
 
 function set_metric!(g, point, spacetime::ChargedWormholeSpacetimeSphericalCoordinates)
         
@@ -141,7 +141,7 @@ function get_wormhole_radius(l, spacetime::ChargedWormholeSpacetime)
 
 end
 
-coordinate_system_class(::ChargedWormholeSpacetimeRegularCoordinates) = SphericalClass()
+coordinates_topology(::ChargedWormholeSpacetimeRegularCoordinates) = SphericalTopology()
 
 function set_metric!(g, point, spacetime::ChargedWormholeSpacetimeRegularCoordinates)
         

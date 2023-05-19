@@ -63,7 +63,7 @@ end
 function set_unit_random_triad_components!(kμ, model)
     
     @views ki = kμ[2:4,:] 
-    random_uniform_points_unit_sphere!(ki, CartesianClass())
+    random_uniform_points_unit_sphere!(ki, CartesianTopology())
 
 end
 
@@ -72,6 +72,6 @@ function set_unit_random_triad_components!(kμ, ::OpaqueInteriorSurfaceEmissionM
     #Sets only positive components along the surface normal    
     
     @views ki = kμ[2:4,:] 
-    random_uniform_points_unit_hemisphere_xaxis!(ki, CartesianClass())
+    random_uniform_points_unit_hemisphere_xaxis!(ki, CartesianTopology())
 
 end

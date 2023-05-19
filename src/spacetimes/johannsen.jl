@@ -32,7 +32,7 @@ end
 
 event_horizon_radius(spacetime::JohannsenSpacetimeBoyerLindquistCoordinates) = spacetime.M*(1+sqrt(1-spacetime.a^2))
 
-coordinate_system_class(::JohannsenSpacetimeBoyerLindquistCoordinates) = SphericalClass()
+coordinates_topology(::JohannsenSpacetimeBoyerLindquistCoordinates) = SphericalTopology()
 
 function set_metric!(g,point,spacetime::JohannsenSpacetimeBoyerLindquistCoordinates)
 

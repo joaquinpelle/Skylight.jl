@@ -17,7 +17,7 @@ end
 
 end
 
-get_callback(::BosonStarAccretionDisk, ::SphericalClass) = boson_star_accretion_disk_spherical_coordinates_callback()
+get_callback(::BosonStarAccretionDisk, ::SphericalTopology) = boson_star_accretion_disk_spherical_coordinates_callback()
 
 boson_star_accretion_disk_spherical_coordinates_callback() = VectorContinuousCallback(boson_star_accretion_disk_spherical_coordinates_condition, boson_star_accretion_disk_spherical_coordinates_affect!, 2)
 

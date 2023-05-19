@@ -20,7 +20,7 @@ end
             
         spacetime = KerrSpacetimeKerrSchildCoordinates(M=1.0, a=0.0)
 
-        @test Skylight.coordinate_system_class(spacetime) == Skylight.CartesianClass()
+        @test Skylight.coordinates_topology(spacetime) == Skylight.CartesianTopology()
 
         point = [rand(),1.0,0.0,0.0]
 
@@ -80,7 +80,7 @@ end
         
         spacetime = KerrSpacetimeBoyerLindquistCoordinates(M=1.0, a=0.5)
 
-        @test Skylight.coordinate_system_class(spacetime) == Skylight.SphericalClass()
+        @test Skylight.coordinates_topology(spacetime) == Skylight.SphericalTopology()
 
         point = [rand(),5.0,π/3,0.0]
 

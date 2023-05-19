@@ -8,7 +8,7 @@ include("opacities.jl")
 
 function get_callback_and_params(configurations; kwargs...)
         
-    cb = get_callback(configurations.radiative_model, coordinate_system_class(configurations.spacetime))
+    cb = get_callback(configurations.radiative_model, coordinates_topology(configurations.spacetime))
     cb_params = get_cb_params(configurations.radiative_model, configurations; kwargs...)
 
     return cb, cb_params

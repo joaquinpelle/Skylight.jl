@@ -6,22 +6,22 @@ using Skylight, Test
 
         N = 5
         v = zeros(3, N)
-        coord_system = Skylight.CartesianClass()
+        coords_top = Skylight.CartesianTopology()
 
-        Skylight.random_uniform_points_unit_sphere!(v, coord_system)
+        Skylight.random_uniform_points_unit_sphere!(v, coords_top)
 
         for i in 1:N
             @test v[1,i]^2 + v[2,i]^2 + v[3,i]^2 ≈ 1.0 atol = 1e-14
         end
 
-        Skylight.random_uniform_points_unit_hemisphere!(v, coord_system)
+        Skylight.random_uniform_points_unit_hemisphere!(v, coords_top)
 
         for i in 1:N
             @test v[3,i] >= 0.0
             @test v[1,i]^2 + v[2,i]^2 + v[3,i]^2 ≈ 1.0 atol = 1e-14
         end
 
-        Skylight.random_uniform_points_unit_hemisphere_xaxis!(v, coord_system)
+        Skylight.random_uniform_points_unit_hemisphere_xaxis!(v, coords_top)
 
         for i in 1:N
             @test v[1,i] >= 0.0
@@ -29,7 +29,7 @@ using Skylight, Test
         end
         
         angular_radius_in_degrees = 45
-        Skylight.random_uniform_points_unit_spherical_cap!(v, angular_radius_in_degrees, coord_system)
+        Skylight.random_uniform_points_unit_spherical_cap!(v, angular_radius_in_degrees, coords_top)
         
         for i in 1:N
             @test v[3,i] >= 1/sqrt(2)
@@ -38,7 +38,7 @@ using Skylight, Test
 
         radius = 5.0
 
-        Skylight.random_uniform_points_disk!(v, radius, coord_system)
+        Skylight.random_uniform_points_disk!(v, radius, coords_top)
         
         for i in 1:N
             @test v[1,i]^2 + v[2,i]^2 <= radius^2 
@@ -47,7 +47,7 @@ using Skylight, Test
         inner_radius = 5.0
         outer_radius = 10.0
 
-        Skylight.random_uniform_points_annulus!(v, inner_radius, outer_radius, coord_system)
+        Skylight.random_uniform_points_annulus!(v, inner_radius, outer_radius, coords_top)
 
         for i in 1:N
             @test inner_radius^2 <= v[1,i]^2 + v[2,i]^2 <= outer_radius^2 
@@ -59,15 +59,15 @@ using Skylight, Test
 
         N = 5
         v = zeros(3, N)
-        coord_system = Skylight.SphericalClass()
+        coords_top = Skylight.SphericalTopology()
 
-        Skylight.random_uniform_points_unit_sphere!(v, coord_system)
+        Skylight.random_uniform_points_unit_sphere!(v, coords_top)
 
         for i in 1:N
             @test v[1,i] == 1.0 
         end
         
-        Skylight.random_uniform_points_unit_hemisphere!(v, coord_system)
+        Skylight.random_uniform_points_unit_hemisphere!(v, coords_top)
 
         for i in 1:N
             @test v[1,i] == 1.0 
@@ -75,7 +75,7 @@ using Skylight, Test
         end
         
         angular_radius_in_degrees = 45
-        Skylight.random_uniform_points_unit_spherical_cap!(v, angular_radius_in_degrees, coord_system)
+        Skylight.random_uniform_points_unit_spherical_cap!(v, angular_radius_in_degrees, coords_top)
         
         for i in 1:N
             @test v[1,i] == 1.0 
@@ -83,7 +83,7 @@ using Skylight, Test
         end
 
         radius = 5.0
-        Skylight.random_uniform_points_disk!(v, radius, coord_system)
+        Skylight.random_uniform_points_disk!(v, radius, coords_top)
         
         for i in 1:N
             @test v[1,i] <= radius
@@ -92,7 +92,7 @@ using Skylight, Test
         inner_radius = 5.0
         outer_radius = 10.0
 
-        Skylight.random_uniform_points_annulus!(v, inner_radius, outer_radius, coord_system)
+        Skylight.random_uniform_points_annulus!(v, inner_radius, outer_radius, coords_top)
 
         for i in 1:N
             @test inner_radius <= v[1,i] <= outer_radius

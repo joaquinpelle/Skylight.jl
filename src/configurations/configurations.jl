@@ -28,8 +28,8 @@ function get_space_positions(configurations::ETOConfigurations)
     
     npoints = configurations.number_of_points
 
-    coord_system = coordinate_system_class(configurations.spacetime)
-    space_positions = get_space_positions(npoints, configurations.radiative_model, coord_system)
+    coords_top = coordinates_topology(configurations.spacetime)
+    space_positions = get_space_positions(npoints, configurations.radiative_model, coords_top)
 
     return space_positions
 

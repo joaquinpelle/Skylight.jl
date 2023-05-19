@@ -32,18 +32,18 @@ function initialize_single!(ray, initial_time, pixel_coordinates, configurations
     
     spacetime = configurations.spacetime
     image_plane = configurations.image_plane
-    coord_system = coordinate_system_class(spacetime)
+    coords_top = coordinates_topology(spacetime)
 
     ray[1] = initial_time
-    space_position .= get_space_position_from(pixel_coordinates,image_plane,coord_system)
-    space_momentum .= get_space_momentum_from(pixel_coordinates,image_plane,coord_system)
+    space_position .= get_space_position_from(pixel_coordinates,image_plane,coords_top)
+    space_momentum .= get_space_momentum_from(pixel_coordinates,image_plane,coords_top)
 
     dump_metric_in!(cache,position,spacetime)
     set_null_ingoing_past_directed!(momentum,cache)
 
 end
 
-function get_space_position_from(pixel_coordinates, image_plane::ImagePlane, ::CartesianClass)
+function get_space_position_from(pixel_coordinates, image_plane::ImagePlane, ::CartesianTopology)
 
     α,β = pixel_coordinates
     ξ = image_plane.observer_inclination_in_radians
@@ -60,7 +60,7 @@ function get_space_position_from(pixel_coordinates, image_plane::ImagePlane, ::C
 
 end
 
-function get_space_position_from(pixel_coordinates, image_plane::ImagePlane, ::SphericalClass)
+function get_space_position_from(pixel_coordinates, image_plane::ImagePlane, ::SphericalTopology)
 
     α,β = pixel_coordinates
     ξ = image_plane.observer_inclination_in_radians
@@ -77,7 +77,7 @@ function get_space_position_from(pixel_coordinates, image_plane::ImagePlane, ::S
 
 end
 
-function get_space_momentum_from(pixel_coordinates, image_plane::ImagePlane, ::SphericalClass)
+function get_space_momentum_from(pixel_coordinates, image_plane::ImagePlane, ::SphericalTopology)
 
     α,β = pixel_coordinates
     ξ = image_plane.observer_inclination_in_radians
@@ -96,7 +96,7 @@ function get_space_momentum_from(pixel_coordinates, image_plane::ImagePlane, ::S
 
 end
 
-function get_space_momentum_from(pixel_coordinates, image_plane::ImagePlane, ::CartesianClass)
+function get_space_momentum_from(pixel_coordinates, image_plane::ImagePlane, ::CartesianTopology)
     
     ξ = image_plane.observer_inclination_in_radians
     

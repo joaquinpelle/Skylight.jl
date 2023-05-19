@@ -1,5 +1,5 @@
 #Required
-coordinate_system_class(::AbstractSpacetime) = error("Coordinate system not defined for this spacetime.")
+coordinates_topology(::AbstractSpacetime) = error("Coordinates topology not defined for this spacetime.")
 set_metric!(::AbstractSpacetime) = error("Metric not defined for this spacetime.")
 set_christoffel!(Γ, position, ::AbstractSpacetime, cache) = error("Christoffel symbols not defined for this spacetime.")
 set_christoffel!(Γ, position, ::AbstractSpacetime) = error("Christoffel symbols not defined for this spacetime.")

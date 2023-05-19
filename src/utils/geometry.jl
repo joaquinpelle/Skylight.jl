@@ -41,7 +41,7 @@ function normalize_spacelike!(v, metric)
 end
 
 
-function tangent_vector_zaxis_rotation!(vector, position, angular_speed, metric, ::CartesianClass)
+function tangent_vector_zaxis_rotation!(vector, position, angular_speed, metric, ::CartesianTopology)
     
     vector[1] =  1.0
     vector[2] = -angular_speed*position[3]
@@ -52,7 +52,7 @@ function tangent_vector_zaxis_rotation!(vector, position, angular_speed, metric,
 
 end
 
-function tangent_vector_zaxis_rotation!(vector, position, angular_speed, metric, ::SphericalClass)
+function tangent_vector_zaxis_rotation!(vector, position, angular_speed, metric, ::SphericalTopology)
     
     vector[1] =  1.0
     vector[2] =  0.0

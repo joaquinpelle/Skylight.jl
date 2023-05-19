@@ -43,10 +43,10 @@ export set_metric!,
     allocate_christoffel_cache, 
     set_christoffel!
 
-export CartesianClass,
-    SphericalClass
+export CartesianTopology,
+    SphericalTopology
 
-export coordinate_system_class 
+export coordinates_topology 
 
 export AbstractRadiativeModel,
     DummyExtendedRegion,

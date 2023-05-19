@@ -3,7 +3,7 @@
     g = zeros(4,4)
     spacetime = MinkowskiSpacetimeCartesianCoordinates()
 
-    @test Skylight.coordinate_system_class(spacetime) == Skylight.CartesianClass()
+    @test Skylight.coordinates_topology(spacetime) == Skylight.CartesianTopology()
     Skylight.set_metric!(g,rand(4),spacetime)
     @test g == [-1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
 
@@ -22,7 +22,7 @@ end
     g = zeros(4,4)
     spacetime = MinkowskiSpacetimeSphericalCoordinates()
 
-    @test Skylight.coordinate_system_class(spacetime) == Skylight.SphericalClass()
+    @test Skylight.coordinates_topology(spacetime) == Skylight.SphericalTopology()
 
     position = [rand(),2.0,π/2,rand()]
     Skylight.set_metric!(g,position,spacetime)

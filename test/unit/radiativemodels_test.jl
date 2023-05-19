@@ -12,8 +12,8 @@ using Skylight, Test
     @test model.misalignment_angle_in_radians ≈ π/2
     @test model.angular_radius_in_radians ≈ π/3
 
-    coord_system = Skylight.CartesianClass()
-    points = Skylight.get_space_positions(10,model, coord_system)
+    coords_top = Skylight.CartesianTopology()
+    points = Skylight.get_space_positions(10,model, coords_top)
 
     for i in 1:10
         point = points[:,i]
@@ -29,12 +29,12 @@ using Skylight, Test
 
     spacetime = Skylight.MinkowskiSpacetimeCartesianCoordinates()
 
-    Skylight.set_emitter_four_velocity!(vector, position, gμν, spacetime, model, coord_system)
+    Skylight.set_emitter_four_velocity!(vector, position, gμν, spacetime, model, coords_top)
 
     @test vector ≈ [1.0/sqrt(0.9775), 0.0, 0.15/sqrt(0.9775), 0.0]
 
     df = zeros(4)
-    Skylight.set_surface_differential!(df, position, model, coord_system)
+    Skylight.set_surface_differential!(df, position, model, coords_top)
     @test df == [0.0, 2*position[2], 2*position[3], 2*position[4]]
 
 
@@ -47,7 +47,7 @@ using Skylight, Test
     Skylight.set_metric_inverse!(metric_inverse, position, spacetime)
 
     normal = zeros(4)
-    Skylight.set_unit_surface_normal!(normal, position, metric, metric_inverse, model, coord_system)
+    Skylight.set_unit_surface_normal!(normal, position, metric, metric_inverse, model, coords_top)
 
     tangent_vector = [0.0, -position[3], position[2], 0.0]
 

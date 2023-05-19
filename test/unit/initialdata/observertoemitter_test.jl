@@ -80,7 +80,7 @@ using Skylight, Test
 
         initial_time = configurations.observed_times[2]
         image_plane = configurations.image_plane
-        coord_system = Skylight.coordinate_system_class(spacetime)
+        coords_top = Skylight.coordinates_topology(spacetime)
         
 
         ray = zeros(8)

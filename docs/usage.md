@@ -5,7 +5,7 @@ Skylight uses geometrized units $c = G = 1$.
 
 #### Spacetimes
 
-First, you have to choose a spacetime (and coordinate system). Currently, the available options are:
+First, you have to choose a spacetime (and coordinates topology). Currently, the available options are:
 
   * `MinkowskiSpacetimeCartesianCoordinates()`
   * `MinkowskiSpacetimeSphericalCoordinates()`

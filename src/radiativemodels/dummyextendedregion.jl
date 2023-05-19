@@ -1,6 +1,6 @@
 struct DummyExtendedRegion <: AbstractRadiativeModel end
 
-function set_emitter_four_velocity!(vector, position, metric, spacetime, model::DummyExtendedRegion, coord_system)
+function set_emitter_four_velocity!(vector, position, metric, spacetime, model::DummyExtendedRegion, coords_top)
     vector .= ∂t()
 end
 

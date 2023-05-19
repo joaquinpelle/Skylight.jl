@@ -32,7 +32,7 @@ end
 
 end
 
-coordinate_system_class(::RARSpacetime) = SphericalClass()
+coordinates_topology(::RARSpacetime) = SphericalTopology()
 
 function set_metric!(g,point, spacetime::RARSpacetime)
     

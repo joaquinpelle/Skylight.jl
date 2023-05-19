@@ -1,8 +1,8 @@
 abstract type AbstractSpacetime end
 
-abstract type AbstractCoordinateSystemClass end
+abstract type AbstractCoordinateTopology end
 
-struct CartesianClass <: AbstractCoordinateSystemClass end
-struct SphericalClass <: AbstractCoordinateSystemClass end
+struct CartesianTopology <: AbstractCoordinateTopology end
+struct SphericalTopology <: AbstractCoordinateTopology end
 
 abstract type ChristoffelCache end

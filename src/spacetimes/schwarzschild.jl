@@ -10,7 +10,7 @@
 
 end
 
-coordinate_system_class(::SchwarzschildSpacetimeKerrSchildCoordinates) = CartesianClass()
+coordinates_topology(::SchwarzschildSpacetimeKerrSchildCoordinates) = CartesianTopology()
 
 function set_metric!(g, position, spacetime::SchwarzschildSpacetimeKerrSchildCoordinates)
 
@@ -105,7 +105,7 @@ event_horizon_radius(spacetime::SchwarzschildSpacetimeKerrSchildCoordinates) = 2
 
 end
 
-coordinate_system_class(::SchwarzschildSpacetimeSphericalCoordinates) = SphericalClass()
+coordinates_topology(::SchwarzschildSpacetimeSphericalCoordinates) = SphericalTopology()
 
 function set_metric!(g, q, spacetime::SchwarzschildSpacetimeSphericalCoordinates)
     

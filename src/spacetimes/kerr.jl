@@ -22,7 +22,7 @@ end
 
 end
 
-coordinate_system_class(::KerrSpacetimeKerrSchildCoordinates) = CartesianClass()
+coordinates_topology(::KerrSpacetimeKerrSchildCoordinates) = CartesianTopology()
 
 event_horizon_radius(spacetime::KerrSpacetimeKerrSchildCoordinates) = spacetime.M*(1+sqrt(1-spacetime.a^2))
 
@@ -220,7 +220,7 @@ end
 end   
 
 
-coordinate_system_class(::KerrSpacetimeBoyerLindquistCoordinates) = SphericalClass()
+coordinates_topology(::KerrSpacetimeBoyerLindquistCoordinates) = SphericalTopology()
 
 event_horizon_radius(spacetime::KerrSpacetimeBoyerLindquistCoordinates) = spacetime.M*(1+sqrt(1-spacetime.a^2))
 

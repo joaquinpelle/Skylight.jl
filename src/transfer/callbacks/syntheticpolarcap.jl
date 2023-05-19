@@ -14,8 +14,8 @@ end
 
 end
 
-get_callback(::SyntheticPolarCap, ::CartesianClass) = star_cartesian_coordinates_callback()
-get_callback(::SyntheticPolarCap, ::SphericalClass) = star_spherical_coordinates_callback()
+get_callback(::SyntheticPolarCap, ::CartesianTopology) = star_cartesian_coordinates_callback()
+get_callback(::SyntheticPolarCap, ::SphericalTopology) = star_spherical_coordinates_callback()
 
 star_cartesian_coordinates_callback() = ContinuousCallback(star_cartesian_coordinates_condition, star_affect!)
 star_spherical_coordinates_callback() = ContinuousCallback(star_spherical_coordinates_condition, star_affect!)

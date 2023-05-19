@@ -4,7 +4,7 @@ using Skylight, Test
 
     @testset "equatorial plane" begin
 
-        coord_system = Skylight.SphericalClass()
+        coords_top = Skylight.SphericalTopology()
             
         image_plane = ImagePlane(distance = 1.0,
                                 observer_inclination_in_degrees = 90.0,
@@ -15,7 +15,7 @@ using Skylight, Test
         
         pixel_coordinates = (1.0,1.0)
 
-        r,θ,φ = Skylight.get_space_position_from(pixel_coordinates,image_plane,coord_system)
+        r,θ,φ = Skylight.get_space_position_from(pixel_coordinates,image_plane,coords_top)
 
         @test r ≈ sqrt(3)
         @test θ ≈ acos(1/sqrt(3))
@@ -23,8 +23,8 @@ using Skylight, Test
 
         position_spherical = [r,θ,φ]
 
-        coord_system = Skylight.CartesianClass()
-        position_cartesian = Skylight.get_space_position_from(pixel_coordinates,image_plane,coord_system)
+        coords_top = Skylight.CartesianTopology()
+        position_cartesian = Skylight.get_space_position_from(pixel_coordinates,image_plane,coords_top)
 
         @test position_cartesian[1] ≈ 1.0
         @test position_cartesian[2] ≈ 1.0
@@ -35,7 +35,7 @@ using Skylight, Test
 
     @testset "z axis" begin
 
-        coord_system = Skylight.SphericalClass()
+        coords_top = Skylight.SphericalTopology()
             
         image_plane = ImagePlane(distance = 1.0,
                                 observer_inclination_in_degrees = 0.0,
@@ -46,7 +46,7 @@ using Skylight, Test
         
         pixel_coordinates = (1.0,1.0)
 
-        r,θ,φ = Skylight.get_space_position_from(pixel_coordinates,image_plane,coord_system)
+        r,θ,φ = Skylight.get_space_position_from(pixel_coordinates,image_plane,coords_top)
 
         @test r ≈ sqrt(3)
         @test θ ≈ acos(1/sqrt(3))
@@ -54,8 +54,8 @@ using Skylight, Test
 
         position_spherical = [r,θ,φ]
 
-        coord_system = Skylight.CartesianClass()
-        position_cartesian = Skylight.get_space_position_from(pixel_coordinates,image_plane,coord_system)
+        coords_top = Skylight.CartesianTopology()
+        position_cartesian = Skylight.get_space_position_from(pixel_coordinates,image_plane,coords_top)
 
         @test position_cartesian[1] ≈ -1.0
         @test position_cartesian[2] ≈  1.0
@@ -71,7 +71,7 @@ end
     
     @testset "z axis" begin
         
-        coord_system = Skylight.CartesianClass()
+        coords_top = Skylight.CartesianTopology()
             
         image_plane = ImagePlane(distance = 1.0,
                                 observer_inclination_in_degrees = 0.0,
@@ -83,22 +83,22 @@ end
                                 
         pixel_coordinates = (1.0,1.0)
         
-        space_position = Skylight.get_space_position_from(pixel_coordinates,image_plane,coord_system)
-        space_momentum = Skylight.get_space_momentum_from(pixel_coordinates,image_plane,coord_system)
+        space_position = Skylight.get_space_position_from(pixel_coordinates,image_plane,coords_top)
+        space_momentum = Skylight.get_space_momentum_from(pixel_coordinates,image_plane,coords_top)
         
         @test space_momentum[1] ≈ 0.0 atol=1e-15
         @test space_momentum[2] ≈ 0.0
         @test space_momentum[3] ≈ 1.0 atol=1e-15
         
         center_pixel_coordinates = (0.0,0.0)
-        center_space_position = Skylight.get_space_position_from(center_pixel_coordinates,image_plane,coord_system)
+        center_space_position = Skylight.get_space_position_from(center_pixel_coordinates,image_plane,coords_top)
 
         @test space_momentum'*(space_position-center_space_position) ≈ 0.0  atol=1e-15
 
-        coord_system = Skylight.SphericalClass()
+        coords_top = Skylight.SphericalTopology()
         
-        space_position = Skylight.get_space_position_from(pixel_coordinates,image_plane,coord_system)
-        space_momentum = Skylight.get_space_momentum_from(pixel_coordinates,image_plane,coord_system)
+        space_position = Skylight.get_space_position_from(pixel_coordinates,image_plane,coords_top)
+        space_momentum = Skylight.get_space_momentum_from(pixel_coordinates,image_plane,coords_top)
 
         @test space_momentum[1] ≈  1.0/sqrt(3)
         @test space_momentum[2] ≈ -sqrt(2)/3
@@ -107,7 +107,7 @@ end
     end
 
     @testset "equatorial plane" begin
-        coord_system = Skylight.CartesianClass()
+        coords_top = Skylight.CartesianTopology()
             
         image_plane = ImagePlane(distance = 1.0,
                                 observer_inclination_in_degrees = 90.0,
@@ -119,22 +119,22 @@ end
                                 
         pixel_coordinates = (1.0,1.0)
         
-        space_position = Skylight.get_space_position_from(pixel_coordinates,image_plane,coord_system)
-        space_momentum = Skylight.get_space_momentum_from(pixel_coordinates,image_plane,coord_system)
+        space_position = Skylight.get_space_position_from(pixel_coordinates,image_plane,coords_top)
+        space_momentum = Skylight.get_space_momentum_from(pixel_coordinates,image_plane,coords_top)
         
         @test space_momentum[1] ≈  1.0
         @test space_momentum[2] ≈  0.0
         @test space_momentum[3] ≈  0.0 atol=1e-15
         
         center_pixel_coordinates = (0.0,0.0)
-        center_space_position = Skylight.get_space_position_from(center_pixel_coordinates,image_plane,coord_system)
+        center_space_position = Skylight.get_space_position_from(center_pixel_coordinates,image_plane,coords_top)
 
         @test space_momentum'*(space_position-center_space_position) ≈ 0.0  atol=1e-15
 
-        coord_system = Skylight.SphericalClass()
+        coords_top = Skylight.SphericalTopology()
         
-        space_position = Skylight.get_space_position_from(pixel_coordinates,image_plane,coord_system)
-        space_momentum = Skylight.get_space_momentum_from(pixel_coordinates,image_plane,coord_system)
+        space_position = Skylight.get_space_position_from(pixel_coordinates,image_plane,coords_top)
+        space_momentum = Skylight.get_space_momentum_from(pixel_coordinates,image_plane,coords_top)
 
         @test space_momentum[1] ≈ 1.0/sqrt(3)
         @test space_momentum[2] ≈ 1/(3*sqrt(2))

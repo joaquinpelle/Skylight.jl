@@ -20,8 +20,8 @@ end
 
 end
 
-get_callback(::BlackHoleAccretionDisk, ::CartesianClass) = black_hole_accretion_disk_cartesian_coordinates_callback()
-get_callback(::BlackHoleAccretionDisk, ::SphericalClass) = black_hole_accretion_disk_spherical_coordinates_callback()
+get_callback(::BlackHoleAccretionDisk, ::CartesianTopology) = black_hole_accretion_disk_cartesian_coordinates_callback()
+get_callback(::BlackHoleAccretionDisk, ::SphericalTopology) = black_hole_accretion_disk_spherical_coordinates_callback()
 
 black_hole_accretion_disk_cartesian_coordinates_callback() = VectorContinuousCallback(black_hole_accretion_disk_cartesian_coordinates_condition, black_hole_accretion_disk_cartesian_coordinates_affect!, 2)
 black_hole_accretion_disk_spherical_coordinates_callback() = VectorContinuousCallback(black_hole_accretion_disk_spherical_coordinates_condition, black_hole_accretion_disk_spherical_coordinates_affect!, 2)

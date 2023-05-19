@@ -5,7 +5,7 @@
 
 end
 
-function set_surface_differential!(covector, position, ::BlackHoleAccretionDisk, ::CartesianClass)
+function set_surface_differential!(covector, position, ::BlackHoleAccretionDisk, ::CartesianTopology)
 
     covector[1] = 0.0
     covector[2] = 0.0
@@ -14,7 +14,7 @@ function set_surface_differential!(covector, position, ::BlackHoleAccretionDisk,
 
 end
 
-function set_surface_differential!(covector, position, ::BlackHoleAccretionDisk, ::SphericalClass)
+function set_surface_differential!(covector, position, ::BlackHoleAccretionDisk, ::SphericalTopology)
 
     covector[1] = 0.0
     covector[2] = 0.0
