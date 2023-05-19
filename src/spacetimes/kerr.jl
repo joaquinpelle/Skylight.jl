@@ -13,7 +13,7 @@
 
 end
 
-@with_kw struct KerrKSChristoffelCache <: ChristoffelCache
+@with_kw struct KerrKSChristoffelCache <: AbstractChristoffelCache
     
     l::Vector{Float64} = zeros(4)
     dH::Array{Float64, 1} = zeros(4)

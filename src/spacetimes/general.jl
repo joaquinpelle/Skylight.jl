@@ -1,4 +1,4 @@
-@with_kw mutable struct GeneralChristoffelCache
+@with_kw mutable struct GeneralChristoffelCache <: AbstractChristoffelCache
     g::Array{Float64,2} = zeros(4,4)
     ginv::Array{Float64,2} = zeros(4,4)
     ∂g::Array{Float64,3} = zeros(4,4,4)
