@@ -1,6 +1,4 @@
-abstract type AbstractPostProcessCache end
-
-@with_kw mutable struct OTEPostProcessCache <: AbstractPostProcessCache
+@with_kw mutable struct OTEPostProcessCache
     
     observer_metric::Matrix{Float64} = zeros(4,4)
     emitter_metric::Matrix{Float64} = zeros(4,4)
