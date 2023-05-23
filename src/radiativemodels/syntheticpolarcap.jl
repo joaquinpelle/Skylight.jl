@@ -1,4 +1,4 @@
-@with_kw struct SyntheticPolarCap <: AbstractOpaqueInteriorSurfaceEmissionModel
+@with_kw struct SyntheticPolarCap <: AbstractSurfaceEmissionModel
 
     star_radius::Float64
     angular_speed::Float64
@@ -9,6 +9,8 @@
     misalignment_angle_in_radians::Float64 = deg2rad(misalignment_angle_in_degrees)
     
 end
+
+opaque_interior_surface_trait(::SyntheticPolarCap) = IsOpaqueInteriorSurface()
 
 function set_surface_differential!(covector, position, ::SyntheticPolarCap, ::CartesianTopology)
 
