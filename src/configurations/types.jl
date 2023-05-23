@@ -8,13 +8,13 @@ abstract type AbstractETOConfigurations <: AbstractConfigurations end
     observer_inclination_in_degrees :: Float64
     horizontal_side_image_plane :: Float64
     vertical_side_image_plane :: Float64
-    horizontal_number_of_nodes :: Int64
-    vertical_number_of_nodes :: Int64
+    horizontal_number_of_nodes :: Int
+    vertical_number_of_nodes :: Int
     observer_inclination_in_radians::Float64 = deg2rad(observer_inclination_in_degrees)
 
 end
 
-@with_kw struct NonVacuumOTEConfigurations{S, M} <: AbstractOTEConfigurations
+@with_kw struct NonVacuumOTEConfigurations{S<:AbstractSpacetime, M<:AbstractRadiativeModel} <: AbstractOTEConfigurations
     
     spacetime::S
     radiative_model::M
@@ -25,7 +25,7 @@ end
 
 end
 
-@with_kw struct VacuumOTEConfigurations{S, M} <: AbstractOTEConfigurations
+@with_kw struct VacuumOTEConfigurations{S<:AbstractSpacetime, M<:AbstractRadiativeModel} <: AbstractOTEConfigurations
     
     spacetime::S
     radiative_model::M
@@ -35,16 +35,13 @@ end
 
 end
 
-@with_kw struct VacuumETOConfigurations{S, M} <: AbstractETOConfigurations
+@with_kw struct VacuumETOConfigurations{S<:AbstractSpacetime, M<:AbstractRadiativeModel} <: AbstractETOConfigurations
     
     spacetime::S
     radiative_model::M
-    number_of_points::Int64
-    number_of_packets_per_point::Int64
+    number_of_points::Int
+    number_of_packets_per_point::Int
     observer_distance::Float64
     unit_mass_in_solar_masses::Float64
 
 end
-
-VacuumConfigurations = Union{VacuumOTEConfigurations, VacuumETOConfigurations}
-NonVacuumConfigurations = Union{NonVacuumOTEConfigurations,}

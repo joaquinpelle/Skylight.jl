@@ -45,7 +45,7 @@ mutable struct NonVacuumCache{S, M, C, T}
     cb_params::C
     τmax::Float64
     observed_energies::Array{Float64, 1}
-    NE::Int64
+    NE::Int
     multi_thread::Array{NonVacuumThreadCache{T},1}
 
 end
