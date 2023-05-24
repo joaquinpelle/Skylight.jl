@@ -1,8 +1,4 @@
-@with_kw mutable struct GeneralChristoffelCache <: AbstractChristoffelCache
-    g::Array{Float64,2} = zeros(4,4)
-    ginv::Array{Float64,2} = zeros(4,4)
-    ∂g::Array{Float64,3} = zeros(4,4,4)
-end
+allocate_christoffel_cache(::AbstractAutoDiffSpacetime) = AutoDiffChristoffelCache()
 
 """
 Calculates the Christoffel symbols of a given spacetime metric using the forward-mode automatic differentiation package ForwardDiff.
@@ -11,7 +7,7 @@ Parameters:
 - Γ₂: mutable array of size (4,4,4) to store the resulting Christoffel symbols.
 - position: tuple of four numbers representing a point in spacetime.
 - spacetime: object representing the spacetime.
-- cache: object of type GeneralChristoffelCache with containers for metric elements and derivatives.
+- cache: object of type AutoDiffChristoffelCache with containers for metric elements and derivatives.
 
 Returns: nothing.
 
@@ -39,7 +35,7 @@ to compute derivatives at each node of the chain rule. Also, in the `set_metric!
 when `set_metric!` is called.
 
 """
-function set_christoffel!(Γ₂, position, spacetime, cache::GeneralChristoffelCache)
+function set_christoffel!(Γ₂, position, spacetime::AbstractAutoDiffSpacetime, cache::AutoDiffChristoffelCache)
     
     g = cache.g
     ginv = cache.ginv
@@ -79,27 +75,7 @@ Parameters:
 
 Returns: nothing.
 """
-function set_metric_jacobian!(∂g, position, spacetime, g)
+function set_metric_jacobian!(∂g, position, spacetime::AbstractAutoDiffSpacetime, g)
     reshape(ForwardDiff.jacobian!(∂g, (g,q) -> set_metric!(g,q,spacetime), g, position), 4, 4, 4)
     return nothing
 end
-
-"""
-Computes the inverse of the given metric at the given position using a fast inversion
-for 4x4 symmetric matrices.
-
-Parameters:
-- ginv: mutable array of size (4,4) to store the resulting inverse metric.
-- position: tuple of four numbers representing a point in spacetime.
-- spacetime: object representing the spacetime.
-- g: array of size (4,4) to store the metric evaluated at the given position.
-
-Returns: nothing.
-"""
-function set_metric_inverse!(ginv, position, spacetime, g)
-    set_metric!(g, position, spacetime)
-    inverse_4x4_symmetric!(ginv, g)
-    return nothing
-end
-
-allocate_christoffel_cache(spacetime) = GeneralChristoffelCache()
