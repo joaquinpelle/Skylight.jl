@@ -45,3 +45,6 @@ end
     unit_mass_in_solar_masses::Float64
 
 end
+
+VacuumConfigurations = Union{VacuumETOConfigurations, VacuumOTEConfigurations}
+NonVacuumConfigurations = Union{NonVacuumOTEConfigurations,}
