@@ -56,6 +56,7 @@ export set_metric!,
     coordinates_topology 
 
 export AbstractRadiativeModel,
+    AbstractSurfaceEmissionModel,
     DummyExtendedRegion,
     DummyModel,
     BlackHoleAccretionDisk,
