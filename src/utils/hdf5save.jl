@@ -328,9 +328,12 @@ According to the HDF5.jl documentation, the supported types include:
 * A `Bool` indicating whether the input value is of a type supported by HDF5.jl.
 """
 function is_hdf5_supported_type(value)
-    T = typeof(value)
-    return (isa(value, Union{Signed, Unsigned, AbstractFloat, Complex}) ||
-            isa(value, AbstractArray{<:Union{Signed, Unsigned, AbstractFloat, Complex}}) ||
-            isa(value, AbstractString) ||
-            isa(value, AbstractArray{<:AbstractString}))
+    supported_types = [Int8, UInt8, Int16, UInt16, Int32, UInt32, Int64, UInt64, Float32, Float64]
+    supported_complex_types = [Complex{t} for t in supported_types]
+    supported_string_types = [String]
+    all_supported_types = vcat(supported_types, supported_complex_types, supported_string_types)
+
+    T = isa(value, Array) ? eltype(value) : typeof(value)
+    
+    return T in all_supported_types
 end
