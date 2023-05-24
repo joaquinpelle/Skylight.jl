@@ -4,11 +4,9 @@
     outer_radius::Float64
 
     temperature_file::String
-    temperature_interpolator::NoSaveField{T} = NoSaveField(build_interpolator(temperature_file))
+    temperature_interpolator::T = build_interpolator(temperature_file)
 
 end
-
-getproperty(model::BosonStarAccretionDisk, field) = getproperty_nosave(model, field)
 
 function set_emitter_four_velocity!(vector, position, metric, spacetime::BosonStarSpacetime, ::BosonStarAccretionDisk, coords_top)
 
