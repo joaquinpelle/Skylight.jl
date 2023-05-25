@@ -149,4 +149,31 @@ function set_metric_inverse!(g, q, spacetime::SchwarzschildSpacetimeSphericalCoo
 
 end
 
+allocate_christoffel_cache(::SchwarzschildSpacetimeSphericalCoordinates) = nothing
+
+function set_christoffel!(Γ, point, spacetime::SchwarzschildSpacetimeSphericalCoordinates)
+
+    t, r, θ, φ = point
+    rs = 2*spacetime.M
+    
+    Γ[1,1,2] = rs/(2*r*(r-rs))          
+    Γ[1,2,1] = Γ[1,1,2]    
+    
+    Γ[2,1,1] =  rs*(r-rs)/(2*r^3)
+    Γ[2,2,2] = -rs/(2*r*(r-rs))
+    Γ[2,3,3] = -(r-rs)
+    Γ[2,4,4] = -(r-rs)*sin(θ)^2
+    
+    Γ[3,2,3] = 1.0/r   
+    Γ[3,4,4] = -sin(θ)*cos(θ)
+    Γ[3,3,2] = Γ[3,2,3]
+    
+    Γ[4,2,4] = 1.0/r
+    Γ[4,3,4] = cot(θ)
+    Γ[4,4,2] = Γ[4,2,4]
+    Γ[4,4,3] = Γ[4,3,4]
+
+    return nothing
+end
+
 event_horizon_radius(spacetime::SchwarzschildSpacetimeSphericalCoordinates) = 2*spacetime.M

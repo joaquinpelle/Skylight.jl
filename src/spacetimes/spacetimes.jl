@@ -12,15 +12,15 @@ allocate_christoffel_cache(::AbstractSpacetime) = nothing
 set_christoffel!(Γ, position, spacetime::AbstractSpacetime, ::Nothing) = set_christoffel!(Γ, position, spacetime)
 
 include("coordinatealias.jl")
-include("general.jl")
+include("autodiff.jl")
 include("minkowski.jl")
 include("schwarzschild.jl")
 include("kerr.jl")
 include("johannsen.jl")
 include("chargedwormhole.jl")
 include("bosonstar.jl")
-include("numerical.jl")
 include("RAR.jl")
+include("numerical.jl")
 
 """
 Computes the inverse of the given metric at the given position using a fast inversion
