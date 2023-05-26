@@ -5,8 +5,8 @@ set_christoffel!(Γ, position, ::AbstractSpacetime, cache) = error("Christoffel 
 set_christoffel!(Γ, position, ::AbstractSpacetime) = error("Christoffel symbols not defined for this spacetime.")
 
 #Optional
-set_metric_inverse!(ginv, position, ::AbstractSpacetime) = error("Metric inverse not defined for this spacetime.")
-volume_element(position, ::AbstractSpacetime, g) = error("Volume element not defined for this spacetime.")
+# set_metric_inverse!(ginv, position, ::AbstractSpacetime) = error("Metric inverse not defined for this spacetime.")
+# volume_element(position, ::AbstractSpacetime, g) = error("Volume element not defined for this spacetime.")
 event_horizon_radius(::AbstractSpacetime) = error("Event horizon radius not defined for this spacetime.")
 circular_geodesic_angular_speed(position, ::AbstractSpacetime) = error("Circular geodesic angular speed not defined for this spacetime.")
 allocate_christoffel_cache(::AbstractSpacetime) = nothing
