@@ -6,7 +6,6 @@ using ForwardDiff
 using HDF5
 using KeywordDispatch
 using LinearAlgebra
-using MacroTools: prewalk, @capture
 using Parameters
 using Random
 using Reexport
@@ -14,7 +13,6 @@ using Reexport
 @reexport using DifferentialEquations
 @reexport using PreallocationTools
 
-include("utils/types.jl")
 include("spacetimes/types.jl")
 include("radiativemodels/types.jl")
 include("configurations/types.jl")
