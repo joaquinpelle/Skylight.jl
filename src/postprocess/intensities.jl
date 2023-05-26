@@ -1,5 +1,4 @@
 function get_observed_bolometric_intensities(initial_data, output_data, configurations::VacuumOTEConfigurations)
-    
     #Returns intensities in CGS
 
     spacetime = configurations.spacetime
@@ -15,13 +14,11 @@ function get_observed_bolometric_intensities(initial_data, output_data, configur
     for i in 1:Nrays
 
         @views begin 
-
             pi = initial_data[1:4,i]
             ki = initial_data[5:8,i]
             
             pf = output_data[1:4,i]
             kf = output_data[5:8,i]
-
         end
 
         #The difference with the ETO scheme here should be the minus sign in front of the final momentum
@@ -32,25 +29,18 @@ function get_observed_bolometric_intensities(initial_data, output_data, configur
         end
 
         dump_metrics_and_emitter_four_velocity_in!(cache, pi, pf, spacetime, model, coords_top)
-        
         q = get_energies_quotient(ki, kf, cache)
-
         emitted_bolometric_intensity = get_emitted_bolometric_intensity(pf, -kf, cache.emitter_four_velocity, cache.emitter_metric, spacetime, model, coords_top)
-
         observed_bolometric_intensities[i] = q^4*emitted_bolometric_intensity
         
     end
 
     normalize_by_image_plane_distance!(observed_bolometric_intensities, configurations)
-
     return observed_bolometric_intensities
-
 end
 
 function get_observed_specific_intensities(initial_data, output_data, observed_energies_CGS, configurations::VacuumOTEConfigurations)
-
     #Returns intensities in CGS
-
     spacetime = configurations.spacetime
     model = configurations.radiative_model
     coords_top = coordinates_topology(spacetime)
@@ -66,13 +56,11 @@ function get_observed_specific_intensities(initial_data, output_data, observed_e
     for i in 1:Nrays
 
         @views begin 
-        
             pi = initial_data[1:4,i]
             ki = initial_data[5:8,i]
             
             pf = output_data[1:4,i]
             kf = output_data[5:8,i]
-
         end
 
         #The difference with the ETO scheme here should be the minus sign in front of the final momentum
@@ -83,46 +71,15 @@ function get_observed_specific_intensities(initial_data, output_data, observed_e
         end
 
         dump_metrics_and_emitter_four_velocity_in!(cache, pi, pf, spacetime, model, coords_top)
-        
         q = get_energies_quotient(ki, kf, cache)
 
         for j in 1:NE
-
             emitted_energy = observed_energies_CGS[j]/q
-
             emitted_specific_intensity = get_emitted_specific_intensity(pf, -kf, emitted_energy, cache.emitter_four_velocity, cache.emitter_metric, spacetime, model, coords_top)
             observed_specific_intensities[j, i] = q^3*emitted_specific_intensity
-        
         end
-
     end
 
     normalize_by_image_plane_distance!(observed_specific_intensities, configurations)
-    
     return observed_specific_intensities
-
-end
-
-function get_energies_quotient(ki, kf, cache)
-    
-    q = scalar_product(ki, cache.observer_four_velocity, cache.observer_metric) /
-        scalar_product(kf, cache.emitter_four_velocity, cache.emitter_metric)
-
-    return q
-
-end
-
-function normalize_by_image_plane_distance!(array, configurations::AbstractOTEConfigurations)
-    image_plane_distance_CGS = geometrized_to_CGS(configurations.image_plane.distance, Dimensions.length, configurations) 
-    array ./= image_plane_distance_CGS^2
-end
-
-function normalize_by_pixel_area!(array, configurations::AbstractOTEConfigurations)
-    pixel_area_CGS = geometrized_to_CGS(pixel_area(configurations.image_plane), Dimensions.area, configurations) 
-    array .*= pixel_area_CGS 
-end
-
-function rescale_intensities_normalization_at_real_observer!(array, real_observer_distance_CGS, configurations::AbstractOTEConfigurations)
-    image_plane_distance_CGS = geometrized_to_CGS(configurations.image_plane.distance, Dimensions.length, configurations) 
-    array .*= (image_plane_distance_CGS/real_observer_distance_CGS)^2
 end
