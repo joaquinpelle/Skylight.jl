@@ -41,7 +41,7 @@ function get_observed_bolometric_intensities(initial_data, output_data, configur
         
     end
 
-    set_intensities_normalization_at_image_plane!(observed_bolometric_intensities, configurations)
+    normalize_by_image_plane_distance!(observed_bolometric_intensities, configurations)
 
     return observed_bolometric_intensities
 
@@ -97,7 +97,7 @@ function get_observed_specific_intensities(initial_data, output_data, observed_e
 
     end
 
-    set_intensities_normalization_at_image_plane!(observed_specific_intensities, configurations)
+    normalize_by_image_plane_distance!(observed_specific_intensities, configurations)
     
     return observed_specific_intensities
 
@@ -112,18 +112,17 @@ function get_energies_quotient(ki, kf, cache)
 
 end
 
-function set_intensities_normalization_at_image_plane!(intensities, configurations)
-
+function normalize_by_image_plane_distance!(array, configurations::AbstractOTEConfigurations)
     image_plane_distance_CGS = geometrized_to_CGS(configurations.image_plane.distance, Dimensions.length, configurations) 
-    
-    intensities ./= image_plane_distance_CGS^2
-
+    array ./= image_plane_distance_CGS^2
 end
 
-function rescale_intensities_normalization_at_real_observer!(intensities, real_observer_distance_CGS, configurations)
+function normalize_by_pixel_area!(array, configurations::AbstractOTEConfigurations)
+    pixel_area_CGS = geometrized_to_CGS(pixel_area(configurations.image_plane), Dimensions.area, configurations) 
+    array .*= pixel_area_CGS 
+end
 
+function rescale_intensities_normalization_at_real_observer!(array, real_observer_distance_CGS, configurations::AbstractOTEConfigurations)
     image_plane_distance_CGS = geometrized_to_CGS(configurations.image_plane.distance, Dimensions.length, configurations) 
-    
-    intensities .*= (image_plane_distance_CGS/real_observer_distance_CGS)^2
-
+    array .*= (image_plane_distance_CGS/real_observer_distance_CGS)^2
 end
