@@ -13,6 +13,7 @@ using Reexport
 @reexport using DifferentialEquations
 @reexport using PreallocationTools
 
+include("utils/types.jl")
 include("spacetimes/types.jl")
 include("radiativemodels/types.jl")
 include("configurations/types.jl")
