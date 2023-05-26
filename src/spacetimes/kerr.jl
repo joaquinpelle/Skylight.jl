@@ -349,6 +349,20 @@ end
 
 event_horizon_radius(spacetime::AbstractKerrSpacetime) = spacetime.M*(1+sqrt(1-spacetime.a^2))
 
+function isco_radius(spacetime::AbstractKerrSpacetime, ::ProgradeRotation)
+    x = spacetime.a/spacetime.M      #Rotation parameter
+    Z1=1+cbrt(1-x^2)*(cbrt(1+x)+cbrt(1-x))
+    Z2=sqrt(3*x^2+Z1^2)
+    return spacetime.M*(3+Z2-sqrt((3-Z1)*(3+Z1+2*Z2)))
+end
+
+function isco_radius(spacetime::AbstractKerrSpacetime, ::RetrogradeRotation)
+    x = spacetime.a/spacetime.M      #Rotation parameter
+    Z1=1+cbrt(1-x^2)*(cbrt(1+x)+cbrt(1-x))
+    Z2=sqrt(3*x^2+Z1^2)
+    return spacetime.M*(3+Z2+sqrt((3-Z1)*(3+Z1+2*Z2)))
+end
+
 function circular_geodesic_angular_speed(position, spacetime::AbstractKerrSpacetime, ::ProgradeRotation)
     M = spacetime.M
     a = spacetime.a
