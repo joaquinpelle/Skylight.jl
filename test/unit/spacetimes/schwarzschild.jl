@@ -23,6 +23,20 @@ end
 
     @test ginv ≈ [-1.0-2/5 0.0 6/25 8/25; 0.0 1.0 0.0 0.0; 6/25 0.0 1.0-18/125 -24/125; 8/25 0.0 -24/125 1.0-32/125]
     @test g*ginv ≈ [1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
+
+    cache = allocate_christoffel_cache(spacetime)
+    
+    kerr_spacetime = KerrSpacetimeKerrSchildCoordinates(M=1.0,a=0.0)
+    kerr_cache = allocate_christoffel_cache(kerr_spacetime)
+    
+    position = rand(4)
+    Γ = zeros(4,4,4)
+    Γ_kerr = zeros(4,4,4)
+
+    set_christoffel!(Γ,position,spacetime,cache)
+    set_christoffel!(Γ_kerr,position,kerr_spacetime,kerr_cache)
+    
+    @test Γ ≈ Γ_kerr
 end
 
 @testset "Spherical coordinates" begin
