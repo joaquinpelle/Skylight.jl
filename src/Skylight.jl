@@ -53,12 +53,27 @@ export AbstractRotationSense,
     ProgradeRotation,
     RetrogradeRotation
 
-export set_metric!, 
+export IsStationary,
+    IsSphericallySymmetric,
+    IsAxiallySymmetric
+
+export is_stationary,
+    is_spherically_symmetric,
+    is_axially_symmetric 
+
+export energy,
+    angular_momentum,
+    z_angular_momentum
+
+export set_metric!,
+    set_metric_inverse!,
+    volume_element, 
     allocate_christoffel_cache, 
     set_christoffel!,
     coordinates_topology
 
-export circular_geodesic_angular_speed,
+export radius, 
+    circular_geodesic_angular_speed,
     event_horizon_radius,
     kerr_radius
 
