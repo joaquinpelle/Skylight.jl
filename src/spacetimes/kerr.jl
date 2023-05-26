@@ -1,4 +1,4 @@
-abstract type AbstractKerrSpacetime end
+abstract type AbstractKerrSpacetime <: AbstractSpacetime end
 
 # Kerr Schild coordinates
 
