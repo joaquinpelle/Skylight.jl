@@ -81,7 +81,7 @@ using Skylight, Test
         set_u!(integrator, u) 
         out = [0.0,0.0]
 
-        r_kerr = Skylight.get_kerr_radius(u[1:4], spacetime)
+        r_kerr = Skylight.kerr_radius(u[1:4], spacetime)
 
         Skylight.black_hole_accretion_disk_cartesian_coordinates_condition(out, u, 0.0, integrator)
 
