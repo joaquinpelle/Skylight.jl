@@ -74,9 +74,10 @@ export set_metric!,
     coordinates_topology
 
 export radius, 
-    circular_geodesic_angular_speed,
+    kerr_radius,
     event_horizon_radius,
-    kerr_radius
+    isco_radius,
+    circular_geodesic_angular_speed
 
 export AbstractRadiativeModel,
     AbstractSurfaceEmissionModel,
