@@ -1,6 +1,7 @@
 include("constants.jl")
 include("dimensions.jl")
 include("units.jl")
+include("bins.jl")
 include("interpolation.jl")
 include("geometry.jl")
 include("linearalgebra.jl")
