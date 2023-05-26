@@ -1,7 +1,8 @@
 @with_kw struct BlackHoleAccretionDisk <: AbstractSurfaceEmissionModel 
 
     inner_radius::Float64
-    outer_radius::Float64 
+    outer_radius::Float64
+    rotation_sense::AbstractRotationSense = Prograde() 
 
 end
 
@@ -23,10 +24,12 @@ function set_surface_differential!(covector, position, ::BlackHoleAccretionDisk,
 
 end    
 
-function is_final_position_at_source(position, spacetime, model::BlackHoleAccretionDisk)
+function set_emitter_four_velocity!(vector, position, metric, spacetime::AbstractKerrSpacetime, model::BlackHoleAccretionDisk, coords_top)
+    angular_speed = circular_geodesic_angular_speed(position, spacetime, model.rotation_sense)
+    tangent_vector_zaxis_rotation!(vector, position, angular_speed, metric, coords_top)
+end
 
-    r = position[2]
-
+function is_final_position_at_source(position, spacetime::AbstractKerrSpacetime, model::BlackHoleAccretionDisk)
+    r = kerr_radius(position, spacetime)
     return (r >= model.inner_radius) && (r <= model.outer_radius)
-
 end
