@@ -9,9 +9,9 @@ end
 
 @with_kw mutable struct VacuumThreadCache{T}
 
-    point::Array{Float64, 1} = zeros(4)
-    velocity::Array{Float64, 1} = zeros(4)
-    acceleration::Array{Float64, 1} = zeros(4)
+    point::Vector{Float64} = zeros(4)
+    velocity::Vector{Float64} = zeros(4)
+    acceleration::Vector{Float64} = zeros(4)
     christoffel::Array{Float64, 3} = zeros(4,4,4)
     christoffel_cache::T
 
@@ -21,20 +21,20 @@ mutable struct VacuumCache{S, C, T}
     
     spacetime::S
     cb_params::C
-    multi_thread::Array{VacuumThreadCache{T},1}
+    multi_thread::Vector{VacuumThreadCache{T}}
 
 end
 
 @with_kw mutable struct NonVacuumThreadCache{T}
 
-    point::Array{Float64, 1} = zeros(4)
-    velocity::Array{Float64, 1} = zeros(4)
-    acceleration::Array{Float64, 1} = zeros(4)
+    point::Vector{Float64} = zeros(4)
+    velocity::Vector{Float64} = zeros(4)
+    acceleration::Vector{Float64} = zeros(4)
     christoffel::Array{Float64, 3} = zeros(4,4,4)
     christoffel_cache::T
-    ε::Array{Float64, 1}
-    αε::Array{Float64, 1}
-    jε::Array{Float64, 1}
+    ε::Vector{Float64}
+    αε::Vector{Float64}
+    jε::Vector{Float64}
 
 end
 
@@ -44,8 +44,8 @@ mutable struct NonVacuumCache{S, M, C, T}
     model::M
     cb_params::C
     τmax::Float64
-    observed_energies::Array{Float64, 1}
+    observed_energies::Vector{Float64}
     NE::Int
-    multi_thread::Array{NonVacuumThreadCache{T},1}
+    multi_thread::Vector{NonVacuumThreadCache{T}}
 
 end
