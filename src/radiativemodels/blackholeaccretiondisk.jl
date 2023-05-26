@@ -1,8 +1,8 @@
-@with_kw struct BlackHoleAccretionDisk <: AbstractSurfaceEmissionModel 
+@with_kw struct BlackHoleAccretionDisk{T} <: AbstractSurfaceEmissionModel 
 
     inner_radius::Float64
     outer_radius::Float64
-    rotation_sense::AbstractRotationSense = Prograde() 
+    rotation_sense::T = ProgradeRotation() 
 
 end
 
