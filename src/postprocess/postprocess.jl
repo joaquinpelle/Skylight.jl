@@ -1,4 +1,7 @@
-include("utils.jl")
 include("cache.jl")
+include("views.jl")
 include("filtermask.jl")
+include("normalization.jl")
+include("redshift.jl")
 include("intensities.jl")
+include("lineemission.jl")
