@@ -12,7 +12,7 @@ using Parameters, PreallocationTools
 
     #Define a Kerr spacetime to use with automatic differentiation
 
-    struct ADKerrSpacetimeKerrSchildCoordinates
+    struct ADKerrSpacetimeKerrSchildCoordinates <: AbstractAutoDiffSpacetime
 
         M::Float64
         a::Float64
