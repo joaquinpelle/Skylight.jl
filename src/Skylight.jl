@@ -31,6 +31,7 @@ include("transfer/transfer.jl")
 include("postprocess/postprocess.jl")
 
 export AbstractSpacetime,
+    AbstractAutoDiffSpacetime,
     MinkowskiSpacetimeCartesianCoordinates,
     MinkowskiSpacetimeSphericalCoordinates,
     SchwarzschildSpacetimeKerrSchildCoordinates, 
@@ -50,10 +51,18 @@ export AbstractCoordinatesTopology,
     CartesianTopology,
     SphericalTopology
 
+export AbstractRotationSense,
+    ProgradeRotation,
+    RetrogradeRotation
+
 export set_metric!, 
     allocate_christoffel_cache, 
     set_christoffel!,
-    coordinates_topology 
+    coordinates_topology
+
+export circular_geodesic_angular_speed,
+    event_horizon_radius,
+    kerr_radius
 
 export AbstractRadiativeModel,
     AbstractSurfaceEmissionModel,
@@ -80,7 +89,7 @@ export get_initial_data,
     integrate, 
     output_data, 
     get_callback_and_params
-    
+
 export get_filter_mask, 
     get_observed_bolometric_intensities, 
     get_observed_specific_intensities, 
@@ -99,6 +108,8 @@ export save_to_hdf5,
     
 export nosave, 
     with_kw_nosave
+
+export tangent_vector_zaxis_rotation!
 
 export geometrized_to_CGS,
     CGS_to_geometrized
