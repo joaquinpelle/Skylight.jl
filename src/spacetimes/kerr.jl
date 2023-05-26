@@ -104,12 +104,12 @@ end
 
 @with_kw struct KerrKSChristoffelCache <: AbstractChristoffelCache
     l::Vector{Float64} = zeros(4)
-    dH::Array{Float64, 1} = zeros(4)
+    dH::Vector{Float64} = zeros(4)
     dl::Array{Float64, 2} = zeros(4,4)
     D::Array{Float64, 3} = zeros(4,4,4)
 end
 
-christoffel_cache(::KerrSpacetimeKerrSchildCoordinates) = KerrKSChristoffelCache()
+allocate_christoffel_cache(::KerrSpacetimeKerrSchildCoordinates) = KerrKSChristoffelCache()
 
 function set_christoffel!(Γ, position, spacetime::KerrSpacetimeKerrSchildCoordinates, cache::KerrKSChristoffelCache)
 

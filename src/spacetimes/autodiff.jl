@@ -4,7 +4,7 @@
     ∂g::Array{Float64,3} = zeros(4,4,4)
 end
 
-christoffel_cache(::AbstractAutoDiffSpacetime) = AutoDiffChristoffelCache()
+allocate_christoffel_cache(::AbstractAutoDiffSpacetime) = AutoDiffChristoffelCache()
 
 """
 Calculates the Christoffel symbols of a given spacetime metric using the forward-mode automatic differentiation package ForwardDiff.
