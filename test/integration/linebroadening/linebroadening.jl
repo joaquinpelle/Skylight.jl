@@ -20,7 +20,7 @@ function test_line_broadening(figname, rotation_sense)
                             vertical_number_of_nodes = 600)
 
     rISCO = isco_radius(spacetime, rotation_sense)
-    model = BlackHoleAccretionDisk(inner_radius=rISCO, outer_radius=15.0, rotation_sense=rotation_sense)
+    model = NovikovThorneDisk(inner_radius=rISCO, outer_radius=15.0, rotation_sense=rotation_sense)
         
     configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                    image_plane = image_plane,
@@ -63,7 +63,7 @@ function test_line_broadening(figname, rotation_sense)
 
 end
 
-function myprofile(position, spacetime::KerrSpacetimeBoyerLindquistCoordinates, ::BlackHoleAccretionDisk)
+function myprofile(position, spacetime::KerrSpacetimeBoyerLindquistCoordinates, ::NovikovThorneDisk)
     r = kerr_radius(position, spacetime)
     return 1/r^2
 end

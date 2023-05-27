@@ -1,4 +1,4 @@
-function get_cb_params(model::BlackHoleAccretionDisk, configurations; rhorizon_bound)
+function get_cb_params(model::NovikovThorneDisk, configurations; rhorizon_bound)
     
     inner_radius = model.inner_radius
     outer_radius = model.outer_radius
@@ -20,8 +20,8 @@ end
 
 end
 
-get_callback(::BlackHoleAccretionDisk, ::CartesianTopology) = black_hole_accretion_disk_cartesian_coordinates_callback()
-get_callback(::BlackHoleAccretionDisk, ::SphericalTopology) = black_hole_accretion_disk_spherical_coordinates_callback()
+get_callback(::NovikovThorneDisk, ::CartesianTopology) = black_hole_accretion_disk_cartesian_coordinates_callback()
+get_callback(::NovikovThorneDisk, ::SphericalTopology) = black_hole_accretion_disk_spherical_coordinates_callback()
 
 black_hole_accretion_disk_cartesian_coordinates_callback() = VectorContinuousCallback(black_hole_accretion_disk_cartesian_coordinates_condition, black_hole_accretion_disk_cartesian_coordinates_affect!, 2)
 black_hole_accretion_disk_spherical_coordinates_callback() = VectorContinuousCallback(black_hole_accretion_disk_spherical_coordinates_condition, black_hole_accretion_disk_spherical_coordinates_affect!, 2)

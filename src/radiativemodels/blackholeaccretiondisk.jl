@@ -1,4 +1,6 @@
-@with_kw struct BlackHoleAccretionDisk{T} <: AbstractSurfaceEmissionModel 
+abstract type AbstractBlackHoleAccretionDisk <: AbstractSurfaceEmissionModel  end
+
+@with_kw struct NovikovThorneDisk{T} <: AbstractBlackHoleAccretionDisk 
 
     inner_radius::Float64
     outer_radius::Float64
@@ -6,7 +8,7 @@
 
 end
 
-function set_surface_differential!(covector, position, ::BlackHoleAccretionDisk, ::CartesianTopology)
+function set_surface_differential!(covector, position, ::AbstractBlackHoleAccretionDisk, ::CartesianTopology)
 
     covector[1] = 0.0
     covector[2] = 0.0
@@ -15,7 +17,7 @@ function set_surface_differential!(covector, position, ::BlackHoleAccretionDisk,
 
 end
 
-function set_surface_differential!(covector, position, ::BlackHoleAccretionDisk, ::SphericalTopology)
+function set_surface_differential!(covector, position, ::AbstractBlackHoleAccretionDisk, ::SphericalTopology)
 
     covector[1] = 0.0
     covector[2] = 0.0
@@ -24,12 +26,12 @@ function set_surface_differential!(covector, position, ::BlackHoleAccretionDisk,
 
 end    
 
-function set_emitter_four_velocity!(vector, position, metric, spacetime::AbstractKerrSpacetime, model::BlackHoleAccretionDisk, coords_top)
+function set_emitter_four_velocity!(vector, position, metric, spacetime::AbstractKerrSpacetime, model::AbstractBlackHoleAccretionDisk, coords_top)
     angular_speed = circular_geodesic_angular_speed(position, spacetime, model.rotation_sense)
     tangent_vector_zaxis_rotation!(vector, position, angular_speed, metric, coords_top)
 end
 
-function is_final_position_at_source(position, spacetime::AbstractKerrSpacetime, model::BlackHoleAccretionDisk)
+function is_final_position_at_source(position, spacetime::AbstractKerrSpacetime, model::AbstractBlackHoleAccretionDisk)
     r = kerr_radius(position, spacetime)
     return (r >= model.inner_radius) && (r <= model.outer_radius)
 end
