@@ -1,16 +1,14 @@
 #Required
-coordinates_topology(::AbstractSpacetime) = error("Coordinates topology not defined for this spacetime.")
-set_metric!(::AbstractSpacetime) = error("Metric not defined for this spacetime.")
-set_christoffel!(Γ, position, ::AbstractSpacetime, cache) = error("Christoffel symbols not defined for this spacetime.")
-set_christoffel!(Γ, position, ::AbstractSpacetime) = error("Christoffel symbols not defined for this spacetime.")
+coordinates_topology(spacetime) = error("Coordinates topology not defined for this spacetime.")
+set_metric!(g, position, spacetime) = error("Metric not defined for this spacetime.")
 
 #Optional
 # set_metric_inverse!(ginv, position, ::AbstractSpacetime) = error("Metric inverse not defined for this spacetime.")
 # volume_element(position, ::AbstractSpacetime, g) = error("Volume element not defined for this spacetime.")
-radius(position, ::AbstractSpacetime) = error("Radius not defined for this spacetime.")
-event_horizon_radius(::AbstractSpacetime) = error("Event horizon radius not defined for this spacetime.")
-circular_geodesic_angular_speed(position, ::AbstractSpacetime,::AbstractRotationSense) = error("Circular geodesic angular speed not defined for this spacetime.")
-allocate_christoffel_cache(::AbstractSpacetime) = nothing
+radius(position, spacetime) = error("Radius not defined for this spacetime.")
+event_horizon_radius(spacetime) = error("Event horizon radius not defined for this spacetime.")
+circular_geodesic_angular_speed(position, spacetime, rotation_sense) = error("Circular geodesic angular speed not defined for this spacetime.")
+#custom set_christoffel
 set_christoffel!(Γ, position, spacetime::AbstractSpacetime, ::Nothing) = set_christoffel!(Γ, position, spacetime)
 
 #By default we set non-stationarity and non-spherical symmetry  
@@ -20,7 +18,6 @@ is_spherically_symmetric(::AbstractSpacetime) = IsNotSphericallySymmetric()
 is_axially_symmetric(spacetime::AbstractSpacetime) = isa(is_spherically_symmetric(spacetime), IsSphericallySymmetric) ? IsAxiallySymmetric() : IsNotAxiallySymmetric()
 
 include("coordinatealias.jl")
-include("constantsmotion.jl")
 include("autodiff.jl")
 include("minkowski.jl")
 include("schwarzschild.jl")
@@ -30,6 +27,7 @@ include("chargedwormhole.jl")
 include("bosonstar.jl")
 include("RAR.jl")
 include("numerical.jl")
+include("constantsmotion.jl")
 
 """
 Computes the inverse of the given metric at the given position using a fast inversion
