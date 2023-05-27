@@ -85,7 +85,9 @@ export AbstractRadiativeModel,
     AbstractSurfaceEmissionModel,
     DummyExtendedRegion,
     DummyModel,
+    AbstractAccretionDisk,
     NovikovThorneDisk,
+    AccretionDiskWithTabulatedTemperature
     SyntheticPolarCap,
     StarAcrossWormhole,
     BosonStarAccretionDisk
