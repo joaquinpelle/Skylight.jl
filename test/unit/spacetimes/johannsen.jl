@@ -1,13 +1,13 @@
 @testset "Parameters" begin
         
-    @test_throws AssertionError JohannsenSpacetimeBoyerLindquistCoordinates(M=-1.0,
+    @test_throws AssertionError JohannsenSpacetime(M=-1.0,
                                                                             a=0.5,
                                                                             α13=0.2,
                                                                             α22=0.1,
                                                                             α52=0.3,
                                                                             ϵ3=0.5)
 
-    @test_throws DomainError JohannsenSpacetimeBoyerLindquistCoordinates(M=1.0,
+    @test_throws DomainError JohannsenSpacetime(M=1.0,
                                                                          a=1.5,
                                                                          α13=0.2,
                                                                          α22=0.1,
@@ -15,26 +15,26 @@
                                                                          ϵ3=0.5)
 
 
-    @test_throws AssertionError JohannsenSpacetimeBoyerLindquistCoordinates(M=1.0,
+    @test_throws AssertionError JohannsenSpacetime(M=1.0,
                                                                             a=sqrt(0.75),
                                                                             α13=-1.6^3,
                                                                             α22=0.1,
                                                                             α52=0.3,
                                                                             ϵ3=0.5)
-    @test_throws AssertionError JohannsenSpacetimeBoyerLindquistCoordinates(M=1.0,
+    @test_throws AssertionError JohannsenSpacetime(M=1.0,
                                                                             a=sqrt(0.75),
                                                                             α13=0.6,
                                                                             α22=-2.1^3,
                                                                             α52=0.3,
                                                                             ϵ3=0.5)
-    @test_throws AssertionError JohannsenSpacetimeBoyerLindquistCoordinates(M=1.0,
+    @test_throws AssertionError JohannsenSpacetime(M=1.0,
                                                                             a=sqrt(0.75),
                                                                             α13=0.6,
                                                                             α22=0.1,
                                                                             α52=-2.3^3,
                                                                             ϵ3=0.5)
                                                                             
-    @test_throws AssertionError JohannsenSpacetimeBoyerLindquistCoordinates(M=1.0,
+    @test_throws AssertionError JohannsenSpacetime(M=1.0,
                                                                             a=sqrt(0.75),
                                                                             α13=-0.6,
                                                                             α22=0.1,
@@ -47,14 +47,14 @@ end
 
 @testset "Boyer-Lindquist coordinates" begin
         
-    spacetime = JohannsenSpacetimeBoyerLindquistCoordinates(M=1.0,
+    spacetime = JohannsenSpacetime(M=1.0,
                                                             a=0.5,
                                                             α13=0.2,
                                                             α22=0.1,
                                                             α52=0.3,
                                                             ϵ3=0.5)
 
-    @test Skylight.coordinates_topology(spacetime) == Skylight.SphericalTopology()
+    @test coordinates_topology(spacetime) == SphericalTopology()
 
 
     r = 5.0
@@ -95,12 +95,12 @@ end
     g[4,4] = Σ*sinθ2*((r2+a2)^2*A1^2-a2*Δ*sinθ2)/C
     
     g1 = zeros(4,4)
-    Skylight.set_metric!(g1,point,spacetime)
+    set_metric!(g1,point,spacetime)
 
     @test g ≈ g1
     
     ginv = zeros(4,4)
-    Skylight.set_metric_inverse!(ginv,point,spacetime)
+    set_metric_inverse!(ginv,point,spacetime)
     
     @test g1*ginv ≈ [1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
 

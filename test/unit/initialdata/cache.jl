@@ -19,13 +19,13 @@ using Skylight, Test
         cache = Skylight.ETOInitialDataCache()
         spacetime = MinkowskiSpacetimeCartesianCoordinates()
 
-        model = Skylight.SyntheticPolarCap(
+        model = SyntheticPolarCap(
                                             star_radius=5.0,
                                             angular_speed = 0.05, 
                                             misalignment_angle_in_degrees=90,
                                             angular_radius_in_degrees=60, 
                                             temperature=rand())
-        configurations = Skylight.VacuumETOConfigurations(spacetime = spacetime, radiative_model = model, number_of_points=10, number_of_packets_per_point = 10, observer_distance = 500.0, unit_mass_in_solar_masses=1.0)
+        configurations = VacuumETOConfigurations(spacetime = spacetime, radiative_model = model, number_of_points=10, number_of_packets_per_point = 10, observer_distance = 500.0, unit_mass_in_solar_masses=1.0)
 
         Skylight.dump_metric_and_tetrad_in!(cache, position, configurations)
 
@@ -61,9 +61,9 @@ using Skylight, Test
                 cache = Skylight.ETOInitialDataCache()
 
                 spacetime = MinkowskiSpacetimeCartesianCoordinates()
-                model = Skylight.DummyExtendedRegion()
+                model = DummyExtendedRegion()
 
-                configurations = Skylight.VacuumETOConfigurations(spacetime = spacetime, radiative_model = model, number_of_points=10, number_of_packets_per_point = 10, observer_distance = 500.0, unit_mass_in_solar_masses=1.0)
+                configurations = VacuumETOConfigurations(spacetime = spacetime, radiative_model = model, number_of_points=10, number_of_packets_per_point = 10, observer_distance = 500.0, unit_mass_in_solar_masses=1.0)
 
                 packets = Skylight.my_zeros(configurations)
                 cache = Skylight.ETOInitialDataCache()
@@ -94,13 +94,13 @@ using Skylight, Test
                 cache = Skylight.ETOInitialDataCache()
 
                 spacetime = MinkowskiSpacetimeCartesianCoordinates()
-                model = Skylight.SyntheticPolarCap( 
+                model = SyntheticPolarCap( 
                                                     star_radius=5.0,
                                                     angular_speed = 0.05, 
                                                     misalignment_angle_in_degrees=90,
                                                     angular_radius_in_degrees=60, 
                                                     temperature=rand())
-                configurations = Skylight.VacuumETOConfigurations(spacetime = spacetime, radiative_model = model, number_of_points=10, number_of_packets_per_point = 10, observer_distance = 500.0, unit_mass_in_solar_masses=1.0)
+                configurations = VacuumETOConfigurations(spacetime = spacetime, radiative_model = model, number_of_points=10, number_of_packets_per_point = 10, observer_distance = 500.0, unit_mass_in_solar_masses=1.0)
 
                 packets = Skylight.my_zeros(configurations)
                 cache = Skylight.ETOInitialDataCache()

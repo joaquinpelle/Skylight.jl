@@ -33,7 +33,7 @@ using Skylight, Test
         
         @test Skylight.get_rmax(configurations) ≈ rmax
         
-        cb_params = Skylight.get_cb_params(model, configurations)
+        cb_params = Skylight.get_cb_params(spacetime, model, configurations)
 
         @test cb_params.rmin == 5.0
         @test cb_params.rmax == rmax
@@ -65,7 +65,7 @@ using Skylight, Test
                                    radiative_model = model,
                                    unit_mass_in_solar_masses=1.0)
 
-        cb_params = Skylight.get_cb_params(model, configurations, rhorizon_bound=1e-6)
+        cb_params = Skylight.get_cb_params(spacetime, model, configurations, rhorizon_bound=1e-6)
 
         rmin = rhor + 1e-6
         @test cb_params.rmin ≈ rmin
@@ -81,7 +81,7 @@ using Skylight, Test
         set_u!(integrator, u) 
         out = [0.0,0.0]
 
-        r_kerr = Skylight.kerr_radius(u[1:4], spacetime)
+        r_kerr = radius(u[1:4], spacetime)
 
         Skylight.black_hole_accretion_disk_cartesian_coordinates_condition(out, u, 0.0, integrator)
 
@@ -132,7 +132,7 @@ using Skylight, Test
                                    radiative_model = model,
                                    unit_mass_in_solar_masses=1.0)
 
-        cb_params = Skylight.get_cb_params(model, configurations)
+        cb_params = Skylight.get_cb_params(spacetime, model, configurations)
 
         @test cb_params.rmax ≈ rmax
         @test cb_params.star_radius == 5.0

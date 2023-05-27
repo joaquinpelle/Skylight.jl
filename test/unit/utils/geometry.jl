@@ -108,7 +108,7 @@ end
 
     @testset "Cartesian coordinates" begin
 
-        Skylight.tangent_vector_zaxis_rotation!(vector1,position,Ω,metric,Skylight.CartesianTopology())
+        tangent_vector_zaxis_rotation!(vector1,position,Ω,metric,CartesianTopology())
         
         vector[1] =  1.0
         vector[2] = -Ω*position[3]
@@ -122,7 +122,7 @@ end
 
     @testset "Spherical coordinates" begin
 
-        Skylight.tangent_vector_zaxis_rotation!(vector1,position,Ω,metric,Skylight.SphericalTopology())
+        tangent_vector_zaxis_rotation!(vector1,position,Ω,metric,SphericalTopology())
         
         vector[1] = 1.0
         vector[2] = 0.0

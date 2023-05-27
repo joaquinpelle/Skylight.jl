@@ -4,11 +4,11 @@ using Skylight, Random, Test
 
     @testset "Orthonormalization" begin
 
-        spacetime = Skylight.KerrSpacetimeKerrSchildCoordinates(M=1.0, a=0.9)
+        spacetime = KerrSpacetimeKerrSchildCoordinates(M=1.0, a=0.9)
         triad = zeros(4,3)
         metric = zeros(4,4)
         position = [rand(), 3.0, 4.0, 1.0]
-        Skylight.set_metric!(metric, position, spacetime)
+        set_metric!(metric, position, spacetime)
         
         time_vector = [1.0, 0.0, 0.0, 0.0]
         Skylight.normalize_timelike!(time_vector, metric)
@@ -40,9 +40,9 @@ using Skylight, Random, Test
             position = [rand(), 3.0, 4.0, 1.0]
             metric = zeros(4,4)
             metric_inverse = zeros(4,4)
-            spacetime = Skylight.KerrSpacetimeKerrSchildCoordinates(M=1.0, a=0.9)
+            spacetime = KerrSpacetimeKerrSchildCoordinates(M=1.0, a=0.9)
 
-            Skylight.set_metric!(metric, position, spacetime)
+            set_metric!(metric, position, spacetime)
             
             time_vector = [1.0, 0.0, 0.0, 0.0]
             Skylight.normalize_timelike!(time_vector, metric)
@@ -69,22 +69,22 @@ using Skylight, Random, Test
             position = [rand(), 3.0, 4.0, 0.0]
             metric = zeros(4,4)
             metric_inverse = zeros(4,4)
-            spacetime = Skylight.KerrSpacetimeKerrSchildCoordinates(M=1.0, a=0.9)
+            spacetime = KerrSpacetimeKerrSchildCoordinates(M=1.0, a=0.9)
 
-            Skylight.set_metric!(metric, position, spacetime)
-            Skylight.set_metric_inverse!(metric_inverse, position, spacetime)
+            set_metric!(metric, position, spacetime)
+            set_metric_inverse!(metric_inverse, position, spacetime)
 
             time_vector = [1.0, 0.0, 0.0, 0.0]
             Skylight.normalize_timelike!(time_vector, metric)
 
-            model = Skylight.SyntheticPolarCap( 
+            model = SyntheticPolarCap( 
                                     star_radius=5.0,
                                     angular_speed = 0.05, 
                                     misalignment_angle_in_degrees=90,
                                     angular_radius_in_degrees=60, 
                                     temperature=rand())
 
-            coords_top = Skylight.coordinates_topology(spacetime)
+            coords_top = coordinates_topology(spacetime)
             
             Skylight.set_surface_adapted_triad!(triad, time_vector, position, metric, metric_inverse, model, coords_top)
 
@@ -105,10 +105,10 @@ using Skylight, Random, Test
 
     @testset "Component conversion" begin
 
-        spacetime = Skylight.MinkowskiSpacetimeCartesianCoordinates()
+        spacetime = MinkowskiSpacetimeCartesianCoordinates()
         metric = zeros(4,4)
         position = rand(4)
-        Skylight.set_metric!(metric, position, spacetime)
+        set_metric!(metric, position, spacetime)
     
         tetrad = zeros(4,4)
         tetrad[:,1] .= [sqrt(4/3), 1/sqrt(3), 0.0, 0.0]

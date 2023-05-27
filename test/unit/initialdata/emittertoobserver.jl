@@ -15,7 +15,7 @@ using Skylight
             @test sum(kμ[2:4,i].*kμ[2:4,i]) == 0.0
         end
 
-        model = Skylight.DummyExtendedRegion()
+        model = DummyExtendedRegion()
 
         Skylight.set_unit_random_triad_components!(kμ, model)
 
@@ -24,7 +24,7 @@ using Skylight
             @test sum(kμ[2:4,i].*kμ[2:4,i]) ≈ 1.0
         end
 
-        model = Skylight.SyntheticPolarCap( 
+        model = SyntheticPolarCap( 
                                         star_radius=5.0,
                                         angular_speed = 0.05, 
                                         misalignment_angle_in_degrees=90,
@@ -44,13 +44,13 @@ end
 @testset "Set position and momenta" begin
     
     spacetime = MinkowskiSpacetimeCartesianCoordinates()
-    model = Skylight.SyntheticPolarCap( 
+    model = SyntheticPolarCap( 
                                         star_radius=5.0,
                                         angular_speed = 0.05, 
                                         misalignment_angle_in_degrees=90,
                                         angular_radius_in_degrees=60, 
                                         temperature=rand())
-    configurations = Skylight.VacuumETOConfigurations(spacetime = spacetime, radiative_model = model, number_of_points=10, number_of_packets_per_point = 10, observer_distance = 500.0, unit_mass_in_solar_masses=1.0)
+    configurations = VacuumETOConfigurations(spacetime = spacetime, radiative_model = model, number_of_points=10, number_of_packets_per_point = 10, observer_distance = 500.0, unit_mass_in_solar_masses=1.0)
 
     packets = Skylight.my_zeros(configurations)
     cache = Skylight.ETOInitialDataCache()
@@ -91,16 +91,16 @@ end
 @testset "Get initial positions" begin
     
     spacetime = MinkowskiSpacetimeCartesianCoordinates()
-    model = Skylight.SyntheticPolarCap(
+    model = SyntheticPolarCap(
                                         star_radius=5.0,
                                         angular_speed = 0.05, 
                                         misalignment_angle_in_degrees=90,
                                         angular_radius_in_degrees=60, 
                                         temperature=rand())
-    configurations = Skylight.VacuumETOConfigurations(spacetime = spacetime, radiative_model = model, number_of_points=3, number_of_packets_per_point = 3, observer_distance = 500.0, unit_mass_in_solar_masses=1.0)
+    configurations = VacuumETOConfigurations(spacetime = spacetime, radiative_model = model, number_of_points=3, number_of_packets_per_point = 3, observer_distance = 500.0, unit_mass_in_solar_masses=1.0)
 
     metric = zeros(4,4)
-    Skylight.set_metric!(metric, zeros(4), spacetime)
+    set_metric!(metric, zeros(4), spacetime)
 
     times = Skylight.zero_times(configurations)
 
@@ -125,14 +125,14 @@ end
 @testset "Packets at position" begin
 
     spacetime = MinkowskiSpacetimeCartesianCoordinates()
-    model = Skylight.SyntheticPolarCap(
+    model = SyntheticPolarCap(
                                         star_radius=5.0,
                                         angular_speed = 0.05, 
                                         misalignment_angle_in_degrees=90,
                                         angular_radius_in_degrees=60, 
                                         temperature=rand())
                                         
-    configurations = Skylight.VacuumETOConfigurations(spacetime = spacetime, radiative_model = model, number_of_points=10, number_of_packets_per_point = 10, observer_distance = 500.0, unit_mass_in_solar_masses=1.0)
+    configurations = VacuumETOConfigurations(spacetime = spacetime, radiative_model = model, number_of_points=10, number_of_packets_per_point = 10, observer_distance = 500.0, unit_mass_in_solar_masses=1.0)
 
     packets = Skylight.my_zeros(configurations)
     cache = Skylight.ETOInitialDataCache()
@@ -161,18 +161,18 @@ end
 @testset "Initialization" begin
     
     spacetime = MinkowskiSpacetimeCartesianCoordinates()
-    model = Skylight.SyntheticPolarCap( 
+    model = SyntheticPolarCap( 
                                         star_radius=5.0,
                                         angular_speed = 0.05, 
                                         misalignment_angle_in_degrees=90,
                                         angular_radius_in_degrees=60, 
                                         temperature=rand())
-    configurations = Skylight.VacuumETOConfigurations(spacetime = spacetime, radiative_model = model, number_of_points=3, number_of_packets_per_point = 3, observer_distance = 500.0, unit_mass_in_solar_masses=1.0)
+    configurations = VacuumETOConfigurations(spacetime = spacetime, radiative_model = model, number_of_points=3, number_of_packets_per_point = 3, observer_distance = 500.0, unit_mass_in_solar_masses=1.0)
 
-    packets = Skylight.get_initial_data(configurations)
+    packets = get_initial_data(configurations)
 
     metric = zeros(4,4)
-    Skylight.set_metric!(metric, zeros(4), spacetime)
+    set_metric!(metric, zeros(4), spacetime)
 
     for i in 1:3
 

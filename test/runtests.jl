@@ -14,8 +14,8 @@ using Skylight, Test, SafeTestsets
     @safetestset "Pixel position and momentum" begin include("unit/initialdata/pixel_position_momentum.jl") end
     @safetestset "Observer to emitter" begin include("unit/initialdata/observertoemitter.jl") end
     @safetestset "Emitter to observer" begin include("unit/initialdata/emittertoobserver.jl") end
-    @safetestset "Geodesics cache" begin include("unit/geodesics/cache.jl") end
-    @safetestset "Callbacks" begin include("unit/geodesics/callbacks.jl") end
-    @safetestset "Problem" begin include("unit/geodesics/problem.jl") end
+    @safetestset "Geodesics cache" begin include("unit/transfer/cache.jl") end
+    @safetestset "Callbacks" begin include("unit/transfer/callbacks.jl") end
+    @safetestset "Problem" begin include("unit/transfer/problem.jl") end
 
 end

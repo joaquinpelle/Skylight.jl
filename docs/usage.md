@@ -13,7 +13,7 @@ First, you have to choose a spacetime (and coordinates topology). Currently, the
   * `SchwarzschildSpacetimeSphericalCoordinates()`
   * `KerrSpacetimeKerrSchildCoordinates()`
   * `KerrSpacetimeBoyerLindquistCoordinates()`
-  * `JohannsenSpacetimeBoyerLindquistCoordinates()`
+  * `JohannsenSpacetime()`
   * `ChargedWormholeSphericalCoordinates()`
   * `ChargedWormholeRegularCoordinates()`
 

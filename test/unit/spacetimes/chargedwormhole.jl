@@ -11,12 +11,12 @@ end
 
     spacetime = ChargedWormholeSpacetimeSphericalCoordinates(b0=1.0, Q=0.5)
     
-    @test Skylight.coordinates_topology(spacetime) == Skylight.SphericalTopology()
+    @test coordinates_topology(spacetime) == SphericalTopology()
 
     point = [rand(),5.0,π/3,0.0]
 
     g = zeros(4,4)
-    Skylight.set_metric!(g,point,spacetime)
+    set_metric!(g,point,spacetime)
     
     b = 0.2
     gtt = -(1+0.25/25)
@@ -25,7 +25,7 @@ end
     @test g ≈ [gtt 0.0 0.0 0.0; 0.0 grr 0.0 0.0; 0.0 0.0 25.0 0.0; 0.0 0.0 0.0 25sin(π/3)^2]
     
     ginv = zeros(4,4)
-    Skylight.set_metric_inverse!(ginv,point,spacetime)
+    set_metric_inverse!(ginv,point,spacetime)
     
     @test g*ginv ≈ [1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
 
@@ -35,19 +35,19 @@ end
 
     spacetime = ChargedWormholeSpacetimeRegularCoordinates(b0=1.0, Q=0.5)
     
-    @test Skylight.coordinates_topology(spacetime) == Skylight.SphericalTopology()
+    @test coordinates_topology(spacetime) == SphericalTopology()
 
     point = [rand(),5.0,π/3,0.0]
 
     g = zeros(4,4)
-    Skylight.set_metric!(g,point,spacetime)
+    set_metric!(g,point,spacetime)
     
     gtt = -(1+0.25/25.75)
     
     @test g ≈ [gtt 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 25.75 0.0; 0.0 0.0 0.0 25.75*sin(π/3)^2]
     
     ginv = zeros(4,4)
-    Skylight.set_metric_inverse!(ginv,point,spacetime)
+    set_metric_inverse!(ginv,point,spacetime)
     
     @test g*ginv ≈ [1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
 

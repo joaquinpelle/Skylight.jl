@@ -1,4 +1,4 @@
-using Test
+using Skylight, Test
 
 @testset "bin_values_and_sum_weights tests" begin
     bins = [0, 1, 2, 3]
@@ -13,7 +13,7 @@ using Test
 
     @test Skylight.bin_values_and_sum_weights(bins, values, weights) == [1, 2, 3]
 
-    # @test_throws ArgumentError Skylight.bin_values_and_sum_weights([0,1,2], [0,1], [0,1,2])
+    @test_throws ArgumentError Skylight.bin_values_and_sum_weights([0,1,2], [0,1], [0,1,2])
 end
 
 

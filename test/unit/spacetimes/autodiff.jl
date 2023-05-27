@@ -12,7 +12,7 @@ using Parameters, PreallocationTools
 
     #Define a Kerr spacetime to use with automatic differentiation
 
-    struct ADKerrSpacetimeKerrSchildCoordinates <: AbstractAutoDiffSpacetime
+    struct ADKerrSpacetimeKerrSchildCoordinates <: AbstractSpacetime
 
         M::Float64
         a::Float64
@@ -24,7 +24,7 @@ using Parameters, PreallocationTools
 
     end
 
-    function Skylight.set_metric!(g, position, spacetime::ADKerrSpacetimeKerrSchildCoordinates)
+    function set_metric!(g, position, spacetime::ADKerrSpacetimeKerrSchildCoordinates)
 
         M = spacetime.M
         a = spacetime.a

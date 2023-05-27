@@ -29,7 +29,7 @@ using Skylight, Test
         @test Skylight.pixel_area(image_plane) == 0.25
         @test Skylight.area(image_plane) == 2.25
 
-        iterator1 = Skylight.get_pixel_coordinates(image_plane)
+        iterator1 = get_pixel_coordinates(image_plane)
         iterator2 = Iterators.product([-0.5, 0.0, 0.5], [-0.5, 0.0, 0.5])
 
         @test collect(iterator1) == collect(iterator2)

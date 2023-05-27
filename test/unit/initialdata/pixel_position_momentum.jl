@@ -4,7 +4,7 @@ using Skylight, Test
 
     @testset "equatorial plane" begin
 
-        coords_top = Skylight.SphericalTopology()
+        coords_top = SphericalTopology()
             
         image_plane = ImagePlane(distance = 1.0,
                                 observer_inclination_in_degrees = 90.0,
@@ -23,7 +23,7 @@ using Skylight, Test
 
         position_spherical = [r,θ,φ]
 
-        coords_top = Skylight.CartesianTopology()
+        coords_top = CartesianTopology()
         position_cartesian = Skylight.get_space_position_from(pixel_coordinates,image_plane,coords_top)
 
         @test position_cartesian[1] ≈ 1.0
@@ -35,7 +35,7 @@ using Skylight, Test
 
     @testset "z axis" begin
 
-        coords_top = Skylight.SphericalTopology()
+        coords_top = SphericalTopology()
             
         image_plane = ImagePlane(distance = 1.0,
                                 observer_inclination_in_degrees = 0.0,
@@ -54,7 +54,7 @@ using Skylight, Test
 
         position_spherical = [r,θ,φ]
 
-        coords_top = Skylight.CartesianTopology()
+        coords_top = CartesianTopology()
         position_cartesian = Skylight.get_space_position_from(pixel_coordinates,image_plane,coords_top)
 
         @test position_cartesian[1] ≈ -1.0
@@ -71,7 +71,7 @@ end
     
     @testset "z axis" begin
         
-        coords_top = Skylight.CartesianTopology()
+        coords_top = CartesianTopology()
             
         image_plane = ImagePlane(distance = 1.0,
                                 observer_inclination_in_degrees = 0.0,
@@ -95,7 +95,7 @@ end
 
         @test space_momentum'*(space_position-center_space_position) ≈ 0.0  atol=1e-15
 
-        coords_top = Skylight.SphericalTopology()
+        coords_top = SphericalTopology()
         
         space_position = Skylight.get_space_position_from(pixel_coordinates,image_plane,coords_top)
         space_momentum = Skylight.get_space_momentum_from(pixel_coordinates,image_plane,coords_top)
@@ -107,7 +107,7 @@ end
     end
 
     @testset "equatorial plane" begin
-        coords_top = Skylight.CartesianTopology()
+        coords_top = CartesianTopology()
             
         image_plane = ImagePlane(distance = 1.0,
                                 observer_inclination_in_degrees = 90.0,
@@ -131,7 +131,7 @@ end
 
         @test space_momentum'*(space_position-center_space_position) ≈ 0.0  atol=1e-15
 
-        coords_top = Skylight.SphericalTopology()
+        coords_top = SphericalTopology()
         
         space_position = Skylight.get_space_position_from(pixel_coordinates,image_plane,coords_top)
         space_momentum = Skylight.get_space_momentum_from(pixel_coordinates,image_plane,coords_top)

@@ -14,7 +14,7 @@ using Skylight, Test
                                     vertical_number_of_nodes = 3)
         
         configurations = VacuumOTEConfigurations(spacetime=spacetime,
-                                            radiative_model = Skylight.DummyModel(),
+                                            radiative_model = DummyModel(),
                                                    image_plane = image_plane,
                                                    observed_times = [0.0,1.0],
                                                    unit_mass_in_solar_masses=1.0)
@@ -43,7 +43,7 @@ using Skylight, Test
             Skylight.set_null!(momentum,cache)
             
             g = zeros(4,4)
-            Skylight.set_metric!(g,position,spacetime)
+            set_metric!(g,position,spacetime)
             
             @test Skylight.norm_squared(momentum,g) ≈ 0.0 atol=1e-15
             
@@ -73,14 +73,14 @@ using Skylight, Test
                                     vertical_number_of_nodes = 3)
         
         configurations = VacuumOTEConfigurations(spacetime=spacetime,
-                                            radiative_model = Skylight.DummyModel(),
+                                            radiative_model = DummyModel(),
                                                 image_plane = image_plane,
                                                 observed_times = [0.0,rand()],
                                                 unit_mass_in_solar_masses=1.0)
 
         initial_time = configurations.observed_times[2]
         image_plane = configurations.image_plane
-        coords_top = Skylight.coordinates_topology(spacetime)
+        coords_top = coordinates_topology(spacetime)
         
 
         ray = zeros(8)
@@ -113,7 +113,7 @@ using Skylight, Test
                                     vertical_number_of_nodes = 3)
         
         configurations = VacuumOTEConfigurations(spacetime=spacetime,
-                                            radiative_model = Skylight.DummyModel(),
+                                            radiative_model = DummyModel(),
                                                 image_plane = image_plane,
                                                 observed_times = [0.1,1.5],
                                                 unit_mass_in_solar_masses=1.0)

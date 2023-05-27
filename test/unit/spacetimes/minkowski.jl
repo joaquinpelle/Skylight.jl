@@ -3,17 +3,17 @@
     g = zeros(4,4)
     spacetime = MinkowskiSpacetimeCartesianCoordinates()
 
-    @test Skylight.coordinates_topology(spacetime) == Skylight.CartesianTopology()
-    Skylight.set_metric!(g,rand(4),spacetime)
+    @test coordinates_topology(spacetime) == CartesianTopology()
+    set_metric!(g,rand(4),spacetime)
     @test g == [-1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
 
     cache = Skylight.OTEInitialDataCache()
     @views g1 = cache.metric
-    Skylight.set_metric!(g1,rand(4),spacetime)
+    set_metric!(g1,rand(4),spacetime)
     @test g1 == [-1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
 
     ginv = zeros(4,4)
-    Skylight.set_metric_inverse!(ginv,rand(4),spacetime)
+    set_metric_inverse!(ginv,rand(4),spacetime)
     @test g*ginv == [1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
     
 end
@@ -22,14 +22,14 @@ end
     g = zeros(4,4)
     spacetime = MinkowskiSpacetimeSphericalCoordinates()
 
-    @test Skylight.coordinates_topology(spacetime) == Skylight.SphericalTopology()
+    @test coordinates_topology(spacetime) == SphericalTopology()
 
     position = [rand(),2.0,π/2,rand()]
-    Skylight.set_metric!(g,position,spacetime)
+    set_metric!(g,position,spacetime)
     @test g == [-1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 4.0 0.0; 0.0 0.0 0.0 4.0]
 
     ginv = zeros(4,4)
-    Skylight.set_metric_inverse!(ginv,position,spacetime)
+    set_metric_inverse!(ginv,position,spacetime)
     @test g*ginv ≈ [1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
 
 end

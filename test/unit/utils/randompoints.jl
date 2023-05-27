@@ -6,7 +6,7 @@ using Skylight, Test
 
         N = 5
         v = zeros(3, N)
-        coords_top = Skylight.CartesianTopology()
+        coords_top = CartesianTopology()
 
         Skylight.random_uniform_points_unit_sphere!(v, coords_top)
 
@@ -59,7 +59,7 @@ using Skylight, Test
 
         N = 5
         v = zeros(3, N)
-        coords_top = Skylight.SphericalTopology()
+        coords_top = SphericalTopology()
 
         Skylight.random_uniform_points_unit_sphere!(v, coords_top)
 
