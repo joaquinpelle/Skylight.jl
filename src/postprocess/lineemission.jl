@@ -1,7 +1,7 @@
 """
     line_emission_spectrum(initial_data, output_data, configurations::VacuumOTEConfigurations; 
                            emission_profile::Function, bin_size::Number=NaN, num_bins::Int=NaN,
-                           start_range::Number=NaN, end_range::Number=NaN)
+                           start::Number=NaN, stop::Number=NaN)
 
 Compute the binned intensity of a line emission spectrum.
 
@@ -14,8 +14,8 @@ Compute the binned intensity of a line emission spectrum.
 # Keywords
 - `bin_size::Number=NaN`: Size of each bin. Either `bin_size` or `num_bins` must be specified.
 - `num_bins::Int=NaN`: Number of bins. Either `bin_size` or `num_bins` must be specified.
-- `start_range::Number=NaN`: Lower bound of the range to be binned. If unspecified, the minimum of the energy quotients will be used.
-- `end_range::Number=NaN`: Upper bound of the range to be binned. If unspecified, the maximum of the energy quotients will be used.
+- `start::Number=NaN`: Lower bound of the range to be binned. If unspecified, the minimum of the energy quotients will be used.
+- `stop::Number=NaN`: Upper bound of the range to be binned. If unspecified, the maximum of the energy quotients will be used.
 
 # Returns
 - `binned_fluxes`: Array of the binned intensity in each bin.
@@ -26,10 +26,10 @@ function line_emission_spectrum(
     output_data, 
     configurations::VacuumOTEConfigurations; 
     emission_profile::Function, 
-    bin_size::Number=NaN, 
-    num_bins::Int=NaN,
-    start_range::Number=NaN, 
-    end_range::Number=NaN)
+    bin_size::Union{Number,Nothing}=nothing, 
+    num_bins::Union{Int,Nothing}=nothing,
+    start::Union{Number,Nothing}=nothing, 
+    stop::Union{Number,Nothing}=nothing)
 
     spacetime = configurations.spacetime
     model = configurations.radiative_model
@@ -71,11 +71,11 @@ function line_emission_spectrum(
     q = q[at_source]
     observed_specific_fluxes = observed_specific_fluxes[at_source] 
     
-    #If NaNs, set to extremes
-    isnan(start_range) && (start_range = minimum(q)) 
-    isnan(end_range) && (end_range = maximum(q))  
+    #If start or stop not provided, set to extremes
+    start===nothing && (start = minimum(q)) 
+    stop===nothing && (stop = maximum(q))  
     
-    bins = create_bins(bin_size=bin_size, num_bins=num_bins, start_range=start_range, end_range=end_range)
+    bins = create_bins(bin_size=bin_size, num_bins=num_bins, start=start, stop=stop)
 
     binned_fluxes = bin_values_and_sum_weights(bins, q, observed_specific_fluxes)
     
