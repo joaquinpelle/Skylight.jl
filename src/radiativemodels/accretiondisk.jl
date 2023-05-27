@@ -53,8 +53,8 @@ end
     inner_radius::Float64
     outer_radius::Float64
     rotation_sense::T = ProgradeRotation()
-    temperature_file::String
-    temperature_interpolator::S = build_interpolator(temperature_file)
+    filename::String
+    temperature_interpolator::S = build_interpolator(filename)
 end
 
 function temperature(position, spacetime, model::AccretionDiskWithTabulatedTemperature) 
