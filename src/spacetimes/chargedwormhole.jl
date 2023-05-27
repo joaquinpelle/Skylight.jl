@@ -1,4 +1,5 @@
 abstract type AbstractChargedWormholeSpacetime <: AbstractSpacetime end
+allocate_christoffel_cache(::AbstractChargedWormholeSpacetime) = nothing
 
 @with_kw struct ChargedWormholeSpacetimeSphericalCoordinates <: AbstractChargedWormholeSpacetime
     
@@ -120,8 +121,6 @@ function set_christoffel!(Γ,point,spacetime::ChargedWormholeSpacetimeSphericalC
     return nothing
 end
 
-
-
 @with_kw struct ChargedWormholeSpacetimeRegularCoordinates <: AbstractChargedWormholeSpacetime
     
     b0::Float64
@@ -132,13 +131,12 @@ end
 
 end
 
-function get_wormhole_radius(l, spacetime::ChargedWormholeSpacetimeRegularCoordinates)
+function radius(position, spacetime::ChargedWormholeSpacetimeRegularCoordinates)
+    t, l, θ, φ = position
 
     b0 = spacetime.b0
     Q = spacetime.Q
-
     return sqrt(l^2+b0^2-Q^2)
-
 end
 
 coordinates_topology(::ChargedWormholeSpacetimeRegularCoordinates) = SphericalTopology()

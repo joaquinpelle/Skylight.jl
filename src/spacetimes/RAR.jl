@@ -25,7 +25,7 @@ function RARInterpolator(data_dir)
 
 end
 
-@with_kw struct RARSpacetime{T} <: AbstractSpacetime
+@with_kw struct RARSpacetime{T} <: AbstractRegularCompactObjectSpacetime
     
     data_dir::String  
     interp::RARInterpolator{T} = RARInterpolator(data_dir)
@@ -95,6 +95,8 @@ function set_metric_inverse!(g, point, spacetime::RARSpacetime)
     return nothing
 
 end
+
+allocate_christoffel_cache(::RARSpacetime) = nothing
 
 function set_christoffel!(Γ, position, spacetime::RARSpacetime)
 
