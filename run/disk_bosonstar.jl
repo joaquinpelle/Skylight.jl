@@ -12,7 +12,7 @@ image_plane = ImagePlane(distance = 500.0,
                          horizontal_number_of_nodes = 300,
                          vertical_number_of_nodes = 300)
 
-model = BosonStarAccretionDisk(inner_radius=rin_LBS1, outer_radius=rout_LBS1, temperature_file="TempLBS1.dat")
+model = AccretionDiskWithTabulatedTemperature(inner_radius=rin_LBS1, outer_radius=rout_LBS1, temperature_file="TempLBS1.dat")
         
 configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                          image_plane = image_plane,
