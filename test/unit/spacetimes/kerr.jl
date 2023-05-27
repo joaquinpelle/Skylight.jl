@@ -10,7 +10,7 @@ end
     
     spacetime = KerrSpacetimeKerrSchildCoordinates(M=1.0,a=0.5)
 
-    @test typeof(allocate_christoffel_cache(spacetime)) == KerrChristoffelCache
+    @test typeof(allocate_christoffel_cache(spacetime)) == Skylight.KerrChristoffelCache
 
 end
 

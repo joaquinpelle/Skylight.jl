@@ -12,19 +12,19 @@ using Parameters, PreallocationTools
 
     #Define a Kerr spacetime to use with automatic differentiation
 
-    struct ADKerrSpacetimeKerrSchildCoordinates <: AbstractSpacetime
+    struct AutoDiffKerr <: AbstractSpacetime
 
         M::Float64
         a::Float64
     
         @assert M >= 0.0
         @assert abs(a) <= M 
-        
-        ADKerrSpacetimeKerrSchildCoordinates(M,a) =  new(M,a)
 
+        AutoDiffKerr(M, a) = new(M, a)
+        
     end
 
-    function set_metric!(g, position, spacetime::ADKerrSpacetimeKerrSchildCoordinates)
+    function Skylight.set_metric!(g, position, spacetime::AutoDiffKerr)
 
         M = spacetime.M
         a = spacetime.a
@@ -62,7 +62,7 @@ using Parameters, PreallocationTools
         
     end
     
-    spacetimeAD = ADKerrSpacetimeKerrSchildCoordinates(M, a)
+    spacetimeAD = AutoDiffKerr(M, a)
     ΓAD = zeros(4,4,4) 
     #We didn't define set_christoffel! for this spacetime so it's going to use the default AutoDiff routines
     cacheAD = allocate_christoffel_cache(spacetimeAD)

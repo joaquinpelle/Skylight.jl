@@ -62,6 +62,6 @@ end
     @test geo_cache.spacetime == spacetime
     @test geo_cache.cb_params == cb_params
     @test length(geo_cache.multi_thread) == Threads.nthreads()
-    @test typeof(geo_cache.multi_thread[1]) == Skylight.VacuumThreadCache{KerrChristoffelCache}
+    @test typeof(geo_cache.multi_thread[1]) == Skylight.VacuumThreadCache{Skylight.KerrChristoffelCache}
 
 end
