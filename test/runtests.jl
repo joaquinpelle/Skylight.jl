@@ -2,6 +2,7 @@ using Skylight, Test, SafeTestsets
 
 @time begin
 
+    @safetestset "Geometry" begin include("unit/utils/bins.jl") end
     @safetestset "Geometry" begin include("unit/utils/geometry.jl") end
     @safetestset "Random points" begin include("unit/utils/randompoints.jl") end
     @safetestset "Tetrads" begin include("unit/utils/tetrads.jl") end

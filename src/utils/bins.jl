@@ -16,6 +16,11 @@ Bin `values` and sum `weights` in each bin.
 - Values outside the range of `bins` are ignored.
 """
 function bin_values_and_sum_weights(bins, values, weights)
+
+    if length(values) != length(weights)
+        throw(ArgumentError("Length of values and weights must be the same"))
+    end
+
     binned_values = zeros(length(bins) - 1)
 
     for i in eachindex(values)
@@ -41,26 +46,31 @@ function bin_values_and_sum_weights(bins, values, weights)
 end
 
 """
-    create_bins(; bin_size::Number=NaN, num_bins::Int=NaN, start_range::Number=NaN, 
-                 end_range::Number=NaN)
+    create_bins(; bin_size::Union{Number, Nothing}=nothing, num_bins::Union{Int, Nothing}=nothing, 
+                 start::Number, stop::Number)
 
 Create bins for binning data.
 
 # Keywords
-- `bin_size::Number=NaN`: Size of each bin. Either `bin_size` or `num_bins` must be specified.
-- `num_bins::Int=NaN`: Number of bins. Either `bin_size` or `num_bins` must be specified.
-- `start_range::Number`: Lower bound of the range to be binned. 
-- `end_range::Number`: Upper bound of the range to be binned. 
+- `bin_size::Union{Number, Nothing}=nothing`: Size of each bin. Either `bin_size` or `num_bins` must be specified.
+- `num_bins::Union{Int, Nothing}=nothing`: Number of bins. Either `bin_size` or `num_bins` must be specified.
+- `start::Number`: Lower bound of the range to be binned. 
+- `stop::Number`: Upper bound of the range to be binned. 
 
 # Returns
 - `bins`: Array of the bin edges.
+
+# Notes
+- If `bin_size` is provided, the function will create bins with that size from `start` to `stop`.
+- If `num_bins` is provided, the function will create that number of equally spaced bins from `start` to `stop`.
+- If neither `bin_size` nor `num_bins` is provided, the function will throw an error.
 """
-    
-function create_bins(; bin_size::Number=NaN, num_bins::Int=NaN, start_range::Number, end_range::Number)
-    if !isnan(bin_size)
-        return start_range:bin_size:end_range
-    elseif !isnan(num_bins)
-        return range(start_range, stop=end_range, length=num_bins+1)
+
+function create_bins(; bin_size::Union{Number,Nothing}=nothing, num_bins::Union{Int,Nothing}=nothing, start::Number, stop::Number)
+    if !(bin_size===nothing)
+        return start:bin_size:stop
+    elseif !(num_bins===nothing)
+        return range(start, stop=stop, length=num_bins+1)
     else
         error("Must provide either bin_size or num_bins")
     end
