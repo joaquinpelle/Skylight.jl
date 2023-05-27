@@ -64,7 +64,7 @@ function test_line_broadening(figname, rotation_sense)
 end
 
 function myprofile(position, spacetime::KerrSpacetimeBoyerLindquistCoordinates, ::NovikovThorneDisk)
-    r = kerr_radius(position, spacetime)
+    r = radius(position, spacetime)
     return 1/r^2
 end
 
