@@ -7,8 +7,9 @@ set_christoffel!(Γ, position, ::AbstractSpacetime) = error("Christoffel symbols
 #Optional
 # set_metric_inverse!(ginv, position, ::AbstractSpacetime) = error("Metric inverse not defined for this spacetime.")
 # volume_element(position, ::AbstractSpacetime, g) = error("Volume element not defined for this spacetime.")
+radius(position, ::AbstractSpacetime) = error("Radius not defined for this spacetime.")
 event_horizon_radius(::AbstractSpacetime) = error("Event horizon radius not defined for this spacetime.")
-circular_geodesic_angular_speed(position, ::AbstractSpacetime) = error("Circular geodesic angular speed not defined for this spacetime.")
+circular_geodesic_angular_speed(position, ::AbstractSpacetime,::AbstractRotationSense) = error("Circular geodesic angular speed not defined for this spacetime.")
 allocate_christoffel_cache(::AbstractSpacetime) = nothing
 set_christoffel!(Γ, position, spacetime::AbstractSpacetime, ::Nothing) = set_christoffel!(Γ, position, spacetime)
 
@@ -62,3 +63,6 @@ function volume_element(position, spacetime::AbstractSpacetime, g)
     set_metric!(g, position, spacetime)
     return sqrt(-det_4x4_symmetric(g))
 end
+
+@inline sign(::ProgradeRotation) = 1.0
+@inline sign(::RetrogradeRotation) = -1.0

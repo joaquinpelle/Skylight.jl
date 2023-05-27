@@ -3,25 +3,18 @@ abstract type AbstractSchwarzschildSpacetime <: AbstractSpacetime end
 #Kerr-Schild coordinates
 
 @with_kw struct SchwarzschildSpacetimeKerrSchildCoordinates <: AbstractSchwarzschildSpacetime 
-
     M::Float64
     @assert M >= 0.0
 
     #Cache
     l::Vector{Float64}=zeros(4)
-
 end
 
 coordinates_topology(::SchwarzschildSpacetimeKerrSchildCoordinates) = CartesianTopology()
 radius(position,::SchwarzschildSpacetimeKerrSchildCoordinates) = sqrt(position[2]^2 + position[3]^2 + position[4]^2)
 
 function set_metric!(g, position, spacetime::SchwarzschildSpacetimeKerrSchildCoordinates)
-
-    """ 
-    g: container for the metric 
-    q: spacetime position
-    """
-
+    
     M = spacetime.M
     
     t, x, y, z = position
@@ -53,16 +46,10 @@ function set_metric!(g, position, spacetime::SchwarzschildSpacetimeKerrSchildCoo
     g[4,4]= 1. + H*l[4]*l[4]
     
     return nothing
-    
 end
 
 function set_metric_inverse!(g, position, spacetime::SchwarzschildSpacetimeKerrSchildCoordinates)
-
-    """ 
-    g: container for the metric 
-    q: spacetime position
-    """
-
+    
     M = spacetime.M
     
     t, x, y, z = position
@@ -94,7 +81,6 @@ function set_metric_inverse!(g, position, spacetime::SchwarzschildSpacetimeKerrS
     g[4,4]= 1. - H*l[4]*l[4]
     
     return nothing
-    
 end
 
 @with_kw struct SchwarzschildChristoffelCache <: AbstractChristoffelCache
@@ -107,7 +93,7 @@ end
 allocate_christoffel_cache(::SchwarzschildSpacetimeKerrSchildCoordinates) = SchwarzschildChristoffelCache()
 
 function set_christoffel!(Γ, position, spacetime::SchwarzschildSpacetimeKerrSchildCoordinates, cache::SchwarzschildChristoffelCache)
-
+    
     t, x, y, z = position
     M = spacetime.M
 
@@ -179,27 +165,20 @@ function set_christoffel!(Γ, position, spacetime::SchwarzschildSpacetimeKerrSch
     end
 
     return nothing
-
 end
 
 
 #Spherical coordinates
 
 @with_kw struct SchwarzschildSpacetimeSphericalCoordinates <: AbstractSchwarzschildSpacetime 
-
     M::Float64
     @assert M >= 0.0
-
 end
 
 coordinates_topology(::SchwarzschildSpacetimeSphericalCoordinates) = SphericalTopology()
 radius(position,::SchwarzschildSpacetimeSphericalCoordinates) = position[2]
+
 function set_metric!(g, q, spacetime::SchwarzschildSpacetimeSphericalCoordinates)
-    
-    """ 
-    g: container for the metric 
-    q: spacetime position
-    """
 
     t, r, θ, φ = q
 
@@ -212,34 +191,22 @@ function set_metric!(g, q, spacetime::SchwarzschildSpacetimeSphericalCoordinates
     g[4,4] =  r^2*sin(θ)^2
     
     return nothing
-
 end
 
 function set_metric_inverse!(g, q, spacetime::SchwarzschildSpacetimeSphericalCoordinates)
-    
-    """ 
-    g: container for the metric 
-    q: spacetime position
-    """
-
     t, r, θ, φ = q
-
     M = spacetime.M
-
     fill!(g,0.0)
     g[1,1] = -1/(1-2M/r)
     g[2,2] =  1-2M/r
     g[3,3] =  1/r^2
     g[4,4] =  1/(r^2*sin(θ)^2)
-    
     return nothing
-
 end
 
 allocate_christoffel_cache(::SchwarzschildSpacetimeSphericalCoordinates) = nothing
 
 function set_christoffel!(Γ, point, spacetime::SchwarzschildSpacetimeSphericalCoordinates)
-
     t, r, θ, φ = point
     rs = 2*spacetime.M
     
@@ -268,15 +235,10 @@ end
 event_horizon_radius(spacetime::AbstractSchwarzschildSpacetime) = 2*spacetime.M
 isco_radius(spacetime::AbstractSchwarzschildSpacetime) = 6*spacetime.M
 
-function circular_geodesic_angular_speed(position, spacetime::AbstractSchwarzschildSpacetime, ::ProgradeRotation)
+function circular_geodesic_angular_speed(position, spacetime::AbstractSchwarzschildSpacetime, rotation_sense::AbstractRotationSense)
     M = spacetime.M
     r = radius(position, spacetime)
     Ω = sqrt(M)/r^1.5
-    return Ω
-end
-function circular_geodesic_angular_speed(position, spacetime::AbstractSchwarzschildSpacetime, ::RetrogradeRotation)
-    M = spacetime.M
-    r = radius(position, spacetime)
-    Ω = -sqrt(M)/r^1.5
-    return Ω
+    s = sign(rotation_sense)
+    return s*Ω
 end
