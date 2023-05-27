@@ -1,4 +1,4 @@
-@with_kw struct JohannsenSpacetimeBoyerLindquistCoordinates <: AbstractSpacetime
+@with_kw struct JohannsenSpacetime <: AbstractBlackHoleSpacetime
     
     """Johannsen (2013) spacetime to lowest order in the deformation parameters from the Kerr metric
 
@@ -30,11 +30,11 @@
         
 end
 
-event_horizon_radius(spacetime::JohannsenSpacetimeBoyerLindquistCoordinates) = spacetime.M*(1+sqrt(1-spacetime.a^2))
+event_horizon_radius(spacetime::JohannsenSpacetime) = spacetime.M*(1+sqrt(1-spacetime.a^2))
 
-coordinates_topology(::JohannsenSpacetimeBoyerLindquistCoordinates) = SphericalTopology()
+coordinates_topology(::JohannsenSpacetime) = SphericalTopology()
 
-function set_metric!(g,point,spacetime::JohannsenSpacetimeBoyerLindquistCoordinates)
+function set_metric!(g,point,spacetime::JohannsenSpacetime)
 
     t, r, θ, φ = point
 
@@ -74,7 +74,7 @@ function set_metric!(g,point,spacetime::JohannsenSpacetimeBoyerLindquistCoordina
 
 end
 
-function set_metric_inverse!(g, point, spacetime::JohannsenSpacetimeBoyerLindquistCoordinates)
+function set_metric_inverse!(g, point, spacetime::JohannsenSpacetime)
 
     t, r, θ, φ = point
 
@@ -122,7 +122,9 @@ function set_metric_inverse!(g, point, spacetime::JohannsenSpacetimeBoyerLindqui
 
 end
 
-function set_christoffel!(Γ, point, spacetime::JohannsenSpacetimeBoyerLindquistCoordinates) 
+allocate_christoffel_cache(::JohannsenSpacetime) = nothing
+
+function set_christoffel!(Γ, point, spacetime::JohannsenSpacetime) 
     
     t, r, θ, φ = point
 

@@ -30,7 +30,8 @@ include("transfer/transfer.jl")
 include("postprocess/postprocess.jl")
 
 export AbstractSpacetime,
-    AbstractAutoDiffSpacetime,
+    AbstractBlackHoleSpacetime,
+    AbstractRegularCompactObjectSpacetime,
     MinkowskiSpacetimeCartesianCoordinates,
     MinkowskiSpacetimeSphericalCoordinates,
     AbstractSchwarzschildSpacetime,
@@ -39,7 +40,7 @@ export AbstractSpacetime,
     AbstractKerrSpacetime,
     KerrSpacetimeKerrSchildCoordinates,
     KerrSpacetimeBoyerLindquistCoordinates,
-    JohannsenSpacetimeBoyerLindquistCoordinates,
+    JohannsenSpacetime,
     ChargedWormholeSpacetimeSphericalCoordinates,
     ChargedWormholeSpacetimeRegularCoordinates,
     RARSpacetime,
@@ -76,7 +77,6 @@ export set_metric!,
     coordinates_topology
 
 export radius, 
-    kerr_radius,
     event_horizon_radius,
     isco_radius,
     circular_geodesic_angular_speed
@@ -87,10 +87,9 @@ export AbstractRadiativeModel,
     DummyModel,
     AbstractAccretionDisk,
     NovikovThorneDisk,
-    AccretionDiskWithTabulatedTemperature
+    AccretionDiskWithTabulatedTemperature,
     SyntheticPolarCap,
-    StarAcrossWormhole,
-    BosonStarAccretionDisk
+    StarAcrossWormhole
 
 export set_emitter_four_velocity!,
     set_surface_differential!,

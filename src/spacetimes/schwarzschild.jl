@@ -1,4 +1,4 @@
-abstract type AbstractSchwarzschildSpacetime <: AbstractSpacetime end
+abstract type AbstractSchwarzschildSpacetime <: AbstractBlackHoleSpacetime end
 
 #Kerr-Schild coordinates
 

@@ -1,6 +1,6 @@
 #TODO add reference
 
-@with_kw struct BosonStarSpacetime <: AbstractSpacetime
+@with_kw struct BosonStarSpacetime <: AbstractRegularCompactObjectSpacetime
     a::Vector{Float64}
     b::Vector{Float64}
 end
@@ -65,6 +65,8 @@ function set_metric_inverse!(g, point, spacetime::BosonStarSpacetime)
     
     return nothing
 end
+
+allocate_christoffel_cache(::BosonStarSpacetime) = nothing
 
 function set_christoffel!(Γ, position, spacetime::BosonStarSpacetime)
     #Spacetime coordinates

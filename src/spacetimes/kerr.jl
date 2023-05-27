@@ -1,4 +1,4 @@
-abstract type AbstractKerrSpacetime <: AbstractSpacetime end
+abstract type AbstractKerrSpacetime <: AbstractBlackHoleSpacetime end
 
 # Kerr Schild coordinates
 
@@ -99,16 +99,16 @@ function set_metric_inverse!(g, position, spacetime::KerrSpacetimeKerrSchildCoor
     return nothing
 end
 
-@with_kw struct KerrKSChristoffelCache <: AbstractChristoffelCache
+@with_kw struct KerrChristoffelCache <: AbstractChristoffelCache
     l::Vector{Float64} = zeros(4)
     dH::Vector{Float64} = zeros(4)
     dl::Array{Float64, 2} = zeros(4,4)
     D::Array{Float64, 3} = zeros(4,4,4)
 end
 
-allocate_christoffel_cache(::KerrSpacetimeKerrSchildCoordinates) = KerrKSChristoffelCache()
+allocate_christoffel_cache(::KerrSpacetimeKerrSchildCoordinates) = KerrChristoffelCache()
 
-function set_christoffel!(Γ, position, spacetime::KerrSpacetimeKerrSchildCoordinates, cache::KerrKSChristoffelCache)
+function set_christoffel!(Γ, position, spacetime::KerrSpacetimeKerrSchildCoordinates, cache::KerrChristoffelCache)
 
     t, x, y, z = position
     M = spacetime.M
@@ -352,7 +352,7 @@ end
 function circular_geodesic_angular_speed(position, spacetime::AbstractKerrSpacetime, rotation_sense::AbstractRotationSense)
     M = spacetime.M
     a = spacetime.a
-    r = kerr_radius(position, spacetime)
+    r = radius(position, spacetime)
     s = sign(rotation_sense)
     Ω = s*sqrt(M)/(r^1.5 + s*a*sqrt(M))
     return Ω
