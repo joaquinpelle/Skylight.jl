@@ -1,21 +1,16 @@
-function get_cb_params(model::SyntheticPolarCap,configurations) 
-
+function get_cb_params(::AbstractSpacetime, model::SyntheticPolarCap, configurations) 
     rmin = model.star_radius
     rmax = get_rmax(configurations)
-
     return NeutronStarHotSpotsCallbackParameters(rmin=rmin, rmax=rmax)
-
 end
 
 @with_kw struct NeutronStarHotSpotsCallbackParameters <: AbstractCallbackParameters
-
     rmax::Float64
     rmin::Float64
-
 end
 
-get_callback(::SyntheticPolarCap, ::CartesianTopology) = star_cartesian_coordinates_callback()
-get_callback(::SyntheticPolarCap, ::SphericalTopology) = star_spherical_coordinates_callback()
+get_callback(::AbstractSpacetime, ::SyntheticPolarCap, ::CartesianTopology) = star_cartesian_coordinates_callback()
+get_callback(::AbstractSpacetime, ::SyntheticPolarCap, ::SphericalTopology) = star_spherical_coordinates_callback()
 
 star_cartesian_coordinates_callback() = ContinuousCallback(star_cartesian_coordinates_condition, star_affect!)
 star_spherical_coordinates_callback() = ContinuousCallback(star_spherical_coordinates_condition, star_affect!)
