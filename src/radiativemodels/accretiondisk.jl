@@ -1,5 +1,3 @@
-abstract type AbstractAccretionDisk <: AbstractSurfaceEmissionModel  end
-
 function set_surface_differential!(covector, position, ::AbstractAccretionDisk, ::CartesianTopology)
     covector[1] = 0.0
     covector[2] = 0.0
