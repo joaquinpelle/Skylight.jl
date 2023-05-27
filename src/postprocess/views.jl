@@ -2,9 +2,9 @@ function get_pixel_coordinates_vectors(configurations::AbstractOTEConfigurations
     image_plane = configurations.image_plane
 
     sα = image_plane.horizontal_side_image_plane
-    sβ = image_plane.horizontal_side_image_plane
+    sβ = image_plane.vertical_side_image_plane
     Nα = image_plane.horizontal_number_of_nodes
-    Nβ = image_plane.horizontal_number_of_nodes
+    Nβ = image_plane.vertical_number_of_nodes
 
     return range(-0.5*sα, stop=0.5*sα; length=Nα), range(-0.5*sβ, stop=0.5*sβ; length=Nβ)
 end
