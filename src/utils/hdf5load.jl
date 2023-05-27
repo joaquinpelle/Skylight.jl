@@ -153,7 +153,6 @@ function load_callback_from_hdf5(filename::String, run_index::Int)
     end
 end
 
-
 """
     load_kwargs_from_hdf5(filename::String, run_index::Int)
 
@@ -219,6 +218,10 @@ function instantiate_custom_type(dict::Dict{Symbol, })
     end
 
     kwarg_dict = Dict(Symbol(k) => v for (k, v) in pairs(dict) if (k != :_typename))
+    
+    if T <: DataInterpolations.AbstractInterpolation
+        return T(kwarg_dict[:u], kwarg_dict[:t])
+    end
     
     return T(; kwarg_dict...)
 end
