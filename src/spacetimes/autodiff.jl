@@ -4,9 +4,9 @@
     ∂g::Array{Float64,3} = zeros(4,4,4)
 end
 
-allocate_christoffel_cache(::AbstractAutoDiffSpacetime) = AutoDiffChristoffelCache()
+allocate_christoffel_cache(::AbstractSpacetime) = AutoDiffChristoffelCache()
 
-"""
+""""
 Calculates the Christoffel symbols of a given spacetime metric using the forward-mode automatic differentiation package ForwardDiff.
 
 Parameters:
@@ -41,7 +41,7 @@ to compute derivatives at each node of the chain rule. Also, in the `set_metric!
 when `set_metric!` is called.
 
 """
-function set_christoffel!(Γ₂, position, spacetime::AbstractAutoDiffSpacetime, cache::AutoDiffChristoffelCache)
+function set_christoffel!(Γ₂, position, spacetime::AbstractSpacetime, cache::AutoDiffChristoffelCache)
     
     g = cache.g
     ginv = cache.ginv
@@ -81,7 +81,7 @@ Parameters:
 
 Returns: nothing.
 """
-function set_metric_jacobian!(∂g, position, spacetime::AbstractAutoDiffSpacetime, g)
+function set_metric_jacobian!(∂g, position, spacetime::AbstractSpacetime, g)
     reshape(ForwardDiff.jacobian!(∂g, (g,q) -> set_metric!(g,q,spacetime), g, position), 4, 4, 4)
     return nothing
 end
