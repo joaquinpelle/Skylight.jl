@@ -21,25 +21,23 @@ end
     vertical_aperture::Float64   #This is distance*cos(horizontal_aperture_angle)
     horizontal_number_of_nodes::Int
     vertical_number_of_nodes::Int
-    direction::Vector{Float64} = to_center(position, four_velocity)
+    direction::Vector{Float64} = to_center(position, four_velocity) #TODO implement to_center
 end
 
-@with_kw struct NonVacuumOTEConfigurations{S<:AbstractSpacetime, M<:AbstractRadiativeModel} <: AbstractOTEConfigurations
-    
+@with_kw struct NonVacuumOTEConfigurations{S<:AbstractSpacetime, M<:AbstractRadiativeModel, C<:AbstractCamera} <: AbstractOTEConfigurations
     spacetime::S
     radiative_model::M
-    image_plane::ImagePlane
+    camera::C
     observed_times::Vector{Float64}
     observed_energies::Vector{Float64}
     unit_mass_in_solar_masses::Float64
-
 end
 
-@with_kw struct VacuumOTEConfigurations{S<:AbstractSpacetime, M<:AbstractRadiativeModel} <: AbstractOTEConfigurations
+@with_kw struct VacuumOTEConfigurations{S<:AbstractSpacetime, M<:AbstractRadiativeModel, C<:AbstractCamera} <: AbstractOTEConfigurations
     
     spacetime::S
     radiative_model::M
-    image_plane::ImagePlane
+    camera::C
     observed_times::Vector{Float64}
     unit_mass_in_solar_masses::Float64
 

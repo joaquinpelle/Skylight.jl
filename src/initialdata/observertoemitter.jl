@@ -8,17 +8,14 @@ function get_initial_data(configurations::AbstractOTEConfigurations)
     index = 1
     
     for initial_time in observed_times(configurations)
-        for pixel_coordinates in get_pixel_coordinates(configurations.image_plane)
-
+        for pixel_coordinates in get_pixel_coordinates(configurations.camera)
             @views ray = rays[1:8, index]
             initialize_single!(ray, initial_time, pixel_coordinates, configurations, cache)
             index += 1
-
         end
     end
 
     return rays
-
 end
 
 function initialize_single!(ray, initial_time, pixel_coordinates, configurations, cache)
@@ -31,12 +28,12 @@ function initialize_single!(ray, initial_time, pixel_coordinates, configurations
     end
     
     spacetime = configurations.spacetime
-    image_plane = configurations.image_plane
+    camera = configurations.camera
     coords_top = coordinates_topology(spacetime)
 
     ray[1] = initial_time
-    space_position .= get_space_position_from(pixel_coordinates,image_plane,coords_top)
-    space_momentum .= get_space_momentum_from(pixel_coordinates,image_plane,coords_top)
+    space_position .= get_space_position_from(pixel_coordinates,camera,coords_top)
+    space_momentum .= get_space_momentum_from(pixel_coordinates,camera,coords_top)
 
     dump_metric_in!(cache,position,spacetime)
     set_null_ingoing_past_directed!(momentum,cache)

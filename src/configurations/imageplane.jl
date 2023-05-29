@@ -1,3 +1,9 @@
+function get_rmax(image_plane::ImagePlane) 
+    d = image_plane.distance
+    sα, sβ = sides(image_plane)
+    return 1.1*sqrt(d^2 + sα^2 + sβ^2)
+end
+
 function get_pixel_coordinates(image_plane::ImagePlane)
     sα, sβ = sides(image_plane)
     Nα, Nβ = numbers_of_nodes_per_side(image_plane)
