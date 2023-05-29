@@ -1,7 +1,7 @@
 #Required
 set_emitter_four_velocity!(vector, position, metric, spacetime, model, coords_top) = error("set_emitter_four_velocity! not defined for this model.")
-get_emitted_bolometric_intensity(position, momentum, emitter_four_velocity, metric, spacetime, model, coords_top) = error("get_emitted_bolometric_intensity for this model.")
-get_emitted_specific_intensity(position, momentum, energy, emitter_four_velocity, metric, spacetime, model, coords_top) = error("get_emitted_specific_intensity not defined for this model.")
+emitted_bolometric_intensity(position, momentum, emitter_four_velocity, metric, spacetime, model, coords_top) = error("emitted_bolometric_intensity for this model.")
+emitted_specific_intensity(position, momentum, energy, emitter_four_velocity, metric, spacetime, model, coords_top) = error("emitted_specific_intensity not defined for this model.")
 is_final_position_at_source(position, spacetime, model) = error("is_final_position_at_source not defined for this model.")
 
 #Optional for surface emission models

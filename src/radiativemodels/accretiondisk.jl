@@ -17,12 +17,12 @@ function set_emitter_four_velocity!(vector, position, metric, spacetime, model::
     tangent_vector_zaxis_rotation!(vector, position, angular_speed, metric, coords_top)
 end
 
-function get_emitted_bolometric_intensity(position, momentum, emitter_four_velocity, metric, spacetime, model::AbstractAccretionDisk, coords_top)
+function emitted_bolometric_intensity(position, momentum, emitter_four_velocity, metric, spacetime, model::AbstractAccretionDisk, coords_top)
     T = temperature(position, spacetime, model)
     return thermal_emission_bolometric_intensity(T)
 end
 
-function get_emitted_specific_intensity(position, momentum, energy, emitter_four_velocity, metric, spacetime, model::AbstractAccretionDisk, coords_top)
+function emitted_specific_intensity(position, momentum, energy, emitter_four_velocity, metric, spacetime, model::AbstractAccretionDisk, coords_top)
     T = temperature(position, spacetime, model)
     return thermal_emission_specific_intensity(energy, T)
 end
