@@ -97,7 +97,9 @@ export set_emitter_four_velocity!,
     emitted_specific_intensity,
     is_final_position_at_source
 
-export ImagePlane,
+export AbstractCamera,
+    PinholeCamera,
+    ImagePlane,
     AbstractConfigurations,
     NonVacuumOTEConfigurations,
     VacuumOTEConfigurations,

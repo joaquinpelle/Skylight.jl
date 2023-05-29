@@ -1,3 +1,5 @@
+include("imageplane.jl")
+
 function my_zeros(configurations::NonVacuumConfigurations)
     NE = length(configurations.observed_energies)
     return zeros(8+2*NE, number_of_initial_conditions(configurations))
