@@ -93,8 +93,8 @@ export AbstractRadiativeModel,
 
 export set_emitter_four_velocity!,
     set_surface_differential!,
-    get_emitted_bolometric_intensity,
-    get_emitted_specific_intensity,
+    emitted_bolometric_intensity,
+    emitted_specific_intensity,
     is_final_position_at_source
 
 export ImagePlane,
@@ -108,13 +108,14 @@ export get_initial_data,
     output_data, 
     get_callback_and_params
 
-export get_filter_mask, 
-    get_observed_bolometric_intensities, 
-    get_observed_specific_intensities,
+export is_final_position_at_observer,
+    energies_quotients, 
+    observed_bolometric_intensities, 
+    observed_specific_intensities,
     line_emission_spectrum, 
     rescale_intensities_normalization_at_real_observer!, 
     get_pixel_coordinates_vectors, 
-    view_intensities_grid
+    view_as_grid
 
 export save_to_hdf5,
     append_runs_to_hdf5,
