@@ -1,6 +1,6 @@
 include("cache.jl")
 include("views.jl")
-include("filtermask.jl")
+include("finalpositions.jl")
 include("normalization.jl")
 include("redshift.jl")
 include("intensities.jl")
