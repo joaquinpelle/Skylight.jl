@@ -5,7 +5,7 @@ end
 
 my_zeros(configurations::VacuumConfigurations) = zeros(8, number_of_initial_conditions(configurations))
 
-get_observed_times(configurations::AbstractOTEConfigurations) = configurations.observed_times
+observed_times(configurations::AbstractOTEConfigurations) = configurations.observed_times
 
 get_initial_data_cache(::AbstractOTEConfigurations) = OTEInitialDataCache()
 get_initial_data_cache(::AbstractETOConfigurations) = ETOInitialDataCache()
@@ -43,43 +43,9 @@ end
 
 function get_rmax(configurations::AbstractOTEConfigurations) 
     d = configurations.image_plane.distance
-    hs = configurations.image_plane.horizontal_side_image_plane
-    vs = configurations.image_plane.vertical_side_image_plane
+    hs = configurations.image_plane.horizontal_side
+    vs = configurations.image_plane.vertical_side
     return 1.1*sqrt(d^2 + vs^2 + hs^2)
 end
 
 get_rmax(configurations::AbstractETOConfigurations) = configurations.observer_distance
-
-function get_pixel_coordinates(image_plane::ImagePlane)
-    sα = image_plane.horizontal_side_image_plane
-    sβ = image_plane.vertical_side_image_plane
-    Nα = image_plane.horizontal_number_of_nodes
-    Nβ = image_plane.vertical_number_of_nodes
-
-    horizontal_coordinates = range(-0.5*sα, stop=0.5*sα; length=Nα)
-    vertical_coordinates = range(-0.5*sβ,0.5*sβ; length=Nβ)
-
-    return Iterators.product(horizontal_coordinates,vertical_coordinates)
-end
-
-function number_of_nodes(image_plane::ImagePlane)
-    return image_plane.horizontal_number_of_nodes*image_plane.vertical_number_of_nodes
-end
-
-function pixel_area(image_plane::ImagePlane)
-    sα = image_plane.horizontal_side_image_plane
-    sβ = image_plane.vertical_side_image_plane
-    Nα = image_plane.horizontal_number_of_nodes
-    Nβ = image_plane.vertical_number_of_nodes
-    
-    dα = sα/(Nα-1)
-    dβ = sβ/(Nβ-1)
-    return dα*dβ 
-end
-
-function area(image_plane::ImagePlane)
-    Nα = image_plane.horizontal_number_of_nodes
-    Nβ = image_plane.vertical_number_of_nodes
-    dA = pixel_area(image_plane)
-    return Nα*Nβ*dA
-end

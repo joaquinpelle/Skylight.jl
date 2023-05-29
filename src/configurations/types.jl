@@ -2,17 +2,6 @@ abstract type AbstractConfigurations end
 abstract type AbstractOTEConfigurations <: AbstractConfigurations end
 abstract type AbstractETOConfigurations <: AbstractConfigurations end
 
-@with_kw struct ImagePlane
-
-    distance :: Float64
-    observer_inclination_in_degrees :: Float64
-    horizontal_side_image_plane :: Float64
-    vertical_side_image_plane :: Float64
-    horizontal_number_of_nodes :: Int
-    vertical_number_of_nodes :: Int
-    observer_inclination_in_radians::Float64 = deg2rad(observer_inclination_in_degrees)
-
-end
 
 @with_kw struct NonVacuumOTEConfigurations{S<:AbstractSpacetime, M<:AbstractRadiativeModel} <: AbstractOTEConfigurations
     
