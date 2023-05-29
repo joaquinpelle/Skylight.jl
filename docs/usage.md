@@ -64,8 +64,8 @@ For the observet-to-emitter scheme, use the following to construct an image plan
 ```
 julia> image_plane = ImagePlane(distance = 500.0,
                                 observer_inclination_in_degrees = 45,
-                                horizontal_side_image_plane = 10.0,
-                                vertical_side_image_plane = 10.0,
+                                horizontal_side = 10.0,
+                                vertical_side = 10.0,
                                 horizontal_number_of_nodes = 50,
                                 vertical_number_of_nodes = 50)
 ```

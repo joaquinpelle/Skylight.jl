@@ -5,8 +5,8 @@ spacetime = KerrSpacetimeBoyerLindquistCoordinates(M=1.0,a=0.9)
 
 image_plane = ImagePlane(distance = 500.0,
                          observer_inclination_in_degrees = 45,
-                         horizontal_side_image_plane = 20.0,
-                         vertical_side_image_plane = 20.0,
+                         horizontal_side = 20.0,
+                         vertical_side = 20.0,
                          horizontal_number_of_nodes = 50,
                          vertical_number_of_nodes = 50)
 
@@ -27,7 +27,7 @@ run = integrate(initial_data, configurations, cb, cb_params; τmax=2.0, method=V
 output_data = output_data(run)
 
 xs, ys = get_pixel_coordinates_vectors(configurations) 
-zs = view_intensities_grid(output_data, configurations; E_idx = 1)
+zs = view_as_grid(output_data, configurations; E_idx = 1)
 
 fig = Figure(font = "CMU Serif") #resolution=(600,400)
 ax = Axis(fig[1,1], xlabel=L"\alpha", ylabel=L"\beta", ylabelsize = 26, xlabelsize = 26) 

@@ -8,8 +8,8 @@ using Skylight, Test
     
         image_plane = ImagePlane(distance = 1.0,
                                     observer_inclination_in_degrees = 137.0,
-                                    horizontal_side_image_plane = 1.0,
-                                    vertical_side_image_plane = 1.0,
+                                    horizontal_side = 1.0,
+                                    vertical_side = 1.0,
                                     horizontal_number_of_nodes = 3,
                                     vertical_number_of_nodes = 3)
         
@@ -22,7 +22,7 @@ using Skylight, Test
         rays = Skylight.my_zeros(configurations)
         @test sum(rays) == 0.0
         @test length(rays)/8 == 18
-        @test Skylight.get_observed_times(configurations) == [0.0, 1.0]
+        @test Skylight.observed_times(configurations) == [0.0, 1.0]
     
     end
 
@@ -67,8 +67,8 @@ using Skylight, Test
 
         image_plane = ImagePlane(distance = sqrt(7.0),
                                     observer_inclination_in_degrees = 90.0,
-                                    horizontal_side_image_plane = 1.0,
-                                    vertical_side_image_plane = 1.0,
+                                    horizontal_side = 1.0,
+                                    vertical_side = 1.0,
                                     horizontal_number_of_nodes = 3,
                                     vertical_number_of_nodes = 3)
         
@@ -107,8 +107,8 @@ using Skylight, Test
 
         image_plane = ImagePlane(distance = 3,
                                     observer_inclination_in_degrees = 90.0,
-                                    horizontal_side_image_plane = 1.0,
-                                    vertical_side_image_plane = 1.0,
+                                    horizontal_side = 1.0,
+                                    vertical_side = 1.0,
                                     horizontal_number_of_nodes = 3,
                                     vertical_number_of_nodes = 3)
         

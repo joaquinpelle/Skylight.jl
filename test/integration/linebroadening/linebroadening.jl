@@ -1,5 +1,3 @@
-using Pkg
-Pkg.activate("../../..")
 using Skylight
 using CairoMakie
 using LaTeXStrings
@@ -14,10 +12,10 @@ function test_line_broadening(figname, rotation_sense)
 
     image_plane = ImagePlane(distance = 500.0,
                             observer_inclination_in_degrees = 30,
-                            horizontal_side_image_plane = 31.5,
-                            vertical_side_image_plane = 31.5,
-                            horizontal_number_of_nodes = 600,
-                            vertical_number_of_nodes = 600)
+                            horizontal_side = 31.5,
+                            vertical_side = 31.5,
+                            horizontal_number_of_nodes = 120,
+                            vertical_number_of_nodes = 120)
 
     rISCO = isco_radius(spacetime, rotation_sense)
     model = NovikovThorneDisk(inner_radius=rISCO, outer_radius=15.0, rotation_sense=rotation_sense)
@@ -32,7 +30,7 @@ function test_line_broadening(figname, rotation_sense)
     cb, cb_params = get_callback_and_params(configurations; rhorizon_bound=2e-1)
     run = integrate(initial_data, configurations, cb, cb_params; method=VCABM(), reltol=1e-13, abstol=1e-21)
 
-    binned_fluxes, bins = line_emission_spectrum(initial_data, run.output_data, configurations; emission_profile = myprofile, num_bins = 70, stop=1.05)
+    binned_fluxes, bins = line_emission_spectrum(initial_data, run.output_data, configurations; emission_profile = myprofile, bin_size_conditioner = 2.0, stop=1.05)
     
     dexter = readdlm(dexter_filename(rotation_sense), ',', Float64)
 
@@ -71,5 +69,5 @@ end
 dexter_filename(::ProgradeRotation) = "dexter_a05_pro.txt"
 dexter_filename(::RetrogradeRotation) = "dexter_a05_ret.txt"
 
-test_line_broadening("linebroadening_pro.png", ProgradeRotation())
-test_line_broadening("linebroadening_ret.png", RetrogradeRotation())
+test_line_broadening("linebroadening_pro_cond3.png", ProgradeRotation())
+# test_line_broadening("linebroadening_ret.png", RetrogradeRotation())

@@ -24,8 +24,8 @@ spacetime = KerrSpacetimeKerrSchildCoordinates(M=1.0,a=0.9)
 
 image_plane = ImagePlane(distance = 500.0,
                          observer_inclination_in_degrees = 45,
-                         horizontal_side_image_plane = 20.0,
-                         vertical_side_image_plane = 20.0,
+                         horizontal_side = 20.0,
+                         vertical_side = 20.0,
                          horizontal_number_of_nodes = 3,
                          vertical_number_of_nodes = 3)
 
