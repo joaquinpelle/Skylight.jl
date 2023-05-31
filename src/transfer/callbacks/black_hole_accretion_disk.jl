@@ -66,9 +66,7 @@ function black_hole_accretion_disk_spherical_coordinates_affect!(integrator, idx
     inner_radius = integrator.p.cb_params.inner_radius
     outer_radius = integrator.p.cb_params.outer_radius
 
-    if idx==1 && (inner_radius <= integrator.u[2] <= outer_radius)
-        terminate!(integrator)
-    elseif idx==2 
+    if (inner_radius <= integrator.u[2] <= outer_radius) || idx == 2
         terminate!(integrator) 
     end
 end

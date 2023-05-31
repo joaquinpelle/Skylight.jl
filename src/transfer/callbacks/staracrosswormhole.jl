@@ -40,10 +40,8 @@ end
 
 function star_across_wormhole_affect!(integrator,idx)
  
-    if idx==1 && integrator.u[2]<0.0  
+    if integrator.u[2]<0.0 || idx==2  
         terminate!(integrator)
-    elseif idx==2 
-        terminate!(integrator) 
     end
-
+    
 end
