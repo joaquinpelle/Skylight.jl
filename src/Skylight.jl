@@ -105,6 +105,8 @@ export AbstractCamera,
     VacuumOTEConfigurations,
     VacuumETOConfigurations
 
+export get_rmax
+
 export get_initial_data, 
     integrate, 
     output_data, 
