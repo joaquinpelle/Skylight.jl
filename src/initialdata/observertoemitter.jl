@@ -1,5 +1,4 @@
 function get_initial_data(configurations::AbstractOTEConfigurations)
-
     rays = my_zeros(configurations)
     cache = get_initial_data_cache(configurations)
 
@@ -8,7 +7,7 @@ function get_initial_data(configurations::AbstractOTEConfigurations)
     index = 1
     
     for initial_time in observed_times(configurations)
-        for pixel_coordinates in get_pixel_coordinates(configurations.camera)
+        for pixel_coordinates in get_pixel_coordinates(configurations.camera) #TODO pixel_coordinates pinhole
             @views ray = rays[1:8, index]
             initialize_single!(ray, initial_time, pixel_coordinates, configurations, cache)
             index += 1
@@ -19,7 +18,6 @@ function get_initial_data(configurations::AbstractOTEConfigurations)
 end
 
 function initialize_single!(ray, initial_time, pixel_coordinates, configurations, cache)
-    
     @views begin 
         position = ray[1:4]
         space_position = ray[2:4]
@@ -37,7 +35,6 @@ function initialize_single!(ray, initial_time, pixel_coordinates, configurations
 
     dump_metric_in!(cache,position,spacetime)
     set_null_ingoing_past_directed!(momentum,cache)
-
 end
 
 function get_space_position_from(pixel_coordinates, image_plane::ImagePlane, ::CartesianTopology)

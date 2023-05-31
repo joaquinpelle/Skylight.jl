@@ -16,12 +16,10 @@ end
 
 @with_kw struct PinholeCamera <: AbstractCamera 
     position::Vector{Float64}
-    four_velocity::Vector{Float64}
     horizontal_aperture::Float64 #This is distance*cos(horizontal_aperture_angle)
     vertical_aperture::Float64   #This is distance*cos(horizontal_aperture_angle)
     horizontal_number_of_nodes::Int
     vertical_number_of_nodes::Int
-    direction::Vector{Float64} = to_center(position, four_velocity) #TODO implement to_center
 end
 
 @with_kw struct NonVacuumOTEConfigurations{S<:AbstractSpacetime, M<:AbstractRadiativeModel, C<:AbstractCamera} <: AbstractOTEConfigurations

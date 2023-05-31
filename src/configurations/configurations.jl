@@ -35,7 +35,7 @@ end
 
 function number_of_initial_conditions(configurations::AbstractOTEConfigurations)
     number_of_times = length(configurations.observed_times)
-    return number_of_nodes(configurations.camera)*number_of_times #TODO implement number_of_nodes(pinhole) 
+    return number_of_nodes(configurations.camera)*number_of_times  
 end
 
 function number_of_initial_conditions(configurations::AbstractETOConfigurations)
@@ -44,5 +44,5 @@ function number_of_initial_conditions(configurations::AbstractETOConfigurations)
     return number_of_points*number_of_packets_per_point
 end
 
-get_rmax(configurations::AbstractOTEConfigurations) = get_rmax(configurations.camera) #TODO implement get_rmax(pinhole)
+get_rmax(configurations::AbstractOTEConfigurations) = get_rmax(configurations.camera) 
 get_rmax(configurations::AbstractETOConfigurations) = configurations.observer_distance
