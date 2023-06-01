@@ -47,11 +47,12 @@ using Skylight, Test
         @test Skylight.star_cartesian_coordinates_condition(u,0.0,integrator) ≈ (rmax^2-100)*75
         @test Skylight.star_spherical_coordinates_condition(u,0.0,integrator) ≈ (rmax-10)*5.0
 
-        Skylight.star_affect!(integrator)
-
+        
+        
+        cb, cbp = get_callback_and_params(configurations) 
+        
+        cb.affect!(integrator)
         @test integrator.sol.retcode == SciMLBase.ReturnCode.Terminated
-
-        get_callback_and_params(configurations) 
 
     end
 
