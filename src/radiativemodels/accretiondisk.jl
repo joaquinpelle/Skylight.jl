@@ -47,6 +47,44 @@ function temperature(position, spacetime, ::NovikovThorneDisk)
     return 1.5e-8 * (1.0 - 2.0 / r)^(0.25)
 end
 
+# RAR disk
+
+@with_kw struct RARDisk{T} <: AbstractAccretionDisk 
+    inner_radius::Float64
+    outer_radius::Float64
+    alpha::Float64
+    rotation_sense::T = ProgradeRotation() 
+end
+
+function temperature(position, spacetime, model::RARDisk)
+    
+    M1 = spacetime.M1
+    interp = spacetime.interp
+    Rd_in = model.inner_radius
+    α = model.alpha
+    
+    r = radius(position, spacetime)
+
+    M = interp.M(r)
+
+    rref = CGS_to_geometrized(1e10, Dimensions.length, M1)
+    
+    R10 = r/rref
+    m1 = M*M1
+
+    dm1_dR10 = interp.dM(r)*rref*M1
+    
+    Mdot16 = 0.1*1.39e18*4.075e6*m1*1e-16
+    
+    f = (1.0-(interp.M(Rd_in)*Rd_in/(interp.M(r)*r))^0.5)^0.25
+    g = (m1/R10+dm1_dR10)^(0.15)
+    h = (1.0-R10/(3*m1)*dm1_dR10)^(-0.1)
+    
+    T = 2.5e4*α^(-0.2)*R10^(-0.6)*Mdot16^(0.3)*f^1.2*m1^0.1*g*h
+
+    return T
+end
+
 # Accretion disk with tabulated temperature
 
 @with_kw struct AccretionDiskWithTabulatedTemperature{T,S} <: AbstractAccretionDisk
