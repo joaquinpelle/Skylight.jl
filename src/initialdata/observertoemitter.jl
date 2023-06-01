@@ -6,8 +6,8 @@ function get_initial_data(configurations::AbstractOTEConfigurations)
     
     index = 1
     
-    for initial_time in observed_times(configurations)
-        for pixel_coordinates in get_pixel_coordinates(configurations.camera) #TODO pixel_coordinates pinhole
+    for initial_time in observed_times(configurations) #TODO in the case of the PinholeCamera this should add to the position[1] of camera
+        for pixel_coordinates in get_pixel_coordinates(configurations.camera)  
             @views ray = rays[1:8, index]
             initialize_single!(ray, initial_time, pixel_coordinates, configurations, cache)
             index += 1
@@ -29,15 +29,19 @@ function initialize_single!(ray, initial_time, pixel_coordinates, configurations
     camera = configurations.camera
     coords_top = coordinates_topology(spacetime)
 
-    ray[1] = initial_time
-    space_position .= get_space_position_from(pixel_coordinates,camera,coords_top)
-    space_momentum .= get_space_momentum_from(pixel_coordinates,camera,coords_top)
+    camera_time = time(camera)
+
+    ray[1] = initial_time + camera_time
+    space_position .= space_position_from(pixel_coordinates,camera,coords_top)
+    space_momentum .= space_momentum_from(pixel_coordinates,camera,coords_top)
 
     dump_metric_in!(cache,position,spacetime)
     set_null_ingoing_past_directed!(momentum,cache)
 end
 
-function get_space_position_from(pixel_coordinates, image_plane::ImagePlane, ::CartesianTopology)
+space_position_from(::Any, camera::PinholeCamera, ::AbstractCoordinatesTopology) = camera.position[2:4]
+
+function space_position_from(pixel_coordinates, image_plane::ImagePlane, ::CartesianTopology)
 
     α,β = pixel_coordinates
     ξ = image_plane.observer_inclination_in_radians
@@ -54,7 +58,7 @@ function get_space_position_from(pixel_coordinates, image_plane::ImagePlane, ::C
 
 end
 
-function get_space_position_from(pixel_coordinates, image_plane::ImagePlane, ::SphericalTopology)
+function space_position_from(pixel_coordinates, image_plane::ImagePlane, ::SphericalTopology)
 
     α,β = pixel_coordinates
     ξ = image_plane.observer_inclination_in_radians
@@ -71,7 +75,13 @@ function get_space_position_from(pixel_coordinates, image_plane::ImagePlane, ::S
 
 end
 
-function get_space_momentum_from(pixel_coordinates, image_plane::ImagePlane, ::SphericalTopology)
+#Space momentum for pinhole camera. The normal direction corresponds to (0,0) pixel coordinates.
+#Parameterize the solid angle as a spherical rectangle 
+function space_momentum_from(pixel_coordinates, camera::PinholeCamera, ::AbstractCoordinatesTopology)
+    
+end
+
+function space_momentum_from(pixel_coordinates, image_plane::ImagePlane, ::SphericalTopology)
 
     α,β = pixel_coordinates
     ξ = image_plane.observer_inclination_in_radians
@@ -90,7 +100,7 @@ function get_space_momentum_from(pixel_coordinates, image_plane::ImagePlane, ::S
 
 end
 
-function get_space_momentum_from(pixel_coordinates, image_plane::ImagePlane, ::CartesianTopology)
+function space_momentum_from(pixel_coordinates, image_plane::ImagePlane, ::CartesianTopology)
     
     ξ = image_plane.observer_inclination_in_radians
     
