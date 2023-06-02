@@ -39,6 +39,8 @@ function save_to_hdf5(filename::String, configurations::AbstractConfigurations, 
     end
 end
 
+save_to_hdf5(filename::String, configurations::AbstractConfigurations, initial_data::Matrix, run::Run) = save_to_hdf5(filename, configurations, initial_data, [run])
+
 """
     append_runs_to_hdf5(filename::String, runs::Vector{Tuple{AbstractArray, Any, Any, Dict{Symbol,}}})
 
