@@ -232,6 +232,7 @@ end
 
 #Common definitions
 
+mass(spacetime::AbstractSchwarzschildSpacetime) = spacetime.M
 event_horizon_radius(spacetime::AbstractSchwarzschildSpacetime) = 2*spacetime.M
 isco_radius(spacetime::AbstractSchwarzschildSpacetime) = 6*spacetime.M
 

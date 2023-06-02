@@ -122,6 +122,8 @@ function set_christoffel!(Γ, position, spacetime::RARSpacetime)
 end
 
 radius(position, ::RARSpacetime) = position[2]
+mass_enclosed(r, spacetime::RARSpacetime) = spacetime.interp.M(r)
+mass_enclosed_derivative(r, spacetime::RARSpacetime) = spacetime.interp.dM(r)
 
 function circular_geodesic_angular_speed(position, spacetime::RARSpacetime, rotation_sense)
     r = radius(position, spacetime)
