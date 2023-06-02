@@ -23,7 +23,6 @@ end
 
 @with_kw struct RARSpacetime{T} <: AbstractRegularCompactObjectSpacetime
     data_dir::String
-    M1::Float64
     interp::RARInterpolator{T} = RARInterpolator(data_dir)
 end
 
