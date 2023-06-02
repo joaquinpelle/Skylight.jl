@@ -25,7 +25,7 @@ include("kerr.jl")
 include("johannsen.jl")
 include("chargedwormhole.jl")
 include("bosonstar.jl")
-include("RAR.jl")
+include("rar.jl")
 include("numerical.jl")
 include("constantsmotion.jl")
 
