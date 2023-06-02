@@ -76,11 +76,14 @@ export set_metric!,
     set_christoffel!,
     coordinates_topology
 
-export radius, 
+export radius,
     event_horizon_radius,
     isco_radius,
     circular_geodesic_angular_speed,
-    radial_bounds
+    radial_bounds,
+    mass,
+    mass_enclosed,
+    mass_enclosed_derivative
 
 export AbstractRadiativeModel,
     AbstractSurfaceEmissionModel,
@@ -88,6 +91,7 @@ export AbstractRadiativeModel,
     DummyModel,
     AbstractAccretionDisk,
     NovikovThorneDisk,
+    ShakuraSunyaevDisk,
     RARDisk,
     AccretionDiskWithTabulatedTemperature,
     SyntheticPolarCap,
