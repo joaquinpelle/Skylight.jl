@@ -5,7 +5,7 @@ using Printf
 M1 = 1.02e7 #Unit mass in solar masses
 energies = [200] #energies in keV of the fermion
 inclinations = [5] #inclinations in degrees of the observer
-Nres = 50 #number of pixels per side of the image
+Nres = 10 #number of pixels per side of the image
 srsat = 150 #side of the image plane in units of Rsat
 
 inner_radii = Dict("r0"=>1.654835e+06, "rsat"=>1.980475e+12)
@@ -58,10 +58,10 @@ for E in energies
 
             zs = view_as_grid(Iobs, configurations)
 
-            fig = Figure(font = "CMU Serif")
-            ax = Axis(fig[1,1], xlabel=L"\alpha", ylabel=L"\beta", ylabelsize = 26, xlabelsize = 26) 
-            hmap = heatmap!(xs, ys, zs; colormap=:gist_heat, interpolate=true)
-            Colorbar(fig[:, end+1], hmap, label=L"I", labelsize=26, width = 15, ticksize = 18, tickalign = 1)
+            fig = Figure(font = "Times New Roman")
+            ax = Axis(fig[1,1], xlabel=L"\alpha/(GM/c^2)", ylabel=L"\beta/(GM/c^2)", ylabelsize = 26, xlabelsize = 26) 
+            hmap = heatmap!(xs, ys, zs/maximum(zs); colormap=:gist_heat, interpolate=true)
+            Colorbar(fig[:, end+1], hmap, label=L"I \text{(arbitrary)}", labelsize=26, width = 15, ticksize = 18, tickalign = 1)
             colsize!(fig.layout, 1, Aspect(1, 1.0))
             colgap!(fig.layout, 7)
             CairoMakie.save("plots/RAR/bolometric/$(filename).png", fig)
@@ -73,10 +73,10 @@ for E in energies
 
             zs = view_as_grid(Iobs, configurations; E_idx=1)
 
-            fig = Figure(font = "CMU Serif")
-            ax = Axis(fig[1,1], xlabel=L"\alpha", ylabel=L"\beta", ylabelsize = 26, xlabelsize = 26) 
-            hmap = heatmap!(xs, ys, zs; colormap=:gist_heat, interpolate=true)
-            Colorbar(fig[:, end+1], hmap, label=L"I", labelsize=26, width = 15, ticksize = 18, tickalign = 1)
+            fig = Figure(font = "Times New Roman")
+            ax = Axis(fig[1,1], xlabel=L"\alpha/(GM/c^2)", ylabel=L"\beta/(GM/c^2)", ylabelsize = 26, xlabelsize = 26) 
+            hmap = heatmap!(xs, ys, zs/maximum(zs); colormap=:gist_heat, interpolate=true)
+            Colorbar(fig[:, end+1], hmap, label=L"I \text{(arbitrary)}", labelsize=26, width = 15, ticksize = 18, tickalign = 1)
             colsize!(fig.layout, 1, Aspect(1, 1.0))
             colgap!(fig.layout, 7)
             CairoMakie.save("plots/RAR/specific/$(filename).png", fig)
