@@ -128,7 +128,7 @@ mass_enclosed_derivative(r, spacetime::RARSpacetime) = spacetime.interp.dM(r)
 function circular_geodesic_angular_speed(position, spacetime::RARSpacetime, rotation_sense)
     r = radius(position, spacetime)
     M = spacetime.interp.M(r)
-    return sqrt(M/r^3)
+    return sign(rotation_sense)*sqrt(M/r^3)
 end
 
 function radial_bounds(spacetime::RARSpacetime)
