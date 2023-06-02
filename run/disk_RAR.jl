@@ -50,6 +50,8 @@ for E in energies
 
             run = integrate(initial_data, configurations, cb, cb_params; method=VCABM(), reltol=1e-13, abstol=1e-21)
 
+            save_to_hdf5("io/RAR/$(filename).h5", configurations, initial_data, run)        
+            
             output_data = run.output_data
 
             Iobs, q = observed_bolometric_intensities(initial_data, output_data, configurations)
