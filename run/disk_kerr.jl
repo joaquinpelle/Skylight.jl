@@ -6,8 +6,8 @@ image_plane = ImagePlane(distance = 500.0,
                          observer_inclination_in_degrees = 45,
                          horizontal_side = 20.0,
                          vertical_side = 20.0,
-                         horizontal_number_of_nodes = 300,
-                         vertical_number_of_nodes = 300)
+                         horizontal_number_of_pixels = 300,
+                         vertical_number_of_pixels = 300)
 
 model = NovikovThorneDisk(inner_radius=6.0, outer_radius=18.0)
         

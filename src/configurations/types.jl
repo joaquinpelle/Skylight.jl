@@ -9,8 +9,8 @@ abstract type AbstractCamera end
     observer_inclination_in_degrees::Float64
     horizontal_side::Float64
     vertical_side::Float64
-    horizontal_number_of_nodes::Int
-    vertical_number_of_nodes::Int
+    horizontal_number_of_pixels::Int
+    vertical_number_of_pixels::Int
     observer_inclination_in_radians::Float64 = deg2rad(observer_inclination_in_degrees)
 end
 
@@ -19,8 +19,8 @@ end
     four_velocity::Vector{Float64}
     horizontal_aperture::Float64 #This is distance*cos(horizontal_aperture_angle)
     vertical_aperture::Float64   #This is distance*cos(horizontal_aperture_angle)
-    horizontal_number_of_nodes::Int
-    vertical_number_of_nodes::Int
+    horizontal_number_of_pixels::Int
+    vertical_number_of_pixels::Int
     direction::Vector{Float64} = to_center(position, four_velocity)
 end
 

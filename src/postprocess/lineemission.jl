@@ -192,7 +192,7 @@ that the bin size is larger than the conditioner times the maximum local variati
 """
 function infer_num_bins(q, at_source, start, stop, bin_size_conditioner, edge_width, image_plane)
     
-    Nα, Nβ = numbers_of_nodes_per_side(image_plane)
+    Nα, Nβ = numbers_of_pixels_per_side(image_plane)
     dα, dβ = grid_spacing(image_plane)
     
     at_edge = detect_edges(edge_width, reshape(at_source, Nα, Nβ))

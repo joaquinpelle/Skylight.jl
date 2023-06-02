@@ -1,6 +1,6 @@
 function get_pixel_coordinates(image_plane::ImagePlane)
     sα, sβ = sides(image_plane)
-    Nα, Nβ = numbers_of_nodes_per_side(image_plane)
+    Nα, Nβ = numbers_of_pixels_per_side(image_plane)
 
     horizontal_coordinates = range(-0.5*sα, stop=0.5*sα; length=Nα)
     vertical_coordinates = range(-0.5*sβ,0.5*sβ; length=Nβ)
@@ -9,7 +9,7 @@ function get_pixel_coordinates(image_plane::ImagePlane)
 end
 
 function area(image_plane::ImagePlane)
-    Nα, Nβ = numbers_of_nodes_per_side(image_plane)
+    Nα, Nβ = numbers_of_pixels_per_side(image_plane)
     dA = pixel_area(image_plane)
     return Nα*Nβ*dA
 end
@@ -21,21 +21,21 @@ end
 
 function grid_spacing(image_plane::ImagePlane)
     sα, sβ = sides(image_plane)
-    Nα, Nβ = numbers_of_nodes_per_side(image_plane)
+    Nα, Nβ = numbers_of_pixels_per_side(image_plane)
 
     dα = sα/(Nα-1)
     dβ = sβ/(Nβ-1)
     return dα, dβ
 end
 
-function number_of_nodes(image_plane::ImagePlane)
-    Nα, Nβ = numbers_of_nodes_per_side(image_plane)
+function total_number_of_pixels(image_plane::ImagePlane)
+    Nα, Nβ = numbers_of_pixels_per_side(image_plane)
     return Nα*Nβ
 end
 
-function numbers_of_nodes_per_side(image_plane::ImagePlane)
-    Nα = image_plane.horizontal_number_of_nodes
-    Nβ = image_plane.vertical_number_of_nodes
+function numbers_of_pixels_per_side(image_plane::ImagePlane)
+    Nα = image_plane.horizontal_number_of_pixels
+    Nβ = image_plane.vertical_number_of_pixels
     return Nα, Nβ
 end
 

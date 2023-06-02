@@ -8,8 +8,8 @@ using Skylight, Test
                             observer_inclination_in_degrees = 45,
                             horizontal_side = 10.0,
                             vertical_side = 10.0,
-                            horizontal_number_of_nodes = 10,
-                            vertical_number_of_nodes = 10)
+                            horizontal_number_of_pixels = 10,
+                            vertical_number_of_pixels = 10)
 
     model = SyntheticPolarCap(
                             star_radius=5.0,
@@ -30,7 +30,7 @@ using Skylight, Test
 
     ensembleprob = Skylight.set_ensemble_problem(initial_data, configurations, cb_params)
     
-    #Also consider EnsembleSplitThreads() for multinodes and EnsembleGPUArray() for GPU
+    #Also consider EnsembleSplitThreads() for multipixels and EnsembleGPUArray() for GPU
 
     stats = @timed sim = solve(ensembleprob, VCABM(), EnsembleThreads(); reltol=1e-14, abstol=1e-21, callback = cb, trajectories = 100)
 

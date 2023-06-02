@@ -1,7 +1,7 @@
 abstract type AbstractCallbackParameters end
 
 struct Run{C,CB}
-    output_data::Array{Float64, 2}
+    output_data::Matrix{Float64}
     callback::C
     callback_parameters::CB
     kwargs::Dict

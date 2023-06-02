@@ -9,8 +9,8 @@ image_plane = ImagePlane(distance = 500.0,
                          observer_inclination_in_degrees = 85,
                          horizontal_side = 90.0,
                          vertical_side = 90.0,
-                         horizontal_number_of_nodes = 300,
-                         vertical_number_of_nodes = 300)
+                         horizontal_number_of_pixels = 300,
+                         vertical_number_of_pixels = 300)
 
 model = AccretionDiskWithTabulatedTemperature(inner_radius=rin_LBS1, outer_radius=rout_LBS1, filename="TempLBS1.dat")
         
@@ -28,7 +28,7 @@ run = integrate(initial_data, configurations, cb, cb_params; method=VCABM(), rel
 
 output_data = output_data(run)
 
-bolometric_intensities = observed_bolometric_intensities(initial_data, output_data, configurations)
+Iobs, q = observed_bolometric_intensities(initial_data, output_data, configurations)
 
 xs,ys = get_pixel_coordinates_vectors(configurations)
 

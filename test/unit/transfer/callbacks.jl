@@ -10,8 +10,8 @@ using Skylight, Test
                             observer_inclination_in_degrees = 45,
                             horizontal_side = 30.0,
                             vertical_side = 40.0,
-                            horizontal_number_of_nodes = 50,
-                            vertical_number_of_nodes = 50)
+                            horizontal_number_of_pixels = 50,
+                            vertical_number_of_pixels = 50)
     
     rmax = 1.1*sqrt(5000)
 

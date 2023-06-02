@@ -12,8 +12,8 @@ for n in numbers
                         observer_inclination_in_degrees = 90,
                         horizontal_side = 10.0,
                         vertical_side = 10.0,
-                        horizontal_number_of_nodes = n,
-                        vertical_number_of_nodes = n)
+                        horizontal_number_of_pixels = n,
+                        vertical_number_of_pixels = n)
 
     configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                             image_plane = image_plane,

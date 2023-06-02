@@ -79,7 +79,8 @@ export set_metric!,
 export radius, 
     event_horizon_radius,
     isco_radius,
-    circular_geodesic_angular_speed
+    circular_geodesic_angular_speed,
+    radial_bounds
 
 export AbstractRadiativeModel,
     AbstractSurfaceEmissionModel,
@@ -87,6 +88,7 @@ export AbstractRadiativeModel,
     DummyModel,
     AbstractAccretionDisk,
     NovikovThorneDisk,
+    RARDisk,
     AccretionDiskWithTabulatedTemperature,
     SyntheticPolarCap,
     StarAcrossWormhole
@@ -132,6 +134,9 @@ export save_to_hdf5,
     load_callback_from_hdf5
     
 export tangent_vector_zaxis_rotation!
+
+export PhysicalConstants,
+    Dimensions
 
 export geometrized_to_CGS,
     CGS_to_geometrized

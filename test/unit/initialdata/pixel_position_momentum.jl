@@ -10,8 +10,8 @@ using Skylight, Test
                                 observer_inclination_in_degrees = 90.0,
                                 horizontal_side = 1.0,
                                 vertical_side = 1.0,
-                                horizontal_number_of_nodes = 3,
-                                vertical_number_of_nodes = 3)
+                                horizontal_number_of_pixels = 3,
+                                vertical_number_of_pixels = 3)
         
         pixel_coordinates = (1.0,1.0)
 
@@ -41,8 +41,8 @@ using Skylight, Test
                                 observer_inclination_in_degrees = 0.0,
                                 horizontal_side = 1.0,
                                 vertical_side = 1.0,
-                                horizontal_number_of_nodes = 3,
-                                vertical_number_of_nodes = 3)
+                                horizontal_number_of_pixels = 3,
+                                vertical_number_of_pixels = 3)
         
         pixel_coordinates = (1.0,1.0)
 
@@ -77,8 +77,8 @@ end
                                 observer_inclination_in_degrees = 0.0,
                                 horizontal_side = 1.0,
                                 vertical_side = 1.0,
-                                horizontal_number_of_nodes = 3,
-                                vertical_number_of_nodes = 3)
+                                horizontal_number_of_pixels = 3,
+                                vertical_number_of_pixels = 3)
         
                                 
         pixel_coordinates = (1.0,1.0)
@@ -113,8 +113,8 @@ end
                                 observer_inclination_in_degrees = 90.0,
                                 horizontal_side = 1.0,
                                 vertical_side = 1.0,
-                                horizontal_number_of_nodes = 3,
-                                vertical_number_of_nodes = 3)
+                                horizontal_number_of_pixels = 3,
+                                vertical_number_of_pixels = 3)
         
                                 
         pixel_coordinates = (1.0,1.0)
