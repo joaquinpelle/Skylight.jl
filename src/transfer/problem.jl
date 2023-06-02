@@ -99,7 +99,7 @@ end
 
 function print_stats(stats)
    
-    println("Solve stats:")
+    println("Equations integration stats:")
     println("Wall clock time: ",stats.time," seconds")
     println("Memory allocated: ",Base.format_bytes(stats.bytes))
 
