@@ -23,7 +23,7 @@ The file will be organized as follows:
 # Returns
 * Nothing.
 """
-function save_to_hdf5(filename::String, configurations::AbstractConfigurations, initial_data::Array, runs::Array{T,}; mode="r+" ) where {T<:Run}
+function save_to_hdf5(filename::String, configurations::AbstractConfigurations, initial_data::Array, runs::Array{T,}; mode="cw" ) where {T<:Run}
     h5open(filename, mode) do file
         write(file, "initial_data", initial_data)
         save_obj_to_hdf5(file, "configs", configurations)
@@ -31,7 +31,7 @@ function save_to_hdf5(filename::String, configurations::AbstractConfigurations, 
     end
 end
 
-save_to_hdf5(filename::String, configurations::AbstractConfigurations, initial_data::Matrix, run::Run; mode="r+") = save_to_hdf5(filename, configurations, initial_data, [run]; mode=mode)
+save_to_hdf5(filename::String, configurations::AbstractConfigurations, initial_data::Matrix, run::Run; mode) = save_to_hdf5(filename, configurations, initial_data, [run]; mode=mode)
 
 """
     append_runs_to_hdf5(filename::String, runs::Vector{Tuple{AbstractArray, Any, Any, Dict{Symbol,}}})
