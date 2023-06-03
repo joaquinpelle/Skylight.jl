@@ -1,13 +1,10 @@
-export integrate
-export output_data
-
 function integrate(initial_data, configurations::VacuumConfigurations, cb, cb_params; method = VCABM(), kwargs...)
 
     N = size(initial_data, 2)  
 
     ensembleprob = set_ensemble_problem(initial_data, configurations, cb_params)
 
-    #Also consider EnsembleSplitThreads() for multinodes and EnsembleGPUArray() for GPU
+    #Also consider EnsembleSplitThreads() for multipixels and EnsembleGPUArray() for GPU
     stats = @timed sim = solve(ensembleprob, method, EnsembleThreads(); callback = cb, trajectories = N, kwargs...)
     
     print_stats(stats)
@@ -26,7 +23,7 @@ function integrate(initial_data, configurations::NonVacuumConfigurations, cb, cb
 
     full_cb = CallbackSet(cb, opacities_callback())  
 
-    #Also consider EnsembleSplitThreads() for multinodes and EnsembleGPUArray() for GPU
+    #Also consider EnsembleSplitThreads() for multipixels and EnsembleGPUArray() for GPU
     stats = @timed sim = solve(ensembleprob, method, EnsembleThreads(); callback = full_cb, trajectories = N, kwargs...)
     
     print_stats(stats)

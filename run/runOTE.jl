@@ -4,10 +4,10 @@ spacetime = KerrSpacetimeKerrSchildCoordinates(M=1.0,a=0.9)
 
 image_plane = ImagePlane(distance = 500.0,
                          observer_inclination_in_degrees = 45,
-                         horizontal_side_image_plane = 10.0,
-                         vertical_side_image_plane = 10.0,
-                         horizontal_number_of_nodes = 50,
-                         vertical_number_of_nodes = 50)
+                         horizontal_side = 10.0,
+                         vertical_side = 10.0,
+                         horizontal_number_of_pixels = 50,
+                         vertical_number_of_pixels = 50)
 
 model = SyntheticPolarCap(number_of_points=10, 
                           star_radius=5.0,

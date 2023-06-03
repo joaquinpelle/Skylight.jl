@@ -1,22 +1,18 @@
 @with_kw struct StarAcrossWormholeCallbackParameters <: AbstractCallbackParameters
-    
     rmax::Float64
     l_center::Float64
     star_radius::Float64
-
 end
 
-function get_cb_params(model::StarAcrossWormhole, configurations) 
-
+function get_cb_params(::ChargedWormholeSpacetimeRegularCoordinates, model::StarAcrossWormhole, configurations) 
     l_center = model.l_center
     star_radius = model.star_radius
     rmax = get_rmax(configurations)
 
     return StarAcrossWormholeCallbackParameters(l_center=l_center, star_radius=star_radius, rmax=rmax)
-
 end
 
-get_callback(::StarAcrossWormhole, ::AbstractCoordinateSystemClass) = star_across_wormhole_callback()
+get_callback(::ChargedWormholeSpacetimeRegularCoordinates, ::StarAcrossWormhole, ::AbstractCoordinatesTopology) = star_across_wormhole_callback()
 
 star_across_wormhole_callback() = VectorContinuousCallback(star_across_wormhole_condition, star_across_wormhole_affect!, 2)
 
@@ -44,10 +40,8 @@ end
 
 function star_across_wormhole_affect!(integrator,idx)
  
-    if idx==1 && integrator.u[2]<0.0  
+    if integrator.u[2]<0.0 || idx==2  
         terminate!(integrator)
-    elseif idx==2 
-        terminate!(integrator) 
     end
-
+    
 end

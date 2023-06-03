@@ -1,17 +1,12 @@
-export RARSpacetime
-
 @with_kw struct RARInterpolator{T}
-    
     gtt :: T
     grr :: T
     dν :: T
     M :: T
     dM :: T
-
 end
 
 function RARInterpolator(data_dir)
-        
     #Data files must be in geometrized units
     gtt = readdlm(data_dir*"/gtt.txt", ' ', Float64, '\n')
     grr = readdlm(data_dir*"/grr.txt", ' ', Float64, '\n')
@@ -24,22 +19,17 @@ function RARInterpolator(data_dir)
                            dν = CubicSpline(dν[:,2], dν[:,1]),
                            M = CubicSpline(M[:,2], M[:,1]),
                            dM = CubicSpline(dM[:,2], dM[:,1]))
-
 end
 
-@with_kw struct RARSpacetime{T} <: AbstractSpacetime
-    
-    data_dir::String  
+@with_kw struct RARSpacetime{T} <: AbstractRegularCompactObjectSpacetime
+    data_dir::String
     interp::RARInterpolator{T} = RARInterpolator(data_dir)
-
 end
 
-coordinate_system_class(::RARSpacetime) = SphericalClass()
+coordinates_topology(::RARSpacetime) = SphericalTopology()
 
+""""Ruffini-Arguelles-Rueda metric for dark-matter halo"""
 function set_metric!(g,point, spacetime::RARSpacetime)
-    
-    """"Ruffini-Arguelles-Rueda metric for dark-matter halo"""
-    
     t, r, θ, φ = point
     
     interp = spacetime.interp
@@ -69,7 +59,6 @@ function set_metric!(g,point, spacetime::RARSpacetime)
 end
 
 function set_metric_inverse!(g, point, spacetime::RARSpacetime)
-    
     t, r, θ, φ = point
 
     interp = spacetime.interp
@@ -95,11 +84,11 @@ function set_metric_inverse!(g, point, spacetime::RARSpacetime)
     g[4,4]= 1.0/(r^2*sin(θ)^2)
     
     return nothing
-
 end
 
-function set_christoffel!(Γ, position, spacetime::RARSpacetime)
+allocate_christoffel_cache(::RARSpacetime) = nothing
 
+function set_christoffel!(Γ, position, spacetime::RARSpacetime)
     t, r, θ, φ = position
     
     interp = spacetime.interp
@@ -130,7 +119,21 @@ function set_christoffel!(Γ, position, spacetime::RARSpacetime)
     Γ[4,4,3] = Γ[4,3,4]
     
     return nothing
-
 end
 
+radius(position, ::RARSpacetime) = position[2]
+mass_enclosed(r, spacetime::RARSpacetime) = spacetime.interp.M(r)
+mass_enclosed_derivative(r, spacetime::RARSpacetime) = spacetime.interp.dM(r)
 
+function circular_geodesic_angular_speed(position, spacetime::RARSpacetime, rotation_sense)
+    r = radius(position, spacetime)
+    M = spacetime.interp.M(r)
+    return sqrt(M/r^3)
+end
+
+function radial_bounds(spacetime::RARSpacetime)
+    interp = spacetime.interp
+    r_inf = max(minimum(interp.gtt.t), minimum(interp.grr.t), minimum(interp.dν.t), minimum(interp.M.t), minimum(interp.dM.t))
+    r_sup = min(maximum(interp.gtt.t), maximum(interp.grr.t), maximum(interp.dν.t), maximum(interp.M.t), maximum(interp.dM.t))
+    return r_inf, r_sup 
+end

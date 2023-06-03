@@ -4,12 +4,12 @@ spacetime = KerrSpacetimeKerrSchildCoordinates(M=1.0,a=0.9)
 
 image_plane = ImagePlane(distance = 500.0,
                          observer_inclination_in_degrees = 45,
-                         horizontal_side_image_plane = 20.0,
-                         vertical_side_image_plane = 20.0,
-                         horizontal_number_of_nodes = 300,
-                         vertical_number_of_nodes = 300)
+                         horizontal_side = 20.0,
+                         vertical_side = 20.0,
+                         horizontal_number_of_pixels = 300,
+                         vertical_number_of_pixels = 300)
 
-model = BlackHoleAccretionDisk(inner_radius=6.0, outer_radius=18.0)
+model = NovikovThorneDisk(inner_radius=6.0, outer_radius=18.0)
         
 configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                    image_plane = image_plane,

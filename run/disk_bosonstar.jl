@@ -7,12 +7,12 @@ spacetime = BosonStarSpacetime(a=a_LBS1,b=b_LBS1)
 
 image_plane = ImagePlane(distance = 500.0,
                          observer_inclination_in_degrees = 85,
-                         horizontal_side_image_plane = 90.0,
-                         vertical_side_image_plane = 90.0,
-                         horizontal_number_of_nodes = 300,
-                         vertical_number_of_nodes = 300)
+                         horizontal_side = 90.0,
+                         vertical_side = 90.0,
+                         horizontal_number_of_pixels = 300,
+                         vertical_number_of_pixels = 300)
 
-model = BosonStarAccretionDisk(inner_radius=rin_LBS1, outer_radius=rout_LBS1, temperature_file="TempLBS1.dat")
+model = AccretionDiskWithTabulatedTemperature(inner_radius=rin_LBS1, outer_radius=rout_LBS1, filename="TempLBS1.dat")
         
 configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                          image_plane = image_plane,
@@ -28,11 +28,11 @@ run = integrate(initial_data, configurations, cb, cb_params; method=VCABM(), rel
 
 output_data = output_data(run)
 
-bolometric_intensities = get_observed_bolometric_intensities(initial_data, output_data, configurations)
+Iobs, q = observed_bolometric_intensities(initial_data, output_data, configurations)
 
 xs,ys = get_pixel_coordinates_vectors(configurations)
 
-zs = view_intensities_grid(bolometric_intensities, configurations)
+zs = view_as_grid(bolometric_intensities, configurations)
 
 fig = Figure(font = "CMU Serif")
 ax = Axis(fig[1,1], xlabel=L"\alpha", ylabel=L"\beta", ylabelsize = 26, xlabelsize = 26) 

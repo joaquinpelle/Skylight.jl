@@ -1,10 +1,8 @@
-export KerrSpacetimeKerrSchildCoordinates
-export KerrSpacetimeBoyerLindquistCoordinates
+abstract type AbstractKerrSpacetime <: AbstractBlackHoleSpacetime end
 
 # Kerr Schild coordinates
 
-@with_kw struct KerrSpacetimeKerrSchildCoordinates{T} <: AbstractSpacetime
-
+@with_kw struct KerrSpacetimeKerrSchildCoordinates{T} <: AbstractKerrSpacetime
     M::Float64
     a::Float64
 
@@ -13,38 +11,17 @@ export KerrSpacetimeBoyerLindquistCoordinates
 
     #Metric cache
     l::T = zeros(4)
-
 end
 
-@with_kw struct KerrKSChristoffelCache <: ChristoffelCache
-    
-    l::Vector{Float64} = zeros(4)
-    dH::Array{Float64, 1} = zeros(4)
-    dl::Array{Float64, 2} = zeros(4,4)
-    D::Array{Float64, 3} = zeros(4,4,4)
+coordinates_topology(::KerrSpacetimeKerrSchildCoordinates) = CartesianTopology()
 
-end
-
-coordinate_system_class(::KerrSpacetimeKerrSchildCoordinates) = CartesianClass()
-
-event_horizon_radius(spacetime::KerrSpacetimeKerrSchildCoordinates) = spacetime.M*(1+sqrt(1-spacetime.a^2))
-
-allocate_christoffel_cache(::KerrSpacetimeKerrSchildCoordinates) = KerrKSChristoffelCache()
-
-function get_kerr_radius(position, spacetime::KerrSpacetimeKerrSchildCoordinates)
-    
+function radius(position, spacetime::KerrSpacetimeKerrSchildCoordinates)
     t, x, y, z = position
     ρ2 = x^2 + y^2 + z^2
     a2 = spacetime.a^2
     r2 = 0.5 * (ρ2 - a2) + sqrt(0.25 * (ρ2 - a2)^2 + a2 * z^2)
-
     return sqrt(r2) 
 end
-
-""" 
-g: container for the metric 
-q: spacetime position
-"""
 
 function set_metric!(g, position, spacetime::KerrSpacetimeKerrSchildCoordinates)
 
@@ -82,7 +59,6 @@ function set_metric!(g, position, spacetime::KerrSpacetimeKerrSchildCoordinates)
     g[4,4]= 1. + H2 * l[4]*l[4]
     
     return nothing
-    
 end
 
 function set_metric_inverse!(g, position, spacetime::KerrSpacetimeKerrSchildCoordinates)
@@ -121,10 +97,18 @@ function set_metric_inverse!(g, position, spacetime::KerrSpacetimeKerrSchildCoor
     g[4,4]= 1. - H2 * l[4]*l[4]
     
     return nothing
-    
 end
 
-function set_christoffel!(Γ, position, spacetime::KerrSpacetimeKerrSchildCoordinates, cache::KerrKSChristoffelCache)
+@with_kw struct KerrChristoffelCache <: AbstractChristoffelCache
+    l::Vector{Float64} = zeros(4)
+    dH::Vector{Float64} = zeros(4)
+    dl::Array{Float64, 2} = zeros(4,4)
+    D::Array{Float64, 3} = zeros(4,4,4)
+end
+
+allocate_christoffel_cache(::KerrSpacetimeKerrSchildCoordinates) = KerrChristoffelCache()
+
+function set_christoffel!(Γ, position, spacetime::KerrSpacetimeKerrSchildCoordinates, cache::KerrChristoffelCache)
 
     t, x, y, z = position
     M = spacetime.M
@@ -212,20 +196,16 @@ end
 
 # Boyer Lindquist coordinates
 
-@with_kw struct KerrSpacetimeBoyerLindquistCoordinates <: AbstractSpacetime 
-
+@with_kw struct KerrSpacetimeBoyerLindquistCoordinates <: AbstractKerrSpacetime 
     M::Float64
     a::Float64
 
     @assert M >= 0.0
     @assert abs(a) <= M 
-
 end   
 
-
-coordinate_system_class(::KerrSpacetimeBoyerLindquistCoordinates) = SphericalClass()
-
-event_horizon_radius(spacetime::KerrSpacetimeBoyerLindquistCoordinates) = spacetime.M*(1+sqrt(1-spacetime.a^2))
+coordinates_topology(::KerrSpacetimeBoyerLindquistCoordinates) = SphericalTopology()
+radius(position, ::KerrSpacetimeBoyerLindquistCoordinates) = position[2]
 
 function set_metric!(g, point, spacetime::KerrSpacetimeBoyerLindquistCoordinates)
     
@@ -254,7 +234,6 @@ function set_metric!(g, point, spacetime::KerrSpacetimeBoyerLindquistCoordinates
     g[4,4] = senθ2*(r2+a2+2*M*a2*r*senθ2/Σ)
     
     return nothing
-
 end
 
 function set_metric_inverse!(ginv, point, spacetime::KerrSpacetimeBoyerLindquistCoordinates)
@@ -290,7 +269,6 @@ function set_metric_inverse!(ginv, point, spacetime::KerrSpacetimeBoyerLindquist
     ginv[4,4] = cφφ/det
     
     return nothing
-
 end
 
 function set_christoffel!(Γ, point, spacetime::KerrSpacetimeBoyerLindquistCoordinates) 
@@ -356,5 +334,26 @@ function set_christoffel!(Γ, point, spacetime::KerrSpacetimeBoyerLindquistCoord
     Γ[4,4,2] = Γ[4,2,4]
      
     return nothing
+end
 
+
+#Common definitions
+
+event_horizon_radius(spacetime::AbstractKerrSpacetime) = spacetime.M*(1+sqrt(1-spacetime.a^2))
+
+function isco_radius(spacetime::AbstractKerrSpacetime, rotation_sense::AbstractRotationSense)
+    x = spacetime.a/spacetime.M      #Rotation parameter
+    Z1=1+cbrt(1-x^2)*(cbrt(1+x)+cbrt(1-x))
+    Z2=sqrt(3*x^2+Z1^2)
+    s = sign(rotation_sense)
+    return spacetime.M*(3+Z2 - s*sqrt((3-Z1)*(3+Z1+2*Z2)))
+end
+
+function circular_geodesic_angular_speed(position, spacetime::AbstractKerrSpacetime, rotation_sense::AbstractRotationSense)
+    M = spacetime.M
+    a = spacetime.a
+    r = radius(position, spacetime)
+    s = sign(rotation_sense)
+    Ω = s*sqrt(M)/(r^1.5 + s*a*sqrt(M))
+    return Ω
 end

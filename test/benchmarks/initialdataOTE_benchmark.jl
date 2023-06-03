@@ -10,10 +10,10 @@ for n in numbers
 
     image_plane = ImagePlane(distance = 500.0,
                         observer_inclination_in_degrees = 90,
-                        horizontal_side_image_plane = 10.0,
-                        vertical_side_image_plane = 10.0,
-                        horizontal_number_of_nodes = n,
-                        vertical_number_of_nodes = n)
+                        horizontal_side = 10.0,
+                        vertical_side = 10.0,
+                        horizontal_number_of_pixels = n,
+                        vertical_number_of_pixels = n)
 
     configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                             image_plane = image_plane,

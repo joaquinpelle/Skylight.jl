@@ -1,7 +1,4 @@
-export get_initial_data
-
-function get_initial_data(configurations::OTEConfigurations)
-
+function get_initial_data(configurations::AbstractOTEConfigurations)
     rays = my_zeros(configurations)
     cache = get_initial_data_cache(configurations)
 
@@ -9,7 +6,7 @@ function get_initial_data(configurations::OTEConfigurations)
     
     index = 1
     
-    for initial_time in get_observed_times(configurations)
+    for initial_time in observed_times(configurations)
         for pixel_coordinates in get_pixel_coordinates(configurations.image_plane)
 
             @views ray = rays[1:8, index]
@@ -20,11 +17,9 @@ function get_initial_data(configurations::OTEConfigurations)
     end
 
     return rays
-
 end
 
 function initialize_single!(ray, initial_time, pixel_coordinates, configurations, cache)
-    
     @views begin 
         position = ray[1:4]
         space_position = ray[2:4]
@@ -34,19 +29,17 @@ function initialize_single!(ray, initial_time, pixel_coordinates, configurations
     
     spacetime = configurations.spacetime
     image_plane = configurations.image_plane
-    coord_system = coordinate_system_class(spacetime)
+    coords_top = coordinates_topology(spacetime)
 
     ray[1] = initial_time
-    space_position .= get_space_position_from(pixel_coordinates,image_plane,coord_system)
-    space_momentum .= get_space_momentum_from(pixel_coordinates,image_plane,coord_system)
+    space_position .= get_space_position_from(pixel_coordinates,image_plane,coords_top)
+    space_momentum .= get_space_momentum_from(pixel_coordinates,image_plane,coords_top)
 
     dump_metric_in!(cache,position,spacetime)
     set_null_ingoing_past_directed!(momentum,cache)
-
 end
 
-function get_space_position_from(pixel_coordinates, image_plane::ImagePlane, ::CartesianClass)
-
+function get_space_position_from(pixel_coordinates, image_plane::ImagePlane, ::CartesianTopology)
     α,β = pixel_coordinates
     ξ = image_plane.observer_inclination_in_radians
     d = image_plane.distance
@@ -59,11 +52,9 @@ function get_space_position_from(pixel_coordinates, image_plane::ImagePlane, ::C
     z = β*sinξ+d*cosξ
 
     return [x, y, z]
-
 end
 
-function get_space_position_from(pixel_coordinates, image_plane::ImagePlane, ::SphericalClass)
-
+function get_space_position_from(pixel_coordinates, image_plane::ImagePlane, ::SphericalTopology)
     α,β = pixel_coordinates
     ξ = image_plane.observer_inclination_in_radians
     d = image_plane.distance
@@ -76,11 +67,9 @@ function get_space_position_from(pixel_coordinates, image_plane::ImagePlane, ::S
     φ = atan(α,(d*sinξ-β*cosξ))
 
     return [r, θ, φ]
-
 end
 
-function get_space_momentum_from(pixel_coordinates, image_plane::ImagePlane, ::SphericalClass)
-
+function get_space_momentum_from(pixel_coordinates, image_plane::ImagePlane, ::SphericalTopology)
     α,β = pixel_coordinates
     ξ = image_plane.observer_inclination_in_radians
     d = image_plane.distance
@@ -95,11 +84,9 @@ function get_space_momentum_from(pixel_coordinates, image_plane::ImagePlane, ::S
     kφ =  -α*sinξ/(α^2+(d*sinξ-β*cosξ)^2)  
 
     return [kr, kθ, kφ]
-
 end
 
-function get_space_momentum_from(pixel_coordinates, image_plane::ImagePlane, ::CartesianClass)
-    
+function get_space_momentum_from(pixel_coordinates, image_plane::ImagePlane, ::CartesianTopology)
     ξ = image_plane.observer_inclination_in_radians
     
     kx = sin(ξ)
@@ -107,22 +94,16 @@ function get_space_momentum_from(pixel_coordinates, image_plane::ImagePlane, ::C
     kz = cos(ξ)
 
     return [kx, ky, kz]
-
 end
 
+"""the input time component must be zero for this to work """
 function set_null_ingoing_past_directed!(momentum,cache)
-    
-    """the input time component must be zero for this to work """
-
     set_null!(momentum,cache)
     set_ingoing_past_directed!(momentum)
-
 end
 
+"""returns with unit energy"""
 function set_null!(momentum,cache)
-    
-    """returns with unit energy"""
-
     gμν, tμ = unpack_views(cache)
 
     t2 = norm_squared(tμ,gμν)
@@ -132,12 +113,8 @@ function set_null!(momentum,cache)
     α = (-kt + sqrt(kt^2 - k2*t2))/k2
 
     @. momentum = tμ + α*momentum
-    
 end
 
 function set_ingoing_past_directed!(momentum)
     @. momentum *= -1
 end
-
-
-
