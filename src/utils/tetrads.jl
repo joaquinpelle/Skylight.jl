@@ -11,7 +11,7 @@ function set_triad!(triad, time_vector, metric)
 
 end
 
-function set_surface_adapted_triad!(triad, time_vector, position, metric, metric_inverse, model, coord_system)
+function set_surface_adapted_triad!(triad, time_vector, position, metric, metric_inverse, model, coords_top)
 
     @views begin
         triad_time_components = triad[1,:]
@@ -23,7 +23,7 @@ function set_surface_adapted_triad!(triad, time_vector, position, metric, metric
     fill!(triad_time_components,0.0)
     rand!(dyad_space_components)
 
-    set_unit_surface_normal!(normal, position, metric, metric_inverse, model, coord_system) 
+    set_unit_surface_normal!(normal, position, metric, metric_inverse, model, coords_top) 
     orthonormalize!(triad, time_vector, metric)
 
 end

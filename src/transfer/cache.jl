@@ -13,25 +13,6 @@ function allocate_vacuum_single_thread_cache(spacetime)
     return VacuumThreadCache(christoffel_cache = allocate_christoffel_cache(spacetime))
 end
 
-
-@with_kw mutable struct VacuumThreadCache{T}
-
-    point::Array{Float64, 1} = zeros(4)
-    velocity::Array{Float64, 1} = zeros(4)
-    acceleration::Array{Float64, 1} = zeros(4)
-    christoffel::Array{Float64, 3} = zeros(4,4,4)
-    christoffel_cache::T
-
-end
-
-mutable struct VacuumCache{S, C, T}
-    
-    spacetime::S
-    cb_params::C
-    multi_thread::Array{VacuumThreadCache{T},1}
-
-end
-
 # Non vacuum
 
 function allocate_cache(configurations::NonVacuumConfigurations, cb_params, τmax)
@@ -63,30 +44,5 @@ function allocate_non_vacuum_single_thread_cache(spacetime, NE)
                                ε = zeros(NE),
                                αε = zeros(NE),
                                jε = zeros(NE))
-
-end
-
-@with_kw mutable struct NonVacuumThreadCache{T}
-
-    point::Array{Float64, 1} = zeros(4)
-    velocity::Array{Float64, 1} = zeros(4)
-    acceleration::Array{Float64, 1} = zeros(4)
-    christoffel::Array{Float64, 3} = zeros(4,4,4)
-    christoffel_cache::T
-    ε::Array{Float64, 1}
-    αε::Array{Float64, 1}
-    jε::Array{Float64, 1}
-
-end
-
-mutable struct NonVacuumCache{S, M, C, T}
-    
-    spacetime::S
-    model::M
-    cb_params::C
-    τmax::Float64
-    observed_energies::Array{Float64, 1}
-    NE::Int64
-    multi_thread::Array{NonVacuumThreadCache{T},1}
 
 end

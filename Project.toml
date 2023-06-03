@@ -4,9 +4,6 @@ authors = ["Joaquin Pelle", "Oscar Reula", "Federico Carrasco", "Carlos Bederian
 version = "0.1.0"
 
 [deps]
-BenchmarkPlots = "ab8c0f59-4072-4e0d-8f91-a91e1495eb26"
-BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
-CairoMakie = "13f3f980-e62b-5c42-98c6-ff1f3baf88f0"
 DataInterpolations = "82cc6244-b520-54b8-b5a6-8a565e85f1d0"
 DelimitedFiles = "8bb1440f-4735-579b-a4ab-409b98df4dab"
 DifferentialEquations = "0c46a032-eb83-5123-abaf-570d42b7fbaa"
@@ -18,11 +15,11 @@ Parameters = "d96e819e-fc66-5662-9728-84c9c7592b0a"
 PreallocationTools = "d236fae5-4411-538c-8e31-a6e3d9e00b46"
 Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 Reexport = "189a3867-3050-52da-a836-e630ba90ab69"
-StatsPlots = "f3b207a7-027a-5e70-b257-86293d7955fd"
 
 [compat]
 BenchmarkPlots = "0.1"
 ForwardDiff = "0.10"
+DelimitedFiles = "1"
 julia = "1.1"
 
 [extras]

@@ -1,6 +1,4 @@
-export SyntheticPolarCap
-
-@with_kw struct SyntheticPolarCap <: NeutronStarHotSpots
+@with_kw struct SyntheticPolarCap <: AbstractSurfaceEmissionModel
 
     star_radius::Float64
     angular_speed::Float64
@@ -12,7 +10,9 @@ export SyntheticPolarCap
     
 end
 
-function set_surface_differential!(covector, position, model::SyntheticPolarCap, coord_system::CartesianClass)
+opaque_interior_surface_trait(::SyntheticPolarCap) = IsOpaqueInteriorSurface()
+
+function set_surface_differential!(covector, position, ::SyntheticPolarCap, ::CartesianTopology)
 
     @views begin
         t,x,y,z = position
@@ -25,18 +25,18 @@ function set_surface_differential!(covector, position, model::SyntheticPolarCap,
 
 end
 
-function set_emitter_four_velocity!(vector, position, metric, spacetime, model::SyntheticPolarCap, coord_system)
+function set_emitter_four_velocity!(vector, position, metric, spacetime, model::SyntheticPolarCap, coords_top)
         
     angular_speed = model.angular_speed
-    tangent_vector_zaxis_rotation!(vector, position, angular_speed, metric, coord_system)
+    tangent_vector_zaxis_rotation!(vector, position, angular_speed, metric, coords_top)
     
 end
 
-function get_space_positions(npoints, model::SyntheticPolarCap, coord_system::CartesianClass)
+function get_space_positions(npoints, model::SyntheticPolarCap, coords_top::CartesianTopology)
 
     space_positions = zeros(3, npoints)
 
-    random_uniform_points_unit_spherical_cap!(space_positions, model.angular_radius_in_degrees, coord_system)
+    random_uniform_points_unit_spherical_cap!(space_positions, model.angular_radius_in_degrees, coords_top)
 
     rotate_around_y_axis!(space_positions, model.misalignment_angle_in_degrees)
 
@@ -45,6 +45,3 @@ function get_space_positions(npoints, model::SyntheticPolarCap, coord_system::Ca
     return space_positions
 
 end
-
-get_callback(model::SyntheticPolarCap, coord_system::CartesianClass) = star_cartesian_coordinates_callback()
-get_callback(model::SyntheticPolarCap, coord_system::SphericalClass) = star_spherical_coordinates_callback()

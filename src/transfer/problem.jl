@@ -1,12 +1,10 @@
-export integrate
-
 function integrate(initial_data, configurations::VacuumConfigurations, cb, cb_params; method = VCABM(), kwargs...)
 
     N = size(initial_data, 2)  
 
     ensembleprob = set_ensemble_problem(initial_data, configurations, cb_params)
 
-    #Also consider EnsembleSplitThreads() for multinodes and EnsembleGPUArray() for GPU
+    #Also consider EnsembleSplitThreads() for multipixels and EnsembleGPUArray() for GPU
     stats = @timed sim = solve(ensembleprob, method, EnsembleThreads(); callback = cb, trajectories = N, kwargs...)
     
     print_stats(stats)
@@ -25,7 +23,7 @@ function integrate(initial_data, configurations::NonVacuumConfigurations, cb, cb
 
     full_cb = CallbackSet(cb, opacities_callback())  
 
-    #Also consider EnsembleSplitThreads() for multinodes and EnsembleGPUArray() for GPU
+    #Also consider EnsembleSplitThreads() for multipixels and EnsembleGPUArray() for GPU
     stats = @timed sim = solve(ensembleprob, method, EnsembleThreads(); callback = full_cb, trajectories = N, kwargs...)
     
     print_stats(stats)
@@ -70,7 +68,7 @@ function collect_run(sim, cb, cb_params, args...; kwargs...)
     output_data = collect_output(sim)
     kwargs_dict = collect_args(args...; kwargs...)
 
-    return (output_data, cb, cb_params, kwargs_dict)
+    return Run(output_data, cb, cb_params, kwargs_dict)
 
 end
 
@@ -106,3 +104,6 @@ function print_stats(stats)
     println("Memory allocated: ",Base.format_bytes(stats.bytes))
 
 end
+
+to_tuple(run::Run) = (run.output_data, run.callback, run.callback_parameters, run.kwargs)
+output_data(run::Run) = run.output_data

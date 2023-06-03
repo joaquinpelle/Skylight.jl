@@ -1,7 +1,7 @@
-export ChargedWormholeSpacetimeSphericalCoordinates
-export ChargedWormholeSpacetimeRegularCoordinates
+abstract type AbstractChargedWormholeSpacetime <: AbstractSpacetime end
+allocate_christoffel_cache(::AbstractChargedWormholeSpacetime) = nothing
 
-@with_kw struct ChargedWormholeSpacetimeSphericalCoordinates <: WormholeSpacetime
+@with_kw struct ChargedWormholeSpacetimeSphericalCoordinates <: AbstractChargedWormholeSpacetime
     
     b0::Float64
     Q::Float64
@@ -11,7 +11,7 @@ export ChargedWormholeSpacetimeRegularCoordinates
 
 end
 
-coordinate_system_class(spacetime::ChargedWormholeSpacetimeSphericalCoordinates) = SphericalClass()
+coordinates_topology(::ChargedWormholeSpacetimeSphericalCoordinates) = SphericalTopology()
 
 function set_metric!(g, point, spacetime::ChargedWormholeSpacetimeSphericalCoordinates)
         
@@ -79,11 +79,7 @@ function set_metric_inverse!(g, point, spacetime::ChargedWormholeSpacetimeSpheri
 
 end
 
-struct ChargedWormholeChristoffelCache <: ChristoffelCache end
-
-allocate_christoffel_cache(spacetime::WormholeSpacetime) = ChargedWormholeChristoffelCache()
-
-function set_christoffel!(Γ,point,spacetime::ChargedWormholeSpacetimeSphericalCoordinates, cache)
+function set_christoffel!(Γ,point,spacetime::ChargedWormholeSpacetimeSphericalCoordinates)
     
     #Spacetime coordinates
     t, r, θ, φ = point
@@ -125,9 +121,7 @@ function set_christoffel!(Γ,point,spacetime::ChargedWormholeSpacetimeSphericalC
     return nothing
 end
 
-
-
-@with_kw struct ChargedWormholeSpacetimeRegularCoordinates <: WormholeSpacetime
+@with_kw struct ChargedWormholeSpacetimeRegularCoordinates <: AbstractChargedWormholeSpacetime
     
     b0::Float64
     Q::Float64
@@ -137,16 +131,15 @@ end
 
 end
 
-function get_wormhole_radius(l, spacetime::WormholeSpacetime)
+function radius(position, spacetime::ChargedWormholeSpacetimeRegularCoordinates)
+    t, l, θ, φ = position
 
     b0 = spacetime.b0
     Q = spacetime.Q
-
     return sqrt(l^2+b0^2-Q^2)
-
 end
 
-coordinate_system_class(spacetime::ChargedWormholeSpacetimeRegularCoordinates) = SphericalClass()
+coordinates_topology(::ChargedWormholeSpacetimeRegularCoordinates) = SphericalTopology()
 
 function set_metric!(g, point, spacetime::ChargedWormholeSpacetimeRegularCoordinates)
         
@@ -214,7 +207,7 @@ function set_metric_inverse!(g, point, spacetime::ChargedWormholeSpacetimeRegula
     
 end
 
-function set_christoffel!(Γ, position, spacetime::ChargedWormholeSpacetimeRegularCoordinates, cache)
+function set_christoffel!(Γ, position, spacetime::ChargedWormholeSpacetimeRegularCoordinates)
 
     #Spacetime coordinates
     t, l, θ, φ = position

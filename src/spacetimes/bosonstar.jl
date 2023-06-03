@@ -1,18 +1,14 @@
-export BosonStarSpacetime
-
 #TODO add reference
 
-@with_kw struct BosonStarSpacetime <: AnalyticSpacetime
-
+@with_kw struct BosonStarSpacetime <: AbstractRegularCompactObjectSpacetime
     a::Vector{Float64}
     b::Vector{Float64}
-
 end
 
-coordinate_system_class(spacetime::BosonStarSpacetime) = SphericalClass() 
+coordinates_topology(::BosonStarSpacetime) = SphericalTopology() 
+radius(position, ::BosonStarSpacetime) = position[2]
 
 function set_metric!(g, point, spacetime::BosonStarSpacetime)
-        
     t, r, θ, φ = point
 
     a = spacetime.a
@@ -39,11 +35,9 @@ function set_metric!(g, point, spacetime::BosonStarSpacetime)
     g[4,4]= r^2*sin(θ)^2
     
     return nothing
-
 end
 
 function set_metric_inverse!(g, point, spacetime::BosonStarSpacetime)
-        
     t, r, θ, φ = point
 
     a = spacetime.a
@@ -70,15 +64,11 @@ function set_metric_inverse!(g, point, spacetime::BosonStarSpacetime)
     g[4,4]= 1.0/(r^2*sin(θ)^2)
     
     return nothing
-
 end
 
-struct BosonStarChristoffelCache <: ChristoffelCache end
+allocate_christoffel_cache(::BosonStarSpacetime) = nothing
 
-allocate_christoffel_cache(spacetime::BosonStarSpacetime) = BosonStarChristoffelCache()
-
-function set_christoffel!(Γ, position, spacetime::BosonStarSpacetime, cache)
-
+function set_christoffel!(Γ, position, spacetime::BosonStarSpacetime)
     #Spacetime coordinates
     t, r, θ, φ = position
 
@@ -124,11 +114,9 @@ function set_christoffel!(Γ, position, spacetime::BosonStarSpacetime, cache)
     Γ[4,4,3] = Γ[4,3,4]
     
     return nothing
-
 end
 
-function circular_geodesic_angular_speed(position, spacetime::BosonStarSpacetime)
-
+function circular_geodesic_angular_speed(position, spacetime::BosonStarSpacetime, rotation_sense)
     #Spacetime coordinates
     t, r, θ, φ = position
 
@@ -145,6 +133,5 @@ function circular_geodesic_angular_speed(position, spacetime::BosonStarSpacetime
 
     Ω = sqrt(-∂r_gtt/∂r_gφφ)
 
-    return Ω
-
+    return sign(rotation_sense)*Ω
 end
