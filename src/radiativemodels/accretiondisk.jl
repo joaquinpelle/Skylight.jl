@@ -103,6 +103,8 @@ function temperature(position, spacetime, model::RARDisk)
     Min = mass_enclosed(rd_in, spacetime)
     dM = mass_enclosed_derivative(r, spacetime)
 
+    
+
     rref = CGS_to_geometrized(1e10, Dimensions.length, M1 = M1)
     
     R10 = r/rref
@@ -111,8 +113,8 @@ function temperature(position, spacetime, model::RARDisk)
     dm1_dR10 = dM*rref*M1
     
     Mdot16 = 0.1*1.39e18*4.075e6*m1*1e-16
-    
-    f = (1.0-(Min*rd_in/M*r)^0.5)^0.25
+   
+    f = (1.0-(Min*rd_in/(M*r))^0.5)^0.25
     g = (m1/R10+dm1_dR10)^(0.15)
     h = (1.0-R10/(3*m1)*dm1_dR10)^(-0.1)
     
