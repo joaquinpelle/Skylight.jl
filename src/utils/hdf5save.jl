@@ -23,23 +23,15 @@ The file will be organized as follows:
 # Returns
 * Nothing.
 """
-
-function save_to_hdf5(filename::String, configurations::AbstractConfigurations, initial_data::Array, runs::Array{T,}) where {T<:Run}
-    
-    mode = isfile(filename) ? "r+" : "w"
-
+function save_to_hdf5(filename::String, configurations::AbstractConfigurations, initial_data::Array, runs::Array{T,}; mode="r+" ) where {T<:Run}
     h5open(filename, mode) do file
-
-        # Save initial data
         write(file, "initial_data", initial_data)
-        # Save configurations
         save_obj_to_hdf5(file, "configs", configurations)
-        # Save runs
         save_runs_to_hdf5(file, runs)
     end
 end
 
-save_to_hdf5(filename::String, configurations::AbstractConfigurations, initial_data::Matrix, run::Run) = save_to_hdf5(filename, configurations, initial_data, [run])
+save_to_hdf5(filename::String, configurations::AbstractConfigurations, initial_data::Matrix, run::Run; mode="r+") = save_to_hdf5(filename, configurations, initial_data, [run]; mode=mode)
 
 """
     append_runs_to_hdf5(filename::String, runs::Vector{Tuple{AbstractArray, Any, Any, Dict{Symbol,}}})
@@ -65,14 +57,10 @@ append_runs_to_hdf5(filename, runs)
 """
 
 function append_runs_to_hdf5(filename::String, runs::Array{T,}) where {T<:Run}
-    
     h5open(filename, "r+") do file
         # Count the number of existing runs
         num_runs = count(k -> startswith(k, "run_"), keys(file))
-
-        # Save runs
         save_runs_to_hdf5(file, runs, num_runs=num_runs)
-
     end
 end
 
