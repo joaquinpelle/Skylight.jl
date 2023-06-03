@@ -79,23 +79,19 @@ end
 
 
 function tangent_vector_zaxis_rotation!(vector, position, angular_speed, metric, ::CartesianTopology)
-    
     vector[1] =  1.0
     vector[2] = -angular_speed*position[3]
     vector[3] =  angular_speed*position[2]
     vector[4] =  0.0
 
     normalize_timelike!(vector,metric)
-
 end
 
 function tangent_vector_zaxis_rotation!(vector, position, angular_speed, metric, ::SphericalTopology)
-    
     vector[1] =  1.0
     vector[2] =  0.0
     vector[3] =  0.0
     vector[4] =  angular_speed
 
     normalize_timelike!(vector,metric)
-
 end

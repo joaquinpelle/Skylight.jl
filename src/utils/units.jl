@@ -8,7 +8,6 @@
 @kwmethod CGS_to_geometrized(magnitude, dim, configurations::AbstractConfigurations;) = magnitude/geometrized_unit_magnitude_in_CGS(dim; M1=configurations.unit_mass_in_solar_masses)
 
 function geometrized_unit_magnitude_in_CGS(dim; M1)
-
     #Returns the value in CGS of the geometrized system unit of dimension dim
     #M1 is the chosen unit mass in solar masses 
 
@@ -21,5 +20,4 @@ function geometrized_unit_magnitude_in_CGS(dim; M1)
     T1_cgs = L1_cgs/c        #Geometrized unit time in CGS
 
     return L1_cgs^dim.L*M1_cgs^dim.M*T1_cgs^dim.T
-
 end
