@@ -59,7 +59,7 @@ Returns: the volume element.
 """
 function volume_element(position, spacetime::AbstractSpacetime, g)
     set_metric!(g, position, spacetime)
-    return sqrt(-det_4x4_symmetric(g))
+    return sqrt(-determinant_4x4_symmetric(g))
 end
 
 @inline sign(::ProgradeRotation) = 1.0

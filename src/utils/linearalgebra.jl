@@ -62,7 +62,7 @@ Parameters:
 
 Returns: the determinant of the input matrix.
 """
-function det_4x4_symmetric(matrix)
+function determinant_4x4_symmetric(matrix)
 
     a, b, c, d = matrix[1, 1], matrix[1, 2], matrix[1, 3], matrix[1, 4]
     e, f, g = matrix[2, 2], matrix[2, 3], matrix[2, 4]
