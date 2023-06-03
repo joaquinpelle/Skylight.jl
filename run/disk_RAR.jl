@@ -4,23 +4,19 @@ using Printf
 
 M1 = 1.02e7 #Unit mass in solar masses
 energies = [200] #energies in keV of the fermion
-inclinations = [5] #inclinations in degrees of the observer
+inclinations = [5, 25, 45, 65, 85] #inclinations in degrees of the observer
 Nres = 10 #number of pixels per side of the image
 srsat = 150 #side of the image plane in units of Rsat
 
-inner_radii = Dict("r0"=>1.654835e+06, "rsat"=>1.980475e+12)
-
-for (rname, rd_in) in inner_radii
-    inner_radii[rname] = CGS_to_geometrized(rd_in, Dimensions.length, M1=M1)
-end
-    
-rsat = inner_radii["rsat"]
+rsat = 1.980475e+12
+rsat = CGS_to_geometrized(rsat, Dimensions.length, M1=M1) 
 rd_out = 1e3*rsat
 
 for E in energies
 
     spacetime = RARSpacetime(data_dir = "io/$(E)keV")
     r_inf, r_sup = radial_bounds(spacetime)
+    inner_radii = Dict("r0"=>2*r_inf, "rsat"=>rsat)
 
     for ξ in inclinations
         for (rname, rd_in) in inner_radii
@@ -50,7 +46,7 @@ for E in energies
 
             run = integrate(initial_data, configurations, cb, cb_params; method=VCABM(), reltol=1e-13, abstol=1e-21)
 
-            save_to_hdf5("io/RAR/$(filename).h5", configurations, initial_data, run)        
+            save_to_hdf5("io/RAR/$(filename).h5", configurations, initial_data, run; mode="w")        
             
             output_data = run.output_data
 
