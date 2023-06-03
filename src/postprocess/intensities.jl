@@ -4,8 +4,8 @@
 Compute observed bolometric intensities and energy quotients for a set of rays defined by the initial and final conditions. The function also checks whether the final position of each ray is at the source, in which case it proceeds with computation, else it skips to the next ray and the values are set to zero.
 
 # Arguments
-- `initial_data::Matrix`: A matrix containing the initial data of the rays. The first four entries for each ray represent the initial position, while entries five to eight represent the initial momentum.
-- `output_data::Matrix`: A matrix containing the final data of the rays. The first four entries for each ray represent the final position, while entries five to eight represent the final momentum.
+- `initial_data::AbstractMatrix`: A matrix containing the initial data of the rays. The first four entries for each ray represent the initial position, while entries five to eight represent the initial momentum.
+- `output_data::AbstractMatrix`: A matrix containing the final data of the rays. The first four entries for each ray represent the final position, while entries five to eight represent the final momentum.
 - `configurations::VacuumOTEConfigurations`: The configurations with which the initial and output data were obtained.
 
 # Returns
@@ -15,7 +15,7 @@ Compute observed bolometric intensities and energy quotients for a set of rays d
 # Notes
     Output units are CGS.
 """
-function observed_bolometric_intensities(initial_data, output_data, configurations::VacuumOTEConfigurations)
+function observed_bolometric_intensities(initial_data::AbstractMatrix, output_data::AbstractMatrix, configurations::VacuumOTEConfigurations)
 
     spacetime = configurations.spacetime
     model = configurations.radiative_model
@@ -62,8 +62,8 @@ end
 Compute observed specific intensities and energy quotients for a set of rays defined by the initial and final conditions. The function also checks whether the final position of each ray is at the source, in which case it proceeds with computation, else it skips to the next ray and the values are set to zero.
 
 # Arguments
-- `initial_data::Matrix`: A matrix containing the initial data of the rays. The first four entries for each ray represent the initial position, while entries five to eight represent the initial momentum.
-- `output_data::Matrix`: A matrix containing the final data of the rays. The first four entries for each ray represent the final position, while entries five to eight represent the final momentum.
+- `initial_data::AbstractMatrix`: A matrix containing the initial data of the rays. The first four entries for each ray represent the initial position, while entries five to eight represent the initial momentum.
+- `output_data::AbstractMatrix`: A matrix containing the final data of the rays. The first four entries for each ray represent the final position, while entries five to eight represent the final momentum.
 - `configurations::VacuumOTEConfigurations`: The configurations with which the initial and output data were obtained.
 - `observed_energies::Vector`: A vector of energies in CGS units at which the specific intensities are to be computed.
 
@@ -74,7 +74,7 @@ Compute observed specific intensities and energy quotients for a set of rays def
 # Notes
     Input energy units must be CGS. Output units are CGS.
 """
-function observed_specific_intensities(initial_data, output_data, configurations::VacuumOTEConfigurations, observed_energies)
+function observed_specific_intensities(initial_data::AbstractMatrix, output_data::AbstractMatrix, configurations::VacuumOTEConfigurations, observed_energies)
     spacetime = configurations.spacetime
     model = configurations.radiative_model
     coords_top = coordinates_topology(spacetime)

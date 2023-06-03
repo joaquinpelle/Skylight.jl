@@ -21,8 +21,8 @@ Compute the binned intensity of a line emission spectrum.
 - `bins`: Array of the bin edges.
 """
 function line_emission_spectrum(
-    initial_data, 
-    output_data, 
+    initial_data::AbstractMatrix, 
+    output_data::AbstractMatrix, 
     configurations::VacuumOTEConfigurations; 
     emission_profile::Function, 
     num_bins::Union{Int,Nothing}=nothing,
