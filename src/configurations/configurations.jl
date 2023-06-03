@@ -1,5 +1,4 @@
-include("imageplane.jl")
-include("pinholecamera.jl")
+include("camera.jl")
 
 function my_zeros(configurations::NonVacuumConfigurations)
     NE = length(configurations.observed_energies)
