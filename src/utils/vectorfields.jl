@@ -52,6 +52,7 @@ function rotation_generators!(vectors, position, ::CartesianTopology)
 end
 
 function zaxis_rotation_generator!(v, position, ::CartesianTopology)
+    fill!(v, 0.0)
     t, x, y, z = position
     v[2] = y
     v[3] = -x
