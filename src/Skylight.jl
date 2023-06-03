@@ -127,6 +127,26 @@ export is_final_position_at_observer,
     get_pixel_coordinates_vectors, 
     view_as_grid
 
+export contract
+    lower_index,
+    raise_index,
+    scalar_product,
+    norm_squared,
+    normalize_timelike!,
+    normalize_spacelike!,
+    orthogonal_projection,
+    cos_angle_between_vectors,
+    cos_angle_between_null_vectors
+    
+export inverse_4x4_symmetric!,
+    determinant_4x4_symmetric
+
+export planck_function,
+    planck_integral,
+    thermal_emission_window_intensity,
+    thermal_emission_window_specific_intensity,
+    thermal_emission_window_bolometric_intensity
+
 export save_to_hdf5,
     append_runs_to_hdf5,
     load_initial_data_from_hdf5,
@@ -137,7 +157,13 @@ export save_to_hdf5,
     load_kwargs_from_hdf5,
     load_callback_from_hdf5
     
-export tangent_vector_zaxis_rotation!
+export time_translation_generator,
+    time_translation_generator!,
+    rotation_generators,
+    rotation_generators!,
+    zaxis_rotation_generator,
+    zaxis_rotation_generator!, 
+    tangent_vector_zaxis_rotation!
 
 export PhysicalConstants,
     Dimensions
