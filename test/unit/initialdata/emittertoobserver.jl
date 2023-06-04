@@ -16,8 +16,8 @@ using Skylight
         end
 
         model = DummyExtendedRegion()
-
-        Skylight.set_unit_random_triad_components!(kμ, model)
+        trait = is_opaque_interior_surface_trait(model)
+        Skylight.set_packets_unit_random_triad_components!(kμ, trait)
 
         for i in 1:Nvectors
             @test kμ[1,i] ≈ 1.0
@@ -30,8 +30,9 @@ using Skylight
                                         misalignment_angle_in_degrees=90,
                                         angular_radius_in_degrees=60, 
                                         temperature=rand())
-
-        Skylight.set_unit_random_triad_components!(kμ, model)
+        
+        trait = is_opaque_interior_surface_trait(model)
+        Skylight.set_packets_unit_random_triad_components!(kμ, trait)
 
         for i in 1:Nvectors
             @test kμ[1,i] ≈ 1.0
@@ -80,7 +81,7 @@ end
 
     @views kμ = packets[1:4,1:10]
 
-    Skylight.set_momenta!(kμ, tetrad, model)
+    Skylight.set_packets_momenta!(kμ, tetrad, model)
 
     for i in 1:10
         @test Skylight.norm_squared(kμ[:,i], cache.metric) ≈ 0.0 atol=1e-13 
