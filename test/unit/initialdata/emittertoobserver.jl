@@ -16,7 +16,7 @@ using Skylight
         end
 
         model = DummyExtendedRegion()
-        trait = is_opaque_interior_surface_trait(model)
+        trait = opaque_interior_surface_trait(model)
         Skylight.set_packets_unit_random_triad_components!(kμ, trait)
 
         for i in 1:Nvectors
@@ -31,7 +31,7 @@ using Skylight
                                         angular_radius_in_degrees=60, 
                                         temperature=rand())
         
-        trait = is_opaque_interior_surface_trait(model)
+        trait = opaque_interior_surface_trait(model)
         Skylight.set_packets_unit_random_triad_components!(kμ, trait)
 
         for i in 1:Nvectors

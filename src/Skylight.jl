@@ -95,7 +95,8 @@ export set_emitter_four_velocity!,
     set_surface_differential!,
     emitted_bolometric_intensity,
     emitted_specific_intensity,
-    is_final_position_at_source
+    is_final_position_at_source,
+    opaque_interior_surface_trait
 
 export AbstractCamera,
     PinholeCamera,
