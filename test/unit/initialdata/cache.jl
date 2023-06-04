@@ -4,7 +4,7 @@ using Skylight, Test
     
     @testset "Unpack views" begin
         
-        cache = Skylight.OTEInitialDataCache()
+        cache = Skylight.ImagePlaneCache()
         spacetime = MinkowskiSpacetimeCartesianCoordinates()
         position = rand(4)
 
@@ -42,7 +42,7 @@ using Skylight, Test
 
         @testset "Observer to emitter" begin
 
-            cache = Skylight.OTEInitialDataCache()
+            cache = Skylight.ImagePlaneCache()
             Skylight.dump_∂t_in!(cache)
             @test cache.vector == [1.0, 0.0, 0.0, 0.0]
             @test cache.metric == zeros(4,4)

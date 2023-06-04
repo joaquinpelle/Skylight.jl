@@ -36,7 +36,7 @@ using Skylight, Test
             momentum = rand(4)
             momentum[1] = 0.0
 
-            cache = Skylight.OTEInitialDataCache()
+            cache = Skylight.ImagePlaneCache()
             Skylight.dump_∂t_in!(cache)
             Skylight.dump_metric_in!(cache,position,spacetime)
 
@@ -85,7 +85,7 @@ using Skylight, Test
 
         ray = zeros(8)
         pixel_coordinates = (1.0, 1.0)
-        cache = Skylight.OTEInitialDataCache()
+        cache = Skylight.ImagePlaneCache()
         Skylight.dump_∂t_in!(cache)
 
         Skylight.initialize_single!(ray,initial_time,pixel_coordinates,configurations,cache)
