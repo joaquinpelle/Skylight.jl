@@ -23,8 +23,9 @@ function initialize_single!(ray, initial_time, pixel_coordinates, configurations
         space_momentum = ray[6:8]
     end
     
+    spacetime = configurations.spacetime
     image_plane = configurations.camera
-    coords_top = coordinates_topology(configurations.spacetime)
+    coords_top = coordinates_topology(spacetime)
 
     ray[1] = initial_time  
     space_position .= space_position_from(pixel_coordinates,image_plane,coords_top)
