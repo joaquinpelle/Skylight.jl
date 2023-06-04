@@ -17,15 +17,16 @@ Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 Reexport = "189a3867-3050-52da-a836-e630ba90ab69"
 
 [compat]
-julia = "1.1"
 DataInterpolations = "4"
 DelimitedFiles = "1"
-DifferentialEquations = "7" 
+DifferentialEquations = "7"
 ForwardDiff = "0.10"
 HDF5 = "0.16"
 KeywordDispatch = "0.3"
 Parameters = "0.12"
+PreallocationTools = "0.4"
 Reexport = "1"
+julia = "1.1"
 
 [extras]
 SafeTestsets = "1bc83da4-3b8d-516f-aca4-4fe02f6d838f"
