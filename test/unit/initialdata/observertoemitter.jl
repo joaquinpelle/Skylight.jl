@@ -67,8 +67,8 @@ using Skylight, Test
 
         camera = ImagePlane(distance = sqrt(7.0),
                                     observer_inclination_in_degrees = 90.0,
-                                    horizontal_side = 1.0,
-                                    vertical_side = 1.0,
+                                    horizontal_side = 3.0,
+                                    vertical_side = 3.0,
                                     horizontal_number_of_pixels = 3,
                                     vertical_number_of_pixels = 3)
         
@@ -107,8 +107,8 @@ using Skylight, Test
 
         camera = ImagePlane(distance = 3,
                                     observer_inclination_in_degrees = 90.0,
-                                    horizontal_side = 1.0,
-                                    vertical_side = 1.0,
+                                    horizontal_side = 3.0,
+                                    vertical_side = 3.0,
                                     horizontal_number_of_pixels = 3,
                                     vertical_number_of_pixels = 3)
         
@@ -135,8 +135,8 @@ using Skylight, Test
 
         @test ray[1] ==  0.1
         @test ray[2] ≈   3.0
-        @test ray[3] ≈  -0.5
-        @test ray[4] ≈  -0.5 atol=1e-15
+        @test ray[3] ≈  -1.0
+        @test ray[4] ≈  -1.0 atol=1e-15
         @test ray[5] == -1.0
         @test ray[7] ≈   0.0
         @test ray[8] ≈   0.0  atol=1e-15
