@@ -1,6 +1,6 @@
 """
-    Builds a bundle of rays set on a tetrad at the camera position. The tetrad has the normalized ∂t as time vector and the central direction
-    projected orthogonally to the time vector as the first spatial vector. The rays have unit energy in this tetrad. 
+    Sets the bundle of rays at the camera position. The rays are initialized on a tetrad which has a static four-velocity and 
+    a spherical-like spatial triad. The rays have unit energy in this tetrad. 
     See docs/pinholecamera.md for more details"""
 function get_initial_data(camera::PinholeCamera, configurations::AbstractOTEConfigurations)
     cache = get_initial_data_cache(camera)
