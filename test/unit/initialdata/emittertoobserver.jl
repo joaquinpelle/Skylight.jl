@@ -72,7 +72,7 @@ end
     @test Skylight.scalar_product(tetrad[:,4], tetrad[:,4], cache.metric) ≈ 1.0 atol = 1e-13
 
     @views xμ = packets[1:4,1:10]
-    Skylight.set_packets_position!(xμ,position)
+    Skylight.set_positions!(xμ,position)
 
     for i in 1:10
         @test xμ[:,i] == position
@@ -80,7 +80,7 @@ end
 
     @views kμ = packets[1:4,1:10]
 
-    Skylight.set_packets_momenta!(kμ, tetrad, model)
+    Skylight.set_momenta!(kμ, tetrad, model)
 
     for i in 1:10
         @test Skylight.norm_squared(kμ[:,i], cache.metric) ≈ 0.0 atol=1e-13 
