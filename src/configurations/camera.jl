@@ -42,6 +42,20 @@ function sides(camera::PinholeCamera)
     return sα, sβ
 end
 
+function all_pixel_solid_angles(camera::PinholeCamera)
+    Nα, _ = numbers_of_pixels_per_side(camera)
+    _, vecβ = get_pixel_coordinates_vectors(camera)
+    dα, dβ = grid_spacing(camera)
+
+    solid_angles = my_zeros(camera)
+    i=1
+    for β in vecβ
+        solid_angle[i:(i-1+Nα)] .=  2*cos(β)*sin(dβ/2)*dα
+        i+=Nα
+    end
+    return solid_angles
+end
+
 time(camera::PinholeCamera) = camera.position[1]
 
 get_initial_data_cache(::PinholeCamera) = PinholeCameraCache()
