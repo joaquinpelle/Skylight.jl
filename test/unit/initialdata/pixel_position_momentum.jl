@@ -15,7 +15,7 @@ using Skylight, Test
         
         pixel_coordinates = (1.0,1.0)
 
-        r,θ,φ = Skylight.space_position_from(pixel_coordinates,image_plane,coords_top)
+        r,θ,φ = Skylight.space_position_from(pixel_coordinates,camera,coords_top)
 
         @test r ≈ sqrt(3)
         @test θ ≈ acos(1/sqrt(3))
@@ -24,7 +24,7 @@ using Skylight, Test
         position_spherical = [r,θ,φ]
 
         coords_top = CartesianTopology()
-        position_cartesian = Skylight.space_position_from(pixel_coordinates,image_plane,coords_top)
+        position_cartesian = Skylight.space_position_from(pixel_coordinates,camera,coords_top)
 
         @test position_cartesian[1] ≈ 1.0
         @test position_cartesian[2] ≈ 1.0
@@ -46,7 +46,7 @@ using Skylight, Test
         
         pixel_coordinates = (1.0,1.0)
 
-        r,θ,φ = Skylight.space_position_from(pixel_coordinates,image_plane,coords_top)
+        r,θ,φ = Skylight.space_position_from(pixel_coordinates,camera,coords_top)
 
         @test r ≈ sqrt(3)
         @test θ ≈ acos(1/sqrt(3))
@@ -55,7 +55,7 @@ using Skylight, Test
         position_spherical = [r,θ,φ]
 
         coords_top = CartesianTopology()
-        position_cartesian = Skylight.space_position_from(pixel_coordinates,image_plane,coords_top)
+        position_cartesian = Skylight.space_position_from(pixel_coordinates,camera,coords_top)
 
         @test position_cartesian[1] ≈ -1.0
         @test position_cartesian[2] ≈  1.0
@@ -83,22 +83,22 @@ end
                                 
         pixel_coordinates = (1.0,1.0)
         
-        space_position = Skylight.space_position_from(pixel_coordinates,image_plane,coords_top)
-        space_momentum = Skylight.space_momentum_from(pixel_coordinates,image_plane,coords_top)
+        space_position = Skylight.space_position_from(pixel_coordinates,camera,coords_top)
+        space_momentum = Skylight.space_momentum_from(pixel_coordinates,camera,coords_top)
         
         @test space_momentum[1] ≈ 0.0 atol=1e-15
         @test space_momentum[2] ≈ 0.0
         @test space_momentum[3] ≈ 1.0 atol=1e-15
         
         center_pixel_coordinates = (0.0,0.0)
-        center_space_position = Skylight.space_position_from(center_pixel_coordinates,image_plane,coords_top)
+        center_space_position = Skylight.space_position_from(center_pixel_coordinates,camera,coords_top)
 
         @test space_momentum'*(space_position-center_space_position) ≈ 0.0  atol=1e-15
 
         coords_top = SphericalTopology()
         
-        space_position = Skylight.space_position_from(pixel_coordinates,image_plane,coords_top)
-        space_momentum = Skylight.space_momentum_from(pixel_coordinates,image_plane,coords_top)
+        space_position = Skylight.space_position_from(pixel_coordinates,camera,coords_top)
+        space_momentum = Skylight.space_momentum_from(pixel_coordinates,camera,coords_top)
 
         @test space_momentum[1] ≈  1.0/sqrt(3)
         @test space_momentum[2] ≈ -sqrt(2)/3
@@ -119,22 +119,22 @@ end
                                 
         pixel_coordinates = (1.0,1.0)
         
-        space_position = Skylight.space_position_from(pixel_coordinates,image_plane,coords_top)
-        space_momentum = Skylight.space_momentum_from(pixel_coordinates,image_plane,coords_top)
+        space_position = Skylight.space_position_from(pixel_coordinates,camera,coords_top)
+        space_momentum = Skylight.space_momentum_from(pixel_coordinates,camera,coords_top)
         
         @test space_momentum[1] ≈  1.0
         @test space_momentum[2] ≈  0.0
         @test space_momentum[3] ≈  0.0 atol=1e-15
         
         center_pixel_coordinates = (0.0,0.0)
-        center_space_position = Skylight.space_position_from(center_pixel_coordinates,image_plane,coords_top)
+        center_space_position = Skylight.space_position_from(center_pixel_coordinates,camera,coords_top)
 
         @test space_momentum'*(space_position-center_space_position) ≈ 0.0  atol=1e-15
 
         coords_top = SphericalTopology()
         
-        space_position = Skylight.space_position_from(pixel_coordinates,image_plane,coords_top)
-        space_momentum = Skylight.space_momentum_from(pixel_coordinates,image_plane,coords_top)
+        space_position = Skylight.space_position_from(pixel_coordinates,camera,coords_top)
+        space_momentum = Skylight.space_momentum_from(pixel_coordinates,camera,coords_top)
 
         @test space_momentum[1] ≈ 1.0/sqrt(3)
         @test space_momentum[2] ≈ 1/(3*sqrt(2))

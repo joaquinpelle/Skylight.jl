@@ -11,8 +11,8 @@ using Skylight, Test
                                     horizontal_number_of_nodes = 3,
                                     vertical_number_of_nodes = 3)
 
-        @test Skylight.pixel_area(image_plane) == 0.25
-        @test Skylight.area(image_plane) == 2.25
+        @test Skylight.pixel_area(camera) == 0.25
+        @test Skylight.area(camera) == 2.25
 
     end
 
@@ -25,11 +25,11 @@ using Skylight, Test
                                     horizontal_number_of_nodes = 3,
                                     vertical_number_of_nodes = 3)
         
-        @test image_plane.observer_inclination_in_radians ≈ π/2
-        @test Skylight.pixel_area(image_plane) == 0.25
-        @test Skylight.area(image_plane) == 2.25
+        @test camera.observer_inclination_in_radians ≈ π/2
+        @test Skylight.pixel_area(camera) == 0.25
+        @test Skylight.area(camera) == 2.25
 
-        iterator1 = Skylight.get_pixel_coordinates(image_plane)
+        iterator1 = Skylight.get_pixel_coordinates(camera)
         iterator2 = Iterators.product([-0.5, 0.0, 0.5], [-0.5, 0.0, 0.5])
 
         @test collect(iterator1) == collect(iterator2)

@@ -79,7 +79,7 @@ using Skylight, Test
                                                 unit_mass_in_solar_masses=1.0)
 
         initial_time = configurations.observed_times[2]
-        image_plane = configurations.image_plane
+        camera = configurations.camera
         coords_top = coordinates_topology(spacetime)
         
 
