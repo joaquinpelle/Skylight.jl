@@ -1,4 +1,4 @@
-function set_triad!(triad, time_vector, metric)
+function set_random_triad!(triad, time_vector, metric)
     @views begin
         triad_time_components = triad[1,:]
         triad_space_components = triad[2:4,:]  
@@ -10,7 +10,7 @@ function set_triad!(triad, time_vector, metric)
     return nothing
 end
 
-function set_surface_adapted_triad!(triad, time_vector, position, metric, metric_inverse, model::AbstractRadiativeModel, coords_top)
+function set_surface_adapted_triad!(triad, time_vector, metric, metric_inverse, position, model::AbstractRadiativeModel, coords_top)
     @views begin
         triad_time_components = triad[1,:]
         normal = triad[:,1]
@@ -20,10 +20,49 @@ function set_surface_adapted_triad!(triad, time_vector, position, metric, metric
     
     fill!(triad_time_components,0.0)
     rand!(dyad_space_components)
-
     set_unit_surface_normal!(normal, position, metric, metric_inverse, model, coords_top) 
     orthonormalize!(triad, time_vector, metric)
     return nothing
+end
+
+function set_spherical_like_triad!(triad, position, time_vector, metric, ::CartesianTopology)
+    t, x, y, z = position
+    r = sqrt(x^2 + y^2 + z^2)
+    
+    fill!(triad, 0.0)    
+    @views begin
+        e1 = triad[2:4,1]
+        e2 = triad[2:4,2]
+        e3 = triad[2:4,3]
+    end
+
+    e1[1] = -x/r
+    e1[2] = -y/r
+    e1[3] = -z/r
+
+    if !(x==y==0.0)
+        e2[1] = -y/r
+        e2[2] =  x/r
+    else
+        e2[1] = 0.0
+        e2[2] = 1.0
+    end
+
+    e3 .= -cross(e1,e2)
+    orthonormalize!(triad, time_vector, metric)
+end
+
+function set_spherical_like_triad!(triad, position, time_vector, metric, ::SphericalTopology)
+    fill!(triad, 0.0)    
+    @views begin
+        e1 = triad[2:4,1]
+        e2 = triad[2:4,2]
+        e3 = triad[2:4,3]
+    end
+    e1[1] = -1.0
+    e2[3] =  1.0
+    e3[2] = -1.0
+    orthonormalize!(triad, time_vector, metric)
 end
 
 """

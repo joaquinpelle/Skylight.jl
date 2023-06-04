@@ -12,7 +12,7 @@ function get_initial_data(camera::PinholeCamera, configurations::AbstractOTEConf
     end
 
     position = camera.position
-    dump_metric_and_tetrad_in!(cache, position, configurations)
+    set_metric_and_tetrad!(cache, position, configurations)
     
     @views tetrad = cache.tetrad
 

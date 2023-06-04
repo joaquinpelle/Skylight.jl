@@ -78,6 +78,12 @@ function zaxis_rotation_generator!(v, position, ::SphericalTopology)
 end
 
 
+function set_static_four_velocity_in!(vector, metric)
+    vector .= ∂t()
+    normalize_timelike!(vector, metric)
+    return nothing
+end
+
 function tangent_vector_zaxis_rotation!(vector, position, angular_speed, metric, ::CartesianTopology)
     
     vector[1] =  1.0
@@ -86,7 +92,7 @@ function tangent_vector_zaxis_rotation!(vector, position, angular_speed, metric,
     vector[4] =  0.0
 
     normalize_timelike!(vector,metric)
-
+    return nothing
 end
 
 function tangent_vector_zaxis_rotation!(vector, position, angular_speed, metric, ::SphericalTopology)
@@ -97,5 +103,5 @@ function tangent_vector_zaxis_rotation!(vector, position, angular_speed, metric,
     vector[4] =  angular_speed
 
     normalize_timelike!(vector,metric)
-
+    return nothing
 end
