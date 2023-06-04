@@ -67,13 +67,8 @@ using Skylight, Test
 
         camera = ImagePlane(distance = sqrt(7.0),
                                     observer_inclination_in_degrees = 90.0,
-<<<<<<< HEAD
-                                    horizontal_side = 1.0,
-                                    vertical_side = 1.0,
-=======
                                     horizontal_side = 3.0,
                                     vertical_side = 3.0,
->>>>>>> pinhole
                                     horizontal_number_of_pixels = 3,
                                     vertical_number_of_pixels = 3)
         

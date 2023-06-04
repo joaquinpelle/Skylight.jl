@@ -36,11 +36,7 @@ end
 
 function number_of_initial_conditions(configurations::AbstractOTEConfigurations)
     number_of_times = length(configurations.observed_times)
-<<<<<<< HEAD
-    return total_number_of_pixels(configurations.image_plane)*number_of_times 
-=======
     return number_of_pixels(configurations.camera)*number_of_times  
->>>>>>> pinhole
 end
 
 function number_of_initial_conditions(configurations::AbstractETOConfigurations)
