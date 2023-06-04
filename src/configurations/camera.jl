@@ -56,7 +56,16 @@ function all_pixel_solid_angles(camera::PinholeCamera)
     return solid_angles
 end
 
-time(camera::PinholeCamera) = camera.position[1]
+function default_tetrad(camera::PinholeCamera, configurations::AbstractOTEConfigurations, t)
+    cache = get_initial_data_cache(camera)
+    position = coyp(camera.position)
+    position[1] += t
+    set_metric_and_tetrad!(cache, position, configurations)
+    return cache.tetrad
+end
+
+default_four_velocity(camera::PinholeCamera, configurations::AbstractOTEConfigurations, t) = default_tetrad(camera, configurations, t)[:,1]
+default_normal(camera::PinholeCamera, configurations::AbstractOTEConfigurations, t) = default_tetrad(camera, configurations, t)[:,2]
 
 get_initial_data_cache(::PinholeCamera) = PinholeCameraCache()
 
