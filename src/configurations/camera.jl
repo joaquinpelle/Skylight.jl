@@ -6,31 +6,36 @@ end
 
 function get_pixel_coordinates_vectors(camera::AbstractCamera)
     sα, sβ = sides(camera)
-    Nα, Nβ = numbers_of_nodes_per_side(camera)
-    return range(-0.5*sα, stop=0.5*sα; length=Nα), range(-0.5*sβ, stop=0.5*sβ; length=Nβ)
+    Nα, Nβ = numbers_of_pixels_per_side(camera)
+    dα, dβ = grid_spacing(camera)
+    return range(-0.5*sα+0.5*dα, stop=0.5*sα-0.5*dα; length=Nα), range(-0.5*sβ+0.5*dβ, stop=0.5*sβ-0.5*dβ; length=Nβ)
 end
 
 function grid_spacing(camera::AbstractCamera)
     sα, sβ = sides(camera)
-    Nα, Nβ = numbers_of_nodes_per_side(camera)
-
-    dα = sα/(Nα-1)
-    dβ = sβ/(Nβ-1)
+    Nα, Nβ = numbers_of_pixels_per_side(camera)
+    dα = sα/Nα
+    dβ = sβ/Nβ
     return dα, dβ
 end
 
-function number_of_nodes(camera::AbstractCamera)
-    Nα, Nβ = numbers_of_nodes_per_side(camera)
+function number_of_pixels(camera::AbstractCamera)
+    Nα, Nβ = numbers_of_pixels_per_side(camera)
     return Nα*Nβ
 end
 
-function numbers_of_nodes_per_side(camera::AbstractCamera)
+function numbers_of_pixels_per_side(camera::AbstractCamera)
     Nα = camera.horizontal_number_of_nodes
     Nβ = camera.vertical_number_of_nodes
     return Nα, Nβ
 end
 
 #PinholeCamera methods
+function solid_angle(camera::PinholeCamera)
+    sα, sβ = sides(camera)
+    return 2*sα*sin(sβ/2)
+end
+
 function sides(camera::PinholeCamera)
     sα = camera.horizontal_aperture_in_radians
     sβ = camera.vertical_aperture_in_radians
@@ -43,9 +48,8 @@ get_initial_data_cache(::PinholeCamera) = PinholeCameraCache()
 
 #ImagePlane methods
 function area(image_plane::ImagePlane)
-    Nα, Nβ = numbers_of_nodes_per_side(image_plane)
-    dA = pixel_area(image_plane)
-    return Nα*Nβ*dA
+    sα, sβ = sides(image_plane)
+    return sα*sβ
 end
 
 function pixel_area(image_plane::ImagePlane)
@@ -64,7 +68,5 @@ function get_rmax(image_plane::ImagePlane)
     sα, sβ = sides(image_plane)
     return 1.1*sqrt(d^2 + sα^2 + sβ^2)
 end
-
-time(image_plane::ImagePlane) = 0.0
 
 get_initial_data_cache(::ImagePlane) = ImagePlaneCache()
