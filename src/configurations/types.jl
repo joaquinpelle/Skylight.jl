@@ -34,24 +34,20 @@ end
 end
 
 @with_kw struct VacuumOTEConfigurations{S<:AbstractSpacetime, M<:AbstractRadiativeModel, C<:AbstractCamera} <: AbstractOTEConfigurations
-    
     spacetime::S
     radiative_model::M
     camera::C
     observed_times::Vector{Float64}
     unit_mass_in_solar_masses::Float64
-
 end
 
 @with_kw struct VacuumETOConfigurations{S<:AbstractSpacetime, M<:AbstractRadiativeModel} <: AbstractETOConfigurations
-    
     spacetime::S
     radiative_model::M
     number_of_points::Int
     number_of_packets_per_point::Int
     observer_distance::Float64
     unit_mass_in_solar_masses::Float64
-
 end
 
 VacuumConfigurations = Union{VacuumETOConfigurations, VacuumOTEConfigurations}
