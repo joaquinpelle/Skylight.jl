@@ -12,7 +12,7 @@ abstract type AbstractCamera end
     horizontal_number_of_pixels::Int
     vertical_number_of_pixels::Int
     @assert 0 < distance
-    @assert 0 < observer_inclination_in_degrees <= 180
+    @assert 0 <= observer_inclination_in_degrees <= 180
     @assert 0 < horizontal_side
     @assert 0 < vertical_side 
     @assert 0 < horizontal_number_of_pixels
