@@ -1,4 +1,3 @@
-
 """
     Builds a bundle of rays set on a tetrad at the camera position. The tetrad has the normalized ∂t as time vector and the central direction
     projected orthogonally to the time vector as the first spatial vector. The rays have unit energy in this tetrad"""
@@ -19,16 +18,7 @@ function get_initial_data(camera::PinholeCamera, configurations::AbstractOTEConf
 
     set_rays_position!(xμ, position)
     set_rays_momenta!(kμ, tetrad, camera)
-
-    index = 1
-    for initial_time in observed_times(configurations) #TODO in the case of the PinholeCamera this should add to the position[1] of camera
-        for pixel_coordinates in get_pixel_coordinates(camera) 
-            @views ray = rays[1:8, index]
-            initialize_single!(ray, initial_time, pixel_coordinates, spacetime, camera, cache)
-            index += 1
-        end
-    end
-
+    #TODO in the case of the PinholeCamera this should add to the position[1] of camera
     return rays
 end
 

@@ -32,12 +32,14 @@ end
 
 #PinholeCamera methods
 function sides(camera::PinholeCamera)
-    sα = camera.horizontal_aperture
-    sβ = camera.vertical_aperture
+    sα = camera.horizontal_aperture_in_radians
+    sβ = camera.vertical_aperture_in_radians
     return sα, sβ
 end
 
 time(camera::PinholeCamera) = camera.position[1]
+
+get_initial_data_cache(::PinholeCamera) = PinholeCameraCache()
 
 #ImagePlane methods
 function area(image_plane::ImagePlane)
@@ -64,3 +66,5 @@ function get_rmax(image_plane::ImagePlane)
 end
 
 time(image_plane::ImagePlane) = 0.0
+
+get_initial_data_cache(::ImagePlane) = ImagePlaneCache()

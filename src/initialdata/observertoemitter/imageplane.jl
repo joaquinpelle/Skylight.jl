@@ -1,23 +1,21 @@
-function get_initial_data(configurations::AbstractOTEConfigurations)
+function get_initial_data(image_plane::ImagePlane, configurations::AbstractOTEConfigurations)
     rays = my_zeros(configurations)
     cache = get_initial_data_cache(configurations)
 
     dump_∂t_in!(cache)
     
     index = 1
-    
-    for initial_time in observed_times(configurations) #TODO in the case of the PinholeCamera this should add to the position[1] of camera
-        for pixel_coordinates in get_pixel_coordinates(configurations.camera)  
+    for initial_time in observed_times(configurations) 
+        for pixel_coordinates in get_pixel_coordinates(image_plane) 
             @views ray = rays[1:8, index]
-            initialize_single!(ray, initial_time, pixel_coordinates, configurations, cache)
+            initialize_single!(ray, initial_time, pixel_coordinates, spacetime, image_plane, cache)
             index += 1
         end
     end
-
     return rays
 end
 
-function initialize_single!(ray, initial_time, pixel_coordinates, configurations, cache)
+function initialize_single!(ray, initial_time, pixel_coordinates, spacetime, image_plane::ImagePlane, cache)
     @views begin 
         position = ray[1:4]
         space_position = ray[2:4]
@@ -25,21 +23,15 @@ function initialize_single!(ray, initial_time, pixel_coordinates, configurations
         space_momentum = ray[6:8]
     end
     
-    spacetime = configurations.spacetime
-    camera = configurations.camera
     coords_top = coordinates_topology(spacetime)
 
-    camera_time = time(camera)
-
-    ray[1] = initial_time + camera_time
-    space_position .= space_position_from(pixel_coordinates,camera,coords_top)
-    space_momentum .= space_momentum_from(pixel_coordinates,camera,coords_top)
+    ray[1] = initial_time  
+    space_position .= space_position_from(pixel_coordinates,image_plane,coords_top)
+    space_momentum .= space_momentum_from(pixel_coordinates,image_plane,coords_top)
 
     dump_metric_in!(cache,position,spacetime)
     set_null_ingoing_past_directed!(momentum,cache)
 end
-
-space_position_from(::Any, camera::PinholeCamera, ::AbstractCoordinatesTopology) = camera.position[2:4]
 
 function space_position_from(pixel_coordinates, image_plane::ImagePlane, ::CartesianTopology)
 
@@ -75,11 +67,6 @@ function space_position_from(pixel_coordinates, image_plane::ImagePlane, ::Spher
 
 end
 
-#Space momentum for pinhole camera. The normal direction corresponds to (0,0) pixel coordinates.
-#Parameterize the solid angle as a spherical rectangle 
-function space_momentum_from(pixel_coordinates, camera::PinholeCamera, ::AbstractCoordinatesTopology)
-    
-end
 
 function space_momentum_from(pixel_coordinates, image_plane::ImagePlane, ::SphericalTopology)
 
