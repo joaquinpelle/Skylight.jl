@@ -37,8 +37,7 @@ using Skylight, Test
             momentum[1] = 0.0
 
             cache = Skylight.ImagePlaneCache()
-            Skylight.dump_∂t_in!(cache)
-            Skylight.dump_metric_in!(cache,position,spacetime)
+            Skylight.set_metric_and_four_velocity!(cache,position,spacetime)
 
             Skylight.set_null!(momentum,cache)
             
