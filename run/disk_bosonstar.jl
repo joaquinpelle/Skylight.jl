@@ -5,7 +5,7 @@ include("bosonstar_parameters.jl")
 
 spacetime = BosonStarSpacetime(a=a_LBS1,b=b_LBS1)
 
-image_plane = ImagePlane(distance = 500.0,
+camera = ImagePlane(distance = 500.0,
                          observer_inclination_in_degrees = 85,
                          horizontal_side = 90.0,
                          vertical_side = 90.0,
@@ -15,7 +15,7 @@ image_plane = ImagePlane(distance = 500.0,
 model = AccretionDiskWithTabulatedTemperature(inner_radius=rin_LBS1, outer_radius=rout_LBS1, filename="TempLBS1.dat")
         
 configurations = VacuumOTEConfigurations(spacetime=spacetime,
-                                         image_plane = image_plane,
+                                         camera = camera,
                                          observed_times = [0.0],
                                          radiative_model = model,
                                          unit_mass_in_solar_masses=1.0)

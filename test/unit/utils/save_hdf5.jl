@@ -22,7 +22,7 @@ end
 
 spacetime = KerrSpacetimeKerrSchildCoordinates(M=1.0,a=0.9)
 
-image_plane = ImagePlane(distance = 500.0,
+camera = ImagePlane(distance = 500.0,
                          observer_inclination_in_degrees = 45,
                          horizontal_side = 20.0,
                          vertical_side = 20.0,
@@ -32,7 +32,7 @@ image_plane = ImagePlane(distance = 500.0,
 model = NovikovThorneDisk(inner_radius=6.0, outer_radius=18.0)
         
 configurations = VacuumOTEConfigurations(spacetime=spacetime,
-                                   image_plane = image_plane,
+                                   camera = camera,
                                    observed_times = [0.0],
                                    radiative_model = model,
                                    unit_mass_in_solar_masses=1.0)

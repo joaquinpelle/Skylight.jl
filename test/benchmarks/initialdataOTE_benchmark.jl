@@ -8,7 +8,7 @@ numbers = [100,200,400,800]
 
 for n in numbers
 
-    image_plane = ImagePlane(distance = 500.0,
+    camera = ImagePlane(distance = 500.0,
                         observer_inclination_in_degrees = 90,
                         horizontal_side = 10.0,
                         vertical_side = 10.0,
@@ -16,7 +16,7 @@ for n in numbers
                         vertical_number_of_nodes = n)
 
     configurations = VacuumOTEConfigurations(spacetime=spacetime,
-                                            image_plane = image_plane,
+                                            camera = camera,
                                             observed_times = [0.0],
                                             unit_mass_in_solar_masses=1.0)
 

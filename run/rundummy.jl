@@ -3,7 +3,7 @@ using CairoMakie
 
 spacetime = KerrSpacetimeBoyerLindquistCoordinates(M=1.0,a=0.9)
 
-image_plane = ImagePlane(distance = 500.0,
+camera = ImagePlane(distance = 500.0,
                          observer_inclination_in_degrees = 45,
                          horizontal_side = 20.0,
                          vertical_side = 20.0,
@@ -13,7 +13,7 @@ image_plane = ImagePlane(distance = 500.0,
 model = Skylight.DummyExtendedRegion()
 
 configurations = NonVacuumOTEConfigurations(spacetime=spacetime,
-                                   image_plane = image_plane,
+                                   camera = camera,
                                    radiative_model = model,
                                    observed_times = [0.0],
                                    observed_energies = [1.0],

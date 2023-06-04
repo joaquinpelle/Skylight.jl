@@ -6,7 +6,7 @@ using Skylight, Test
     
     rhor = 1.0+sqrt(0.19)
 
-    image_plane = ImagePlane(distance = 50.0,
+    camera = ImagePlane(distance = 50.0,
                             observer_inclination_in_degrees = 45,
                             horizontal_side = 30.0,
                             vertical_side = 40.0,
@@ -25,7 +25,7 @@ using Skylight, Test
                           temperature=1.0)
                           
         configurations = VacuumOTEConfigurations(spacetime=spacetime,
-                                   image_plane = image_plane,
+                                   camera = camera,
                                    observed_times = [0.0,1.0],
                                    radiative_model = model,
                                    unit_mass_in_solar_masses=1.0)
@@ -60,7 +60,7 @@ using Skylight, Test
         model = NovikovThorneDisk(inner_radius=6.0, outer_radius=15.0)
 
         configurations = VacuumOTEConfigurations(spacetime=spacetime,
-                                   image_plane = image_plane,
+                                   camera = camera,
                                    observed_times = [0.0,1.0],
                                    radiative_model = model,
                                    unit_mass_in_solar_masses=1.0)
@@ -127,7 +127,7 @@ using Skylight, Test
         model = StarAcrossWormhole(l_center=10.0, star_radius=5.0)
 
         configurations = VacuumOTEConfigurations(spacetime=spacetime,
-                                   image_plane = image_plane,
+                                   camera = camera,
                                    observed_times = [0.0,1.0],
                                    radiative_model = model,
                                    unit_mass_in_solar_masses=1.0)

@@ -6,7 +6,7 @@ using Skylight, Test
 
         coords_top = SphericalTopology()
             
-        image_plane = ImagePlane(distance = 1.0,
+        camera = ImagePlane(distance = 1.0,
                                 observer_inclination_in_degrees = 90.0,
                                 horizontal_side = 1.0,
                                 vertical_side = 1.0,
@@ -37,7 +37,7 @@ using Skylight, Test
 
         coords_top = SphericalTopology()
             
-        image_plane = ImagePlane(distance = 1.0,
+        camera = ImagePlane(distance = 1.0,
                                 observer_inclination_in_degrees = 0.0,
                                 horizontal_side = 1.0,
                                 vertical_side = 1.0,
@@ -73,7 +73,7 @@ end
         
         coords_top = CartesianTopology()
             
-        image_plane = ImagePlane(distance = 1.0,
+        camera = ImagePlane(distance = 1.0,
                                 observer_inclination_in_degrees = 0.0,
                                 horizontal_side = 1.0,
                                 vertical_side = 1.0,
@@ -109,7 +109,7 @@ end
     @testset "equatorial plane" begin
         coords_top = CartesianTopology()
             
-        image_plane = ImagePlane(distance = 1.0,
+        camera = ImagePlane(distance = 1.0,
                                 observer_inclination_in_degrees = 90.0,
                                 horizontal_side = 1.0,
                                 vertical_side = 1.0,

@@ -6,7 +6,7 @@ using Skylight, Test
 
         spacetime = KerrSpacetimeKerrSchildCoordinates(M=1.0,a=0.5)
     
-        image_plane = ImagePlane(distance = 1.0,
+        camera = ImagePlane(distance = 1.0,
                                     observer_inclination_in_degrees = 137.0,
                                     horizontal_side = 1.0,
                                     vertical_side = 1.0,
@@ -15,7 +15,7 @@ using Skylight, Test
         
         configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                             radiative_model = DummyModel(),
-                                                   image_plane = image_plane,
+                                                   camera = camera,
                                                    observed_times = [0.0,1.0],
                                                    unit_mass_in_solar_masses=1.0)
         
@@ -65,7 +65,7 @@ using Skylight, Test
         
         spacetime = KerrSpacetimeKerrSchildCoordinates(M=1.0, a=0.0)
 
-        image_plane = ImagePlane(distance = sqrt(7.0),
+        camera = ImagePlane(distance = sqrt(7.0),
                                     observer_inclination_in_degrees = 90.0,
                                     horizontal_side = 1.0,
                                     vertical_side = 1.0,
@@ -74,7 +74,7 @@ using Skylight, Test
         
         configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                             radiative_model = DummyModel(),
-                                                image_plane = image_plane,
+                                                camera = camera,
                                                 observed_times = [0.0,rand()],
                                                 unit_mass_in_solar_masses=1.0)
 
@@ -105,7 +105,7 @@ using Skylight, Test
         
         spacetime = KerrSpacetimeKerrSchildCoordinates(M=1.0, a=0.0)
 
-        image_plane = ImagePlane(distance = 3,
+        camera = ImagePlane(distance = 3,
                                     observer_inclination_in_degrees = 90.0,
                                     horizontal_side = 1.0,
                                     vertical_side = 1.0,
@@ -114,7 +114,7 @@ using Skylight, Test
         
         configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                             radiative_model = DummyModel(),
-                                                image_plane = image_plane,
+                                                camera = camera,
                                                 observed_times = [0.1,1.5],
                                                 unit_mass_in_solar_masses=1.0)
 
