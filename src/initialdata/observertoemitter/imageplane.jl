@@ -1,8 +1,4 @@
-<<<<<<< HEAD:src/initialdata/observertoemitter.jl
-function get_initial_data(configurations::AbstractOTEConfigurations)
-=======
 function get_initial_data(image_plane::ImagePlane, configurations::AbstractOTEConfigurations)
->>>>>>> pinhole:src/initialdata/observertoemitter/imageplane.jl
     rays = my_zeros(configurations)
     cache = get_initial_data_cache(configurations)
 
@@ -37,16 +33,10 @@ function initialize_single!(ray, initial_time, pixel_coordinates, configurations
 
     dump_metric_in!(cache,position,spacetime)
     set_null_ingoing_past_directed!(momentum,cache)
-<<<<<<< HEAD:src/initialdata/observertoemitter.jl
-end
-
-function get_space_position_from(pixel_coordinates, image_plane::ImagePlane, ::CartesianTopology)
-=======
     return nothing
 end
 
 function space_position_from(pixel_coordinates, image_plane::ImagePlane, ::CartesianTopology)
->>>>>>> pinhole:src/initialdata/observertoemitter/imageplane.jl
     α,β = pixel_coordinates
     ξ = image_plane.observer_inclination_in_radians
     d = image_plane.distance
@@ -61,11 +51,7 @@ function space_position_from(pixel_coordinates, image_plane::ImagePlane, ::Carte
     return [x, y, z]
 end
 
-<<<<<<< HEAD:src/initialdata/observertoemitter.jl
-function get_space_position_from(pixel_coordinates, image_plane::ImagePlane, ::SphericalTopology)
-=======
 function space_position_from(pixel_coordinates, image_plane::ImagePlane, ::SphericalTopology)
->>>>>>> pinhole:src/initialdata/observertoemitter/imageplane.jl
     α,β = pixel_coordinates
     ξ = image_plane.observer_inclination_in_radians
     d = image_plane.distance
@@ -80,11 +66,7 @@ function space_position_from(pixel_coordinates, image_plane::ImagePlane, ::Spher
     return [r, θ, φ]
 end
 
-<<<<<<< HEAD:src/initialdata/observertoemitter.jl
-function get_space_momentum_from(pixel_coordinates, image_plane::ImagePlane, ::SphericalTopology)
-=======
 function space_momentum_from(pixel_coordinates, image_plane::ImagePlane, ::SphericalTopology)
->>>>>>> pinhole:src/initialdata/observertoemitter/imageplane.jl
     α,β = pixel_coordinates
     ξ = image_plane.observer_inclination_in_radians
     d = image_plane.distance
@@ -101,11 +83,7 @@ function space_momentum_from(pixel_coordinates, image_plane::ImagePlane, ::Spher
     return [kr, kθ, kφ]
 end
 
-<<<<<<< HEAD:src/initialdata/observertoemitter.jl
-function get_space_momentum_from(pixel_coordinates, image_plane::ImagePlane, ::CartesianTopology)
-=======
 function space_momentum_from(pixel_coordinates, image_plane::ImagePlane, ::CartesianTopology)
->>>>>>> pinhole:src/initialdata/observertoemitter/imageplane.jl
     ξ = image_plane.observer_inclination_in_radians
     kx = sin(ξ)
     ky = 0.0
@@ -117,10 +95,7 @@ end
 function set_null_ingoing_past_directed!(momentum,cache)
     set_null!(momentum,cache)
     set_ingoing_past_directed!(momentum)
-<<<<<<< HEAD:src/initialdata/observertoemitter.jl
-=======
     return nothing
->>>>>>> pinhole:src/initialdata/observertoemitter/imageplane.jl
 end
 
 """returns with unit energy"""
@@ -131,20 +106,10 @@ function set_null!(momentum,cache)
     kt = scalar_product(momentum,tμ,gμν)
     α = (-kt + sqrt(kt^2 - k2*t2))/k2
     @. momentum = tμ + α*momentum
-<<<<<<< HEAD:src/initialdata/observertoemitter.jl
-=======
     return nothing
->>>>>>> pinhole:src/initialdata/observertoemitter/imageplane.jl
 end
 
 function set_ingoing_past_directed!(momentum)
     @. momentum *= -1
-<<<<<<< HEAD:src/initialdata/observertoemitter.jl
-end
-=======
     return nothing
 end
-
-
-
->>>>>>> pinhole:src/initialdata/observertoemitter/imageplane.jl
