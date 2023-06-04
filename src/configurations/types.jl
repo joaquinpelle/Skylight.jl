@@ -16,10 +16,12 @@ end
 
 @with_kw struct PinholeCamera <: AbstractCamera 
     position::Vector{Float64}
-    horizontal_aperture::Float64 #This is distance*cos(horizontal_aperture_angle)
-    vertical_aperture::Float64   #This is distance*cos(horizontal_aperture_angle)
+    horizontal_aperture_in_degrees::Float64 #This is distance*cos(horizontal_aperture_angle)
+    vertical_aperture_in_degrees::Float64   #This is distance*cos(horizontal_aperture_angle)
     horizontal_number_of_nodes::Int
     vertical_number_of_nodes::Int
+    horizontal_aperture_in_radians::Float64 = deg2rad(horizontal_aperture_in_degrees)
+    vertical_aperture_in_radians::Float64 = deg2rad(vertical_aperture_in_degrees)
 end
 
 @with_kw struct NonVacuumOTEConfigurations{S<:AbstractSpacetime, M<:AbstractRadiativeModel, C<:AbstractCamera} <: AbstractOTEConfigurations
