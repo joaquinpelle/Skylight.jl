@@ -27,7 +27,7 @@ using Skylight, Test
                                             temperature=rand())
         configurations = VacuumETOConfigurations(spacetime = spacetime, radiative_model = model, number_of_points=10, number_of_packets_per_point = 10, observer_distance = 500.0, unit_mass_in_solar_masses=1.0)
 
-        Skylight.dump_metric_and_tetrad_in!(cache, position, configurations)
+        Skylight.set_metric_and_tetrad!(cache, position, configurations)
 
         metric, metric_inverse, time_vector, triad = Skylight.unpack_views(cache)
 
@@ -70,7 +70,7 @@ using Skylight, Test
 
                 position = rand(4)
 
-                Skylight.dump_metric_and_tetrad_in!(cache, position, configurations)
+                Skylight.set_metric_and_tetrad!(cache, position, configurations)
 
                 @views tetrad = cache.tetrad
 
@@ -107,7 +107,7 @@ using Skylight, Test
 
                 position = [rand(), 3.0, 0.0, 4.0]
 
-                Skylight.dump_metric_and_tetrad_in!(cache, position, configurations)
+                Skylight.set_metric_and_tetrad!(cache, position, configurations)
 
                 @views tetrad = cache.tetrad
 

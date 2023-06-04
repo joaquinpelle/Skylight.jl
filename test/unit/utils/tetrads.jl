@@ -47,7 +47,7 @@ using Skylight, Random, Test
             time_vector = [1.0, 0.0, 0.0, 0.0]
             Skylight.normalize_timelike!(time_vector, metric)
             
-            Skylight.set_triad!(triad, time_vector, metric)
+            Skylight.set_random_triad!(triad, time_vector, metric)
 
             scalar_product = Skylight.scalar_product
 
@@ -86,7 +86,7 @@ using Skylight, Random, Test
 
             coords_top = coordinates_topology(spacetime)
             
-            Skylight.set_surface_adapted_triad!(triad, time_vector, position, metric, metric_inverse, model, coords_top)
+            Skylight.set_surface_adapted_triad!(triad, time_vector, metric, metric_inverse, position, model, coords_top)
 
             scalar_product = Skylight.scalar_product
 

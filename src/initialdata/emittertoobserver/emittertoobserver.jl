@@ -23,7 +23,7 @@ function initialize_packets_at_position!(packets_at_position, position, cache, c
         kμ = packets_at_position[5:8,:]
     end
     
-    dump_metric_and_tetrad_in!(cache, position, configurations)
+    set_metric_and_tetrad!(cache, position, configurations)
     
     @views tetrad = cache.tetrad
     

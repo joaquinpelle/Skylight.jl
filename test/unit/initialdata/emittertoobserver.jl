@@ -58,7 +58,7 @@ end
 
     position = [rand(), 3.0, 0.0, 4.0]
 
-    Skylight.dump_metric_and_tetrad_in!(cache, position, configurations)
+    Skylight.set_metric_and_tetrad!(cache, position, configurations)
 
     @views tetrad = cache.tetrad
 
