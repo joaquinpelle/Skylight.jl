@@ -25,11 +25,9 @@ end
 function set_metric_and_tetrad!(cache::PinholeCameraCache, position, configurations::AbstractConfigurations)
     spacetime = configurations.spacetime
     coords_top = coordinates_topology(spacetime)
-    
     metric, time_vector, triad = unpack_views(cache)
-    
-    set_metric_in!(metric, position, spacetime)
-    set_static_four_velocity_in!(time_vector, metric)
-    set_spherical_like_triad_in!(triad, position, time_vector, metric, coords_top)
+    set_metric!(metric, position, spacetime)
+    set_static_four_velocity!(time_vector, metric)
+    set_spherical_like_triad!(triad, position, time_vector, metric, coords_top)
     return nothing
 end
