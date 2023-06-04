@@ -8,10 +8,10 @@ using Skylight, Test
             
         camera = ImagePlane(distance = 1.0,
                                 observer_inclination_in_degrees = 90.0,
-                                horizontal_side = 1.0,
-                                vertical_side = 1.0,
-                                horizontal_number_of_pixels = 3,
-                                vertical_number_of_pixels = 3)
+                                horizontal_side = 4.0,
+                                vertical_side = 4.0,
+                                horizontal_number_of_pixels = 2,
+                                vertical_number_of_pixels = 2)
         
         pixel_coordinates = (1.0,1.0)
 
@@ -39,10 +39,10 @@ using Skylight, Test
             
         camera = ImagePlane(distance = 1.0,
                                 observer_inclination_in_degrees = 0.0,
-                                horizontal_side = 1.0,
-                                vertical_side = 1.0,
-                                horizontal_number_of_pixels = 3,
-                                vertical_number_of_pixels = 3)
+                                horizontal_side = 4.0,
+                                vertical_side = 4.0,
+                                horizontal_number_of_pixels = 2,
+                                vertical_number_of_pixels = 2)
         
         pixel_coordinates = (1.0,1.0)
 
@@ -75,8 +75,8 @@ end
             
         camera = ImagePlane(distance = 1.0,
                                 observer_inclination_in_degrees = 0.0,
-                                horizontal_side = 1.0,
-                                vertical_side = 1.0,
+                                horizontal_side = 3.0,
+                                vertical_side = 3.0,
                                 horizontal_number_of_pixels = 3,
                                 vertical_number_of_pixels = 3)
         
@@ -111,8 +111,8 @@ end
             
         camera = ImagePlane(distance = 1.0,
                                 observer_inclination_in_degrees = 90.0,
-                                horizontal_side = 1.0,
-                                vertical_side = 1.0,
+                                horizontal_side = 3.0,
+                                vertical_side = 3.0,
                                 horizontal_number_of_pixels = 3,
                                 vertical_number_of_pixels = 3)
         
