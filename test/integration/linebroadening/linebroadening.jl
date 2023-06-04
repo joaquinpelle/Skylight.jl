@@ -14,8 +14,8 @@ function test_line_broadening(figname, rotation_sense)
                             observer_inclination_in_degrees = 30,
                             horizontal_side = 31.5,
                             vertical_side = 31.5,
-                            horizontal_number_of_nodes = 120,
-                            vertical_number_of_nodes = 120)
+                            horizontal_number_of_pixels = 120,
+                            vertical_number_of_pixels = 120)
 
     rISCO = isco_radius(spacetime, rotation_sense)
     model = NovikovThorneDisk(inner_radius=rISCO, outer_radius=15.0, rotation_sense=rotation_sense)

@@ -25,8 +25,8 @@ function number_of_pixels(camera::AbstractCamera)
 end
 
 function numbers_of_pixels_per_side(camera::AbstractCamera)
-    Nα = camera.horizontal_number_of_nodes
-    Nβ = camera.vertical_number_of_nodes
+    Nα = camera.horizontal_number_of_pixels
+    Nβ = camera.vertical_number_of_pixels
     return Nα, Nβ
 end
 

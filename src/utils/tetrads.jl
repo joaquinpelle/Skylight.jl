@@ -3,7 +3,6 @@ function set_random_triad!(triad, time_vector, metric)
         triad_time_components = triad[1,:]
         triad_space_components = triad[2:4,:]  
     end
-
     fill!(triad_time_components,0.0)
     rand!(triad_space_components)
     orthonormalize!(triad, time_vector, metric)

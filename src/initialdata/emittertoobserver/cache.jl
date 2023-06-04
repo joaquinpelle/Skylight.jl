@@ -7,7 +7,7 @@ function set_metric_and_tetrad!(cache::ETOInitialDataCache, position, configurat
     model = configurations.radiative_model
     coords_top = coordinates_topology(spacetime)
 
-    metric, time_vector, triad = unpack_views(cache)
+    metric, _, time_vector, triad = unpack_views(cache)
 
     set_metric!(metric, position, spacetime)
     set_emitter_four_velocity!(time_vector, position, metric, spacetime, model, coords_top)

@@ -9,8 +9,8 @@ camera = ImagePlane(distance = 500.0,
                          observer_inclination_in_degrees = 85,
                          horizontal_side = 90.0,
                          vertical_side = 90.0,
-                         horizontal_number_of_nodes = 300,
-                         vertical_number_of_nodes = 300)
+                         horizontal_number_of_pixels = 300,
+                         vertical_number_of_pixels = 300)
 
 model = AccretionDiskWithTabulatedTemperature(inner_radius=rin_LBS1, outer_radius=rout_LBS1, filename="TempLBS1.dat")
         

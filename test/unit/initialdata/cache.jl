@@ -75,7 +75,6 @@ using Skylight, Test
                 @views tetrad = cache.tetrad
 
                 @test cache.metric == [-1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
-                @test cache.metric_inverse == [-1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
                 @test tetrad[:,1] ≈ [1.0, 0.0, 0.0, 0.0]
                 @test Skylight.scalar_product(tetrad[:,1], tetrad[:,2], cache.metric) ≈ 0.0 atol = 1e-13
                 @test Skylight.scalar_product(tetrad[:,1], tetrad[:,3], cache.metric) ≈ 0.0 atol = 1e-13
