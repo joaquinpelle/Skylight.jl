@@ -39,7 +39,6 @@ function line_emission_spectrum(
     coords_top = coordinates_topology(spacetime)
 
     cache = get_postprocess_cache(configurations)
-    dump_observer_four_velocity_in!(cache)
 
     Nrays = number_of_initial_conditions(configurations)
     F = zeros(Nrays)
@@ -63,7 +62,7 @@ function line_emission_spectrum(
         end
         at_source[i] = true
 
-        dump_metrics_and_emitter_four_velocity_in!(cache, pi, pf, spacetime, model, coords_top)
+        set_metrics_and_four_velocities!(cache, pi, pf, spacetime, model, coords_top)
         q[i] = energies_quotient(ki, kf, cache)
         F[i] = q[i]^3*emission_profile(pf, spacetime, model)
     end
@@ -123,7 +122,6 @@ end
 #     coords_top = coordinates_topology(spacetime)
 
 #     cache = get_postprocess_cache(configurations)
-#     dump_observer_four_velocity_in!(cache)
 
 #     Nrays = number_of_initial_conditions(configurations)
 #     F = zeros(Nrays)
@@ -147,7 +145,7 @@ end
 #         end
 #         at_source[i] = true
 
-#         dump_metrics_and_emitter_four_velocity_in!(cache, pi, pf, spacetime, model, coords_top)
+#         set_metrics_and_four_velocities!(cache, pi, pf, spacetime, model, coords_top)
 #         q[i] = energies_quotient(ki, kf, cache)
 #         F[i] = q[i]^3*emission_profile(pf, spacetime, model)
 #     end

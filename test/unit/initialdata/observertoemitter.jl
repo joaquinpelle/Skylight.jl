@@ -85,7 +85,7 @@ using Skylight, Test
         ray = zeros(8)
         pixel_coordinates = (1.0, 1.0)
         cache = Skylight.ImagePlaneCache()
-        Skylight.dump_∂t_in!(cache)
+        cache.vector = [1.0, 0.0, 0.0, 0.0]
 
         Skylight.initialize_single!(ray,initial_time,pixel_coordinates,configurations,cache)
         

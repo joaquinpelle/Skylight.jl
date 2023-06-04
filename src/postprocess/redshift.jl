@@ -5,7 +5,6 @@ function energies_quotients(initial_data, output_data, configurations::VacuumOTE
     coords_top = coordinates_topology(spacetime)
 
     cache = get_postprocess_cache(configurations)
-    dump_observer_four_velocity_in!(cache)
 
     Nrays = number_of_initial_conditions(configurations)
     q = zeros(Nrays)
@@ -27,7 +26,7 @@ function energies_quotients(initial_data, output_data, configurations::VacuumOTE
             continue
         end
 
-        dump_metrics_and_emitter_four_velocity_in!(cache, pi, pf, spacetime, model, coords_top)
+        set_metrics_and_four_velocities!(cache, pi, pf, spacetime, model, coords_top)
         q[i] = energies_quotient(ki, kf, cache)
     end
     return q

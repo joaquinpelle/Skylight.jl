@@ -37,18 +37,16 @@ using Skylight, Test
 
     end
 
-    @testset "Dumps" begin
+    @testset "Caches" begin
 
         @testset "Observer to emitter" begin
 
             cache = Skylight.ImagePlaneCache()
-            Skylight.dump_∂t_in!(cache)
-            @test cache.vector == [1.0, 0.0, 0.0, 0.0]
-            @test cache.metric == zeros(4,4)
 
             spacetime = MinkowskiSpacetimeCartesianCoordinates()
 
             Skylight.set_metric_and_four_velocity!(cache,position,spacetime)
+            @test cache.vector == [1.0, 0.0, 0.0, 0.0]
             @test cache.metric == [-1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
             
         end
