@@ -9,7 +9,9 @@ my_zeros(configurations::VacuumConfigurations) = zeros(8, number_of_initial_cond
 
 observed_times(configurations::AbstractOTEConfigurations) = configurations.observed_times
 
-get_initial_data_cache(::AbstractOTEConfigurations) = OTEInitialDataCache()
+get_pixel_coordinates_vectors(configurations::AbstractOTEConfigurations) = get_pixel_coordinates_vectors(configurations.camera)
+
+get_initial_data_cache(configurations::AbstractOTEConfigurations) = get_initial_data_cache(configurations.camera)
 get_initial_data_cache(::AbstractETOConfigurations) = ETOInitialDataCache()
 
 get_postprocess_cache(::AbstractOTEConfigurations) = OTEPostProcessCache()

@@ -1,12 +1,13 @@
 #AbstractCamera methods
 function get_pixel_coordinates(camera::AbstractCamera)
+    α, β = get_pixel_coordinates_vectors(camera)
+    return Iterators.product(α, β)
+end
+
+function get_pixel_coordinates_vectors(camera::AbstractCamera)
     sα, sβ = sides(camera)
     Nα, Nβ = numbers_of_nodes_per_side(camera)
-
-    horizontal_coordinates = range(-0.5*sα, stop=0.5*sα; length=Nα)
-    vertical_coordinates = range(-0.5*sβ,0.5*sβ; length=Nβ)
-
-    return Iterators.product(horizontal_coordinates,vertical_coordinates)
+    return range(-0.5*sα, stop=0.5*sα; length=Nα), range(-0.5*sβ, stop=0.5*sβ; length=Nβ)
 end
 
 function grid_spacing(camera::AbstractCamera)

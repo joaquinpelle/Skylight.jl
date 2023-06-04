@@ -1,10 +1,3 @@
-function get_pixel_coordinates_vectors(configurations::AbstractOTEConfigurations)
-    image_plane = configurations.image_plane
-    sα, sβ = sides(image_plane)
-    Nα, Nβ = numbers_of_nodes_per_side(image_plane)
-    return range(-0.5*sα, stop=0.5*sα; length=Nα), range(-0.5*sβ, stop=0.5*sβ; length=Nβ)
-end
-
 @kwdispatch view_as_grid
 
 @kwmethod function view_as_grid(output_data, configurations::NonVacuumOTEConfigurations; E_idx)
