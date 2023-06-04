@@ -10,7 +10,7 @@ function test_line_broadening(figname, rotation_sense)
     
     spacetime = KerrSpacetimeBoyerLindquistCoordinates(M=1.0,a=0.5)
 
-    image_plane = ImagePlane(distance = 500.0,
+    camera = ImagePlane(distance = 500.0,
                             observer_inclination_in_degrees = 30,
                             horizontal_side = 31.5,
                             vertical_side = 31.5,
@@ -21,7 +21,7 @@ function test_line_broadening(figname, rotation_sense)
     model = NovikovThorneDisk(inner_radius=rISCO, outer_radius=15.0, rotation_sense=rotation_sense)
         
     configurations = VacuumOTEConfigurations(spacetime=spacetime,
-                                   image_plane = image_plane,
+                                   camera = camera,
                                    observed_times = [0.0],
                                    radiative_model = model,
                                    unit_mass_in_solar_masses=1.0)

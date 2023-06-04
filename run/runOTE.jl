@@ -2,7 +2,7 @@ using Skylight
 
 spacetime = KerrSpacetimeKerrSchildCoordinates(M=1.0,a=0.9)
 
-image_plane = ImagePlane(distance = 500.0,
+camera = ImagePlane(distance = 500.0,
                          observer_inclination_in_degrees = 45,
                          horizontal_side = 10.0,
                          vertical_side = 10.0,
@@ -17,7 +17,7 @@ model = SyntheticPolarCap(number_of_points=10,
                           temperature=1.0)
         
 configurations = VacuumOTEConfigurations(spacetime=spacetime,
-                                   image_plane = image_plane,
+                                   camera = camera,
                                    observed_times = [0.0,1.0],
                                    radiative_model = model,
                                    unit_mass_in_solar_masses=1.0)

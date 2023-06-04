@@ -4,7 +4,7 @@ using Skylight, Test
     
     @testset "Unpack views" begin
         
-        cache = Skylight.OTEInitialDataCache()
+        cache = Skylight.ImagePlaneCache()
         spacetime = MinkowskiSpacetimeCartesianCoordinates()
         position = rand(4)
 
@@ -27,7 +27,7 @@ using Skylight, Test
                                             temperature=rand())
         configurations = VacuumETOConfigurations(spacetime = spacetime, radiative_model = model, number_of_points=10, number_of_packets_per_point = 10, observer_distance = 500.0, unit_mass_in_solar_masses=1.0)
 
-        Skylight.dump_metric_and_tetrad_in!(cache, position, configurations)
+        Skylight.set_metric_and_tetrad!(cache, position, configurations)
 
         metric, metric_inverse, time_vector, triad = Skylight.unpack_views(cache)
 
@@ -42,7 +42,7 @@ using Skylight, Test
 
         @testset "Observer to emitter" begin
 
-            cache = Skylight.OTEInitialDataCache()
+            cache = Skylight.ImagePlaneCache()
             Skylight.dump_∂t_in!(cache)
             @test cache.vector == [1.0, 0.0, 0.0, 0.0]
             @test cache.metric == zeros(4,4)
@@ -70,12 +70,11 @@ using Skylight, Test
 
                 position = rand(4)
 
-                Skylight.dump_metric_and_tetrad_in!(cache, position, configurations)
+                Skylight.set_metric_and_tetrad!(cache, position, configurations)
 
                 @views tetrad = cache.tetrad
 
                 @test cache.metric == [-1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
-                @test cache.metric_inverse == [-1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
                 @test tetrad[:,1] ≈ [1.0, 0.0, 0.0, 0.0]
                 @test Skylight.scalar_product(tetrad[:,1], tetrad[:,2], cache.metric) ≈ 0.0 atol = 1e-13
                 @test Skylight.scalar_product(tetrad[:,1], tetrad[:,3], cache.metric) ≈ 0.0 atol = 1e-13
@@ -107,7 +106,7 @@ using Skylight, Test
 
                 position = [rand(), 3.0, 0.0, 4.0]
 
-                Skylight.dump_metric_and_tetrad_in!(cache, position, configurations)
+                Skylight.set_metric_and_tetrad!(cache, position, configurations)
 
                 @views tetrad = cache.tetrad
 

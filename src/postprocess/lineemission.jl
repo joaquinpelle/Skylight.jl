@@ -160,7 +160,7 @@ end
 #         stop = maximum(q[at_source])
 #     end
 
-#     num_bins = infer_num_bins(q, at_source, start, stop, bin_size_conditioner, edge_width, configurations.image_plane)
+#     num_bins = infer_num_bins(q, at_source, start, stop, bin_size_conditioner, edge_width, configurations.camera)
 
 #     bins = create_bins(bin_size=bin_size, num_bins=num_bins, start=start, stop=stop)
 #     binned_fluxes = bin_values_and_sum_weights(bins, q[at_source], F[at_source])

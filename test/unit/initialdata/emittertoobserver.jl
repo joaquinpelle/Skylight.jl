@@ -8,7 +8,7 @@ using Skylight
         Nvectors = 8
         kμ = zeros(4,Nvectors)
 
-        Skylight.set_unit_time_component!(kμ)
+        Skylight.set_unit_time_components!(kμ)
 
         for i in 1:Nvectors
             @test kμ[1,i] ≈ 1.0
@@ -16,8 +16,8 @@ using Skylight
         end
 
         model = DummyExtendedRegion()
-
-        Skylight.set_unit_random_triad_components!(kμ, model)
+        trait = opaque_interior_surface_trait(model)
+        Skylight.set_packets_unit_random_triad_components!(kμ, trait)
 
         for i in 1:Nvectors
             @test kμ[1,i] ≈ 1.0
@@ -30,8 +30,9 @@ using Skylight
                                         misalignment_angle_in_degrees=90,
                                         angular_radius_in_degrees=60, 
                                         temperature=rand())
-
-        Skylight.set_unit_random_triad_components!(kμ, model)
+        
+        trait = opaque_interior_surface_trait(model)
+        Skylight.set_packets_unit_random_triad_components!(kμ, trait)
 
         for i in 1:Nvectors
             @test kμ[1,i] ≈ 1.0
@@ -57,7 +58,7 @@ end
 
     position = [rand(), 3.0, 0.0, 4.0]
 
-    Skylight.dump_metric_and_tetrad_in!(cache, position, configurations)
+    Skylight.set_metric_and_tetrad!(cache, position, configurations)
 
     @views tetrad = cache.tetrad
 
@@ -72,7 +73,7 @@ end
     @test Skylight.scalar_product(tetrad[:,4], tetrad[:,4], cache.metric) ≈ 1.0 atol = 1e-13
 
     @views xμ = packets[1:4,1:10]
-    Skylight.set_packets_position!(xμ,position)
+    Skylight.set_packets_positions!(xμ,position)
 
     for i in 1:10
         @test xμ[:,i] == position

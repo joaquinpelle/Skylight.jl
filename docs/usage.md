@@ -62,7 +62,7 @@ For the details, see the radiative models documentation.
 For the observet-to-emitter scheme, use the following to construct an image plane
 
 ```
-julia> image_plane = ImagePlane(distance = 500.0,
+julia> camera = ImagePlane(distance = 500.0,
                                 observer_inclination_in_degrees = 45,
                                 horizontal_side = 10.0,
                                 vertical_side = 10.0,
@@ -76,7 +76,7 @@ The initial data configurations in the observer-to-emitter scheme are constructe
 
 ```
 julia> configurations = VacuumOTEConfigurations(spacetime=spacetime,
-                                                     image_plane = image_plane,
+                                                     camera = camera,
                                                      observed_times = [0.0,1.0])
 ```
 

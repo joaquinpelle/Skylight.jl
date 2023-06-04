@@ -1,4 +1,4 @@
-include("imageplane.jl")
+include("camera.jl")
 
 function my_zeros(configurations::NonVacuumConfigurations)
     NE = length(configurations.observed_energies)
@@ -9,7 +9,9 @@ my_zeros(configurations::VacuumConfigurations) = zeros(8, number_of_initial_cond
 
 observed_times(configurations::AbstractOTEConfigurations) = configurations.observed_times
 
-get_initial_data_cache(::AbstractOTEConfigurations) = OTEInitialDataCache()
+get_pixel_coordinates_vectors(configurations::AbstractOTEConfigurations) = get_pixel_coordinates_vectors(configurations.camera)
+
+get_initial_data_cache(configurations::AbstractOTEConfigurations) = get_initial_data_cache(configurations.camera)
 get_initial_data_cache(::AbstractETOConfigurations) = ETOInitialDataCache()
 
 get_postprocess_cache(::AbstractOTEConfigurations) = OTEPostProcessCache()
@@ -34,7 +36,11 @@ end
 
 function number_of_initial_conditions(configurations::AbstractOTEConfigurations)
     number_of_times = length(configurations.observed_times)
+<<<<<<< HEAD
     return total_number_of_pixels(configurations.image_plane)*number_of_times 
+=======
+    return number_of_pixels(configurations.camera)*number_of_times  
+>>>>>>> pinhole
 end
 
 function number_of_initial_conditions(configurations::AbstractETOConfigurations)
@@ -43,11 +49,5 @@ function number_of_initial_conditions(configurations::AbstractETOConfigurations)
     return number_of_points*number_of_packets_per_point
 end
 
-function get_rmax(configurations::AbstractOTEConfigurations) 
-    d = configurations.image_plane.distance
-    hs = configurations.image_plane.horizontal_side
-    vs = configurations.image_plane.vertical_side
-    return 1.1*sqrt(d^2 + vs^2 + hs^2)
-end
-
+get_rmax(configurations::AbstractOTEConfigurations) = get_rmax(configurations.camera) 
 get_rmax(configurations::AbstractETOConfigurations) = configurations.observer_distance

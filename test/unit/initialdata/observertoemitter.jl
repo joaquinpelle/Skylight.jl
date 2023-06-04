@@ -6,7 +6,7 @@ using Skylight, Test
 
         spacetime = KerrSpacetimeKerrSchildCoordinates(M=1.0,a=0.5)
     
-        image_plane = ImagePlane(distance = 1.0,
+        camera = ImagePlane(distance = 1.0,
                                     observer_inclination_in_degrees = 137.0,
                                     horizontal_side = 1.0,
                                     vertical_side = 1.0,
@@ -15,7 +15,7 @@ using Skylight, Test
         
         configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                             radiative_model = DummyModel(),
-                                                   image_plane = image_plane,
+                                                   camera = camera,
                                                    observed_times = [0.0,1.0],
                                                    unit_mass_in_solar_masses=1.0)
         
@@ -36,7 +36,7 @@ using Skylight, Test
             momentum = rand(4)
             momentum[1] = 0.0
 
-            cache = Skylight.OTEInitialDataCache()
+            cache = Skylight.ImagePlaneCache()
             Skylight.dump_∂t_in!(cache)
             Skylight.dump_metric_in!(cache,position,spacetime)
 
@@ -65,27 +65,32 @@ using Skylight, Test
         
         spacetime = KerrSpacetimeKerrSchildCoordinates(M=1.0, a=0.0)
 
-        image_plane = ImagePlane(distance = sqrt(7.0),
+        camera = ImagePlane(distance = sqrt(7.0),
                                     observer_inclination_in_degrees = 90.0,
+<<<<<<< HEAD
                                     horizontal_side = 1.0,
                                     vertical_side = 1.0,
+=======
+                                    horizontal_side = 3.0,
+                                    vertical_side = 3.0,
+>>>>>>> pinhole
                                     horizontal_number_of_pixels = 3,
                                     vertical_number_of_pixels = 3)
         
         configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                             radiative_model = DummyModel(),
-                                                image_plane = image_plane,
+                                                camera = camera,
                                                 observed_times = [0.0,rand()],
                                                 unit_mass_in_solar_masses=1.0)
 
         initial_time = configurations.observed_times[2]
-        image_plane = configurations.image_plane
+        camera = configurations.camera
         coords_top = coordinates_topology(spacetime)
         
 
         ray = zeros(8)
         pixel_coordinates = (1.0, 1.0)
-        cache = Skylight.OTEInitialDataCache()
+        cache = Skylight.ImagePlaneCache()
         Skylight.dump_∂t_in!(cache)
 
         Skylight.initialize_single!(ray,initial_time,pixel_coordinates,configurations,cache)
@@ -105,16 +110,16 @@ using Skylight, Test
         
         spacetime = KerrSpacetimeKerrSchildCoordinates(M=1.0, a=0.0)
 
-        image_plane = ImagePlane(distance = 3,
+        camera = ImagePlane(distance = 3,
                                     observer_inclination_in_degrees = 90.0,
-                                    horizontal_side = 1.0,
-                                    vertical_side = 1.0,
+                                    horizontal_side = 3.0,
+                                    vertical_side = 3.0,
                                     horizontal_number_of_pixels = 3,
                                     vertical_number_of_pixels = 3)
         
         configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                             radiative_model = DummyModel(),
-                                                image_plane = image_plane,
+                                                camera = camera,
                                                 observed_times = [0.1,1.5],
                                                 unit_mass_in_solar_masses=1.0)
 
@@ -135,8 +140,8 @@ using Skylight, Test
 
         @test ray[1] ==  0.1
         @test ray[2] ≈   3.0
-        @test ray[3] ≈  -0.5
-        @test ray[4] ≈  -0.5 atol=1e-15
+        @test ray[3] ≈  -1.0
+        @test ray[4] ≈  -1.0 atol=1e-15
         @test ray[5] == -1.0
         @test ray[7] ≈   0.0
         @test ray[8] ≈   0.0  atol=1e-15
