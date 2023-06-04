@@ -8,7 +8,7 @@ using Skylight
         Nvectors = 8
         kμ = zeros(4,Nvectors)
 
-        Skylight.set_unit_time_component!(kμ)
+        Skylight.set_unit_time_components!(kμ)
 
         for i in 1:Nvectors
             @test kμ[1,i] ≈ 1.0
@@ -72,7 +72,7 @@ end
     @test Skylight.scalar_product(tetrad[:,4], tetrad[:,4], cache.metric) ≈ 1.0 atol = 1e-13
 
     @views xμ = packets[1:4,1:10]
-    Skylight.set_positions!(xμ,position)
+    Skylight.set_packets_positions!(xμ,position)
 
     for i in 1:10
         @test xμ[:,i] == position

@@ -27,11 +27,11 @@ function initialize_packets_at_position!(packets_at_position, position, cache, c
     
     @views tetrad = cache.tetrad
     
-    set_packets_position!(xμ, position)
+    set_packets_positions!(xμ, position)
     set_packets_momenta!(kμ, tetrad, model)
 end
 
-function set_packets_position!(xμ, position)
+function set_packets_positions!(xμ, position)
     xμ .= position
 end
 

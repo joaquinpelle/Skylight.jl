@@ -85,11 +85,9 @@ end
 
 function space_momentum_from(pixel_coordinates, image_plane::ImagePlane, ::CartesianTopology)
     ξ = image_plane.observer_inclination_in_radians
-    
     kx = sin(ξ)
     ky = 0.0
     kz = cos(ξ)
-
     return [kx, ky, kz]
 end
 
@@ -106,7 +104,6 @@ function set_null!(momentum,cache)
     t2 = norm_squared(tμ,gμν)
     k2 = norm_squared(momentum,gμν)    
     kt = scalar_product(momentum,tμ,gμν)
-
     α = (-kt + sqrt(kt^2 - k2*t2))/k2
     @. momentum = tμ + α*momentum
     return nothing
