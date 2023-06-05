@@ -25,7 +25,7 @@ function line_emission_spectrum(
     output_data::AbstractMatrix, 
     configurations::VacuumOTEConfigurations; 
     emission_profile::Function, 
-    num_bins::Union{Int,Nothing}=nothing,
+    num_bins::Union{Number,Nothing}=nothing,
     bin_size::Union{Number,Nothing}=nothing, 
     start::Union{Number,Nothing}=nothing, 
     stop::Union{Number,Nothing}=nothing)
@@ -75,8 +75,6 @@ function line_emission_spectrum(
         stop = maximum(q[at_source])
     end
     
-    num_bins = Int(round((stop-start)/bin_size))
-
     bins = create_bins(bin_size=bin_size, num_bins=num_bins, start=start, stop=stop)
     binned_fluxes = bin_values_and_sum_weights(bins, q[at_source], F[at_source])
     

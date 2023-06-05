@@ -13,7 +13,7 @@ get_pixel_coordinates_vectors(configurations::AbstractOTEConfigurations) = get_p
 
 get_initial_data_cache(configurations::AbstractOTEConfigurations) = get_initial_data_cache(configurations.camera)
 get_initial_data_cache(::AbstractETOConfigurations) = ETOInitialDataCache()
-get_postprocess_cache(::AbstractOTEConfigurations) = get_postprocess_cache(configurations.camera)
+get_postprocess_cache(configurations::AbstractOTEConfigurations) = get_postprocess_cache(configurations.camera)
 
 function get_initial_positions(configurations::AbstractETOConfigurations)
     times = zero_times(configurations)
