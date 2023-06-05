@@ -2,6 +2,9 @@
     rmax::Float64
     l_center::Float64
     star_radius::Float64
+
+    @assert rmax > 0.0 "rmax must be positive"
+    @assert star_radius > 0.0 "star_radius must be positive"
 end
 
 function callback_parameters(::ChargedWormholeSpacetimeRegularCoordinates, model::StarAcrossWormhole, configurations) 

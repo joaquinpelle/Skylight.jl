@@ -126,8 +126,8 @@ end
     b0::Float64
     Q::Float64
 
-    @assert b0 >= 0.0
-    @assert abs(Q) < b0
+    @assert b0 >= 0.0 "b0 must be non-negative"
+    @assert abs(Q) < b0 "|Q| must be smaller than b0"
 
 end
 

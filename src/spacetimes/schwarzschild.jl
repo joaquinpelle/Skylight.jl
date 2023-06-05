@@ -4,7 +4,7 @@ abstract type AbstractSchwarzschildSpacetime <: AbstractBlackHoleSpacetime end
 
 @with_kw struct SchwarzschildSpacetimeKerrSchildCoordinates <: AbstractSchwarzschildSpacetime 
     M::Float64
-    @assert M >= 0.0
+    @assert M >= 0.0 "M must be non-negative"
 
     #Cache
     l::Vector{Float64}=zeros(4)
@@ -172,7 +172,7 @@ end
 
 @with_kw struct SchwarzschildSpacetimeSphericalCoordinates <: AbstractSchwarzschildSpacetime 
     M::Float64
-    @assert M >= 0.0
+    @assert M >= 0.0 "M must be non-negative"
 end
 
 coordinates_topology(::SchwarzschildSpacetimeSphericalCoordinates) = SphericalTopology()

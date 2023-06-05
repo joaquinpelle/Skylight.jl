@@ -24,6 +24,7 @@ end
 @with_kw struct RARSpacetime{T} <: AbstractRegularCompactObjectSpacetime
     data_dir::String
     interp::RARInterpolator{T} = RARInterpolator(data_dir)
+    @assert isdir(data_dir) "data_dir must be a directory"
 end
 
 coordinates_topology(::RARSpacetime) = SphericalTopology()

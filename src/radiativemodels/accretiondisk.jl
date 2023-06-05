@@ -38,7 +38,11 @@ end
 @with_kw struct NovikovThorneDisk{T} <: AbstractAccretionDisk 
     inner_radius::Float64
     outer_radius::Float64
-    rotation_sense::T = ProgradeRotation() 
+    rotation_sense::T = ProgradeRotation()
+
+    @assert inner_radius >= 0.0 "Inner radius must be non-negative"
+    @assert outer_radius >= inner_radius "Outer radius must be larger than inner radius"
+    @assert isa(rotation_sense, RotationSense) "Rotation sense must be either ProgradeRotation() or RetrogradeRotation()"
 end
 
 #Dummy function to be defined later
@@ -89,7 +93,13 @@ end
     outer_radius::Float64
     alpha::Float64
     M1::Float64
-    rotation_sense::T = ProgradeRotation() 
+    rotation_sense::T = ProgradeRotation()
+    
+    @assert inner_radius >= 0.0 "Inner radius must be non-negative"
+    @assert outer_radius >= inner_radius "Outer radius must be larger than inner radius"
+    @assert isa(rotation_sense, RotationSense) "Rotation sense must be either ProgradeRotation() or RetrogradeRotation()"
+    @assert alpha > 0.0 "Alpha must be positive"
+    @assert M1 > 0.0 "M1 must be positive"
 end
 
 function temperature(position, spacetime, model::RARDisk)

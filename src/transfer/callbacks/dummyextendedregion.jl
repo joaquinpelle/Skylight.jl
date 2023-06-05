@@ -10,6 +10,9 @@ end
 @with_kw struct DummyExtendedRegionCallbackParameters <: AbstractCallbackParameters    
     rmin::Float64
     rmax::Float64
+
+    @assert rmin >= 0.0 "rmin must be non-negative"
+    @assert rmax > rmin "rmax must be larger than rmin"
 end
 
 callback(::AbstractSpacetime, ::DummyExtendedRegion, ::AbstractCoordinatesTopology) = dummy_extended_region_callback()

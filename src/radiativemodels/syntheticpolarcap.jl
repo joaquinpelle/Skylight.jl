@@ -8,6 +8,12 @@
     angular_radius_in_radians::Float64 = deg2rad(angular_radius_in_degrees)
     misalignment_angle_in_radians::Float64 = deg2rad(misalignment_angle_in_degrees)
     
+    @assert star_radius > 0.0 "star_radius must be positive"
+    @assert angular_speed != 0.0 "angular_speed must be non-zero"
+    @assert angular_radius_in_degrees > 0.0 "angular_radius_in_degrees must be positive"
+    @assert misalignment_angle_in_degrees >= 0.0 "misalignment_angle_in_degrees must be non-negative"
+    @assert misalignment_angle_in_degrees <= 90.0 "misalignment_angle_in_degrees must be smaller than 90.0"
+    @assert temperature > 0.0 "temperature must be positive"
 end
 
 opaque_interior_surface_trait(::SyntheticPolarCap) = IsOpaqueInteriorSurface()

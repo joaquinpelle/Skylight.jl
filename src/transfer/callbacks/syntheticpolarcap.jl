@@ -7,6 +7,9 @@ end
 @with_kw struct NeutronStarHotSpotsCallbackParameters <: AbstractCallbackParameters
     rmax::Float64
     rmin::Float64
+
+    @assert rmin >= 0.0 "rmin must be non-negative"
+    @assert rmax > rmin "rmax must be larger than rmin"
 end
 
 callback(::AbstractSpacetime, ::SyntheticPolarCap, ::CartesianTopology) = star_cartesian_coordinates_callback()

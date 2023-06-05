@@ -23,10 +23,10 @@
 
     factor = (M+sqrt(M^2-a^2))/M
     
-    @assert  α13 > -factor^3
-    @assert  α22 > -factor^2
-    @assert  α52 > -factor^2
-    @assert  ϵ3 > -factor^3
+    @assert  α13 > -factor^3 "Invalid deformation parameter α13"
+    @assert  α22 > -factor^2 "Invalid deformation parameter α22"
+    @assert  α52 > -factor^2 "Invalid deformation parameter α52"
+    @assert  ϵ3 > -factor^3 "Invalid deformation parameter ϵ3"
         
 end
 

@@ -3,6 +3,9 @@
 @with_kw struct BosonStarSpacetime <: AbstractRegularCompactObjectSpacetime
     a::Vector{Float64}
     b::Vector{Float64}
+
+    @assert length(a) == 14 "a must be a vector of length 14"
+    @assert length(b) == 14 "b must be a vector of length 14"
 end
 
 coordinates_topology(::BosonStarSpacetime) = SphericalTopology() 

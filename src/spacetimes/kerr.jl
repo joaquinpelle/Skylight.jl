@@ -6,8 +6,8 @@ abstract type AbstractKerrSpacetime <: AbstractBlackHoleSpacetime end
     M::Float64
     a::Float64
 
-    @assert M >= 0.0
-    @assert abs(a) <= M 
+    @assert M >= 0.0 "M must be non-negative"
+    @assert abs(a) <= M  "|a| must be smaller than M"
 
     #Metric cache
     l::T = zeros(4)
@@ -200,8 +200,8 @@ end
     M::Float64
     a::Float64
 
-    @assert M >= 0.0
-    @assert abs(a) <= M 
+    @assert M >= 0.0 "M must be non-negative"
+    @assert abs(a) <= M "|a| must be smaller than M" 
 end   
 
 coordinates_topology(::KerrSpacetimeBoyerLindquistCoordinates) = SphericalTopology()

@@ -41,8 +41,8 @@ end
     observed_times::Vector{Float64}
     observed_energies::Vector{Float64}
     unit_mass_in_solar_masses::Float64
-    @assert all(0 .< observed_energies)
-    @assert 0 < unit_mass_in_solar_masses
+    @assert all(0 .< observed_energies) "all observation energies must be positive"
+    @assert 0 < unit_mass_in_solar_masses "unit_mass_in_solar_masses must be positive"
 end
 
 @with_kw struct VacuumOTEConfigurations{S<:AbstractSpacetime, M<:AbstractRadiativeModel, C<:AbstractCamera} <: AbstractOTEConfigurations
@@ -51,7 +51,7 @@ end
     camera::C
     observed_times::Vector{Float64}
     unit_mass_in_solar_masses::Float64
-    @assert 0 < unit_mass_in_solar_masses
+    @assert 0 < unit_mass_in_solar_masses "unit_mass_in_solar_masses must be positive"
 end
 
 @with_kw struct VacuumETOConfigurations{S<:AbstractSpacetime, M<:AbstractRadiativeModel} <: AbstractETOConfigurations
@@ -61,10 +61,10 @@ end
     number_of_packets_per_point::Int
     observer_distance::Float64
     unit_mass_in_solar_masses::Float64
-    @assert 0 < number_of_points
-    @assert 0 < number_of_packets_per_point
-    @assert 0 < observer_distance
-    @assert 0 < unit_mass_in_solar_masses
+    @assert 0 < number_of_points "number_of_points must be positive"
+    @assert 0 < number_of_packets_per_point "number_of_packets_per_point must be positive"
+    @assert 0 < observer_distance "observer_distance must be positive"
+    @assert 0 < unit_mass_in_solar_masses "unit_mass_in_solar_masses must be positive"
 end
 
 VacuumConfigurations = Union{VacuumETOConfigurations, VacuumOTEConfigurations}

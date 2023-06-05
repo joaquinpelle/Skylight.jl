@@ -10,10 +10,15 @@ function callback_parameters(spacetime::AbstractBlackHoleSpacetime, model::Abstr
 end
 
 @with_kw struct BlackHoleAccretionDiskCallbackParameters <: AbstractCallbackParameters
-    rmax::Float64
     rmin::Float64
+    rmax::Float64
     inner_radius::Float64
     outer_radius::Float64
+    
+    @assert rmin >= 0.0 "rmin must be non-negative"
+    @assert rmax > rmin "rmax must be larger than rmin"
+    @assert inner_radius >= 0.0 "Inner radius must be non-negative"
+    @assert outer_radius >= inner_radius "Outer radius must be larger than inner radius"
 end
 
 callback(::AbstractBlackHoleSpacetime, ::AbstractAccretionDisk, ::CartesianTopology) = black_hole_accretion_disk_cartesian_coordinates_callback()
