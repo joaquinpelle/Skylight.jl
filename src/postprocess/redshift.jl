@@ -32,7 +32,14 @@ function energies_quotients(initial_data, output_data, configurations::VacuumOTE
     coords_top = coordinates_topology(spacetime)
     cache = postprocess_cache(camera)
     observer_metric!(cache, camera.position, spacetime)
-    observer_four_velocity!(cache, observer_four_velocity)
+
+    if observer_four_velocity===nothing
+        static_four_velocity!(cache.observer_four_velocity, cache.observer_metric)
+    else
+        @assert is_timelike(observer_four_velocity, cache.observer_metric) "The observer four-velocity is not timelike."
+        cache.observer_four_velocity .= observer_four_velocity
+    end
+    
     Nrays = number_of_initial_conditions(configurations)
     q = zeros(Nrays)
     for i in 1:Nrays

@@ -4,6 +4,19 @@ raise_index(v, metric_inverse) = metric_inverse*v
 scalar_product(v,u,metric) = dot(v,metric,u)
 norm_squared(v,metric) = scalar_product(v,v,metric)
 
+function normalize_timelike!(v, metric)
+    v ./= sqrt(-norm_squared(v,metric))
+    return nothing
+end
+
+function normalize_spacelike!(v, metric)
+    v ./= sqrt(norm_squared(v,metric))
+    return nothing
+end
+
+is_timelike(v,metric) = norm_squared(v,metric) < 0.0
+is_spacelike(v,metric) = norm_squared(v,metric) > 0.0
+
 """Projection of v orthogonal to normalized timelike vector u"""
 orthogonal_projection(v, u, metric) = v + u*scalar_product(v,u,metric) 
 
@@ -21,16 +34,6 @@ end
 
 """The cosine of the angle between null vectors v and w as seen by observer at normalized four-velocity u"""
 cos_angle_between_null_vectors(v, w, u, metric) = 1.0+vector_scalar_product(v, w, metric)/(vector_scalar_product(v, u, metric)*vector_scalar_product(w, u, metric))
-
-function normalize_timelike!(v, metric)
-    v ./= sqrt(-norm_squared(v,metric))
-    return nothing
-end
-
-function normalize_spacelike!(v, metric)
-    v ./= sqrt(norm_squared(v,metric))
-    return nothing
-end
 
 function spherical_from_cartesian(v)
     # Angles satisfy θ∈[0,π], φ∈[-π,π]
