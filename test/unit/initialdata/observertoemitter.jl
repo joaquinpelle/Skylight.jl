@@ -4,7 +4,7 @@ using Skylight, Test
     
     @testset "configurations initialization" begin
 
-        spacetime = KerrSpacetimeKerrSchildCoordinates(M=1.0,a=0.5)
+        spacetime = MinkowskiSpacetimeCartesianCoordinates()
     
         camera = ImagePlane(distance = 1.0,
                                     observer_inclination_in_degrees = 137.0,
@@ -30,8 +30,7 @@ using Skylight, Test
 
         @testset "set null ingoing past directed four-momentum" begin
 
-            spacetime = KerrSpacetimeKerrSchildCoordinates(M=1.0, a=0.99)
-
+            spacetime = MinkowskiSpacetimeCartesianCoordinates()
             position = [rand(),5.0,rand(),rand()]
             momentum = rand(4)
             momentum[1] = 0.0
@@ -62,7 +61,7 @@ using Skylight, Test
 
     @testset "single ray" begin
         
-        spacetime = KerrSpacetimeKerrSchildCoordinates(M=1.0, a=0.0)
+        spacetime = MinkowskiSpacetimeCartesianCoordinates()
 
         camera = ImagePlane(distance = sqrt(7.0),
                                     observer_inclination_in_degrees = 90.0,
@@ -94,7 +93,7 @@ using Skylight, Test
         @test ray[3] ≈   1.0
         @test ray[4] ≈   1.0
         @test ray[5] == -1.0
-        @test ray[6] ≈  -3*(-2*sqrt(7)+sqrt(69))/41
+        @test ray[6] ≈  -1.0
         @test ray[7] ≈   0.0
         @test ray[8] ≈   0.0  atol=1e-15
         
@@ -102,7 +101,7 @@ using Skylight, Test
 
     @testset "all rays" begin
         
-        spacetime = KerrSpacetimeKerrSchildCoordinates(M=1.0, a=0.0)
+        spacetime = MinkowskiSpacetimeCartesianCoordinates()
 
         camera = ImagePlane(distance = 3,
                                     observer_inclination_in_degrees = 90.0,
@@ -126,7 +125,7 @@ using Skylight, Test
         @test ray[3] ≈   0.0
         @test ray[4] ≈   0.0 atol=1e-15
         @test ray[5] == -1.0
-        @test ray[6] ≈  -0.2
+        @test ray[6] ≈  -1.0
         @test ray[7] ≈   0.0
         @test ray[8] ≈   0.0  atol=1e-15
 
