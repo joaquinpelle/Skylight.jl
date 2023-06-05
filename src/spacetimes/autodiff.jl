@@ -36,19 +36,19 @@ struct for metric calculations must be wrapped by the DiffCache() method as:
     ```
 
 This is because automatic differentiation keeps two versions of each variable, a Real and a Dual version, the latter being used
-to compute derivatives at each node of the chain rule. Also, in the `set_metric!(g, position, spacetime)` function, the caches must be accessed via the function `get_tmp` as in
+to compute derivatives at each node of the chain rule. Also, in the `metric!(g, position, spacetime)` function, the caches must be accessed via the function `get_tmp` as in
 `get_tmp(spacetime.l, position)`, so that the appropriate version of the cache is returned according to the element type of position
-when `set_metric!` is called.
+when `metric!` is called.
 
 """
-function set_christoffel!(Γ₂, position, spacetime::AbstractSpacetime, cache::AutoDiffChristoffelCache)
+function christoffel!(Γ₂, position, spacetime::AbstractSpacetime, cache::AutoDiffChristoffelCache)
     
     g = cache.g
     ginv = cache.ginv
     ∂g = cache.∂g
 
-    set_metric_inverse!(ginv, position, spacetime, g)
-    set_metric_jacobian!(∂g, position, spacetime, g)
+    metric_inverse!(ginv, position, spacetime, g)
+    metric_jacobian!(∂g, position, spacetime, g)
     @inbounds begin
         for k in 1:4
             for j in 1:4
@@ -81,7 +81,7 @@ Parameters:
 
 Returns: nothing.
 """
-function set_metric_jacobian!(∂g, position, spacetime::AbstractSpacetime, g)
-    reshape(ForwardDiff.jacobian!(∂g, (g,q) -> set_metric!(g,q,spacetime), g, position), 4, 4, 4)
+function metric_jacobian!(∂g, position, spacetime::AbstractSpacetime, g)
+    reshape(ForwardDiff.jacobian!(∂g, (g,q) -> metric!(g,q,spacetime), g, position), 4, 4, 4)
     return nothing
 end

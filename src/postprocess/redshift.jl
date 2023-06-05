@@ -2,7 +2,7 @@ function energies_quotients(initial_data, output_data, configurations::VacuumOTE
     spacetime = configurations.spacetime
     model = configurations.radiative_model
     coords_top = coordinates_topology(spacetime)
-    cache = get_postprocess_cache(camera)
+    cache = postprocess_cache(camera)
     Nrays = number_of_initial_conditions(configurations)
     q = zeros(Nrays)
     for i in 1:Nrays
@@ -20,7 +20,7 @@ function energies_quotients(initial_data, output_data, configurations::VacuumOTE
         if !is_final_position_at_source(pf, spacetime, model)
             continue
         end
-        set_metrics_and_four_velocities!(cache, pi, pf, spacetime, model, coords_top)
+        metrics_and_four_velocities!(cache, pi, pf, spacetime, model, coords_top)
         q[i] = energies_quotient(ki, kf, cache)
     end
     return q
@@ -30,9 +30,9 @@ function energies_quotients(initial_data, output_data, configurations::VacuumOTE
     spacetime = configurations.spacetime
     model = configurations.radiative_model
     coords_top = coordinates_topology(spacetime)
-    cache = get_postprocess_cache(camera)
-    set_observer_metric!(cache, camera.position, spacetime)
-    set_observer_four_velocity!(cache, observer_four_velocity)
+    cache = postprocess_cache(camera)
+    observer_metric!(cache, camera.position, spacetime)
+    observer_four_velocity!(cache, observer_four_velocity)
     Nrays = number_of_initial_conditions(configurations)
     q = zeros(Nrays)
     for i in 1:Nrays
@@ -46,7 +46,7 @@ function energies_quotients(initial_data, output_data, configurations::VacuumOTE
         if !is_final_position_at_source(pf, spacetime, model)
             continue
         end
-        set_emitter_metric_and_four_velocity!(cache, pf, spacetime, model, coords_top)
+        emitter_metric_and_four_velocity!(cache, pf, spacetime, model, coords_top)
         q[i] = energies_quotient(ki, kf, cache)
     end
     return q

@@ -26,9 +26,9 @@ using Skylight, Test
 
     initial_data = get_initial_data(configurations)
 
-    cb, cb_params = get_callback_and_params(configurations) #... or, define your own cb and cb_params
+    cb, cbp = callback_setup(configurations) #... or, define your own cb and cbp
 
-    ensembleprob = Skylight.set_ensemble_problem(initial_data, configurations, cb_params)
+    ensembleprob = Skylight.ensemble_problem(initial_data, configurations, cbp)
     
     #Also consider EnsembleSplitThreads() for multipixels and EnsembleGPUArray() for GPU
 

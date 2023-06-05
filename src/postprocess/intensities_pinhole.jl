@@ -21,11 +21,11 @@ function observed_bolometric_intensities(initial_data::AbstractMatrix, output_da
     model = configurations.radiative_model
     coords_top = coordinates_topology(spacetime)
 
-    cache = get_postprocess_cache(camera)
+    cache = postprocess_cache(camera)
 
-    set_observer_metric!(cache, camera.position, spacetime)
-    set_observer_four_velocity!(cache, observer_four_velocity)
-    set_surface_normal!(cache, configurations, surface_normal)
+    observer_metric!(cache, camera.position, spacetime)
+    observer_four_velocity!(cache, observer_four_velocity)
+    surface_normal!(cache, configurations, surface_normal)
     
     dΩ = all_pixel_solid_angles(camera)
     Nrays = number_of_initial_conditions(configurations)
@@ -45,7 +45,7 @@ function observed_bolometric_intensities(initial_data::AbstractMatrix, output_da
                 continue
             end
 
-            set_emitter_metric_and_four_velocity!(cache, pf, spacetime, model, coords_top)
+            emitter_metric_and_four_velocity!(cache, pf, spacetime, model, coords_top)
             q[i] = energies_quotient(ki, kf, cache)
             nu = scalar_product( ki, cache.observer_four_velocity, cache.observer_metric)
             nn = scalar_product( ki, cache.surface_element_normal, cache.observer_metric)
@@ -82,7 +82,7 @@ end
 #     model = configurations.radiative_model
 #     coords_top = coordinates_topology(spacetime)
 
-#     cache = get_postprocess_cache(configurations)
+#     cache = postprocess_cache(configurations)
 
 #     Nrays = number_of_initial_conditions(configurations)
 #     NE = length(observed_energies)
@@ -104,7 +104,7 @@ end
 #                 continue
 #             end
 
-#             set_metrics_and_four_velocities!(cache, pi, pf, spacetime, model, coords_top)
+#             metrics_and_four_velocities!(cache, pi, pf, spacetime, model, coords_top)
 #             q[i] = energies_quotient(ki, kf, cache)
             
 #             for j in 1:NE

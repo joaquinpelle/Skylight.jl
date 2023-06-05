@@ -14,12 +14,12 @@ end
     point = [rand(),0.0,3.0,4.0]
 
     g = zeros(4,4)
-    set_metric!(g,point,spacetime)
+    metric!(g,point,spacetime)
     
     @test g ≈ [-1.0+2/5 0.0 6/25 8/25; 0.0 1.0 0.0 0.0; 6/25 0.0 1.0+18/125 24/125; 8/25 0.0 24/125 1.0+32/125]
     
     ginv = zeros(4,4)
-    set_metric_inverse!(ginv,point,spacetime)
+    metric_inverse!(ginv,point,spacetime)
 
     @test ginv ≈ [-1.0-2/5 0.0 6/25 8/25; 0.0 1.0 0.0 0.0; 6/25 0.0 1.0-18/125 -24/125; 8/25 0.0 -24/125 1.0-32/125]
     @test g*ginv ≈ [1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
@@ -33,8 +33,8 @@ end
     Γ = zeros(4,4,4)
     Γ_kerr = zeros(4,4,4)
 
-    set_christoffel!(Γ,position,spacetime,cache)
-    set_christoffel!(Γ_kerr,position,kerr_spacetime,kerr_cache)
+    christoffel!(Γ,position,spacetime,cache)
+    christoffel!(Γ_kerr,position,kerr_spacetime,kerr_cache)
     
     @test Γ ≈ Γ_kerr
 end
@@ -48,12 +48,12 @@ end
     point = [rand(),5.0,π/3,0.0]
 
     g = zeros(4,4)
-    set_metric!(g,point,spacetime)
+    metric!(g,point,spacetime)
     
     @test g ≈ [-(1.0-2/5) 0.0 0.0 0.0; 0.0 1.0/(1.0-2/5) 0.0 0.0; 0.0 0.0 25.0 0.0; 0.0 0.0 0.0 25sin(π/3)^2]
     
     ginv = zeros(4,4)
-    set_metric_inverse!(ginv,point,spacetime)
+    metric_inverse!(ginv,point,spacetime)
     
     @test ginv ≈ [-1.0/(1.0-2/5) 0.0 0.0 0.0; 0.0 1.0-2/5 0.0 0.0; 0.0 0.0 1/25 0.0; 0.0 0.0 0.0 1/(25sin(π/3)^2)]
     @test g*ginv ≈ [1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]

@@ -25,7 +25,7 @@ end
         point = [rand(),1.0,0.0,0.0]
 
         g1 = zeros(4,4)
-        set_metric!(g1,point,spacetime)
+        metric!(g1,point,spacetime)
 
         @test g1 == [1.0 2.0 0.0 0.0; 2.0 3.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
 
@@ -33,7 +33,7 @@ end
         point = [rand(),1.0,1.0,1.0]
 
         g2 = zeros(4,4)
-        set_metric!(g2,point,spacetime2)
+        metric!(g2,point,spacetime2)
 
         r2 = 1.0 + sqrt(2.0)
         r = sqrt(r2)
@@ -69,10 +69,10 @@ end
         position = [rand(), 4.0, 5.0, 1.0]
         
         g3 = zeros(4,4)
-        set_metric!(g3,point,spacetime3)
+        metric!(g3,point,spacetime3)
 
         ginv = zeros(4,4)
-        set_metric_inverse!(ginv,point,spacetime3)
+        metric_inverse!(ginv,point,spacetime3)
         @test g3*ginv ≈ [1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
     end
 
@@ -85,7 +85,7 @@ end
         point = [rand(),5.0,π/3,0.0]
 
         g = zeros(4,4)
-        set_metric!(g,point,spacetime)
+        metric!(g,point,spacetime)
         
         Σ = 25+0.25*0.25
         Δ = 25-10+0.25
@@ -98,7 +98,7 @@ end
         @test g ≈ [gtt 0.0 0.0 gtφ; 0.0 Σ/Δ 0.0 0.0; 0.0 0.0 Σ 0.0; gtφ 0.0 0.0 gφφ]
         
         ginv = zeros(4,4)
-        set_metric_inverse!(ginv,point,spacetime)
+        metric_inverse!(ginv,point,spacetime)
         
         det = gtt*gφφ-gtφ^2
 
@@ -115,7 +115,7 @@ end
 
     Γ = zeros(4,4,4)
 
-    set_christoffel!(Γ,position,spacetime,cache)
+    christoffel!(Γ,position,spacetime,cache)
 
     @test sum([Γ[i] != 0.0 for i in 1:64]) == 64
 

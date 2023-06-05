@@ -13,7 +13,7 @@ end
 
 coordinates_topology(::ChargedWormholeSpacetimeSphericalCoordinates) = SphericalTopology()
 
-function set_metric!(g, point, spacetime::ChargedWormholeSpacetimeSphericalCoordinates)
+function metric!(g, point, spacetime::ChargedWormholeSpacetimeSphericalCoordinates)
         
     t, r, θ, φ = point
 
@@ -46,7 +46,7 @@ function set_metric!(g, point, spacetime::ChargedWormholeSpacetimeSphericalCoord
 
 end
 
-function set_metric_inverse!(g, point, spacetime::ChargedWormholeSpacetimeSphericalCoordinates)
+function metric_inverse!(g, point, spacetime::ChargedWormholeSpacetimeSphericalCoordinates)
         
     t, r, θ, φ = point
 
@@ -79,7 +79,7 @@ function set_metric_inverse!(g, point, spacetime::ChargedWormholeSpacetimeSpheri
 
 end
 
-function set_christoffel!(Γ,point,spacetime::ChargedWormholeSpacetimeSphericalCoordinates)
+function christoffel!(Γ,point,spacetime::ChargedWormholeSpacetimeSphericalCoordinates)
     
     #Spacetime coordinates
     t, r, θ, φ = point
@@ -141,7 +141,7 @@ end
 
 coordinates_topology(::ChargedWormholeSpacetimeRegularCoordinates) = SphericalTopology()
 
-function set_metric!(g, point, spacetime::ChargedWormholeSpacetimeRegularCoordinates)
+function metric!(g, point, spacetime::ChargedWormholeSpacetimeRegularCoordinates)
         
     t, l, θ, φ = point
 
@@ -174,7 +174,7 @@ function set_metric!(g, point, spacetime::ChargedWormholeSpacetimeRegularCoordin
 
 end
 
-function set_metric_inverse!(g, point, spacetime::ChargedWormholeSpacetimeRegularCoordinates)
+function metric_inverse!(g, point, spacetime::ChargedWormholeSpacetimeRegularCoordinates)
         
     t, l, θ, φ = point
 
@@ -207,7 +207,7 @@ function set_metric_inverse!(g, point, spacetime::ChargedWormholeSpacetimeRegula
     
 end
 
-function set_christoffel!(Γ, position, spacetime::ChargedWormholeSpacetimeRegularCoordinates)
+function christoffel!(Γ, position, spacetime::ChargedWormholeSpacetimeRegularCoordinates)
 
     #Spacetime coordinates
     t, l, θ, φ = position

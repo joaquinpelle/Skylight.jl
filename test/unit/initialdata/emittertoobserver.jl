@@ -8,7 +8,7 @@ using Skylight
         Nvectors = 8
         kμ = zeros(4,Nvectors)
 
-        Skylight.set_unit_time_components!(kμ)
+        Skylight.unit_time_components!(kμ)
 
         for i in 1:Nvectors
             @test kμ[1,i] ≈ 1.0
@@ -17,7 +17,7 @@ using Skylight
 
         model = DummyExtendedRegion()
         trait = opaque_interior_surface_trait(model)
-        Skylight.set_packets_unit_random_triad_components!(kμ, trait)
+        Skylight.packets_unit_random_triad_components!(kμ, trait)
 
         for i in 1:Nvectors
             @test kμ[1,i] ≈ 1.0
@@ -32,7 +32,7 @@ using Skylight
                                         temperature=rand())
         
         trait = opaque_interior_surface_trait(model)
-        Skylight.set_packets_unit_random_triad_components!(kμ, trait)
+        Skylight.packets_unit_random_triad_components!(kμ, trait)
 
         for i in 1:Nvectors
             @test kμ[1,i] ≈ 1.0
@@ -58,7 +58,7 @@ end
 
     position = [rand(), 3.0, 0.0, 4.0]
 
-    Skylight.set_metric_and_tetrad!(cache, position, configurations)
+    Skylight.metric_and_tetrad!(cache, position, configurations)
 
     @views tetrad = cache.tetrad
 
@@ -73,7 +73,7 @@ end
     @test Skylight.scalar_product(tetrad[:,4], tetrad[:,4], cache.metric) ≈ 1.0 atol = 1e-13
 
     @views xμ = packets[1:4,1:10]
-    Skylight.set_packets_positions!(xμ,position)
+    Skylight.packets_positions!(xμ,position)
 
     for i in 1:10
         @test xμ[:,i] == position
@@ -81,7 +81,7 @@ end
 
     @views kμ = packets[1:4,1:10]
 
-    Skylight.set_packets_momenta!(kμ, tetrad, model)
+    Skylight.packets_momenta!(kμ, tetrad, model)
 
     for i in 1:10
         @test Skylight.norm_squared(kμ[:,i], cache.metric) ≈ 0.0 atol=1e-13 
@@ -101,7 +101,7 @@ end
     configurations = VacuumETOConfigurations(spacetime = spacetime, radiative_model = model, number_of_points=3, number_of_packets_per_point = 3, observer_distance = 500.0, unit_mass_in_solar_masses=1.0)
 
     metric = zeros(4,4)
-    set_metric!(metric, zeros(4), spacetime)
+    metric!(metric, zeros(4), spacetime)
 
     times = Skylight.zero_times(configurations)
 
@@ -109,9 +109,9 @@ end
 
     positions = zeros(4,3)
     
-    @views space_positions = positions[2:4,:]
+    @views space_pos = positions[2:4,:]
 
-    space_positions .= Skylight.get_space_positions(configurations)
+    space_pos .= Skylight.space_positions(configurations)
 
     for i in 1:3
 
@@ -173,7 +173,7 @@ end
     packets = get_initial_data(configurations)
 
     metric = zeros(4,4)
-    set_metric!(metric, zeros(4), spacetime)
+    metric!(metric, zeros(4), spacetime)
 
     for i in 1:3
 

@@ -27,8 +27,8 @@ function test_line_broadening(figname, rotation_sense)
                                    unit_mass_in_solar_masses=1.0)
 
     initial_data = get_initial_data(configurations)
-    cb, cb_params = get_callback_and_params(configurations; rhorizon_bound=2e-1)
-    run = integrate(initial_data, configurations, cb, cb_params; method=VCABM(), reltol=1e-13, abstol=1e-21)
+    cb, cbp = callback_setup(configurations; rhorizon_bound=2e-1)
+    run = integrate(initial_data, configurations, cb, cbp; method=VCABM(), reltol=1e-13, abstol=1e-21)
 
     binned_fluxes, bins = line_emission_spectrum(initial_data, run.output_data, configurations; emission_profile = myprofile, bin_size_conditioner = 2.0, stop=1.05)
     

@@ -13,7 +13,7 @@ using Skylight, Test
                                 horizontal_number_of_pixels = 2,
                                 vertical_number_of_pixels = 2)
         
-        pixel_coordinates = (1.0,1.0)
+        pixel_coords =  (1.0,1.0)
 
         r,θ,φ = Skylight.space_position_from(pixel_coordinates,camera,coords_top)
 
@@ -44,7 +44,7 @@ using Skylight, Test
                                 horizontal_number_of_pixels = 2,
                                 vertical_number_of_pixels = 2)
         
-        pixel_coordinates = (1.0,1.0)
+        pixel_coords =  (1.0,1.0)
 
         r,θ,φ = Skylight.space_position_from(pixel_coordinates,camera,coords_top)
 
@@ -81,7 +81,7 @@ end
                                 vertical_number_of_pixels = 3)
         
                                 
-        pixel_coordinates = (1.0,1.0)
+        pixel_coords =  (1.0,1.0)
         
         space_position = Skylight.space_position_from(pixel_coordinates,camera,coords_top)
         space_momentum = Skylight.space_momentum_from(pixel_coordinates,camera,coords_top)
@@ -90,7 +90,7 @@ end
         @test space_momentum[2] ≈ 0.0
         @test space_momentum[3] ≈ 1.0 atol=1e-15
         
-        center_pixel_coordinates = (0.0,0.0)
+        center_pixel_coords =  (0.0,0.0)
         center_space_position = Skylight.space_position_from(center_pixel_coordinates,camera,coords_top)
 
         @test space_momentum'*(space_position-center_space_position) ≈ 0.0  atol=1e-15
@@ -117,7 +117,7 @@ end
                                 vertical_number_of_pixels = 3)
         
                                 
-        pixel_coordinates = (1.0,1.0)
+        pixel_coords =  (1.0,1.0)
         
         space_position = Skylight.space_position_from(pixel_coordinates,camera,coords_top)
         space_momentum = Skylight.space_momentum_from(pixel_coordinates,camera,coords_top)
@@ -126,7 +126,7 @@ end
         @test space_momentum[2] ≈  0.0
         @test space_momentum[3] ≈  0.0 atol=1e-15
         
-        center_pixel_coordinates = (0.0,0.0)
+        center_pixel_coords =  (0.0,0.0)
         center_space_position = Skylight.space_position_from(center_pixel_coordinates,camera,coords_top)
 
         @test space_momentum'*(space_position-center_space_position) ≈ 0.0  atol=1e-15

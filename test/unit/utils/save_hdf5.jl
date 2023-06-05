@@ -38,7 +38,7 @@ configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                    unit_mass_in_solar_masses=1.0)
 
 
-callback, callback_parameters = get_callback_and_params(configurations; rhorizon_bound=2e-1)
+callback, callback_parameters = callback_setup(configurations; rhorizon_bound=2e-1)
 initial_data = rand(10,10)
 output_data = rand(10,10)
 

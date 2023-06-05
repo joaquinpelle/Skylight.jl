@@ -8,7 +8,7 @@ end
 coordinates_topology(::BosonStarSpacetime) = SphericalTopology() 
 radius(position, ::BosonStarSpacetime) = position[2]
 
-function set_metric!(g, point, spacetime::BosonStarSpacetime)
+function metric!(g, point, spacetime::BosonStarSpacetime)
     t, r, θ, φ = point
 
     a = spacetime.a
@@ -37,7 +37,7 @@ function set_metric!(g, point, spacetime::BosonStarSpacetime)
     return nothing
 end
 
-function set_metric_inverse!(g, point, spacetime::BosonStarSpacetime)
+function metric_inverse!(g, point, spacetime::BosonStarSpacetime)
     t, r, θ, φ = point
 
     a = spacetime.a
@@ -68,7 +68,7 @@ end
 
 allocate_christoffel_cache(::BosonStarSpacetime) = nothing
 
-function set_christoffel!(Γ, position, spacetime::BosonStarSpacetime)
+function christoffel!(Γ, position, spacetime::BosonStarSpacetime)
     #Spacetime coordinates
     t, r, θ, φ = position
 

@@ -2,7 +2,7 @@ struct MinkowskiSpacetimeCartesianCoordinates <: AbstractSpacetime end
 
 coordinates_topology(::MinkowskiSpacetimeCartesianCoordinates) = CartesianTopology()
 
-function set_metric!(g, q, spacetime::MinkowskiSpacetimeCartesianCoordinates)
+function metric!(g, q, spacetime::MinkowskiSpacetimeCartesianCoordinates)
     
     """ 
     g: container for the metric 
@@ -19,7 +19,7 @@ function set_metric!(g, q, spacetime::MinkowskiSpacetimeCartesianCoordinates)
     
 end
 
-set_metric_inverse!(g, q, spacetime::MinkowskiSpacetimeCartesianCoordinates) = set_metric!(g, q, spacetime)
+metric_inverse!(g, q, spacetime::MinkowskiSpacetimeCartesianCoordinates) = metric!(g, q, spacetime)
 
 #Spherical coordinates
 
@@ -27,7 +27,7 @@ struct MinkowskiSpacetimeSphericalCoordinates <: AbstractSpacetime end
 
 coordinates_topology(::MinkowskiSpacetimeSphericalCoordinates) = SphericalTopology()
 
-function set_metric!(g, q, spacetime::MinkowskiSpacetimeSphericalCoordinates)
+function metric!(g, q, spacetime::MinkowskiSpacetimeSphericalCoordinates)
     
     """ 
     g: container for the metric 
@@ -46,7 +46,7 @@ function set_metric!(g, q, spacetime::MinkowskiSpacetimeSphericalCoordinates)
 
 end
 
-function set_metric_inverse!(g, q, spacetime::MinkowskiSpacetimeSphericalCoordinates)
+function metric_inverse!(g, q, spacetime::MinkowskiSpacetimeSphericalCoordinates)
     
     """ 
     g: container for the metric 

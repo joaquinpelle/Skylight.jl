@@ -23,7 +23,7 @@ function radius(position, spacetime::KerrSpacetimeKerrSchildCoordinates)
     return sqrt(r2) 
 end
 
-function set_metric!(g, position, spacetime::KerrSpacetimeKerrSchildCoordinates)
+function metric!(g, position, spacetime::KerrSpacetimeKerrSchildCoordinates)
 
     M = spacetime.M
     a = spacetime.a
@@ -61,7 +61,7 @@ function set_metric!(g, position, spacetime::KerrSpacetimeKerrSchildCoordinates)
     return nothing
 end
 
-function set_metric_inverse!(g, position, spacetime::KerrSpacetimeKerrSchildCoordinates)
+function metric_inverse!(g, position, spacetime::KerrSpacetimeKerrSchildCoordinates)
 
     M = spacetime.M
     a = spacetime.a
@@ -108,7 +108,7 @@ end
 
 allocate_christoffel_cache(::KerrSpacetimeKerrSchildCoordinates) = KerrChristoffelCache()
 
-function set_christoffel!(Γ, position, spacetime::KerrSpacetimeKerrSchildCoordinates, cache::KerrChristoffelCache)
+function christoffel!(Γ, position, spacetime::KerrSpacetimeKerrSchildCoordinates, cache::KerrChristoffelCache)
 
     t, x, y, z = position
     M = spacetime.M
@@ -207,7 +207,7 @@ end
 coordinates_topology(::KerrSpacetimeBoyerLindquistCoordinates) = SphericalTopology()
 radius(position, ::KerrSpacetimeBoyerLindquistCoordinates) = position[2]
 
-function set_metric!(g, point, spacetime::KerrSpacetimeBoyerLindquistCoordinates)
+function metric!(g, point, spacetime::KerrSpacetimeBoyerLindquistCoordinates)
     
     t,r,θ,φ = point
 
@@ -236,7 +236,7 @@ function set_metric!(g, point, spacetime::KerrSpacetimeBoyerLindquistCoordinates
     return nothing
 end
 
-function set_metric_inverse!(ginv, point, spacetime::KerrSpacetimeBoyerLindquistCoordinates)
+function metric_inverse!(ginv, point, spacetime::KerrSpacetimeBoyerLindquistCoordinates)
     
     t,r,θ,φ = point
 
@@ -271,7 +271,7 @@ function set_metric_inverse!(ginv, point, spacetime::KerrSpacetimeBoyerLindquist
     return nothing
 end
 
-function set_christoffel!(Γ, point, spacetime::KerrSpacetimeBoyerLindquistCoordinates) 
+function christoffel!(Γ, point, spacetime::KerrSpacetimeBoyerLindquistCoordinates) 
     
     t, r, θ, φ = point
     

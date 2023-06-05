@@ -1,25 +1,25 @@
-function integrate(initial_data, configurations::VacuumConfigurations, cb, cb_params; method = VCABM(), kwargs...)
+function integrate(initial_data, configurations::VacuumConfigurations, cb, cbp; method = VCABM(), kwargs...)
 
     N = size(initial_data, 2)  
 
-    ensembleprob = set_ensemble_problem(initial_data, configurations, cb_params)
+    ensembleprob = ensemble_problem(initial_data, configurations, cbp)
 
     #Also consider EnsembleSplitThreads() for multipixels and EnsembleGPUArray() for GPU
     stats = @timed sim = solve(ensembleprob, method, EnsembleThreads(); callback = cb, trajectories = N, kwargs...)
     
     print_stats(stats)
 
-    run = collect_run(sim, cb, cb_params, method; kwargs...)
+    run = collect_run(sim, cb, cbp, method; kwargs...)
 
     return run
 
 end
 
-function integrate(initial_data, configurations::NonVacuumConfigurations, cb, cb_params; τmax=2.0, method=VCABM(), kwargs...)
+function integrate(initial_data, configurations::NonVacuumConfigurations, cb, cbp; τmax=2.0, method=VCABM(), kwargs...)
 
     N = size(initial_data, 2)  
 
-    ensembleprob = set_ensemble_problem(initial_data, configurations, cb_params, τmax)
+    ensembleprob = ensemble_problem(initial_data, configurations, cbp, τmax)
 
     full_cb = CallbackSet(cb, opacities_callback())  
 
@@ -28,17 +28,17 @@ function integrate(initial_data, configurations::NonVacuumConfigurations, cb, cb
     
     print_stats(stats)
 
-    run = collect_run(sim, cb, cb_params, τmax, method; kwargs...)
+    run = collect_run(sim, cb, cbp, τmax, method; kwargs...)
 
     return run
     
 end
 
-function set_ensemble_problem(initial_data, configurations::VacuumConfigurations, cb_params)
+function ensemble_problem(initial_data, configurations::VacuumConfigurations, cbp)
         
     u0 = copy(initial_data[:,1])
-    tspan = (0.0, 1e4*cb_params.rmax)
-    p = allocate_cache(configurations, cb_params)
+    tspan = (0.0, 1e4*cbp.rmax)
+    p = allocate_cache(configurations, cbp)
     prob = ODEProblem(equations(configurations), u0, tspan, p)
 
     output_func(sol, i) = (sol[end], false)
@@ -48,11 +48,11 @@ function set_ensemble_problem(initial_data, configurations::VacuumConfigurations
     
 end
 
-function set_ensemble_problem(initial_data, configurations::NonVacuumConfigurations, cb_params, τmax)
+function ensemble_problem(initial_data, configurations::NonVacuumConfigurations, cbp, τmax)
         
     u0 = copy(initial_data[:,1])
-    tspan = (0.0, 1e4*cb_params.rmax)
-    p = allocate_cache(configurations, cb_params, τmax)
+    tspan = (0.0, 1e4*cbp.rmax)
+    p = allocate_cache(configurations, cbp, τmax)
     prob = ODEProblem(equations(configurations), u0, tspan, p)
 
     output_func(sol, i) = (sol[end], false)
@@ -63,12 +63,12 @@ function set_ensemble_problem(initial_data, configurations::NonVacuumConfigurati
 end
 
 
-function collect_run(sim, cb, cb_params, args...; kwargs...)
+function collect_run(sim, cb, cbp, args...; kwargs...)
 
     output_data = collect_output(sim)
     kwargs_dict = collect_args(args...; kwargs...)
 
-    return Run(output_data, cb, cb_params, kwargs_dict)
+    return Run(output_data, cb, cbp, kwargs_dict)
 
 end
 

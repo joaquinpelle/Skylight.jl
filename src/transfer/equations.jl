@@ -28,7 +28,7 @@ function geodesic_equations!(du, u::Array{Float64,1}, p, t)
     fill!(Γ, 0.0)
 
     christoffel_cache = cache.christoffel_cache
-    set_christoffel!(Γ, point, spacetime, christoffel_cache) 
+    christoffel!(Γ, point, spacetime, christoffel_cache) 
 
     a = cache.acceleration
     fill!(a, 0.0)
@@ -68,8 +68,8 @@ function transfer_equations!(du, u::Array{Float64,1}, p, t)
     
     ε .= -observed_energies*vel[1]
 
-    set_invariant_absorptivity!(αε, point, ε, model)
-    set_invariant_emissivity!(jε, point, ε, model)
+    invariant_absorptivity!(αε, point, ε, model)
+    invariant_emissivity!(jε, point, ε, model)
 
     @inbounds begin    
         for i in 1:NE

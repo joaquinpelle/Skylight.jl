@@ -8,7 +8,7 @@ using Parameters, PreallocationTools
     spacetime = KerrSpacetimeKerrSchildCoordinates(M=M, a=a)
     Γ = zeros(4,4,4)     
     cache = allocate_christoffel_cache(spacetime)
-    set_christoffel!(Γ, position, spacetime, cache)
+    christoffel!(Γ, position, spacetime, cache)
 
     #Define a Kerr spacetime to use with automatic differentiation
 
@@ -24,7 +24,7 @@ using Parameters, PreallocationTools
         
     end
 
-    function Skylight.set_metric!(g, position, spacetime::AutoDiffKerr)
+    function Skylight.metric!(g, position, spacetime::AutoDiffKerr)
 
         M = spacetime.M
         a = spacetime.a
@@ -64,9 +64,9 @@ using Parameters, PreallocationTools
     
     spacetimeAD = AutoDiffKerr(M, a)
     ΓAD = zeros(4,4,4) 
-    #We didn't define set_christoffel! for this spacetime so it's going to use the default AutoDiff routines
+    #We didn't define christoffel! for this spacetime so it's going to use the default AutoDiff routines
     cacheAD = allocate_christoffel_cache(spacetimeAD)
-    set_christoffel!(ΓAD, position, spacetimeAD, cacheAD)
+    christoffel!(ΓAD, position, spacetimeAD, cacheAD)
 
     @test Γ ≈ ΓAD rtol=1e-15
 

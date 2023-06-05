@@ -13,7 +13,7 @@ end
 coordinates_topology(::SchwarzschildSpacetimeKerrSchildCoordinates) = CartesianTopology()
 radius(position,::SchwarzschildSpacetimeKerrSchildCoordinates) = sqrt(position[2]^2 + position[3]^2 + position[4]^2)
 
-function set_metric!(g, position, spacetime::SchwarzschildSpacetimeKerrSchildCoordinates)
+function metric!(g, position, spacetime::SchwarzschildSpacetimeKerrSchildCoordinates)
     
     M = spacetime.M
     
@@ -48,7 +48,7 @@ function set_metric!(g, position, spacetime::SchwarzschildSpacetimeKerrSchildCoo
     return nothing
 end
 
-function set_metric_inverse!(g, position, spacetime::SchwarzschildSpacetimeKerrSchildCoordinates)
+function metric_inverse!(g, position, spacetime::SchwarzschildSpacetimeKerrSchildCoordinates)
     
     M = spacetime.M
     
@@ -92,7 +92,7 @@ end
 
 allocate_christoffel_cache(::SchwarzschildSpacetimeKerrSchildCoordinates) = SchwarzschildChristoffelCache()
 
-function set_christoffel!(Γ, position, spacetime::SchwarzschildSpacetimeKerrSchildCoordinates, cache::SchwarzschildChristoffelCache)
+function christoffel!(Γ, position, spacetime::SchwarzschildSpacetimeKerrSchildCoordinates, cache::SchwarzschildChristoffelCache)
     
     t, x, y, z = position
     M = spacetime.M
@@ -178,7 +178,7 @@ end
 coordinates_topology(::SchwarzschildSpacetimeSphericalCoordinates) = SphericalTopology()
 radius(position,::SchwarzschildSpacetimeSphericalCoordinates) = position[2]
 
-function set_metric!(g, q, spacetime::SchwarzschildSpacetimeSphericalCoordinates)
+function metric!(g, q, spacetime::SchwarzschildSpacetimeSphericalCoordinates)
 
     t, r, θ, φ = q
 
@@ -193,7 +193,7 @@ function set_metric!(g, q, spacetime::SchwarzschildSpacetimeSphericalCoordinates
     return nothing
 end
 
-function set_metric_inverse!(g, q, spacetime::SchwarzschildSpacetimeSphericalCoordinates)
+function metric_inverse!(g, q, spacetime::SchwarzschildSpacetimeSphericalCoordinates)
     t, r, θ, φ = q
     M = spacetime.M
     fill!(g,0.0)
@@ -206,7 +206,7 @@ end
 
 allocate_christoffel_cache(::SchwarzschildSpacetimeSphericalCoordinates) = nothing
 
-function set_christoffel!(Γ, point, spacetime::SchwarzschildSpacetimeSphericalCoordinates)
+function christoffel!(Γ, point, spacetime::SchwarzschildSpacetimeSphericalCoordinates)
     t, r, θ, φ = point
     rs = 2*spacetime.M
     

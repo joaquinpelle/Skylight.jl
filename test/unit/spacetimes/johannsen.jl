@@ -95,12 +95,12 @@ end
     g[4,4] = Σ*sinθ2*((r2+a2)^2*A1^2-a2*Δ*sinθ2)/C
     
     g1 = zeros(4,4)
-    set_metric!(g1,point,spacetime)
+    metric!(g1,point,spacetime)
 
     @test g ≈ g1
     
     ginv = zeros(4,4)
-    set_metric_inverse!(ginv,point,spacetime)
+    metric_inverse!(ginv,point,spacetime)
     
     @test g1*ginv ≈ [1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
 

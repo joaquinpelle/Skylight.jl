@@ -69,11 +69,11 @@ export energy,
     angular_momentum,
     z_angular_momentum
 
-export set_metric!,
-    set_metric_inverse!,
+export metric!,
+    metric_inverse!,
     volume_element, 
     allocate_christoffel_cache, 
-    set_christoffel!,
+    christoffel!,
     coordinates_topology
 
 export radius,
@@ -97,8 +97,8 @@ export AbstractRadiativeModel,
     SyntheticPolarCap,
     StarAcrossWormhole
 
-export set_emitter_four_velocity!,
-    set_surface_differential!,
+export emitter_four_velocity!,
+    surface_differential!,
     emitted_bolometric_intensity,
     emitted_specific_intensity,
     is_final_position_at_source,
@@ -112,12 +112,12 @@ export AbstractCamera,
     VacuumOTEConfigurations,
     VacuumETOConfigurations
 
-export get_rmax
+export max_radius
 
 export get_initial_data, 
     integrate, 
     output_data, 
-    get_callback_and_params
+    callback_setup
 
 export is_final_position_at_observer,
     energies_quotients, 
@@ -125,7 +125,7 @@ export is_final_position_at_observer,
     observed_specific_intensities,
     line_emission_spectrum, 
     rescale_intensities_normalization_at_real_observer!, 
-    get_pixel_coordinates_vectors, 
+    pixel_coordinates_vectors, 
     view_as_grid
 
 export contract

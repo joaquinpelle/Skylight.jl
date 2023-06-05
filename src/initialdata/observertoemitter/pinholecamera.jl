@@ -3,7 +3,7 @@
     a spherical-like spatial triad. The rays have unit energy in this tetrad. 
     See docs/pinholecamera.md for more details"""
 function get_initial_data(camera::PinholeCamera, configurations::AbstractOTEConfigurations)
-    cache = get_initial_data_cache(camera)
+    cache = initial_data_cache(camera)
     @views tetrad = cache.tetrad
     
     rays = my_zeros(configurations)    
@@ -13,34 +13,34 @@ function get_initial_data(camera::PinholeCamera, configurations::AbstractOTEConf
         xμ = rays[1:4,:]
         kμ = rays[5:8,:]
     end
-    set_metric_and_tetrad!(cache, position, configurations)
-    set_rays_position!(xμ, position)
-    set_rays_momenta!(kμ, tetrad, camera)
+    metric_and_tetrad!(cache, position, configurations)
+    rays_position!(xμ, position)
+    rays_momenta!(kμ, tetrad, camera)
     return rays
 end
 
-function set_rays_position!(xμ, position)
+function rays_position!(xμ, position)
     xμ .= position
     return nothing
 end
 
-function set_rays_momenta!(kμ, tetrad, camera::PinholeCamera)
-    set_rays_tetrad_components!(kμ, camera)
-    set_coordinate_components_from_tetrad_components!(kμ, tetrad)
+function rays_momenta!(kμ, tetrad, camera::PinholeCamera)
+    rays_tetrad_components!(kμ, camera)
+    coordinate_components_from_tetrad_components!(kμ, tetrad)
     return nothing
 end
 
 """By having Minkowski-null components in the tetrad we guarantee that the momentum is null"""
-function set_rays_tetrad_components!(kμ, camera::PinholeCamera)
-    set_negative_unit_time_components!(kμ)
-    set_rays_triad_components!(kμ, camera)
+function rays_tetrad_components!(kμ, camera::PinholeCamera)
+    negative_unit_time_components!(kμ)
+    rays_triad_components!(kμ, camera)
     return nothing
 end
 
-function set_rays_triad_components!(kμ, camera::PinholeCamera)
+function rays_triad_components!(kμ, camera::PinholeCamera)
     @views space_kμ = kμ[2:4,:]
     i = 1 
-    for (α, β) in get_pixel_coordinates(camera)
+    for (α, β) in pixel_coordinates(camera)
         space_kμ[1,i] = cos(α)*cos(β)
         space_kμ[2,i] = sin(α)*cos(β)
         space_kμ[3,i] = sin(β)

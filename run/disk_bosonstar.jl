@@ -22,15 +22,15 @@ configurations = VacuumOTEConfigurations(spacetime=spacetime,
 
 initial_data = get_initial_data(configurations)
 
-cb, cb_params = get_callback_and_params(configurations) #... or, define your own cb and cb_params
+cb, cbp = callback_setup(configurations) #... or, define your own cb and cbp
 
-run = integrate(initial_data, configurations, cb, cb_params; method=VCABM(), reltol=1e-13, abstol=1e-21)
+run = integrate(initial_data, configurations, cb, cbp; method=VCABM(), reltol=1e-13, abstol=1e-21)
 
 output_data = output_data(run)
 
 Iobs, q = observed_bolometric_intensities(initial_data, output_data, configurations)
 
-xs,ys = get_pixel_coordinates_vectors(configurations)
+xs,ys = pixel_coordinates_vectors(configurations)
 
 zs = view_as_grid(bolometric_intensities, configurations)
 

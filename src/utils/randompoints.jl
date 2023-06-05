@@ -2,7 +2,7 @@ function random_uniform_points_annulus!(points, rmin, rmax, coords_top)
     N = size(points,2)
     r = random_cylindrical_radius(N, rmin, rmax)
     φ = random_azimuthal_angle(N)
-    set_points_on_equatorial_plane!(points, r, φ, coords_top)
+    points_on_equatorial_plane!(points, r, φ, coords_top)
     return nothing
 end
 
@@ -16,7 +16,7 @@ function random_uniform_points_unit_spherical_cap!(points, θmax_in_degrees, coo
     θmax_in_radians = deg2rad(θmax_in_degrees)
     θ = random_polar_angle(N, θmax_in_radians)
     φ = random_azimuthal_angle(N)
-    set_points_on_unit_sphere!(points, θ, φ, coords_top)
+    points_on_unit_sphere!(points, θ, φ, coords_top)
     return nothing
 end
 
@@ -40,7 +40,7 @@ random_cylindrical_radius(N, rmin, rmax) = sqrt.(rmin^2 .+ (rmax^2 - rmin^2)*ran
 random_polar_angle(N, θmax) = acos.(1.0.-(1.0-cos(θmax))*rand(N))
 random_azimuthal_angle(N) = 2π*rand(N)
 
-function set_points_on_equatorial_plane!(points, r, φ, ::CartesianTopology)
+function points_on_equatorial_plane!(points, r, φ, ::CartesianTopology)
     @. begin
         points[1,:] = r*cos(φ)
         points[2,:] = r*sin(φ)
@@ -48,7 +48,7 @@ function set_points_on_equatorial_plane!(points, r, φ, ::CartesianTopology)
     return nothing
 end
 
-function set_points_on_equatorial_plane!(points, r, φ, ::SphericalTopology)
+function points_on_equatorial_plane!(points, r, φ, ::SphericalTopology)
     @. begin
         points[1,:] = r
         points[2,:] = π/2
@@ -57,7 +57,7 @@ function set_points_on_equatorial_plane!(points, r, φ, ::SphericalTopology)
     return nothing
 end
 
-function set_points_on_unit_sphere!(points, θ, φ, ::CartesianTopology)
+function points_on_unit_sphere!(points, θ, φ, ::CartesianTopology)
     @. begin
         points[1,:] = sin(θ)*cos(φ)
         points[2,:] = sin(θ)*sin(φ)
@@ -66,7 +66,7 @@ function set_points_on_unit_sphere!(points, θ, φ, ::CartesianTopology)
     return nothing
 end
 
-function set_points_on_unit_sphere!(points, θ, φ, ::SphericalTopology)
+function points_on_unit_sphere!(points, θ, φ, ::SphericalTopology)
     @. begin
         points[1,:] = 1.0
         points[2,:] = θ

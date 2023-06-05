@@ -21,7 +21,7 @@ function observed_bolometric_intensities(initial_data::AbstractMatrix, output_da
     model = configurations.radiative_model
     coords_top = coordinates_topology(spacetime)
 
-    cache = get_postprocess_cache(configurations)
+    cache = postprocess_cache(configurations)
 
     Nrays = number_of_initial_conditions(configurations)
     q = zeros(Nrays)
@@ -42,7 +42,7 @@ function observed_bolometric_intensities(initial_data::AbstractMatrix, output_da
                 continue
             end
 
-            set_metrics_and_four_velocities!(cache, pi, pf, spacetime, model, coords_top)
+            metrics_and_four_velocities!(cache, pi, pf, spacetime, model, coords_top)
             q[i] = energies_quotient(ki, kf, cache)
 
             #The difference with the ETO scheme here should be the minus sign in front of the final momentum
@@ -78,7 +78,7 @@ function observed_specific_intensities(initial_data::AbstractMatrix, output_data
     model = configurations.radiative_model
     coords_top = coordinates_topology(spacetime)
 
-    cache = get_postprocess_cache(configurations)
+    cache = postprocess_cache(configurations)
 
     Nrays = number_of_initial_conditions(configurations)
     NE = length(observed_energies)
@@ -100,7 +100,7 @@ function observed_specific_intensities(initial_data::AbstractMatrix, output_data
                 continue
             end
 
-            set_metrics_and_four_velocities!(cache, pi, pf, spacetime, model, coords_top)
+            metrics_and_four_velocities!(cache, pi, pf, spacetime, model, coords_top)
             q[i] = energies_quotient(ki, kf, cache)
             
             for j in 1:NE

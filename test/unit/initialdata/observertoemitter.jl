@@ -36,12 +36,12 @@ using Skylight, Test
             momentum[1] = 0.0
 
             cache = Skylight.ImagePlaneCache()
-            Skylight.set_metric_and_four_velocity!(cache,position,spacetime)
+            Skylight.metric_and_four_velocity!(cache,position,spacetime)
 
             Skylight.set_null!(momentum,cache)
             
             g = zeros(4,4)
-            set_metric!(g,position,spacetime)
+            metric!(g,position,spacetime)
             
             @test Skylight.norm_squared(momentum,g) ≈ 0.0 atol=1e-15
             
@@ -82,7 +82,7 @@ using Skylight, Test
         
 
         ray = zeros(8)
-        pixel_coordinates = (1.0, 1.0)
+        pixel_coords =  (1.0, 1.0)
         cache = Skylight.ImagePlaneCache()
         cache.vector = [1.0, 0.0, 0.0, 0.0]
 

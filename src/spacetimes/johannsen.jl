@@ -34,7 +34,7 @@ event_horizon_radius(spacetime::JohannsenSpacetime) = spacetime.M*(1+sqrt(1-spac
 
 coordinates_topology(::JohannsenSpacetime) = SphericalTopology()
 
-function set_metric!(g,point,spacetime::JohannsenSpacetime)
+function metric!(g,point,spacetime::JohannsenSpacetime)
 
     t, r, θ, φ = point
 
@@ -74,7 +74,7 @@ function set_metric!(g,point,spacetime::JohannsenSpacetime)
 
 end
 
-function set_metric_inverse!(g, point, spacetime::JohannsenSpacetime)
+function metric_inverse!(g, point, spacetime::JohannsenSpacetime)
 
     t, r, θ, φ = point
 
@@ -124,7 +124,7 @@ end
 
 allocate_christoffel_cache(::JohannsenSpacetime) = nothing
 
-function set_christoffel!(Γ, point, spacetime::JohannsenSpacetime) 
+function christoffel!(Γ, point, spacetime::JohannsenSpacetime) 
     
     t, r, θ, φ = point
 

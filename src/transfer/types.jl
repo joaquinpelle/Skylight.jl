@@ -20,7 +20,7 @@ end
 mutable struct VacuumCache{S, C, T}
     
     spacetime::S
-    cb_params::C
+    cbp::C
     multi_thread::Vector{VacuumThreadCache{T}}
 
 end
@@ -42,7 +42,7 @@ mutable struct NonVacuumCache{S, M, C, T}
     
     spacetime::S
     model::M
-    cb_params::C
+    cbp::C
     τmax::Float64
     observed_energies::Vector{Float64}
     NE::Int

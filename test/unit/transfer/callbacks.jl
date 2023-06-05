@@ -31,14 +31,14 @@ using Skylight, Test
                                    unit_mass_in_solar_masses=1.0)
 
         
-        @test Skylight.get_rmax(configurations) ≈ rmax
+        @test Skylight.max_radius(configurations) ≈ rmax
         
-        cb_params = Skylight.get_cb_params(spacetime, model, configurations)
+        cbp = Skylight.callback_parameters(spacetime, model, configurations)
 
-        @test cb_params.rmin == 5.0
-        @test cb_params.rmax == rmax
+        @test cbp.rmin == 5.0
+        @test cbp.rmax == rmax
 
-        p = Skylight.allocate_cache(configurations, cb_params)
+        p = Skylight.allocate_cache(configurations, cbp)
         prob = ODEProblem(Skylight.geodesic_equations!, zeros(8), (0.0,1.0), p)
         integrator = init(prob, VCABM(),save_everystep=false,dt=1.0)
         u = [rand(), 10.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0]
@@ -49,7 +49,7 @@ using Skylight, Test
 
         
         
-        cb, cbp = get_callback_and_params(configurations) 
+        cb, cbp = callback_setup(configurations) 
         
         cb.affect!(integrator)
         @test integrator.sol.retcode == SciMLBase.ReturnCode.Terminated
@@ -66,15 +66,15 @@ using Skylight, Test
                                    radiative_model = model,
                                    unit_mass_in_solar_masses=1.0)
 
-        cb_params = Skylight.get_cb_params(spacetime, model, configurations, rhorizon_bound=1e-6)
+        cbp = Skylight.callback_parameters(spacetime, model, configurations, rhorizon_bound=1e-6)
 
         rmin = rhor + 1e-6
-        @test cb_params.rmin ≈ rmin
-        @test cb_params.rmax ≈ rmax
-        @test cb_params.inner_radius == 6.0
-        @test cb_params.outer_radius == 15.0
+        @test cbp.rmin ≈ rmin
+        @test cbp.rmax ≈ rmax
+        @test cbp.inner_radius == 6.0
+        @test cbp.outer_radius == 15.0
         
-        p = Skylight.allocate_cache(configurations, cb_params)
+        p = Skylight.allocate_cache(configurations, cbp)
         prob = ODEProblem(Skylight.geodesic_equations!, zeros(8), (0.0,1.0), p)
         integrator = init(prob, VCABM(),save_everystep=false,dt=1.0)
 
@@ -117,7 +117,7 @@ using Skylight, Test
 
         @test integrator.sol.retcode == SciMLBase.ReturnCode.Terminated
         
-        get_callback_and_params(configurations, rhorizon_bound=1e-6) 
+        callback_setup(configurations, rhorizon_bound=1e-6) 
 
     end
 
@@ -133,13 +133,13 @@ using Skylight, Test
                                    radiative_model = model,
                                    unit_mass_in_solar_masses=1.0)
 
-        cb_params = Skylight.get_cb_params(spacetime, model, configurations)
+        cbp = Skylight.callback_parameters(spacetime, model, configurations)
 
-        @test cb_params.rmax ≈ rmax
-        @test cb_params.star_radius == 5.0
-        @test cb_params.l_center == 10.0
+        @test cbp.rmax ≈ rmax
+        @test cbp.star_radius == 5.0
+        @test cbp.l_center == 10.0
         
-        p = Skylight.allocate_cache(configurations, cb_params)
+        p = Skylight.allocate_cache(configurations, cbp)
         prob = ODEProblem(Skylight.geodesic_equations!, zeros(8), (0.0,1.0), p)
         integrator = init(prob, VCABM(),save_everystep=false,dt=1.0)
 
@@ -152,7 +152,7 @@ using Skylight, Test
         Skylight.star_across_wormhole_affect!(integrator, 1)
         @test integrator.sol.retcode != SciMLBase.ReturnCode.Terminated
 
-        get_callback_and_params(configurations) 
+        callback_setup(configurations) 
 
     end
 

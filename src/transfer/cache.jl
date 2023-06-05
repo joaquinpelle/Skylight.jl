@@ -1,8 +1,8 @@
 # Vacuum
 
-function allocate_cache(configurations::VacuumConfigurations, cb_params)
+function allocate_cache(configurations::VacuumConfigurations, cbp)
     spacetime = configurations.spacetime
-    return VacuumCache(spacetime, cb_params, allocate_vacuum_multi_thread_cache(spacetime))
+    return VacuumCache(spacetime, cbp, allocate_vacuum_multi_thread_cache(spacetime))
 end
 
 function allocate_vacuum_multi_thread_cache(spacetime)
@@ -15,7 +15,7 @@ end
 
 # Non vacuum
 
-function allocate_cache(configurations::NonVacuumConfigurations, cb_params, τmax)
+function allocate_cache(configurations::NonVacuumConfigurations, cbp, τmax)
 
     spacetime = configurations.spacetime
     model = configurations.radiative_model
@@ -24,7 +24,7 @@ function allocate_cache(configurations::NonVacuumConfigurations, cb_params, τma
 
     return NonVacuumCache(spacetime, 
                          model, 
-                         cb_params,
+                         cbp,
                          τmax, 
                          observed_energies,
                          length(observed_energies), 

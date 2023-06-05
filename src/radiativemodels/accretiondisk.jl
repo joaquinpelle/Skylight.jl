@@ -1,18 +1,18 @@
-function set_surface_differential!(covector, position, ::AbstractAccretionDisk, ::CartesianTopology)
+function surface_differential!(covector, position, ::AbstractAccretionDisk, ::CartesianTopology)
     covector[1] = 0.0
     covector[2] = 0.0
     covector[3] = 0.0
     covector[4] = 1.0
 end
 
-function set_surface_differential!(covector, position, ::AbstractAccretionDisk, ::SphericalTopology)
+function surface_differential!(covector, position, ::AbstractAccretionDisk, ::SphericalTopology)
     covector[1] = 0.0
     covector[2] = 0.0
     covector[3] = 1.0
     covector[4] = 0.0
 end    
 
-function set_emitter_four_velocity!(vector, position, metric, spacetime, model::AbstractAccretionDisk, coords_top)
+function emitter_four_velocity!(vector, position, metric, spacetime, model::AbstractAccretionDisk, coords_top)
     angular_speed = circular_geodesic_angular_speed(position, spacetime, model.rotation_sense)
     tangent_vector_zaxis_rotation!(vector, position, angular_speed, metric, coords_top)
 end

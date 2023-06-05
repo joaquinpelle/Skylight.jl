@@ -55,12 +55,12 @@ end
                                 unit_mass_in_solar_masses=1.0)
     rmax = 1.1*sqrt(6000)
     
-    cb_params = Skylight.get_cb_params(spacetime, model, configurations)
+    cbp = Skylight.callback_parameters(spacetime, model, configurations)
     
-    geo_cache = Skylight.allocate_cache(configurations, cb_params)
+    geo_cache = Skylight.allocate_cache(configurations, cbp)
 
     @test geo_cache.spacetime == spacetime
-    @test geo_cache.cb_params == cb_params
+    @test geo_cache.cbp == cbp
     @test length(geo_cache.multi_thread) == Threads.nthreads()
     @test typeof(geo_cache.multi_thread[1]) == Skylight.VacuumThreadCache{Skylight.KerrChristoffelCache}
 

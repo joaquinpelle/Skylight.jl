@@ -1,8 +1,8 @@
 #ImagePlaneCache
-function set_metric_and_four_velocity!(cache::ImagePlaneCache, position, spacetime::AbstractSpacetime)
+function metric_and_four_velocity!(cache::ImagePlaneCache, position, spacetime::AbstractSpacetime)
     metric, time_vector = unpack_views(cache)
-    set_metric!(metric, position, spacetime)
-    set_static_four_velocity!(time_vector, metric)
+    metric!(metric, position, spacetime)
+    static_four_velocity!(time_vector, metric)
     return nothing
 end
 
@@ -15,13 +15,13 @@ function unpack_views(cache::ImagePlaneCache)
 end
 
 #PinholeCameraCache
-function set_metric_and_tetrad!(cache::PinholeCameraCache, position, configurations::AbstractConfigurations)
+function metric_and_tetrad!(cache::PinholeCameraCache, position, configurations::AbstractConfigurations)
     spacetime = configurations.spacetime
     coords_top = coordinates_topology(spacetime)
     metric, time_vector, triad = unpack_views(cache)
-    set_metric!(metric, position, spacetime)
-    set_static_four_velocity!(time_vector, metric)
-    set_spherical_like_triad!(triad, position, time_vector, metric, coords_top)
+    metric!(metric, position, spacetime)
+    static_four_velocity!(time_vector, metric)
+    spherical_like_triad!(triad, position, time_vector, metric, coords_top)
     return nothing
 end
 

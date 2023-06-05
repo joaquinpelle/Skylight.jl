@@ -9,23 +9,21 @@ my_zeros(configurations::VacuumConfigurations) = zeros(8, number_of_initial_cond
 
 observed_times(configurations::AbstractOTEConfigurations) = configurations.observed_times
 
-get_pixel_coordinates_vectors(configurations::AbstractOTEConfigurations) = get_pixel_coordinates_vectors(configurations.camera)
+pixel_coordinates_vectors(configurations::AbstractOTEConfigurations) = pixel_coordinates_vectors(configurations.camera)
 
-get_initial_data_cache(configurations::AbstractOTEConfigurations) = get_initial_data_cache(configurations.camera)
-get_initial_data_cache(::AbstractETOConfigurations) = ETOInitialDataCache()
-get_postprocess_cache(configurations::AbstractOTEConfigurations) = get_postprocess_cache(configurations.camera)
+initial_data_cache(configurations::AbstractOTEConfigurations) = initial_data_cache(configurations.camera)
+initial_data_cache(::AbstractETOConfigurations) = ETOInitialDataCache()
+postprocess_cache(configurations::AbstractOTEConfigurations) = postprocess_cache(configurations.camera)
 
-function get_initial_positions(configurations::AbstractETOConfigurations)
+function initial_positions(configurations::AbstractETOConfigurations)
     times = zero_times(configurations)
-    space_positions = get_space_positions(configurations)
-    return eachcol([times'; space_positions])
+    return eachcol([times';  space_positions(configurations)])
 end
 
-function get_space_positions(configurations::AbstractETOConfigurations)
+function space_positions(configurations::AbstractETOConfigurations)
     npoints = configurations.number_of_points
     coords_top = coordinates_topology(configurations.spacetime)
-    space_positions = get_space_positions(npoints, configurations.radiative_model, coords_top)
-    return space_positions
+    return space_positions(npoints, configurations.radiative_model, coords_top)
 end
 
 function zero_times(configurations::AbstractETOConfigurations)
@@ -44,5 +42,5 @@ function number_of_initial_conditions(configurations::AbstractETOConfigurations)
     return number_of_points*number_of_packets_per_point
 end
 
-get_rmax(configurations::AbstractOTEConfigurations) = get_rmax(configurations.camera, configurations.spacetime) 
-get_rmax(configurations::AbstractETOConfigurations) = configurations.observer_distance
+max_radius(configurations::AbstractOTEConfigurations) = max_radius(configurations.camera, configurations.spacetime) 
+max_radius(configurations::AbstractETOConfigurations) = configurations.observer_distance

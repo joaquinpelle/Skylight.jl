@@ -4,7 +4,7 @@ function get_initial_data(image_plane::ImagePlane, configurations::AbstractOTECo
 
     index = 1
     for initial_time in observed_times(configurations) 
-        for pixel_coordinates in get_pixel_coordinates(image_plane) 
+        for pixel_coordinates in pixel_coordinates(image_plane) 
             @views ray = rays[1:8, index]
             initialize_single!(ray, initial_time, pixel_coordinates, configurations, cache)
             index += 1
@@ -29,7 +29,7 @@ function initialize_single!(ray, initial_time, pixel_coordinates, configurations
     space_position .= space_position_from(pixel_coordinates,image_plane,coords_top)
     space_momentum .= space_momentum_from(pixel_coordinates,image_plane,coords_top)
 
-    set_metric_and_four_velocity!(cache,position,spacetime)
+    metric_and_four_velocity!(cache,position,spacetime)
     set_null_ingoing_past_directed!(momentum,cache)
     return nothing
 end

@@ -4,23 +4,23 @@
     star_radius::Float64
 end
 
-function get_cb_params(::ChargedWormholeSpacetimeRegularCoordinates, model::StarAcrossWormhole, configurations) 
+function callback_parameters(::ChargedWormholeSpacetimeRegularCoordinates, model::StarAcrossWormhole, configurations) 
     l_center = model.l_center
     star_radius = model.star_radius
-    rmax = get_rmax(configurations)
+    rmax = max_radius(configurations)
 
     return StarAcrossWormholeCallbackParameters(l_center=l_center, star_radius=star_radius, rmax=rmax)
 end
 
-get_callback(::ChargedWormholeSpacetimeRegularCoordinates, ::StarAcrossWormhole, ::AbstractCoordinatesTopology) = star_across_wormhole_callback()
+callback(::ChargedWormholeSpacetimeRegularCoordinates, ::StarAcrossWormhole, ::AbstractCoordinatesTopology) = star_across_wormhole_callback()
 
 star_across_wormhole_callback() = VectorContinuousCallback(star_across_wormhole_condition, star_across_wormhole_affect!, 2)
 
 function star_across_wormhole_condition(out, u, t, integrator)
     
-    l_center = integrator.p.cb_params.l_center
-    star_radius = integrator.p.cb_params.star_radius
-    rmax = integrator.p.cb_params.rmax
+    l_center = integrator.p.cbp.l_center
+    star_radius = integrator.p.cbp.star_radius
+    rmax = integrator.p.cbp.rmax
 
     b0 = integrator.p.spacetime.b0
     Q = integrator.p.spacetime.Q

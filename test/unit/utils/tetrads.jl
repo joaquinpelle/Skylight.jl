@@ -8,7 +8,7 @@ using Skylight, Random, Test
         triad = zeros(4,3)
         metric = zeros(4,4)
         position = [rand(), 3.0, 4.0, 1.0]
-        set_metric!(metric, position, spacetime)
+        metric!(metric, position, spacetime)
         
         time_vector = [1.0, 0.0, 0.0, 0.0]
         Skylight.normalize_timelike!(time_vector, metric)
@@ -42,12 +42,12 @@ using Skylight, Random, Test
             metric_inverse = zeros(4,4)
             spacetime = KerrSpacetimeKerrSchildCoordinates(M=1.0, a=0.9)
 
-            set_metric!(metric, position, spacetime)
+            metric!(metric, position, spacetime)
             
             time_vector = [1.0, 0.0, 0.0, 0.0]
             Skylight.normalize_timelike!(time_vector, metric)
             
-            Skylight.set_random_triad!(triad, time_vector, metric)
+            Skylight.random_triad!(triad, time_vector, metric)
 
             scalar_product = Skylight.scalar_product
 
@@ -71,8 +71,8 @@ using Skylight, Random, Test
             metric_inverse = zeros(4,4)
             spacetime = KerrSpacetimeKerrSchildCoordinates(M=1.0, a=0.9)
 
-            set_metric!(metric, position, spacetime)
-            set_metric_inverse!(metric_inverse, position, spacetime)
+            metric!(metric, position, spacetime)
+            metric_inverse!(metric_inverse, position, spacetime)
 
             time_vector = [1.0, 0.0, 0.0, 0.0]
             Skylight.normalize_timelike!(time_vector, metric)
@@ -86,7 +86,7 @@ using Skylight, Random, Test
 
             coords_top = coordinates_topology(spacetime)
             
-            Skylight.set_surface_adapted_triad!(triad, time_vector, metric, metric_inverse, position, model, coords_top)
+            Skylight.surface_adapted_triad!(triad, time_vector, metric, metric_inverse, position, model, coords_top)
 
             scalar_product = Skylight.scalar_product
 
@@ -108,7 +108,7 @@ using Skylight, Random, Test
         spacetime = MinkowskiSpacetimeCartesianCoordinates()
         metric = zeros(4,4)
         position = rand(4)
-        set_metric!(metric, position, spacetime)
+        metric!(metric, position, spacetime)
     
         tetrad = zeros(4,4)
         tetrad[:,1] .= [sqrt(4/3), 1/sqrt(3), 0.0, 0.0]
@@ -130,7 +130,7 @@ using Skylight, Random, Test
         momenta[:,3] = [0.0, 1.0, 1.0, 1.0]
         momenta[:,4] = [0.0, 0.0,-1.0, 3.0]
     
-        Skylight.set_coordinate_components_from_tetrad_components!(momenta, tetrad)
+        Skylight.coordinate_components_from_tetrad_components!(momenta, tetrad)
     
         @test momenta[:,1] ≈ [sqrt(4/3)+1/sqrt(3), sqrt(4/3)+1/sqrt(3), 0.0, 0.0]
         @test momenta[:,2] ≈ [sqrt(4/3)+2/sqrt(3), 2*sqrt(4/3)+1/sqrt(3), 1/sqrt(2), -1/sqrt(2)]

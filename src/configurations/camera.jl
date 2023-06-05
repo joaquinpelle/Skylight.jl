@@ -1,10 +1,10 @@
 #AbstractCamera methods
-function get_pixel_coordinates(camera::AbstractCamera)
-    α, β = get_pixel_coordinates_vectors(camera)
+function pixel_coordinates(camera::AbstractCamera)
+    α, β = pixel_coordinates_vectors(camera)
     return Iterators.product(α, β)
 end
 
-function get_pixel_coordinates_vectors(camera::AbstractCamera)
+function pixel_coordinates_vectors(camera::AbstractCamera)
     sα, sβ = sides(camera)
     Nα, Nβ = numbers_of_pixels_per_side(camera)
     dα, dβ = grid_spacing(camera)
@@ -44,7 +44,7 @@ end
 
 function all_pixel_solid_angles(camera::PinholeCamera)
     Nα, Nβ = numbers_of_pixels_per_side(camera)
-    _, vecβ = get_pixel_coordinates_vectors(camera)
+    _, vecβ = pixel_coordinates_vectors(camera)
     dα, dβ = grid_spacing(camera)
 
     solid_angles = zeros(Nα*Nβ)
@@ -57,16 +57,16 @@ function all_pixel_solid_angles(camera::PinholeCamera)
 end
 
 function default_tetrad(camera::PinholeCamera, configurations::AbstractOTEConfigurations)
-    cache = get_initial_data_cache(camera)
-    set_metric_and_tetrad!(cache, camera.position, configurations)
+    cache = initial_data_cache(camera)
+    metric_and_tetrad!(cache, camera.position, configurations)
     return cache.tetrad
 end
 
 default_four_velocity(camera::PinholeCamera, configurations::AbstractOTEConfigurations) = default_tetrad(camera, configurations)[:,1]
 default_normal(camera::PinholeCamera, configurations::AbstractOTEConfigurations) = default_tetrad(camera, configurations)[:,2]
-get_rmax(camera, spacetime) = 1.1*radius(camera.position, spacetime)
-get_initial_data_cache(::PinholeCamera) = PinholeCameraCache()
-get_postprocess_cache(::PinholeCamera) = PinholeCameraPostProcessCache()
+max_radius(camera, spacetime) = 1.1*radius(camera.position, spacetime)
+initial_data_cache(::PinholeCamera) = PinholeCameraCache()
+postprocess_cache(::PinholeCamera) = PinholeCameraPostProcessCache()
 
 #ImagePlane methods
 function area(image_plane::ImagePlane)
@@ -85,11 +85,11 @@ function sides(image_plane::ImagePlane)
     return sα, sβ
 end
 
-function get_rmax(image_plane::ImagePlane, ::AbstractSpacetime) 
+function max_radius(image_plane::ImagePlane, ::AbstractSpacetime) 
     d = image_plane.distance
     sα, sβ = sides(image_plane)
     return 1.1*sqrt(d^2 + sα^2 + sβ^2)
 end
 
-get_initial_data_cache(::ImagePlane) = ImagePlaneCache()
-get_postprocess_cache(::ImagePlane) = ImagePlanePostProcessCache()
+initial_data_cache(::ImagePlane) = ImagePlaneCache()
+postprocess_cache(::ImagePlane) = ImagePlanePostProcessCache()

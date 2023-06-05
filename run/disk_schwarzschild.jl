@@ -48,16 +48,16 @@ for E in energies
 
         initial_data = get_initial_data(configurations)
 
-        cb, cb_params = get_callback_and_params(configurations, rhorizon_bound=2e-1) #... or, define your own cb and cb_params
+        cb, cbp = callback_setup(configurations, rhorizon_bound=2e-1) #... or, define your own cb and cbp
 
-        run = integrate(initial_data, configurations, cb, cb_params; method=VCABM(), reltol=1e-13, abstol=1e-21)
+        run = integrate(initial_data, configurations, cb, cbp; method=VCABM(), reltol=1e-13, abstol=1e-21)
 
         save_to_hdf5("io/schw/$(filename).h5", configurations, initial_data, run)        
         
         output_data = run.output_data
         Iobs, q = observed_bolometric_intensities(initial_data, output_data, configurations)
 
-        xs,ys = get_pixel_coordinates_vectors(configurations)
+        xs,ys = pixel_coordinates_vectors(configurations)
 
         zs = view_as_grid(Iobs, configurations)
 

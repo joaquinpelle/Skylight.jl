@@ -12,7 +12,7 @@ end
 
 opaque_interior_surface_trait(::SyntheticPolarCap) = IsOpaqueInteriorSurface()
 
-function set_surface_differential!(covector, position, ::SyntheticPolarCap, ::CartesianTopology)
+function surface_differential!(covector, position, ::SyntheticPolarCap, ::CartesianTopology)
 
     @views begin
         t,x,y,z = position
@@ -26,7 +26,7 @@ function set_surface_differential!(covector, position, ::SyntheticPolarCap, ::Ca
     return nothing
 end
 
-function set_emitter_four_velocity!(vector, position, metric, spacetime, model::SyntheticPolarCap, coords_top)
+function emitter_four_velocity!(vector, position, metric, spacetime, model::SyntheticPolarCap, coords_top)
         
     angular_speed = model.angular_speed
     tangent_vector_zaxis_rotation!(vector, position, angular_speed, metric, coords_top)
@@ -34,17 +34,15 @@ function set_emitter_four_velocity!(vector, position, metric, spacetime, model::
     return nothing
 end
 
-function get_space_positions(npoints, model::SyntheticPolarCap, coords_top::CartesianTopology)
+function space_positions(npoints, model::SyntheticPolarCap, coords_top::CartesianTopology)
 
-    space_positions = zeros(3, npoints)
+    space_pos = zeros(3, npoints)
 
-    random_uniform_points_unit_spherical_cap!(space_positions, model.angular_radius_in_degrees, coords_top)
+    random_uniform_points_unit_spherical_cap!(space_pos, model.angular_radius_in_degrees, coords_top)
 
-    rotate_around_y_axis!(space_positions, model.misalignment_angle_in_degrees)
+    rotate_around_y_axis!(space_pos, model.misalignment_angle_in_degrees)
 
-    space_positions .*= model.star_radius
+    space_pos .*= model.star_radius
 
-    return space_positions
-
-    return nothing
+    return space_pos
 end

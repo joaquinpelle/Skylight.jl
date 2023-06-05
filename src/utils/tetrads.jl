@@ -1,4 +1,4 @@
-function set_random_triad!(triad, time_vector, metric)
+function random_triad!(triad, time_vector, metric)
     @views begin
         triad_time_components = triad[1,:]
         triad_space_components = triad[2:4,:]  
@@ -9,7 +9,7 @@ function set_random_triad!(triad, time_vector, metric)
     return nothing
 end
 
-function set_surface_adapted_triad!(triad, time_vector, metric, metric_inverse, position, model::AbstractRadiativeModel, coords_top)
+function surface_adapted_triad!(triad, time_vector, metric, metric_inverse, position, model::AbstractRadiativeModel, coords_top)
     @views begin
         triad_time_components = triad[1,:]
         normal = triad[:,1]
@@ -19,12 +19,12 @@ function set_surface_adapted_triad!(triad, time_vector, metric, metric_inverse, 
     
     fill!(triad_time_components,0.0)
     rand!(dyad_space_components)
-    set_unit_surface_normal!(normal, position, metric, metric_inverse, model, coords_top) 
+    unit_surface_normal!(normal, position, metric, metric_inverse, model, coords_top) 
     orthonormalize!(triad, time_vector, metric)
     return nothing
 end
 
-function set_spherical_like_triad!(triad, position, time_vector, metric, ::CartesianTopology)
+function spherical_like_triad!(triad, position, time_vector, metric, ::CartesianTopology)
     t, x, y, z = position
     r = sqrt(x^2 + y^2 + z^2)
     
@@ -51,7 +51,7 @@ function set_spherical_like_triad!(triad, position, time_vector, metric, ::Carte
     orthonormalize!(triad, time_vector, metric)
 end
 
-function set_spherical_like_triad!(triad, position, time_vector, metric, ::SphericalTopology)
+function spherical_like_triad!(triad, position, time_vector, metric, ::SphericalTopology)
     fill!(triad, 0.0)    
     @views begin
         e1 = triad[2:4,1]
@@ -108,17 +108,17 @@ function orthonormalize!(triad, time_vector, metric)
     return nothing
 end
 
-function set_unit_time_components!(kμ)
+function unit_time_components!(kμ)
     kμ[1,:] .= 1.0
     return nothing
 end
 
-function set_negative_unit_time_components!(kμ)
+function negative_unit_time_components!(kμ)
     kμ[1,:] .= -1.0
     return nothing
 end
 
-function set_coordinate_components_from_tetrad_components!(vectors, tetrad)
+function coordinate_components_from_tetrad_components!(vectors, tetrad)
     nvectors = size(vectors,2)
     for i in 1:nvectors
         vectors[:,i] = tetrad*vectors[:,i]  

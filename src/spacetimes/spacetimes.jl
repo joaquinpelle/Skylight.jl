@@ -1,15 +1,15 @@
 #Required
 coordinates_topology(spacetime) = error("Coordinates topology not defined for this spacetime.")
-set_metric!(g, position, spacetime) = error("Metric not defined for this spacetime.")
+metric!(g, position, spacetime) = error("Metric not defined for this spacetime.")
 
 #Optional
-# set_metric_inverse!(ginv, position, ::AbstractSpacetime) = error("Metric inverse not defined for this spacetime.")
+# metric_inverse!(ginv, position, ::AbstractSpacetime) = error("Metric inverse not defined for this spacetime.")
 # volume_element(position, ::AbstractSpacetime, g) = error("Volume element not defined for this spacetime.")
 radius(position, spacetime) = error("Radius not defined for this spacetime.")
 event_horizon_radius(spacetime) = error("Event horizon radius not defined for this spacetime.")
 circular_geodesic_angular_speed(position, spacetime, rotation_sense) = error("Circular geodesic angular speed not defined for this spacetime.")
 #custom set_christoffel
-set_christoffel!(Γ, position, spacetime::AbstractSpacetime, ::Nothing) = set_christoffel!(Γ, position, spacetime)
+christoffel!(Γ, position, spacetime::AbstractSpacetime, ::Nothing) = christoffel!(Γ, position, spacetime)
 
 #By default we set non-stationarity and non-spherical symmetry  
 is_stationary(::AbstractSpacetime) = IsNotStationary()
@@ -41,8 +41,8 @@ Parameters:
 
 Returns: nothing.
 """
-function set_metric_inverse!(ginv, position, spacetime::AbstractSpacetime, g)
-    set_metric!(g, position, spacetime)
+function metric_inverse!(ginv, position, spacetime::AbstractSpacetime, g)
+    metric!(g, position, spacetime)
     inverse_4x4_symmetric!(ginv, g)
     return nothing
 end
@@ -58,7 +58,7 @@ Parameters:
 Returns: the volume element.
 """
 function volume_element(position, spacetime::AbstractSpacetime, g)
-    set_metric!(g, position, spacetime)
+    metric!(g, position, spacetime)
     return sqrt(-determinant_4x4_symmetric(g))
 end
 
