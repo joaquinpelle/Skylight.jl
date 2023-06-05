@@ -24,10 +24,12 @@ cos_angle_between_null_vectors(v, w, u, metric) = 1.0+vector_scalar_product(v, w
 
 function normalize_timelike!(v, metric)
     v ./= sqrt(-norm_squared(v,metric))
+    return nothing
 end
 
 function normalize_spacelike!(v, metric)
     v ./= sqrt(norm_squared(v,metric))
+    return nothing
 end
 
 function spherical_from_cartesian(v)
@@ -59,4 +61,5 @@ function rotate_around_y_axis!(v, angle_in_degrees)
         v[:,i] .= rotation_matrix*v[:,i] 
     
     end
+    return nothing
 end

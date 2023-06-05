@@ -1,5 +1,6 @@
 function set_metric_and_tetrad!(cache::ETOInitialDataCache, position, configurations::AbstractConfigurations)
     set_metric_and_tetrad!(cache, position, configurations, opaque_interior_surface_trait(configurations.radiative_model))
+    return nothing
 end
 
 function set_metric_and_tetrad!(cache::ETOInitialDataCache, position, configurations::AbstractConfigurations, ::IsNotOpaqueInteriorSurface)
@@ -12,6 +13,7 @@ function set_metric_and_tetrad!(cache::ETOInitialDataCache, position, configurat
     set_metric!(metric, position, spacetime)
     set_emitter_four_velocity!(time_vector, position, metric, spacetime, model, coords_top)
     set_random_triad!(triad, time_vector, metric)
+    return nothing
 end
 
 function set_metric_and_tetrad!(cache::ETOInitialDataCache, position, configurations::AbstractConfigurations, ::IsOpaqueInteriorSurface)
@@ -25,6 +27,7 @@ function set_metric_and_tetrad!(cache::ETOInitialDataCache, position, configurat
     set_metric_inverse!(metric_inverse, position, spacetime)
     set_emitter_four_velocity!(time_vector, position, metric, spacetime, model, coords_top)
     set_surface_adapted_triad!(triad, time_vector, metric, metric_inverse, position, model, coords_top)
+    return nothing
 end
 
 function unpack_views(cache::ETOInitialDataCache)

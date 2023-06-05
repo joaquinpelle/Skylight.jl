@@ -23,6 +23,7 @@ function set_surface_differential!(covector, position, ::SyntheticPolarCap, ::Ca
     covector[3] = 2y
     covector[4] = 2z
 
+    return nothing
 end
 
 function set_emitter_four_velocity!(vector, position, metric, spacetime, model::SyntheticPolarCap, coords_top)
@@ -30,6 +31,7 @@ function set_emitter_four_velocity!(vector, position, metric, spacetime, model::
     angular_speed = model.angular_speed
     tangent_vector_zaxis_rotation!(vector, position, angular_speed, metric, coords_top)
     
+    return nothing
 end
 
 function get_space_positions(npoints, model::SyntheticPolarCap, coords_top::CartesianTopology)
@@ -44,4 +46,5 @@ function get_space_positions(npoints, model::SyntheticPolarCap, coords_top::Cart
 
     return space_positions
 
+    return nothing
 end

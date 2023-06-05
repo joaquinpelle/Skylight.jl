@@ -6,6 +6,7 @@ function non_vacuum_equations!(du, u::Array{Float64,1}, p::NonVacuumCache, t)
     geodesic_equations!(du, u, p, t)
     transfer_equations!(du, u, p, t)
 
+    return nothing
 end
 
 function geodesic_equations!(du, u::Array{Float64,1}, p, t)
@@ -47,6 +48,7 @@ function geodesic_equations!(du, u::Array{Float64,1}, p, t)
         end
     end
 
+    return nothing
 end
 
 function transfer_equations!(du, u::Array{Float64,1}, p, t)
@@ -76,4 +78,5 @@ function transfer_equations!(du, u::Array{Float64,1}, p, t)
         end
     end
 
+    return nothing
 end
