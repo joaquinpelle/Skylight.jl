@@ -16,13 +16,13 @@ using Skylight, Test
         configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                             radiative_model = DummyModel(),
                                                    camera = camera,
-                                                   observed_times = [0.0,1.0],
+                                                   observation_times = [0.0,1.0],
                                                    unit_mass_in_solar_masses=1.0)
         
         rays = Skylight.my_zeros(configurations)
         @test sum(rays) == 0.0
         @test length(rays)/8 == 18
-        @test Skylight.observed_times(configurations) == [0.0, 1.0]
+        @test Skylight.observation_times(configurations) == [0.0, 1.0]
     
     end
 
@@ -73,10 +73,10 @@ using Skylight, Test
         configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                             radiative_model = DummyModel(),
                                                 camera = camera,
-                                                observed_times = [0.0,rand()],
+                                                observation_times = [0.0,rand()],
                                                 unit_mass_in_solar_masses=1.0)
 
-        initial_time = configurations.observed_times[2]
+        initial_time = configurations.observation_times[2]
         camera = configurations.camera
         coords_top = coordinates_topology(spacetime)
         
@@ -113,7 +113,7 @@ using Skylight, Test
         configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                             radiative_model = DummyModel(),
                                                 camera = camera,
-                                                observed_times = [0.1,1.5],
+                                                observation_times = [0.1,1.5],
                                                 unit_mass_in_solar_masses=1.0)
 
         rays = get_initial_data(configurations)

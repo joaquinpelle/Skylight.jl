@@ -1,13 +1,13 @@
 include("camera.jl")
 
 function my_zeros(configurations::NonVacuumConfigurations)
-    NE = length(configurations.observed_energies)
+    NE = length(configurations.observation_energies)
     return zeros(8+2*NE, number_of_initial_conditions(configurations))
 end
 
 my_zeros(configurations::VacuumConfigurations) = zeros(8, number_of_initial_conditions(configurations))
 
-observed_times(configurations::AbstractOTEConfigurations) = configurations.observed_times
+observation_times(configurations::AbstractOTEConfigurations) = configurations.observation_times
 
 pixel_coordinates_vectors(configurations::AbstractOTEConfigurations) = pixel_coordinates_vectors(configurations.camera)
 
@@ -32,7 +32,7 @@ function zero_times(configurations::AbstractETOConfigurations)
 end
 
 function number_of_initial_conditions(configurations::AbstractOTEConfigurations)
-    number_of_times = length(configurations.observed_times)
+    number_of_times = length(configurations.observation_times)
     return number_of_pixels(configurations.camera)*number_of_times  
 end
 

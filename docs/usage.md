@@ -77,7 +77,7 @@ The initial data configurations in the observer-to-emitter scheme are constructe
 ```
 julia> configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                                      camera = camera,
-                                                     observed_times = [0.0,1.0])
+                                                     observation_times = [0.0,1.0])
 ```
 
 In the emitter-to-observer scheme, use the following

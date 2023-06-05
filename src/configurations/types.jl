@@ -38,10 +38,10 @@ end
     spacetime::S
     radiative_model::M
     camera::C
-    observed_times::Vector{Float64}
-    observed_energies::Vector{Float64}
+    observation_times::Vector{Float64}
+    observation_energies::Vector{Float64}
     unit_mass_in_solar_masses::Float64
-    @assert all(0 .< observed_energies) "all observation energies must be positive"
+    @assert all(0 .< observation_energies) "all observation energies must be positive"
     @assert 0 < unit_mass_in_solar_masses "unit_mass_in_solar_masses must be positive"
 end
 
@@ -49,7 +49,7 @@ end
     spacetime::S
     radiative_model::M
     camera::C
-    observed_times::Vector{Float64}
+    observation_times::Vector{Float64}
     unit_mass_in_solar_masses::Float64
     @assert 0 < unit_mass_in_solar_masses "unit_mass_in_solar_masses must be positive"
 end

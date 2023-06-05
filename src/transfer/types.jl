@@ -44,7 +44,7 @@ mutable struct NonVacuumCache{S, M, C, T}
     model::M
     cbp::C
     τmax::Float64
-    observed_energies::Vector{Float64}
+    observation_energies::Vector{Float64}
     NE::Int
     multi_thread::Vector{NonVacuumThreadCache{T}}
 

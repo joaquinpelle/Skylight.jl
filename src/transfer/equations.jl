@@ -54,7 +54,7 @@ end
 function transfer_equations!(du, u::Array{Float64,1}, p, t)
 
     model = p.model
-    observed_energies = p.observed_energies
+    observation_energies = p.observation_energies
     NE = p.NE
 
     cache = p.multi_thread[Threads.threadid()]
@@ -66,7 +66,7 @@ function transfer_equations!(du, u::Array{Float64,1}, p, t)
     αε = cache.αε
     jε = cache.jε
     
-    ε .= -observed_energies*vel[1]
+    ε .= -observation_energies*vel[1]
 
     invariant_absorptivity!(αε, point, ε, model)
     invariant_emissivity!(jε, point, ε, model)

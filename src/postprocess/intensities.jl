@@ -64,7 +64,7 @@ Compute observed specific intensities and energy quotients for a set of rays def
 - `initial_data::AbstractMatrix`: A matrix containing the initial data of the rays. The first four entries for each ray represent the initial position, while entries five to eight represent the initial momentum.
 - `output_data::AbstractMatrix`: A matrix containing the final data of the rays. The first four entries for each ray represent the final position, while entries five to eight represent the final momentum.
 - `configurations::VacuumOTEConfigurations`: The configurations with which the initial and output data were obtained.
-- `observed_energies::Vector`: A vector of energies in CGS units at which the specific intensities are to be computed.
+- `observation_energies::Vector`: A vector of energies in CGS units at which the specific intensities are to be computed.
 
 # Returns
 - `Iobs::Vector`: A vector of observed specific intensities in CGS units for each ray, normalized by the distance to the image plane. The intensities are in CGS units.
@@ -73,7 +73,7 @@ Compute observed specific intensities and energy quotients for a set of rays def
 # Notes
     Input energy units must be CGS. Output units are CGS.
 """
-function observed_specific_intensities(initial_data::AbstractMatrix, output_data::AbstractMatrix, configurations::VacuumOTEConfigurations, observed_energies)
+function observed_specific_intensities(initial_data::AbstractMatrix, output_data::AbstractMatrix, configurations::VacuumOTEConfigurations, observation_energies)
     spacetime = configurations.spacetime
     model = configurations.radiative_model
     coords_top = coordinates_topology(spacetime)
@@ -81,7 +81,7 @@ function observed_specific_intensities(initial_data::AbstractMatrix, output_data
     cache = postprocess_cache(configurations)
 
     Nrays = number_of_initial_conditions(configurations)
-    NE = length(observed_energies)
+    NE = length(observation_energies)
 
     q = zeros(Nrays)
     Iobs = zeros(NE, Nrays)
@@ -104,7 +104,7 @@ function observed_specific_intensities(initial_data::AbstractMatrix, output_data
             q[i] = energies_quotient(ki, kf, cache)
             
             for j in 1:NE
-                emitted_energy = observed_energies[j]/q[i]
+                emitted_energy = observation_energies[j]/q[i]
 
                 #The difference with the ETO scheme here should be the minus sign in front of the final momentum
                 #at get emitted intensity, and the is_final_position_at_source call (at observer in ETO)...

@@ -16,7 +16,7 @@ model = AccretionDiskWithTabulatedTemperature(inner_radius=rin_LBS1, outer_radiu
         
 configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                          camera = camera,
-                                         observed_times = [0.0],
+                                         observation_times = [0.0],
                                          radiative_model = model,
                                          unit_mass_in_solar_masses=1.0)
 

@@ -19,15 +19,15 @@ function allocate_cache(configurations::NonVacuumConfigurations, cbp, τmax)
 
     spacetime = configurations.spacetime
     model = configurations.radiative_model
-    observed_energies = configurations.observed_energies
-    NE = length(observed_energies)
+    observation_energies = configurations.observation_energies
+    NE = length(observation_energies)
 
     return NonVacuumCache(spacetime, 
                          model, 
                          cbp,
                          τmax, 
-                         observed_energies,
-                         length(observed_energies), 
+                         observation_energies,
+                         length(observation_energies), 
                          allocate_non_vacuum_multi_thread_cache(spacetime, NE))
 
 end

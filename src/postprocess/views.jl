@@ -1,7 +1,7 @@
 @kwdispatch view_as_grid
 
 @kwmethod function view_as_grid(output_data, configurations::NonVacuumOTEConfigurations; E_idx)
-    NE = length(configurations.observed_energies)
+    NE = length(configurations.observation_energies)
     Nα, Nβ = numbers_of_pixels_per_side(configurations.camera)
     @views grid = reshape(output_data[8+NE+E_idx,:], (Nα, Nβ))
     return grid

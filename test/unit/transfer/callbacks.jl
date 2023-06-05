@@ -26,7 +26,7 @@ using Skylight, Test
                           
         configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                    camera = camera,
-                                   observed_times = [0.0,1.0],
+                                   observation_times = [0.0,1.0],
                                    radiative_model = model,
                                    unit_mass_in_solar_masses=1.0)
 
@@ -62,7 +62,7 @@ using Skylight, Test
 
         configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                    camera = camera,
-                                   observed_times = [0.0,1.0],
+                                   observation_times = [0.0,1.0],
                                    radiative_model = model,
                                    unit_mass_in_solar_masses=1.0)
 
@@ -129,7 +129,7 @@ using Skylight, Test
 
         configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                    camera = camera,
-                                   observed_times = [0.0,1.0],
+                                   observation_times = [0.0,1.0],
                                    radiative_model = model,
                                    unit_mass_in_solar_masses=1.0)
 
