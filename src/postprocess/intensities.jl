@@ -15,7 +15,7 @@ Compute observed bolometric intensities and energy quotients for a set of rays d
 # Notes
     Output units are CGS.
 """
-function observed_bolometric_intensities(initial_data::AbstractMatrix, output_data::AbstractMatrix, configurations::VacuumOTEConfigurations)
+function observed_bolometric_intensities(initial_data::AbstractMatrix, output_data::AbstractMatrix, configurations::VacuumOTEConfigurations, ::ImagePlane)
 
     spacetime = configurations.spacetime
     model = configurations.radiative_model

@@ -12,5 +12,5 @@ end
     emitter_metric::Matrix{Float64} = zeros(4,4)
     observer_four_velocity::Vector{Float64} = zeros(4)
     emitter_four_velocity::Vector{Float64} = zeros(4)
-    observer_normal::Vector{Float64} = zeros(4)
+    surface_element_normal::Vector{Float64} = zeros(4)
 end

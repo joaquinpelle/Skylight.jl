@@ -15,7 +15,8 @@ function unpack_views(cache::ImagePlaneCache)
 end
 
 #PinholeCameraCache
-function set_metric_and_tetrad!(cache::PinholeCameraCache, position, spacetime::AbstractSpacetime)
+function set_metric_and_tetrad!(cache::PinholeCameraCache, position, configurations::AbstractConfigurations)
+    spacetime = configurations.spacetime
     coords_top = coordinates_topology(spacetime)
     metric, time_vector, triad = unpack_views(cache)
     set_metric!(metric, position, spacetime)

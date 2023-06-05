@@ -44,5 +44,5 @@ function number_of_initial_conditions(configurations::AbstractETOConfigurations)
     return number_of_points*number_of_packets_per_point
 end
 
-get_rmax(configurations::AbstractOTEConfigurations) = get_rmax(configurations.camera) 
+get_rmax(configurations::AbstractOTEConfigurations) = get_rmax(configurations.camera, configurations.spacetime) 
 get_rmax(configurations::AbstractETOConfigurations) = configurations.observer_distance

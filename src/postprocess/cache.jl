@@ -23,7 +23,7 @@ function set_observer_metric!(cache::PinholeCameraPostProcessCache, position, sp
     set_metric!(cache.observer_metric, position, spacetime)
 end
 
-function set_observer_four_velocity!(cache::PinholeCameraPostprocessCache, observer_four_velocity) 
+function set_observer_four_velocity!(cache::PinholeCameraPostProcessCache, observer_four_velocity) 
     normalize_timelike!(observer_four_velocity, cache.observer_metric)
     cache.observer_four_velocity .= observer_four_velocity
 end
@@ -32,8 +32,13 @@ function set_observer_four_velocity!(cache::PinholeCameraPostProcessCache, ::Not
     set_static_four_velocity!(cache.observer_four_velocity, cache.observer_metric)
 end
 
-function set_surface_element_normal!(cache::PinholeCameraPostProcessCache, normal)
+function set_surface_normal!(cache::PinholeCameraPostProcessCache, configurations, normal)
+    normalize_spacelike!(normal, cache.observer_metric)
     cache.surface_element_normal .= normal
+end
+
+function set_surface_normal!(cache::PinholeCameraPostProcessCache, configurations, ::Nothing)
+    cache.surface_element_normal .= default_normal(configurations.camera, configurations)
 end
 
 function set_emitter_metric_and_four_velocity!(cache::PinholeCameraPostProcessCache, final_position, spacetime, model, coords_top)

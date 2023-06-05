@@ -78,8 +78,7 @@ function zaxis_rotation_generator!(v, position, ::SphericalTopology)
     return nothing
 end
 
-
-function set_static_four_velocity_in!(vector, metric)
+function set_static_four_velocity!(vector, metric)
     vector .= ∂t()
     normalize_timelike!(vector, metric)
     return nothing

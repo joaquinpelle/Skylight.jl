@@ -7,7 +7,7 @@ end
 
 @with_kw mutable struct PinholeCameraCache <: AbstractInitialDataCache 
     metric::Matrix{Float64} = zeros(4,4)
-    tetrad::Vector{Float64} = zeros(4,4)
+    tetrad::Matrix{Float64} = zeros(4,4)
 end
 
 @with_kw mutable struct ETOInitialDataCache <: AbstractInitialDataCache

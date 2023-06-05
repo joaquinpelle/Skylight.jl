@@ -43,31 +43,30 @@ function sides(camera::PinholeCamera)
 end
 
 function all_pixel_solid_angles(camera::PinholeCamera)
-    Nα, _ = numbers_of_pixels_per_side(camera)
+    Nα, Nβ = numbers_of_pixels_per_side(camera)
     _, vecβ = get_pixel_coordinates_vectors(camera)
     dα, dβ = grid_spacing(camera)
 
-    solid_angles = my_zeros(camera)
+    solid_angles = zeros(Nα*Nβ)
     i=1
     for β in vecβ
-        solid_angle[i:(i-1+Nα)] .=  2*cos(β)*sin(dβ/2)*dα
+        solid_angles[i:(i-1+Nα)] .=  2*cos(β)*sin(dβ/2)*dα
         i+=Nα
     end
     return solid_angles
 end
 
-function default_tetrad(camera::PinholeCamera, configurations::AbstractOTEConfigurations, t)
+function default_tetrad(camera::PinholeCamera, configurations::AbstractOTEConfigurations)
     cache = get_initial_data_cache(camera)
-    position = coyp(camera.position)
-    position[1] += t
-    set_metric_and_tetrad!(cache, position, configurations)
+    set_metric_and_tetrad!(cache, camera.position, configurations)
     return cache.tetrad
 end
 
-default_four_velocity(camera::PinholeCamera, configurations::AbstractOTEConfigurations, t) = default_tetrad(camera, configurations, t)[:,1]
-default_normal(camera::PinholeCamera, configurations::AbstractOTEConfigurations, t) = default_tetrad(camera, configurations, t)[:,2]
-
+default_four_velocity(camera::PinholeCamera, configurations::AbstractOTEConfigurations) = default_tetrad(camera, configurations)[:,1]
+default_normal(camera::PinholeCamera, configurations::AbstractOTEConfigurations) = default_tetrad(camera, configurations)[:,2]
+get_rmax(camera, spacetime) = 1.1*radius(camera.position, spacetime)
 get_initial_data_cache(::PinholeCamera) = PinholeCameraCache()
+get_postprocess_cache(::PinholeCamera) = PinholeCameraPostProcessCache()
 
 #ImagePlane methods
 function area(image_plane::ImagePlane)
@@ -86,10 +85,11 @@ function sides(image_plane::ImagePlane)
     return sα, sβ
 end
 
-function get_rmax(image_plane::ImagePlane) 
+function get_rmax(image_plane::ImagePlane, ::AbstractSpacetime) 
     d = image_plane.distance
     sα, sβ = sides(image_plane)
     return 1.1*sqrt(d^2 + sα^2 + sβ^2)
 end
 
 get_initial_data_cache(::ImagePlane) = ImagePlaneCache()
+get_postprocess_cache(::ImagePlane) = ImagePlanePostProcessCache()
