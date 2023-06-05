@@ -1,14 +1,10 @@
-function energies_quotients(initial_data, output_data, configurations::VacuumOTEConfigurations)
-
+function energies_quotients(initial_data, output_data, configurations::VacuumOTEConfigurations, camera::ImagePlane)
     spacetime = configurations.spacetime
     model = configurations.radiative_model
     coords_top = coordinates_topology(spacetime)
-
-    cache = get_postprocess_cache(configurations)
-
+    cache = get_postprocess_cache(camera)
     Nrays = number_of_initial_conditions(configurations)
     q = zeros(Nrays)
-
     for i in 1:Nrays
 
         @views begin 
@@ -18,15 +14,39 @@ function energies_quotients(initial_data, output_data, configurations::VacuumOTE
             pf = output_data[1:4,i]
             kf = output_data[5:8,i]
         end
-
         #The difference with the ETO scheme here should be the minus sign in front of the final momentum
         #at get emitted intensity, and the is_final_position_at_source call (at observer in ETO)...
 
         if !is_final_position_at_source(pf, spacetime, model)
             continue
         end
-
         set_metrics_and_four_velocities!(cache, pi, pf, spacetime, model, coords_top)
+        q[i] = energies_quotient(ki, kf, cache)
+    end
+    return q
+end
+
+function energies_quotients(initial_data, output_data, configurations::VacuumOTEConfigurations, camera::PinholeCamera; observer_four_velocity=nothing)
+    spacetime = configurations.spacetime
+    model = configurations.radiative_model
+    coords_top = coordinates_topology(spacetime)
+    cache = get_postprocess_cache(camera)
+    set_observer_metric!(cache, camera.position, spacetime)
+    set_observer_four_velocity!(cache, observer_four_velocity)
+    Nrays = number_of_initial_conditions(configurations)
+    q = zeros(Nrays)
+    for i in 1:Nrays
+        @views begin 
+            ki = initial_data[5:8,i]
+            pf = output_data[1:4,i]
+            kf = output_data[5:8,i]
+        end
+        #The difference with the ETO scheme here should be the minus sign in front of the final momentum
+        #at get emitted intensity, and the is_final_position_at_source call (at observer in ETO)...
+        if !is_final_position_at_source(pf, spacetime, model)
+            continue
+        end
+        set_emitter_metric_and_four_velocity!(cache, pf, spacetime, model, coords_top)
         q[i] = energies_quotient(ki, kf, cache)
     end
     return q
