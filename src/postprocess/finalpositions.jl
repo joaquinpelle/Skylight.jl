@@ -25,7 +25,7 @@ function is_final_position_at_source(output_data, configurations)
         at_source[i] = is_final_position_at_source(pf, spacetime, model)
     end
     
-    return view_as_grid(at_source, configurations)
+    return grid_view(at_source, configurations)
 end
 
 """

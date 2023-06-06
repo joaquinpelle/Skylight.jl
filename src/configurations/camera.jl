@@ -1,10 +1,10 @@
 #AbstractCamera methods
-function pixel_coordinates(camera::AbstractCamera)
-    α, β = pixel_coordinates_vectors(camera)
+function camera_grid(camera::AbstractCamera)
+    α, β = axes_ranges(camera)
     return Iterators.product(α, β)
 end
 
-function pixel_coordinates_vectors(camera::AbstractCamera)
+function axes_ranges(camera::AbstractCamera)
     sα, sβ = sides(camera)
     Nα, Nβ = numbers_of_pixels_per_side(camera)
     dα, dβ = grid_spacing(camera)
@@ -44,7 +44,7 @@ end
 
 function pixel_solid_angles(camera::PinholeCamera)
     Nα, Nβ = numbers_of_pixels_per_side(camera)
-    _, vecβ = pixel_coordinates_vectors(camera)
+    _, vecβ = axes_ranges(camera)
     dα, dβ = grid_spacing(camera)
 
     solid_angles = zeros(Nα*Nβ)

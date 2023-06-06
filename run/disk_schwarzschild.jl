@@ -56,9 +56,9 @@ for E in energies
         output_data = run.output_data
         Iobs, q = observed_bolometric_intensities(initial_data, output_data, configurations)
 
-        xs,ys = pixel_coordinates_vectors(configurations)
+        xs,ys = axes_ranges(configurations)
 
-        zs = view_as_grid(Iobs, configurations)
+        zs = grid_view(Iobs, configurations)
 
         fig = Figure(font = "Times New Roman")
         ax = Axis(fig[1,1], xlabel=L"\alpha/(GM/c^2)", ylabel=L"\beta/(GM/c^2)", ylabelsize = 26, xlabelsize = 26) 
@@ -73,7 +73,7 @@ for E in energies
 
         Iobs, q = observed_specific_intensities(initial_data, output_data, configurations, [ε])
 
-        zs = view_as_grid(Iobs, configurations; E_idx=1)
+        zs = grid_view(Iobs, configurations; E_idx=1)
 
         fig = Figure(font = "Times New Roman")
         ax = Axis(fig[1,1], xlabel=L"\alpha/(GM/c^2)", ylabel=L"\beta/(GM/c^2)", ylabelsize = 26, xlabelsize = 26) 

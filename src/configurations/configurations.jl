@@ -9,7 +9,7 @@ my_zeros(configurations::VacuumConfigurations) = zeros(8, number_of_initial_cond
 
 observation_times(configurations::AbstractOTEConfigurations) = configurations.camera.observation_times
 
-pixel_coordinates_vectors(configurations::AbstractOTEConfigurations) = pixel_coordinates_vectors(configurations.camera)
+axes_ranges(configurations::AbstractOTEConfigurations) = axes_ranges(configurations.camera)
 
 initial_data_cache(configurations::AbstractOTEConfigurations) = initial_data_cache(configurations.camera)
 initial_data_cache(::AbstractETOConfigurations) = ETOInitialDataCache()
@@ -32,7 +32,7 @@ function zero_times(configurations::AbstractETOConfigurations)
 end
 
 function number_of_initial_conditions(configurations::AbstractOTEConfigurations)
-    number_of_times = length(configurations.observation_times)
+    number_of_times = length(observation_times(configurations))
     return number_of_pixels(configurations.camera)*number_of_times  
 end
 

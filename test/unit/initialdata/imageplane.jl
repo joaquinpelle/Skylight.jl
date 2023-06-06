@@ -29,7 +29,7 @@ using Skylight, Test
         @test Skylight.pixel_area(camera) == 0.25
         @test Skylight.area(camera) == 1.0
 
-        iterator1 = Skylight.pixel_coordinates(camera)
+        iterator1 = Skylight.camera_grid(camera)
         iterator2 = Iterators.product([-0.25, 0.25], [-0.25, 0.25])
 
         @test collect(iterator1) == collect(iterator2)

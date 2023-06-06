@@ -4,7 +4,7 @@ function get_initial_data(image_plane::ImagePlane, configurations::AbstractOTECo
 
     index = 1
     for initial_time in observation_times(configurations) 
-        for pixel_coordinates in pixel_coordinates(image_plane) 
+        for pixel_coordinates in camera_grid(image_plane) 
             @views ray = rays[1:8, index]
             initialize_single!(ray, initial_time, pixel_coordinates, configurations, cache)
             index += 1

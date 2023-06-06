@@ -42,7 +42,7 @@ end
 
     @assert inner_radius >= 0.0 "Inner radius must be non-negative"
     @assert outer_radius >= inner_radius "Outer radius must be larger than inner radius"
-    @assert isa(rotation_sense, RotationSense) "Rotation sense must be either ProgradeRotation() or RetrogradeRotation()"
+    @assert isa(rotation_sense, AbstractRotationSense) "Rotation sense must be either ProgradeRotation() or RetrogradeRotation()"
 end
 
 #Dummy function to be defined later

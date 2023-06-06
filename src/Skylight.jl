@@ -125,8 +125,8 @@ export is_final_position_at_observer,
     observed_specific_intensities,
     line_emission_spectrum, 
     rescale_intensities_normalization_at_real_observer!, 
-    pixel_coordinates_vectors, 
-    view_as_grid
+    axes_ranges, 
+    grid_view
 
 export contract
     lower_index,

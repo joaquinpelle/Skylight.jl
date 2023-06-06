@@ -29,9 +29,9 @@ output_data = output_data(run)
 
 Iobs, q = observed_bolometric_intensities(initial_data, output_data, configurations)
 
-xs,ys = pixel_coordinates_vectors(configurations)
+xs,ys = axes_ranges(configurations)
 
-zs = view_as_grid(bolometric_intensities, configurations)
+zs = grid_view(bolometric_intensities, configurations)
 
 fig = Figure(font = "CMU Serif")
 ax = Axis(fig[1,1], xlabel=L"\alpha", ylabel=L"\beta", ylabelsize = 26, xlabelsize = 26) 

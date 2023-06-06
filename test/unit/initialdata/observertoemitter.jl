@@ -76,13 +76,13 @@ using Skylight, Test
                                                 camera = camera,
                                                 unit_mass_in_solar_masses=1.0)
 
-        initial_time = configurations.observation_times[2]
+        initial_time = observation_times(configurations)[2]
         camera = configurations.camera
         coords_top = coordinates_topology(spacetime)
         
 
         ray = zeros(8)
-        pixel_coords =  (1.0, 1.0)
+        pixel_coordinates =  (1.0, 1.0)
         cache = Skylight.ImagePlaneCache()
         cache.vector = [1.0, 0.0, 0.0, 0.0]
 
