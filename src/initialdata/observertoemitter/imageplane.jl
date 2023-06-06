@@ -1,6 +1,6 @@
 function get_initial_data(image_plane::ImagePlane, configurations::AbstractOTEConfigurations)
     rays = my_zeros(configurations)
-    cache = get_initial_data_cache(configurations)
+    cache = initial_data_cache(configurations)
 
     index = 1
     for initial_time in observation_times(configurations) 
