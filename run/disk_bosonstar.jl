@@ -29,7 +29,7 @@ output_data = output_data(run)
 
 Iobs, q = observed_bolometric_intensities(initial_data, output_data, configurations)
 
-xs,ys = axes_ranges(configurations)
+xs,ys = axes_ranges(camera)
 
 zs = grid_view(bolometric_intensities, configurations)
 

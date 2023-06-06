@@ -51,7 +51,7 @@ for E in energies
 
             Iobs, q = observed_bolometric_intensities(initial_data, output_data, configurations)
 
-            xs,ys = axes_ranges(configurations)
+            xs,ys = axes_ranges(camera)
 
             zs = grid_view(Iobs, configurations)
 
@@ -68,7 +68,7 @@ for E in energies
 
             Iobs, q = observed_specific_intensities(initial_data, output_data, configurations, [ε])
 
-            zs = grid_view(Iobs, configurations; E_idx=1)
+            zs = grid_view(Iobs, configurations; energy_index=1)
 
             fig = Figure(font = "Times New Roman")
             ax = Axis(fig[1,1], xlabel=L"\alpha/(GM/c^2)", ylabel=L"\beta/(GM/c^2)", ylabelsize = 26, xlabelsize = 26) 

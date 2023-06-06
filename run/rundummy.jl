@@ -25,8 +25,8 @@ cb, cbp = callback_setup(configurations; rhorizon_bound = 0.3) #... or, define y
 run = integrate(initial_data, configurations, cb, cbp; τmax=2.0, method=VCABM(), reltol=1e-13, abstol=1e-21)
 output_data = output_data(run)
 
-xs, ys = axes_ranges(configurations) 
-zs = grid_view(output_data, configurations; E_idx = 1)
+xs, ys = axes_ranges(camera) 
+zs = grid_view(output_data, configurations; energy_index = 1)
 
 fig = Figure(font = "CMU Serif") #resolution=(600,400)
 ax = Axis(fig[1,1], xlabel=L"\alpha", ylabel=L"\beta", ylabelsize = 26, xlabelsize = 26) 

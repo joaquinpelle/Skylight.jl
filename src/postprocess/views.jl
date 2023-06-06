@@ -1,9 +1,9 @@
 @kwdispatch grid_view
 
-@kwmethod function grid_view(output_data, configurations::NonVacuumOTEConfigurations; E_idx)
+@kwmethod function grid_view(output_data, configurations::NonVacuumOTEConfigurations; energy_index)
     NE = length(configurations.observation_energies)
     Nα, Nβ = numbers_of_pixels_per_side(configurations.camera)
-    @views grid = reshape(output_data[8+NE+E_idx,:], (Nα, Nβ))
+    @views grid = reshape(output_data[8+NE+energy_index,:], (Nα, Nβ))
     return grid
 end
 
@@ -13,8 +13,8 @@ function grid_view(vector, configurations::VacuumOTEConfigurations)
     return grid
 end
 
-@kwmethod function grid_view(intensities, configurations::VacuumOTEConfigurations; E_idx)
+@kwmethod function grid_view(intensities, configurations::VacuumOTEConfigurations; energy_index)
     Nα, Nβ = numbers_of_pixels_per_side(configurations.camera)
-    @views intensities_grid = reshape(intensities[E_idx,:], (Nα, Nβ))
+    @views intensities_grid = reshape(intensities[energy_index,:], (Nα, Nβ))
     return intensities_grid
 end
