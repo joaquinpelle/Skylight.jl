@@ -42,7 +42,7 @@ function sides(camera::PinholeCamera)
     return sα, sβ
 end
 
-function all_pixel_solid_angles(camera::PinholeCamera)
+function pixel_solid_angles(camera::PinholeCamera)
     Nα, Nβ = numbers_of_pixels_per_side(camera)
     _, vecβ = pixel_coordinates_vectors(camera)
     dα, dβ = grid_spacing(camera)

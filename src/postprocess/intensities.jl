@@ -94,7 +94,7 @@ function observed_bolometric_intensities(initial_data::AbstractMatrix, output_da
         cache.surface_normal = surface_normal
     end
 
-    dΩ = all_pixel_solid_angles(camera)
+    dΩ = pixel_solid_angles(camera)
     Nrays = number_of_initial_conditions(configurations)
     q = zeros(Nrays)
     Iobs = zeros(Nrays)
@@ -231,7 +231,7 @@ function observed_specific_intensities(initial_data::AbstractMatrix, output_data
         cache.surface_normal = surface_normal
     end
 
-    dΩ = all_pixel_solid_angles(camera)
+    dΩ = pixel_solid_angles(camera)
     Nrays = number_of_initial_conditions(configurations)
     NE = length(observation_energies)
 
