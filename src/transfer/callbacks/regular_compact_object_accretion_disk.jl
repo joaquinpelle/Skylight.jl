@@ -10,10 +10,9 @@ end
     inner_radius::Float64
     outer_radius::Float64
 
-    @assert rmin >= 0.0 "rmin must be non-negative"
-    @assert rmax > rmin "rmax must be larger than rmin"
     @assert inner_radius >= 0.0 "Inner radius must be non-negative"
     @assert outer_radius >= inner_radius "Outer radius must be larger than inner radius"
+    @assert rmax > outer_radius "rmax must be larger than rmin"
 end
 
 callback(::AbstractRegularCompactObjectSpacetime, ::AbstractAccretionDisk, ::SphericalTopology) = regular_spacetime_accretion_disk_spherical_coordinates_callback()

@@ -15,10 +15,10 @@ end
     inner_radius::Float64
     outer_radius::Float64
     
-    @assert rmin >= 0.0 "rmin must be non-negative"
-    @assert rmax > rmin "rmax must be larger than rmin"
     @assert inner_radius >= 0.0 "Inner radius must be non-negative"
     @assert outer_radius >= inner_radius "Outer radius must be larger than inner radius"
+    @assert rmin <= inner_radius "rmin must be smaller than inner radius"
+    @assert rmax > outer_radius "rmax must be larger than outer_radius"
 end
 
 callback(::AbstractBlackHoleSpacetime, ::AbstractAccretionDisk, ::CartesianTopology) = black_hole_accretion_disk_cartesian_coordinates_callback()
