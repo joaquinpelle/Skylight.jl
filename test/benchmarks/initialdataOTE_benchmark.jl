@@ -17,7 +17,6 @@ for n in numbers
 
     configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                             camera = camera,
-                                            observation_times = [0.0],
                                             unit_mass_in_solar_masses=1.0)
 
     suite[string(n)] = @benchmarkable get_initial_data($configurations)

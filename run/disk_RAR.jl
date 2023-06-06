@@ -36,7 +36,6 @@ for E in energies
                     
             configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                                     image_plane = image_plane,
-                                                    observation_times = [0.0],
                                                     radiative_model = model,
                                                     unit_mass_in_solar_masses=model.M1)
 

@@ -43,6 +43,7 @@ end
 
     camera = ImagePlane(distance = 50.0,
                             observer_inclination_in_degrees = 45,
+                            observation_times = [0.0,1.0],
                             horizontal_side = 30.0,
                             vertical_side = 40.0,
                             horizontal_number_of_pixels = 50,
@@ -50,7 +51,6 @@ end
 
     configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                 camera = camera,
-                                observation_times = [0.0,1.0],
                                 radiative_model = model,
                                 unit_mass_in_solar_masses=1.0)
     rmax = 1.1*sqrt(6000)

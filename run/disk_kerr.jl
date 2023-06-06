@@ -13,7 +13,6 @@ model = NovikovThorneDisk(inner_radius=6.0, outer_radius=18.0)
         
 configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                    camera = camera,
-                                   observation_times = [0.0],
                                    radiative_model = model,
                                    unit_mass_in_solar_masses=1.0)
 

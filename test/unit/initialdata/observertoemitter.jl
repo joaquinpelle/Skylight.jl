@@ -8,6 +8,7 @@ using Skylight, Test
     
         camera = ImagePlane(distance = 1.0,
                                     observer_inclination_in_degrees = 137.0,
+                                    observation_times = [0.0,1.0],
                                     horizontal_side = 1.0,
                                     vertical_side = 1.0,
                                     horizontal_number_of_pixels = 3,
@@ -16,7 +17,6 @@ using Skylight, Test
         configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                             radiative_model = DummyModel(),
                                                    camera = camera,
-                                                   observation_times = [0.0,1.0],
                                                    unit_mass_in_solar_masses=1.0)
         
         rays = Skylight.my_zeros(configurations)
@@ -65,6 +65,7 @@ using Skylight, Test
 
         camera = ImagePlane(distance = sqrt(7.0),
                                     observer_inclination_in_degrees = 90.0,
+                                    observation_times = [0.0,rand()],
                                     horizontal_side = 3.0,
                                     vertical_side = 3.0,
                                     horizontal_number_of_pixels = 3,
@@ -73,7 +74,6 @@ using Skylight, Test
         configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                             radiative_model = DummyModel(),
                                                 camera = camera,
-                                                observation_times = [0.0,rand()],
                                                 unit_mass_in_solar_masses=1.0)
 
         initial_time = configurations.observation_times[2]
@@ -105,6 +105,7 @@ using Skylight, Test
 
         camera = ImagePlane(distance = 3,
                                     observer_inclination_in_degrees = 90.0,
+                                    observation_times = [0.1,1.5],
                                     horizontal_side = 3.0,
                                     vertical_side = 3.0,
                                     horizontal_number_of_pixels = 3,
@@ -113,7 +114,6 @@ using Skylight, Test
         configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                             radiative_model = DummyModel(),
                                                 camera = camera,
-                                                observation_times = [0.1,1.5],
                                                 unit_mass_in_solar_masses=1.0)
 
         rays = get_initial_data(configurations)

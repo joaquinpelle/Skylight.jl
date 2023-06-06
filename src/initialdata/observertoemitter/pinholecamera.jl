@@ -8,7 +8,6 @@ function get_initial_data(camera::PinholeCamera, configurations::AbstractOTEConf
     
     rays = my_zeros(configurations)    
     position = camera.position
-    Npixels = number_of_pixels(camera) 
     @views begin
         xμ = rays[1:4,:]
         kμ = rays[5:8,:]

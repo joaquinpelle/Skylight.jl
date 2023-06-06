@@ -67,7 +67,8 @@ julia> camera = ImagePlane(distance = 500.0,
                                 horizontal_side = 10.0,
                                 vertical_side = 10.0,
                                 horizontal_number_of_pixels = 50,
-                                vertical_number_of_pixels = 50)
+                                vertical_number_of_pixels = 50,
+                                observation_times = [0.0,1.0])
 ```
 
 #### Configurations
@@ -76,8 +77,7 @@ The initial data configurations in the observer-to-emitter scheme are constructe
 
 ```
 julia> configurations = VacuumOTEConfigurations(spacetime=spacetime,
-                                                     camera = camera,
-                                                     observation_times = [0.0,1.0])
+                                                     camera = camera)
 ```
 
 In the emitter-to-observer scheme, use the following

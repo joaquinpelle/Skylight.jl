@@ -7,7 +7,7 @@ end
 
 my_zeros(configurations::VacuumConfigurations) = zeros(8, number_of_initial_conditions(configurations))
 
-observation_times(configurations::AbstractOTEConfigurations) = configurations.observation_times
+observation_times(configurations::AbstractOTEConfigurations) = configurations.camera.observation_times
 
 pixel_coordinates_vectors(configurations::AbstractOTEConfigurations) = pixel_coordinates_vectors(configurations.camera)
 

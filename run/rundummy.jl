@@ -15,7 +15,6 @@ model = Skylight.DummyExtendedRegion()
 configurations = NonVacuumOTEConfigurations(spacetime=spacetime,
                                    camera = camera,
                                    radiative_model = model,
-                                   observation_times = [0.0],
                                    observation_energies = [1.0],
                                    unit_mass_in_solar_masses=1.0)
 

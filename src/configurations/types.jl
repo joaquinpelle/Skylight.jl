@@ -11,6 +11,7 @@ abstract type AbstractCamera end
     vertical_side::Float64
     horizontal_number_of_pixels::Int
     vertical_number_of_pixels::Int
+    observation_times::Vector{Float64} = [0.0]
     @assert 0 < distance
     @assert 0 <= observer_inclination_in_degrees <= 180
     @assert 0 < horizontal_side
@@ -38,7 +39,6 @@ end
     spacetime::S
     radiative_model::M
     camera::C
-    observation_times::Vector{Float64}
     observation_energies::Vector{Float64}
     unit_mass_in_solar_masses::Float64
     @assert all(0 .< observation_energies) "all observation energies must be positive"
@@ -49,7 +49,6 @@ end
     spacetime::S
     radiative_model::M
     camera::C
-    observation_times::Vector{Float64}
     unit_mass_in_solar_masses::Float64
     @assert 0 < unit_mass_in_solar_masses "unit_mass_in_solar_masses must be positive"
 end
