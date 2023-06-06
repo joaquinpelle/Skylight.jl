@@ -19,7 +19,7 @@ for n in numbers
                                             camera = camera,
                                             unit_mass_in_solar_masses=1.0)
 
-    suite[string(n)] = @benchmarkable get_initial_data($configurations)
+    suite[string(n)] = @benchmarkable initialize($configurations)
     
 end
 

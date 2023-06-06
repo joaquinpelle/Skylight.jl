@@ -114,7 +114,7 @@ export AbstractCamera,
 
 export max_radius
 
-export get_initial_data, 
+export initialize, 
     integrate, 
     output_data, 
     callback_setup

@@ -1,4 +1,4 @@
-function get_initial_data(configurations::VacuumETOConfigurations)
+function initialize(configurations::VacuumETOConfigurations)
     cache = initial_data_cache(configurations)
     packets = my_zeros(configurations)
 

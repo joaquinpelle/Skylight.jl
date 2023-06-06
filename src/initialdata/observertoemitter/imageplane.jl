@@ -1,4 +1,4 @@
-function get_initial_data(image_plane::ImagePlane, configurations::AbstractOTEConfigurations)
+function initialize(image_plane::ImagePlane, configurations::AbstractOTEConfigurations)
     rays = my_zeros(configurations)
     cache = initial_data_cache(configurations)
 

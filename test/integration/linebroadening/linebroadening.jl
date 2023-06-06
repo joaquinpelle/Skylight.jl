@@ -25,7 +25,7 @@ function test_line_broadening(figname, rotation_sense)
                                    radiative_model = model,
                                    unit_mass_in_solar_masses=1.0)
 
-    initial_data = get_initial_data(configurations)
+    initial_data = initialize(configurations)
     cb, cbp = callback_setup(configurations; rhorizon_bound=2e-1)
     run = integrate(initial_data, configurations, cb, cbp; method=VCABM(), reltol=1e-13, abstol=1e-21)
 

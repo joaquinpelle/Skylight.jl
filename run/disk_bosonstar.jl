@@ -19,7 +19,7 @@ configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                          radiative_model = model,
                                          unit_mass_in_solar_masses=1.0)
 
-initial_data = get_initial_data(configurations)
+initial_data = initialize(configurations)
 
 cb, cbp = callback_setup(configurations) #... or, define your own cb and cbp
 

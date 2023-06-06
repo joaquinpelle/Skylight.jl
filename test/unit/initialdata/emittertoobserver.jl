@@ -170,7 +170,7 @@ end
                                         temperature=rand())
     configurations = VacuumETOConfigurations(spacetime = spacetime, radiative_model = model, number_of_points=3, number_of_packets_per_point = 3, observer_distance = 500.0, unit_mass_in_solar_masses=1.0)
 
-    packets = get_initial_data(configurations)
+    packets = initialize(configurations)
 
     metric = zeros(4,4)
     metric!(metric, zeros(4), spacetime)

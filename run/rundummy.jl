@@ -18,7 +18,7 @@ configurations = NonVacuumOTEConfigurations(spacetime=spacetime,
                                    observation_energies = [1.0],
                                    unit_mass_in_solar_masses=1.0)
 
-initial_data = get_initial_data(configurations)
+initial_data = initialize(configurations)
 
 cb, cbp = callback_setup(configurations; rhorizon_bound = 0.3) #... or, define your own cb and cbp
 

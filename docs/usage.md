@@ -94,7 +94,7 @@ julia> configurations = VacuumETOConfigurations(spacetime=spacetime,
 Finally, for creating the initial data, use
 
 ```
-julia> initial_data = get_initial_data(configurations)
+julia> initial_data = initialize(configurations)
 ```
 
 #### Geodesics

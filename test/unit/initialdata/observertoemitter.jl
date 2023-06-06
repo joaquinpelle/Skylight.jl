@@ -116,7 +116,7 @@ using Skylight, Test
                                                 camera = camera,
                                                 unit_mass_in_solar_masses=1.0)
 
-        rays = get_initial_data(configurations)
+        rays = initialize(configurations)
 
         @views ray = rays[:,14]
 

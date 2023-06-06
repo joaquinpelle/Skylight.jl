@@ -2,7 +2,7 @@
     Sets the bundle of rays at the camera position. The rays are initialized on a tetrad which has a static four-velocity and 
     a spherical-like spatial triad. The rays have unit energy in this tetrad. 
     See docs/pinholecamera.md for more details"""
-function get_initial_data(camera::PinholeCamera, configurations::AbstractOTEConfigurations)
+function initialize(camera::PinholeCamera, configurations::AbstractOTEConfigurations)
     cache = initial_data_cache(camera)
     @views tetrad = cache.tetrad
     

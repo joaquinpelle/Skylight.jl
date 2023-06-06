@@ -45,7 +45,7 @@ for E in energies
                                                 radiative_model = model,
                                                 unit_mass_in_solar_masses=model.M1)
 
-        initial_data = get_initial_data(configurations)
+        initial_data = initialize(configurations)
 
         cb, cbp = callback_setup(configurations, rhorizon_bound=2e-1) #... or, define your own cb and cbp
 
