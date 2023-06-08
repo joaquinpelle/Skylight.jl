@@ -31,6 +31,9 @@ function numbers_of_pixels_per_side(camera::AbstractCamera)
 end
 
 #PinholeCamera methods
+
+number_of_initial_conditions(camera::PinholeCamera) = number_of_pixels(camera)  
+
 function solid_angle(camera::PinholeCamera)
     sα, sβ = sides(camera)
     return 2*sα*sin(sβ/2)
@@ -69,6 +72,13 @@ initial_data_cache(::PinholeCamera) = PinholeCameraCache()
 postprocess_cache(::PinholeCamera) = PinholeCameraPostProcessCache()
 
 #ImagePlane methods
+
+number_of_initial_conditions(camera::ImagePlane) = number_of_pixels(camera)*number_of_times(camera)  
+
+function number_of_times(camera::ImagePlane)
+    return length(camera.observation_times)
+end
+
 function area(image_plane::ImagePlane)
     sα, sβ = sides(image_plane)
     return sα*sβ

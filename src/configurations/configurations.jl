@@ -31,10 +31,7 @@ function zero_times(configurations::AbstractETOConfigurations)
     return repeat([0.0],npoints)
 end
 
-function number_of_initial_conditions(configurations::AbstractOTEConfigurations)
-    number_of_times = length(observation_times(configurations))
-    return number_of_pixels(configurations.camera)*number_of_times  
-end
+number_of_initial_conditions(configurations::AbstractOTEConfigurations) = number_of_initial_conditions(configurations.camera)
 
 function number_of_initial_conditions(configurations::AbstractETOConfigurations)
     number_of_points = configurations.number_of_points
