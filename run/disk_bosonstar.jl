@@ -31,7 +31,7 @@ Iobs, q = observed_bolometric_intensities(initial_data, output_data, configurati
 
 xs,ys = axes_ranges(camera)
 
-zs = grid_view(bolometric_intensities, configurations)
+zs = grid_view(Iobs, configurations)
 
 fig = Figure(font = "CMU Serif")
 ax = Axis(fig[1,1], xlabel=L"\alpha", ylabel=L"\beta", ylabelsize = 26, xlabelsize = 26) 
