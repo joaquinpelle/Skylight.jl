@@ -7,6 +7,7 @@ using HDF5
 using KeywordDispatch
 using LinearAlgebra
 using Parameters
+using Polynomials
 using Random
 using Reexport
 
@@ -40,6 +41,7 @@ export AbstractSpacetime,
     AbstractKerrSpacetime,
     KerrSpacetimeKerrSchildCoordinates,
     KerrSpacetimeBoyerLindquistCoordinates,
+    FRKerrSpacetime,
     JohannsenSpacetime,
     ChargedWormholeSpacetimeSphericalCoordinates,
     ChargedWormholeSpacetimeRegularCoordinates,
@@ -61,9 +63,9 @@ export IsStationary,
     IsSphericallySymmetric,
     IsAxiallySymmetric
 
-export is_stationary,
-    is_spherically_symmetric,
-    is_axially_symmetric 
+export stationarity,
+    spherical_symmetry,
+    axial_symmetry 
 
 export energy,
     angular_momentum,
@@ -83,7 +85,10 @@ export radius,
     radial_bounds,
     mass,
     mass_enclosed,
-    mass_enclosed_derivative
+    mass_enclosed_derivative,
+    horizons,
+    horizon_parameter,
+    cosmologic_horizon_radius
 
 export AbstractRadiativeModel,
     AbstractSurfaceEmissionModel,

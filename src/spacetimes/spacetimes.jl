@@ -12,16 +12,17 @@ circular_geodesic_angular_speed(position, spacetime, rotation_sense) = error("Ci
 christoffel!(Γ, position, spacetime::AbstractSpacetime, ::Nothing) = christoffel!(Γ, position, spacetime)
 
 #By default we set non-stationarity and non-spherical symmetry  
-is_stationary(::AbstractSpacetime) = IsNotStationary()
-is_spherically_symmetric(::AbstractSpacetime) = IsNotSphericallySymmetric()
+stationarity(::AbstractSpacetime) = IsNotStationary()
+spherical_symmetry(::AbstractSpacetime) = IsNotSphericallySymmetric()
 #For z symmetry we check spherical symmetry by default first. Thus if a spacetime is declared spherically symmetric it's automatically axially symmetric.
-is_axially_symmetric(spacetime::AbstractSpacetime) = isa(is_spherically_symmetric(spacetime), IsSphericallySymmetric) ? IsAxiallySymmetric() : IsNotAxiallySymmetric()
+axial_symmetry(spacetime::AbstractSpacetime) = isa(spherical_symmetry(spacetime), IsSphericallySymmetric) ? IsAxiallySymmetric() : IsNotAxiallySymmetric()
 
 include("coordinatealias.jl")
 include("autodiff.jl")
 include("minkowski.jl")
 include("schwarzschild.jl")
 include("kerr.jl")
+include("frkerr.jl")
 include("johannsen.jl")
 include("chargedwormhole.jl")
 include("bosonstar.jl")
