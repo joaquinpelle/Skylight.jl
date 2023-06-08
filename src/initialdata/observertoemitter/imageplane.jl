@@ -1,7 +1,6 @@
 function initialize(image_plane::ImagePlane, configurations::AbstractOTEConfigurations)
     rays = my_zeros(configurations)
     cache = initial_data_cache(configurations)
-
     index = 1
     for initial_time in observation_times(configurations) 
         for pixel_coordinates in camera_grid(image_plane) 
@@ -24,12 +23,13 @@ function initialize_single!(ray, initial_time, pixel_coordinates, configurations
     spacetime = configurations.spacetime
     image_plane = configurations.camera
     coords_top = coordinates_topology(spacetime)
-
+    metric!(cache,position,spacetime)
+    static_four_velocity!(cache)
+    
     ray[1] = initial_time  
     space_position .= space_position_from(pixel_coordinates,image_plane,coords_top)
     space_momentum .= space_momentum_from(pixel_coordinates,image_plane,coords_top)
 
-    metric_and_four_velocity!(cache,position,spacetime)
     set_null_ingoing_past_directed!(momentum,cache)
     return nothing
 end
