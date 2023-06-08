@@ -66,3 +66,10 @@ function rotate_around_y_axis!(v, angle_in_degrees)
     end
     return nothing
 end
+
+function check_signature(metric)
+    @assert is_timelike([1.0, 0.0, 0.0, 0.0], metric) "The first coordinate basis vector is not timelike"
+    @assert is_spacelike([0.0, 1.0, 0.0, 0.0], metric) "The second coordinate basis vector is not spacelike"
+    @assert is_spacelike([0.0, 0.0, 1.0, 0.0], metric) "The third coordinate basis vector is not spacelike"
+    @assert is_spacelike([0.0, 0.0, 0.0, 1.0], metric) "The fourth coordinate basis vector is not spacelike"
+end
