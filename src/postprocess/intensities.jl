@@ -53,21 +53,21 @@ function observed_bolometric_intensities(initial_data::AbstractMatrix, output_da
     return Iobs, q
 end
 
-""" observed_bolometric_intensities(initial_data, output_data, configurations::VacuumOTEConfigurations, camera::PinholeCamera; observer_four_velocity=nothing, surface_normal=nothing) Compute observed bolometric intensities and energy quotients for a set of rays defined by the initial and final conditions. The function also checks whether the final position of each ray is at the source, in which case it proceeds with computation, else it skips to the next ray and the values are set to zero. 
+""" observed_bolometric_intensities(initial_data, output_data, configurations::VacuumOTEConfigurations, camera::PinholeCamera; observer_four_velocity=nothing, flux_direction=nothing) Compute observed bolometric intensities and energy quotients for a set of rays defined by the initial and final conditions. The function also checks whether the final position of each ray is at the source, in which case it proceeds with computation, else it skips to the next ray and the values are set to zero. 
 # Arguments
 - `initial_data::AbstractMatrix`: A matrix containing the initial data of the rays. The first four entries for each ray represent the initial position, while entries five to eight represent the initial momentum.
 - `output_data::AbstractMatrix`: A matrix containing the final data of the rays. The first four entries for each ray represent the final position, while entries five to eight represent the final momentum.
 - `configurations::VacuumOTEConfigurations`: The configurations with which the initial and output data were obtained.
 - `camera::PinholeCamera`: The camera model used to capture the scene.
 - `observer_four_velocity::AbstractVector` (optional): The four-velocity of the observer. If not provided, a default static four-velocity will be used.
-- `surface_normal::AbstractVector` (optional): The normal to the surface. If not provided, a default normal will be computed based on the camera and configurations.
+- `flux_direction::AbstractVector` (optional): The direction in which to measure the flux. If not provided, a default diretion will be computed based on the camera and configurations.
 
 # Returns
 - `Iobs::Vector`: A vector of observed bolometric intensities for each ray, normalized by the distance to the image plane. The intensities are in CGS units.
 - `q::Vector`: A vector of energy quotients for each ray, representing the ratio of final energy in the local emission frame to initial energy in the observer frame.
 
 # Notes
-    Output units are CGS. The observer four-velocity and surface normal, if provided, must satisfy the conditions of being timelike and spacelike, respectively, as per the observer metric.
+    Output units are CGS. The observer four-velocity and flux direction, if provided, must satisfy the conditions of being timelike and spacelike, respectively, as per the observer metric.
 """
 function observed_bolometric_intensities(initial_data::AbstractMatrix, output_data::AbstractMatrix, configurations::VacuumOTEConfigurations, camera::PinholeCamera; observer_four_velocity=nothing)
 
@@ -169,7 +169,7 @@ function observed_specific_intensities(initial_data::AbstractMatrix, output_data
 end
 
 """
-    observed_specific_intensities(initial_data, output_data, configurations::VacuumOTEConfigurations, observation_energies; observer_four_velocity=nothing, surface_normal=nothing)
+    observed_specific_intensities(initial_data, output_data, configurations::VacuumOTEConfigurations, observation_energies; observer_four_velocity=nothing, flux_direction=nothing)
 
 Compute observed specific intensities and energy quotients for a set of rays defined by the initial and final conditions. The function also checks whether the final position of each ray is at the source, in which case it proceeds with computation, else it skips to the next ray and the values are set to zero.
 
@@ -179,14 +179,14 @@ Compute observed specific intensities and energy quotients for a set of rays def
 - `configurations::VacuumOTEConfigurations`: The configurations with which the initial and output data were obtained.
 - `observation_energies::Vector`: A vector of energies in CGS units at which the specific intensities are to be computed.
 - `observer_four_velocity::AbstractVector` (optional): The four-velocity of the observer. If not provided, a default static four-velocity will be used.
-- `surface_normal::AbstractVector` (optional): The normal to the surface. If not provided, a default normal will be computed based on the camera and configurations.
+- `flux_direction::AbstractVector` (optional): The direction in which to measure the flux. If not provided, a default diretion will be computed based on the camera and configurations.
 
 # Returns
 - `Iobs::Matrix`: A matrix of observed specific intensities in CGS units for each ray, normalized by the distance to the image plane. The intensities are in CGS units.
 - `q::Vector`: A vector of energy quotients for each ray, representing the ratio of final energy in the local emission frame to initial energy in the observer frame.
 
 # Notes
-    Input energy units must be CGS. Output units are CGS. The observer four-velocity and surface normal, if provided, must satisfy the conditions of being timelike and spacelike, respectively, as per the observer metric.
+    Input energy units must be CGS. Output units are CGS. The observer four-velocity and flux direction, if provided, must satisfy the conditions of being timelike and spacelike, respectively, as per the observer metric.
 """
 function observed_specific_intensities(initial_data::AbstractMatrix, output_data::AbstractMatrix, configurations::VacuumOTEConfigurations, camera::PinholeCamera, observation_energies; observer_four_velocity=nothing)
     

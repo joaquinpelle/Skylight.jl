@@ -32,12 +32,12 @@ function observer_four_velocity!(cache, observer_four_velocity)
     end
 end
 
-function surface_normal!(cache, surface_normal, camera, spacetime)
-    if surface_normal===nothing
-        cache.surface_normal .= default_normal(camera, spacetime)
+function flux_direction!(cache, flux_direction, camera, spacetime)
+    if flux_direction===nothing
+        cache.flux_direction .= default_flux_direction(camera, spacetime)
     else
-        @assert is_spacelike(surface_normal, cache.observer_metric) "The surface normal is not spacelike."
-        cache.surface_normal = surface_normal
+        @assert is_spacelike(flux_direction, cache.observer_metric) "The flux direction is not spacelike."
+        cache.flux_direction = flux_direction
     end
 end
 

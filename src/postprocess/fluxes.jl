@@ -5,12 +5,12 @@ function fluxes(Iobs, camera::ImagePlane)
 end
 
 """For monochromatic / bolometric fluxes"""
-function fluxes(I::AbstractVector, camera::PinholeCamera, initial_data::AbstractMatrix, output_data::AbstractMatrix, spacetime::AbstractSpacetime; observer_four_velocity=nothing, surface_normal=nothing)
+function fluxes(I::AbstractVector, camera::PinholeCamera, initial_data::AbstractMatrix, output_data::AbstractMatrix, spacetime::AbstractSpacetime; observer_four_velocity=nothing, flux_direction=nothing)
 
     cache = postprocess_cache(camera)
     observer_metric!(cache, camera.position, spacetime)
     observer_four_velocity!(cache, observer_four_velocity) 
-    surface_normal!(cache, surface_normal, camera, spacetime) 
+    flux_direction!(cache, flux_direction, camera, spacetime) 
 
     dΩ = pixel_solid_angles(camera)
     Nrays = number_of_initial_conditions(camera)
@@ -27,7 +27,7 @@ function fluxes(I::AbstractVector, camera::PinholeCamera, initial_data::Abstract
                 continue
             end
             nu = scalar_product(ki, cache.observer_four_velocity, cache.observer_metric)
-            nn = scalar_product(ki, cache.surface_normal, cache.observer_metric)
+            nn = scalar_product(ki, cache.flux_direction, cache.observer_metric)
             Fobs[i] = nu*nn*I[i]*dΩ[i]        
         end
     end
@@ -35,12 +35,12 @@ function fluxes(I::AbstractVector, camera::PinholeCamera, initial_data::Abstract
 end
 
 """For multi-energies fluxes"""
-function fluxes(I::AbstractMatrix, camera::PinholeCamera, initial_data::AbstractMatrix, output_data::AbstractMatrix, spacetime::AbstractSpacetime; observer_four_velocity=nothing, surface_normal=nothing)
+function fluxes(I::AbstractMatrix, camera::PinholeCamera, initial_data::AbstractMatrix, output_data::AbstractMatrix, spacetime::AbstractSpacetime; observer_four_velocity=nothing, flux_direction=nothing)
 
     cache = postprocess_cache(camera)
     observer_metric!(cache, camera.position, spacetime)
     observer_four_velocity!(cache, observer_four_velocity) 
-    surface_normal!(cache, surface_normal, camera, spacetime) 
+    flux_direction!(cache, flux_direction, camera, spacetime) 
 
     dΩ = pixel_solid_angles(camera)
     Nrays = number_of_initial_conditions(camera)
@@ -58,7 +58,7 @@ function fluxes(I::AbstractMatrix, camera::PinholeCamera, initial_data::Abstract
             end
 
             nu = scalar_product(ki, cache.observer_four_velocity, cache.observer_metric)
-            nn = scalar_product(ki, cache.surface_normal, cache.observer_metric)
+            nn = scalar_product(ki, cache.flux_direction, cache.observer_metric)
             
             Fobs[:,i] = nu*nn*I[:,i]*dΩ[i]        
         end
