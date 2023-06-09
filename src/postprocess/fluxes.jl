@@ -7,14 +7,16 @@ end
 """For monochromatic / bolometric fluxes"""
 function fluxes(I::AbstractVector, camera::PinholeCamera, initial_data::AbstractMatrix, output_data::AbstractMatrix, spacetime::AbstractSpacetime; observer_four_velocity=nothing, flux_direction=nothing)
 
+    Nrays = number_of_initial_conditions(camera)
+    @assert size(I,1)==Nrays "The number of rays in the initial data and the number of rays in the image plane must be the same."
+
     cache = postprocess_cache(camera)
     observer_metric!(cache, camera.position, spacetime)
     observer_four_velocity!(cache, observer_four_velocity) 
     flux_direction!(cache, flux_direction, camera, spacetime) 
 
     dΩ = pixel_solid_angles(camera)
-    Nrays = number_of_initial_conditions(camera)
-    Fobs = zeros(Nrays)
+    F = zeros(I)
     @inbounds begin
         for i in 1:Nrays
 
@@ -28,14 +30,17 @@ function fluxes(I::AbstractVector, camera::PinholeCamera, initial_data::Abstract
             end
             nu = scalar_product(ki, cache.observer_four_velocity, cache.observer_metric)
             nn = scalar_product(ki, cache.flux_direction, cache.observer_metric)
-            Fobs[i] = nu*nn*I[i]*dΩ[i]        
+            F[i] = nu*nn*I[i]*dΩ[i]        
         end
     end
-    return Fobs
+    return F
 end
 
 """For multi-energies fluxes"""
 function fluxes(I::AbstractMatrix, camera::PinholeCamera, initial_data::AbstractMatrix, output_data::AbstractMatrix, spacetime::AbstractSpacetime; observer_four_velocity=nothing, flux_direction=nothing)
+
+    Nrays = number_of_initial_conditions(camera)
+    @assert size(I,2)==Nrays "The number of rays in the initial data and the number of rays in the image plane must be the same."
 
     cache = postprocess_cache(camera)
     observer_metric!(cache, camera.position, spacetime)
@@ -43,8 +48,7 @@ function fluxes(I::AbstractMatrix, camera::PinholeCamera, initial_data::Abstract
     flux_direction!(cache, flux_direction, camera, spacetime) 
 
     dΩ = pixel_solid_angles(camera)
-    Nrays = number_of_initial_conditions(camera)
-    Fobs = zeros(NE, Nrays)
+    Fobs = zeros(Iobs)
     @inbounds begin
         for i in 1:Nrays
 
