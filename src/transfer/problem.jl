@@ -106,4 +106,3 @@ function print_stats(stats)
 end
 
 to_tuple(run::Run) = (run.output_data, run.callback, run.callback_parameters, run.kwargs)
-output_data(run::Run) = run.output_data
