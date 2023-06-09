@@ -1,6 +1,6 @@
 #ImagePlaneCache
 function static_four_velocity!(cache::ImagePlaneCache)
-    static_four_velocity!(cache.time_vector, cache.metric)
+    static_four_velocity!(cache.vector, cache.metric)
     return nothing
 end
 
