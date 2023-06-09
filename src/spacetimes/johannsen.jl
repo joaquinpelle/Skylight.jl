@@ -1,16 +1,14 @@
+"""Johannsen (2013) spacetime to lowest order in the deformation parameters from the Kerr metric
+
+Reference: https://arxiv.org/pdf/1501.02809.pdf
+
+q: spacetime position in the background coordinates
+M: the mass of the spacetime
+a: the black hole spin
+α13, α22, α52, ϵ3: the lowest order deformation parameters
+
+"""
 @with_kw struct JohannsenSpacetime <: AbstractBlackHoleSpacetime
-    
-    """Johannsen (2013) spacetime to lowest order in the deformation parameters from the Kerr metric
-
-    Reference: https://arxiv.org/pdf/1501.02809.pdf
-
-    q: spacetime position in the background coordinates
-    M: the mass of the spacetime
-    a: the black hole spin
-    α13, α22, α52, ϵ3: the lowest order deformation parameters
-
-    """
-
     M::Float64
     a::Float64
     α13::Float64
@@ -20,23 +18,20 @@
 
     @assert M >= 0.0
     @assert abs(a) <= M    
-
     factor = (M+sqrt(M^2-a^2))/M
-    
     @assert  α13 > -factor^3 "Invalid deformation parameter α13"
     @assert  α22 > -factor^2 "Invalid deformation parameter α22"
     @assert  α52 > -factor^2 "Invalid deformation parameter α52"
     @assert  ϵ3 > -factor^3 "Invalid deformation parameter ϵ3"
-        
 end
 
 event_horizon_radius(spacetime::JohannsenSpacetime) = spacetime.M*(1+sqrt(1-spacetime.a^2))
 
 coordinates_topology(::JohannsenSpacetime) = SphericalTopology()
 
-function metric!(g,point,spacetime::JohannsenSpacetime)
+function metric!(g, position, spacetime::JohannsenSpacetime)
 
-    t, r, θ, φ = point
+    t, r, θ, φ = position
 
     M = spacetime.M
     a = spacetime.a
@@ -71,7 +66,6 @@ function metric!(g,point,spacetime::JohannsenSpacetime)
     g[4,4] = Σ*sinθ2*((r2+a2)^2*A1^2-a2*Δ*sinθ2)/C
 
     return nothing
-
 end
 
 function metric_inverse!(g, point, spacetime::JohannsenSpacetime)
@@ -119,14 +113,13 @@ function metric_inverse!(g, point, spacetime::JohannsenSpacetime)
     g[4,4] = gtt/det 
 
     return nothing
-
 end
 
 allocate_christoffel_cache(::JohannsenSpacetime) = nothing
 
-function christoffel!(Γ, point, spacetime::JohannsenSpacetime) 
+function christoffel!(Γ, position, spacetime::JohannsenSpacetime) 
     
-    t, r, θ, φ = point
+    t, r, θ, φ = position
 
     M = spacetime.M
     a = spacetime.a
@@ -252,5 +245,4 @@ function christoffel!(Γ, point, spacetime::JohannsenSpacetime)
     Γ[4,4,3] = Γ[4,3,4]
 
     return nothing
-    
 end
