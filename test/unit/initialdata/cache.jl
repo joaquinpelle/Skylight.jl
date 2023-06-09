@@ -8,7 +8,8 @@ using Skylight, Test
         spacetime = MinkowskiSpacetimeCartesianCoordinates()
         position = rand(4)
 
-        Skylight.metric_and_four_velocity!(cache,position,spacetime)
+        Skylight.metric!(cache.metric,position,spacetime)
+        Skylight.static_four_velocity!(cache)
 
         metric, vector = Skylight.unpack_views(cache)
 
@@ -45,7 +46,8 @@ using Skylight, Test
 
             spacetime = MinkowskiSpacetimeCartesianCoordinates()
 
-            Skylight.metric_and_four_velocity!(cache,position,spacetime)
+            Skylight.metric!(cache.metric,position,spacetime)
+            Skylight.static_four_velocity!(cache)
             @test cache.vector == [1.0, 0.0, 0.0, 0.0]
             @test cache.metric == [-1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
             
