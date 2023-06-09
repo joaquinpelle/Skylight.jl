@@ -25,6 +25,12 @@ end
 
 zaxis_rotation_generator(position, ::SphericalTopology) = ∂φ()
 
+function static_four_velocity(metric)
+    vector = ∂t()
+    normalize_timelike!(vector, metric)
+    return vector
+end
+
 function time_translation_generator!(v)
     v[1] = 1.0
     v[2] = 0.0

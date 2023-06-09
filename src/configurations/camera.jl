@@ -59,14 +59,20 @@ function pixel_solid_angles(camera::PinholeCamera)
     return solid_angles
 end
 
-function default_tetrad(camera::PinholeCamera, configurations::AbstractOTEConfigurations)
+function default_tetrad(camera::PinholeCamera, spacetime::AbstractSpacetime)
     cache = initial_data_cache(camera)
-    metric_and_tetrad!(cache, camera.position, configurations)
+    metric!(cache, camera.position, spacetime)
+    tetrad!(cache, camera.position, spacetime)
     return cache.tetrad
 end
 
-default_four_velocity(camera::PinholeCamera, configurations::AbstractOTEConfigurations) = default_tetrad(camera, configurations)[:,1]
-default_normal(camera::PinholeCamera, configurations::AbstractOTEConfigurations) = default_tetrad(camera, configurations)[:,2]
+function default_four_velocity(camera::PinholeCamera, spacetime::AbstractSpacetime)
+    g = zeros(4,4)
+    metric!(g, camera.position, spacetime)
+    return static_four_velocity(g)
+end
+
+default_normal(camera::PinholeCamera, spacetime::AbstractSpacetime) = default_tetrad(camera, spacetime)[:,2]
 max_radius(camera, spacetime) = 1.1*radius(camera.position, spacetime)
 initial_data_cache(::PinholeCamera) = PinholeCameraCache()
 postprocess_cache(::PinholeCamera) = PinholeCameraPostProcessCache()
