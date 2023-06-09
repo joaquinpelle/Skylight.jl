@@ -10,6 +10,7 @@ event_horizon_radius(spacetime) = error("Event horizon radius not defined for th
 circular_geodesic_angular_speed(position, spacetime, rotation_sense) = error("Circular geodesic angular speed not defined for this spacetime.")
 #custom set_christoffel
 christoffel!(Γ, position, spacetime::AbstractSpacetime, ::Nothing) = christoffel!(Γ, position, spacetime)
+allocate_christoffel_cache(::AbstractSpacetime) = AutoDiffChristoffelCache()
 
 #By default we set non-stationarity and non-spherical symmetry  
 stationarity(::AbstractSpacetime) = IsNotStationary()
