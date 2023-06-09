@@ -1,5 +1,4 @@
 #AbstractInitialDataCache
-
 function metric!(cache::AbstractInitialDataCache, position, spacetime::AbstractSpacetime) 
     metric!(cache.metric, position, spacetime)
     return nothing

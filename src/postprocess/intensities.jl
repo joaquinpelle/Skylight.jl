@@ -50,8 +50,6 @@ function observed_bolometric_intensities(initial_data::AbstractMatrix, output_da
             Iobs[i] = q[i]^4*emitted_bolometric_intensity(pf, -kf, cache.emitter_four_velocity, cache.emitter_metric, spacetime, model, coords_top)
         end
     end
-
-    normalize_by_image_plane_distance!(Iobs, configurations)
     return Iobs, q
 end
 
@@ -71,7 +69,7 @@ end
 # Notes
     Output units are CGS. The observer four-velocity and surface normal, if provided, must satisfy the conditions of being timelike and spacelike, respectively, as per the observer metric.
 """
-function observed_bolometric_intensities(initial_data::AbstractMatrix, output_data::AbstractMatrix, configurations::VacuumOTEConfigurations, camera::PinholeCamera; observer_four_velocity=nothing, surface_normal=nothing)
+function observed_bolometric_intensities(initial_data::AbstractMatrix, output_data::AbstractMatrix, configurations::VacuumOTEConfigurations, camera::PinholeCamera; observer_four_velocity=nothing)
 
     spacetime = configurations.spacetime
     model = configurations.radiative_model
@@ -79,22 +77,8 @@ function observed_bolometric_intensities(initial_data::AbstractMatrix, output_da
 
     cache = postprocess_cache(camera)
     observer_metric!(cache, camera.position, spacetime)
-   
-    if observer_four_velocity===nothing
-        static_four_velocity!(cache.observer_four_velocity, cache.observer_metric)
-    else
-        @assert is_timelike(observer_four_velocity, cache.observer_metric) "The observer four-velocity is not timelike."
-        cache.observer_four_velocity .= observer_four_velocity
-    end
-    
-    if surface_normal===nothing
-        cache.surface_normal .= default_normal(camera, configurations)
-    else
-        @assert is_spacelike(surface_normal, cache.observer_metric) "The surface normal is not spacelike."
-        cache.surface_normal = surface_normal
-    end
+    observer_four_velocity!(cache, observer_four_velocity) 
 
-    dΩ = pixel_solid_angles(camera)
     Nrays = number_of_initial_conditions(configurations)
     q = zeros(Nrays)
     Iobs = zeros(Nrays)
@@ -114,13 +98,11 @@ function observed_bolometric_intensities(initial_data::AbstractMatrix, output_da
 
             emitter_metric_and_four_velocity!(cache, pf, spacetime, model, coords_top)
             q[i] = energies_quotient(ki, kf, cache)
-            nu = scalar_product(ki, cache.observer_four_velocity, cache.observer_metric)
-            nn = scalar_product(ki, cache.surface_normal, cache.observer_metric)
             
             #The difference with the ETO scheme here should be the minus sign in front of the final momentum
             #at get emitted intensity, and the is_final_position_at_source call (at observer in ETO)...
             Iem = emitted_bolometric_intensity(pf, -kf, cache.emitter_four_velocity, cache.emitter_metric, spacetime, model, coords_top)
-            Iobs[i] = nu*nn*q[i]^4*Iem*dΩ[i]        
+            Iobs[i] = q[i]^4*Iem        
         end
     end
     return Iobs, q
@@ -183,8 +165,6 @@ function observed_specific_intensities(initial_data::AbstractMatrix, output_data
             end
         end
     end
-
-    normalize_by_image_plane_distance!(Iobs, configurations)
     return Iobs, q
 end
 
@@ -208,7 +188,7 @@ Compute observed specific intensities and energy quotients for a set of rays def
 # Notes
     Input energy units must be CGS. Output units are CGS. The observer four-velocity and surface normal, if provided, must satisfy the conditions of being timelike and spacelike, respectively, as per the observer metric.
 """
-function observed_specific_intensities(initial_data::AbstractMatrix, output_data::AbstractMatrix, configurations::VacuumOTEConfigurations, camera::PinholeCamera, observation_energies; observer_four_velocity=nothing, surface_normal=nothing)
+function observed_specific_intensities(initial_data::AbstractMatrix, output_data::AbstractMatrix, configurations::VacuumOTEConfigurations, camera::PinholeCamera, observation_energies; observer_four_velocity=nothing)
     
     spacetime = configurations.spacetime
     model = configurations.radiative_model
@@ -216,22 +196,8 @@ function observed_specific_intensities(initial_data::AbstractMatrix, output_data
 
     cache = postprocess_cache(camera)
     observer_metric!(cache, camera.position, spacetime)
-   
-    if observer_four_velocity===nothing
-        static_four_velocity!(cache.observer_four_velocity, cache.observer_metric)
-    else
-        @assert is_timelike(observer_four_velocity, cache.observer_metric) "The observer four-velocity is not timelike."
-        cache.observer_four_velocity .= observer_four_velocity
-    end
-    
-    if surface_normal===nothing
-        cache.surface_normal .= default_normal(camera, configurations)
-    else
-        @assert is_spacelike(surface_normal, cache.observer_metric) "The surface normal is not spacelike."
-        cache.surface_normal = surface_normal
-    end
+    observer_four_velocity!(cache, observer_four_velocity) 
 
-    dΩ = pixel_solid_angles(camera)
     Nrays = number_of_initial_conditions(configurations)
     NE = length(observation_energies)
 
@@ -252,15 +218,13 @@ function observed_specific_intensities(initial_data::AbstractMatrix, output_data
 
             emitter_metric_and_four_velocity!(cache, pf, spacetime, model, coords_top)
             q[i] = energies_quotient(ki, kf, cache)
-            nu = scalar_product(ki, cache.observer_four_velocity, cache.observer_metric)
-            nn = scalar_product(ki, cache.surface_normal, cache.observer_metric)
             
             for j in 1:NE
                 emitted_energy = observation_energies[j]/q[i]
                 #The difference with the ETO scheme here should be the minus sign in front of the final momentum
                 #at get emitted intensity, and the is_final_position_at_source call (at observer in ETO)...
                 Iem = emitted_specific_intensity(pf, -kf, emitted_energy, cache.emitter_four_velocity, cache.emitter_metric, spacetime, model, coords_top)
-                Iobs[j, i] = nu*nn*q[i]^3*Iem*dΩ[i]            
+                Iobs[j, i] = q[i]^3*Iem            
             end
         end
     end
