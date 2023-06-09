@@ -75,3 +75,35 @@ function create_bins(; bin_size::Union{Number,Nothing}=nothing, num_bins::Union{
         error("Must provide either bin_size or num_bins")
     end
 end
+
+"""
+    infer_num_bins(q, at_source, start, stop, bin_size_conditioner, edge_width, image_plane)
+
+Infer the number of bins from the energy quotients and the bin size conditioner. It chooses the larges number of bins that satisfies
+that the bin size is larger than the conditioner times the maximum local variation of the energy quotients, for a given approximation of the local variation.
+
+# Arguments
+
+- `q`: Array of energy quotients.
+- `at_source`: Array of booleans indicating whether the final position is at the source.
+- `start`: Lower bound of the range to be binned.
+- `stop`: Upper bound of the range to be binned.
+- `bin_size_conditioner`: Conditioner of the bin size.
+- `edge_width`: Width of the edge to be ignored for bin size conditioning (since edges have unusually large local variations, especially in the presence of light-rings and similar phenomena).
+- `image_plane`: Image plane.
+
+# Returns
+
+- `num_bins`: Number of bins.
+"""
+function infer_num_bins(q, at_source, start, stop, bin_size_conditioner, edge_width, image_plane)
+    
+    Nα, Nβ = numbers_of_pixels_per_side(image_plane)
+    dα, dβ = grid_spacing(image_plane)
+    
+    at_edge = detect_edges(edge_width, reshape(at_source, Nα, Nβ))
+    
+    δq = approximate_gradient_norm(reshape(q, Nα, Nβ), dα, dβ)
+    max_δq = maximum(δq[.!at_edge])
+    return Int(floor((stop-start)/(bin_size_conditioner*max_δq))) 
+end
