@@ -106,6 +106,7 @@ export emitter_four_velocity!,
     surface_differential!,
     emitted_bolometric_intensity,
     emitted_specific_intensity,
+    fluxes,
     is_final_position_at_source,
     opaque_interior_surface_trait
 
@@ -153,16 +154,6 @@ export planck_function,
     thermal_emission_window_specific_intensity,
     thermal_emission_window_bolometric_intensity
 
-export save_to_hdf5,
-    append_runs_to_hdf5,
-    load_initial_data_from_hdf5,
-    load_configurations_from_hdf5,
-    load_runs_from_hdf5,
-    load_output_data_from_hdf5,
-    load_callback_params_from_hdf5,
-    load_kwargs_from_hdf5,
-    load_callback_from_hdf5
-    
 export time_translation_generator,
     time_translation_generator!,
     rotation_generators,
@@ -183,4 +174,14 @@ export TT, XX, YY, ZZ,
     KRR, KTH, KPH,
     LL, KLL
 
+export save_to_hdf5,
+    append_runs_to_hdf5,
+    load_initial_data_from_hdf5,
+    load_configurations_from_hdf5,
+    load_runs_from_hdf5,
+    load_output_data_from_hdf5,
+    load_callback_params_from_hdf5,
+    load_kwargs_from_hdf5,
+    load_callback_from_hdf5
+    
 end

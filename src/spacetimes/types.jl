@@ -13,6 +13,7 @@ struct ProgradeRotation <: AbstractRotationSense end
 struct RetrogradeRotation <: AbstractRotationSense end
 
 abstract type AbstractSpacetimeSymmetry end
+
 abstract type Stationarity <: AbstractSpacetimeSymmetry end
 struct IsStationary <: Stationarity end 
 struct IsNotStationary <: Stationarity end 
