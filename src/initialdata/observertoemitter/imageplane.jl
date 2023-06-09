@@ -23,13 +23,14 @@ function initialize_single!(ray, initial_time, pixel_coordinates, configurations
     spacetime = configurations.spacetime
     image_plane = configurations.camera
     coords_top = coordinates_topology(spacetime)
-    metric!(cache.metric,position,spacetime)
-    static_four_velocity!(cache)
     
     ray[1] = initial_time  
     space_position .= space_position_from(pixel_coordinates,image_plane,coords_top)
-    space_momentum .= space_momentum_from(pixel_coordinates,image_plane,coords_top)
 
+    metric!(cache.metric,position,spacetime)
+    static_four_velocity!(cache)
+    
+    space_momentum .= space_momentum_from(pixel_coordinates,image_plane,coords_top)
     set_null_ingoing_past_directed!(momentum,cache)
     return nothing
 end
