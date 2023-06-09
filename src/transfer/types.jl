@@ -8,25 +8,20 @@ struct Run{C,CB}
 end
 
 @with_kw mutable struct VacuumThreadCache{T}
-
     point::Vector{Float64} = zeros(4)
     velocity::Vector{Float64} = zeros(4)
     acceleration::Vector{Float64} = zeros(4)
     christoffel::Array{Float64, 3} = zeros(4,4,4)
     christoffel_cache::T
-
 end
 
 mutable struct VacuumCache{S, C, T}
-    
     spacetime::S
     cbp::C
     multi_thread::Vector{VacuumThreadCache{T}}
-
 end
 
 @with_kw mutable struct NonVacuumThreadCache{T}
-
     point::Vector{Float64} = zeros(4)
     velocity::Vector{Float64} = zeros(4)
     acceleration::Vector{Float64} = zeros(4)
@@ -35,11 +30,9 @@ end
     ε::Vector{Float64}
     αε::Vector{Float64}
     jε::Vector{Float64}
-
 end
 
 mutable struct NonVacuumCache{S, M, C, T}
-    
     spacetime::S
     model::M
     cbp::C
@@ -47,5 +40,4 @@ mutable struct NonVacuumCache{S, M, C, T}
     observation_energies::Vector{Float64}
     NE::Int
     multi_thread::Vector{NonVacuumThreadCache{T}}
-
 end

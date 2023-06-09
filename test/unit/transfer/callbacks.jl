@@ -38,7 +38,7 @@ using Skylight, Test
         @test cbp.rmin == 5.0
         @test cbp.rmax == rmax
 
-        p = Skylight.allocate_cache(configurations, cbp)
+        p = Skylight.transfer_cache(configurations, cbp)
         prob = ODEProblem(Skylight.geodesic_equations!, zeros(8), (0.0,1.0), p)
         integrator = init(prob, VCABM(),save_everystep=false,dt=1.0)
         u = [rand(), 10.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0]
@@ -73,7 +73,7 @@ using Skylight, Test
         @test cbp.inner_radius == 6.0
         @test cbp.outer_radius == 15.0
         
-        p = Skylight.allocate_cache(configurations, cbp)
+        p = Skylight.transfer_cache(configurations, cbp)
         prob = ODEProblem(Skylight.geodesic_equations!, zeros(8), (0.0,1.0), p)
         integrator = init(prob, VCABM(),save_everystep=false,dt=1.0)
 
@@ -137,7 +137,7 @@ using Skylight, Test
         @test cbp.star_radius == 5.0
         @test cbp.l_center == 10.0
         
-        p = Skylight.allocate_cache(configurations, cbp)
+        p = Skylight.transfer_cache(configurations, cbp)
         prob = ODEProblem(Skylight.geodesic_equations!, zeros(8), (0.0,1.0), p)
         integrator = init(prob, VCABM(),save_everystep=false,dt=1.0)
 

@@ -15,7 +15,7 @@ using Skylight, Test
     @test cache.christoffel_cache.D == zeros(4,4,4)
 
 
-    cache = Skylight.allocate_vacuum_multi_thread_cache(spacetime)
+    cache = Skylight.vacuum_multi_thread_cache(spacetime)
     @test length(cache) == Threads.nthreads()
     cache2 = cache[1]
 
@@ -57,7 +57,7 @@ end
     
     cbp = Skylight.callback_parameters(spacetime, model, configurations)
     
-    geo_cache = Skylight.allocate_cache(configurations, cbp)
+    geo_cache = Skylight.transfer_cache(configurations, cbp)
 
     @test geo_cache.spacetime == spacetime
     @test geo_cache.cbp == cbp

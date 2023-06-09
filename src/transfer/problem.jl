@@ -38,7 +38,7 @@ function ensemble_problem(initial_data, configurations::VacuumConfigurations, cb
         
     u0 = copy(initial_data[:,1])
     tspan = (0.0, 1e4*cbp.rmax)
-    p = allocate_cache(configurations, cbp)
+    p = transfer_cache(configurations, cbp)
     prob = ODEProblem(equations(configurations), u0, tspan, p)
 
     output_func(sol, i) = (sol[end], false)
@@ -52,7 +52,7 @@ function ensemble_problem(initial_data, configurations::NonVacuumConfigurations,
         
     u0 = copy(initial_data[:,1])
     tspan = (0.0, 1e4*cbp.rmax)
-    p = allocate_cache(configurations, cbp, τmax)
+    p = transfer_cache(configurations, cbp, τmax)
     prob = ODEProblem(equations(configurations), u0, tspan, p)
 
     output_func(sol, i) = (sol[end], false)
