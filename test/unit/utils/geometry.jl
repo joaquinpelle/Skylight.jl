@@ -108,7 +108,7 @@ end
 
     @testset "Cartesian coordinates" begin
 
-        tangent_vector_zaxis_rotation!(vector1,position,Ω,metric,CartesianTopology())
+        circular_motion_four_velocity!(vector1,position,Ω,metric,CartesianTopology())
         
         vector[1] =  1.0
         vector[2] = -Ω*position[3]
@@ -122,7 +122,7 @@ end
 
     @testset "Spherical coordinates" begin
 
-        tangent_vector_zaxis_rotation!(vector1,position,Ω,metric,SphericalTopology())
+        circular_motion_four_velocity!(vector1,position,Ω,metric,SphericalTopology())
         
         vector[1] = 1.0
         vector[2] = 0.0

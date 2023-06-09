@@ -31,7 +31,7 @@ end
 
 function emitter_four_velocity!(vector, position, metric, spacetime, model::SyntheticPolarCap, coords_top)
     angular_speed = model.angular_speed
-    tangent_vector_zaxis_rotation!(vector, position, angular_speed, metric, coords_top)
+    circular_motion_four_velocity!(vector, position, angular_speed, metric, coords_top)
     return nothing
 end
 

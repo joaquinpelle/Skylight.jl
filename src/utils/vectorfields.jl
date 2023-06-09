@@ -1,6 +1,7 @@
 ∂t() = [1.0, 0.0, 0.0, 0.0]
 ∂φ() = [0.0, 0.0, 0.0, 1.0]
 
+#Generators
 time_translation_generator() = ∂t()
 
 function rotation_generators(position, ::CartesianTopology)
@@ -24,12 +25,6 @@ function rotation_generators(position, ::SphericalTopology)
 end
 
 zaxis_rotation_generator(position, ::SphericalTopology) = ∂φ()
-
-function static_four_velocity(metric)
-    vector = ∂t()
-    normalize_timelike!(vector, metric)
-    return vector
-end
 
 function time_translation_generator!(v)
     v[1] = 1.0
@@ -84,28 +79,50 @@ function zaxis_rotation_generator!(v, position, ::SphericalTopology)
     return nothing
 end
 
+#Four-velocities
+function static_four_velocity(metric)
+    vector = time_translation_generator()
+    normalize_timelike!(vector, metric)
+    return vector
+end
+
 function static_four_velocity!(vector, metric)
-    vector .= ∂t()
+    time_translation_generator!(vector)
     normalize_timelike!(vector, metric)
     return nothing
 end
 
-function tangent_vector_zaxis_rotation!(vector, position, angular_speed, metric, ::CartesianTopology)
+function circular_motion_four_velocity(position, angular_speed, metric, ::CartesianTopology)
+    vector = zeros(4)
     vector[1] =  1.0
     vector[2] = -angular_speed*position[3]
     vector[3] =  angular_speed*position[2]
-    vector[4] =  0.0
-
     normalize_timelike!(vector,metric)
     return nothing
 end
 
-function tangent_vector_zaxis_rotation!(vector, position, angular_speed, metric, ::SphericalTopology)
+function circular_motion_four_velocity(position, angular_speed, metric, ::SphericalTopology)
+    vector = zeros(4)
+    vector[1] =  1.0
+    vector[4] =  angular_speed
+    normalize_timelike!(vector,metric)
+    return nothing
+end
+
+function circular_motion_four_velocity!(vector, position, angular_speed, metric, ::CartesianTopology)
+    vector[1] =  1.0
+    vector[2] = -angular_speed*position[3]
+    vector[3] =  angular_speed*position[2]
+    vector[4] =  0.0
+    normalize_timelike!(vector,metric)
+    return nothing
+end
+
+function circular_motion_four_velocity!(vector, position, angular_speed, metric, ::SphericalTopology)
     vector[1] =  1.0
     vector[2] =  0.0
     vector[3] =  0.0
     vector[4] =  angular_speed
-
     normalize_timelike!(vector,metric)
     return nothing
 end

@@ -160,7 +160,10 @@ export time_translation_generator,
     rotation_generators!,
     zaxis_rotation_generator,
     zaxis_rotation_generator!, 
-    tangent_vector_zaxis_rotation!
+    static_four_velocity,
+    static_four_velocity!,
+    circular_motion_four_velocity,
+    circular_motion_four_velocity!
 
 export PhysicalConstants,
     Dimensions

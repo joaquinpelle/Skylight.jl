@@ -14,7 +14,7 @@ end
 
 function emitter_four_velocity!(vector, position, metric, spacetime, model::AbstractAccretionDisk, coords_top)
     angular_speed = circular_geodesic_angular_speed(position, spacetime, model.rotation_sense)
-    tangent_vector_zaxis_rotation!(vector, position, angular_speed, metric, coords_top)
+    circular_motion_four_velocity!(vector, position, angular_speed, metric, coords_top)
 end
 
 function emitted_bolometric_intensity(position, momentum, emitter_four_velocity, metric, spacetime, model::AbstractAccretionDisk, coords_top)
