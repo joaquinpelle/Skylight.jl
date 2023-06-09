@@ -8,7 +8,7 @@ function initialize(camera::PinholeCamera, configurations::AbstractOTEConfigurat
     position = camera.position
     cache = initial_data_cache(camera)
     
-    metric!(cache, position, spacetime)
+    metric!(cache.metric, position, spacetime)
     check_signature(cache.metric)
     
     tetrad!(cache, position, spacetime)

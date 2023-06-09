@@ -61,7 +61,7 @@ end
 
 function default_tetrad(camera::PinholeCamera, spacetime::AbstractSpacetime)
     cache = initial_data_cache(camera)
-    metric!(cache, camera.position, spacetime)
+    metric!(cache.metric, camera.position, spacetime)
     tetrad!(cache, camera.position, spacetime)
     return cache.tetrad
 end

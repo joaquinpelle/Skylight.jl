@@ -1,5 +1,3 @@
-#AbstractPostProcessCache
-
 #ImagePlanePostProcessCache
 function metrics_and_four_velocities!(cache::ImagePlanePostProcessCache, initial_position, final_position, spacetime, model, coords_top)
     metric!(cache.observer_metric, initial_position, spacetime) 

@@ -1,9 +1,3 @@
-#AbstractInitialDataCache
-function metric!(cache::AbstractInitialDataCache, position, spacetime::AbstractSpacetime) 
-    metric!(cache.metric, position, spacetime)
-    return nothing
-end
-
 #ImagePlaneCache
 function static_four_velocity!(cache::ImagePlaneCache)
     static_four_velocity!(cache.time_vector, cache.metric)

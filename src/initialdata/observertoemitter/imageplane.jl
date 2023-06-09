@@ -23,7 +23,7 @@ function initialize_single!(ray, initial_time, pixel_coordinates, configurations
     spacetime = configurations.spacetime
     image_plane = configurations.camera
     coords_top = coordinates_topology(spacetime)
-    metric!(cache,position,spacetime)
+    metric!(cache.metric,position,spacetime)
     static_four_velocity!(cache)
     
     ray[1] = initial_time  
