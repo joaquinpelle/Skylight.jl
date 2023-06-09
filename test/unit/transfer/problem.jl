@@ -28,7 +28,7 @@ using Skylight, Test
     cb, cbp = callback_setup(configurations) #... or, define your own cb and cbp
     ensembleprob = Skylight.ensemble_problem(initial_data, configurations, cbp)
     
-    #Also consider EnsembleSplitThreads() for multipixels and EnsembleGPUArray() for GPU
+    #Also consider EnsembleSplitThreads() for multinodes and EnsembleGPUArray() for GPU
 
     stats = @timed sim = solve(ensembleprob, VCABM(), EnsembleThreads(); reltol=1e-14, abstol=1e-21, callback = cb, trajectories = 9)
 

@@ -1,22 +1,20 @@
 function integrate(initial_data, configurations::VacuumConfigurations, cb, cbp; method = VCABM(), kwargs...)
     N = size(initial_data, 2)  
     ensembleprob = ensemble_problem(initial_data, configurations, cbp)
-    #Also consider EnsembleSplitThreads() for multipixels and EnsembleGPUArray() for GPU
+    #Also consider EnsembleSplitThreads() for multinodes and EnsembleGPUArray() for GPU
     stats = @timed sim = solve(ensembleprob, method, EnsembleThreads(); callback = cb, trajectories = N, kwargs...)
     print_stats(stats)
-    run = collect_run(sim, cb, cbp, method; kwargs...)
-    return run
+    return collect_run(sim, cb, cbp, method; kwargs...)
 end
 
 function integrate(initial_data, configurations::NonVacuumConfigurations, cb, cbp; τmax=2.0, method=VCABM(), kwargs...)
     N = size(initial_data, 2)  
     ensembleprob = ensemble_problem(initial_data, configurations, cbp, τmax)
     full_cb = CallbackSet(cb, opacities_callback())  
-    #Also consider EnsembleSplitThreads() for multipixels and EnsembleGPUArray() for GPU
+    #Also consider EnsembleSplitThreads() for multinodes and EnsembleGPUArray() for GPU
     stats = @timed sim = solve(ensembleprob, method, EnsembleThreads(); callback = full_cb, trajectories = N, kwargs...)
     print_stats(stats)
-    run = collect_run(sim, cb, cbp, τmax, method; kwargs...)
-    return run
+    return collect_run(sim, cb, cbp, τmax, method; kwargs...)
 end
 
 function ensemble_problem(initial_data, configurations::VacuumConfigurations, cbp)
@@ -38,7 +36,6 @@ function ensemble_problem(initial_data, configurations::NonVacuumConfigurations,
     prob_func(prob, i, repeat) = remake(prob, u0 = initial_data[:,i])
     return EnsembleProblem(prob; output_func = output_func, prob_func = prob_func)
 end
-
 
 function collect_run(sim, cb, cbp, args...; kwargs...)
     output_data = collect_output(sim)
