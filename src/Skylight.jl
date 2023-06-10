@@ -46,12 +46,11 @@ export AbstractSpacetime,
     ChargedWormholeSpacetimeSphericalCoordinates,
     ChargedWormholeSpacetimeRegularCoordinates,
     RARSpacetime,
-    BosonStarSpacetime,
-    NumericalSpacetime
+    BosonStarSpacetime
 
 export AbstractChristoffelCache
 
-export AbstractCoordinatesTopology, 
+export AbstractCoordinatesTopology,
     CartesianTopology,
     SphericalTopology
 
