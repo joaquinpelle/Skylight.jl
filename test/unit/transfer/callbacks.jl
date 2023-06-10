@@ -83,7 +83,7 @@ using Skylight, Test
 
         r_kerr = radius(u[1:4], spacetime)
 
-        Skylight.black_hole_accretion_disk_cartesian_coordinates_condition(out, u, 0.0, integrator)
+        Skylight.spinning_black_hole_accretion_disk_cartesian_coordinates_condition(out, u, 0.0, integrator)
 
         @test out ≈ [0.0, (rmax^2-r_kerr^2)*(r_kerr^2-rmin*rmin)]
         
@@ -91,14 +91,14 @@ using Skylight, Test
 
         @test out ≈ [-π/2, (rmax-10.0)*(10.0-rmin)]
         
-        Skylight.black_hole_accretion_disk_cartesian_coordinates_affect!(integrator, 1)
+        Skylight.spinning_black_hole_accretion_disk_cartesian_coordinates_affect!(integrator, 1)
 
         @test integrator.sol.retcode == SciMLBase.ReturnCode.Terminated
 
         integrator = init(prob, VCABM(),save_everystep=false,dt=1.0)
         set_u!(integrator, u) 
 
-        Skylight.black_hole_accretion_disk_cartesian_coordinates_affect!(integrator, 2)
+        Skylight.spinning_black_hole_accretion_disk_cartesian_coordinates_affect!(integrator, 2)
 
         @test integrator.sol.retcode == SciMLBase.ReturnCode.Terminated
 
