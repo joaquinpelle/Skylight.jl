@@ -69,7 +69,10 @@ export stationarity,
 
 export energy,
     angular_momentum,
-    z_angular_momentum
+    axial_angular_momentum,
+    time_translation_killing_vector,
+    rotation_killing_vector,
+    axial_rotation_killing_vector
 
 export metric!,
     metric_inverse!,
