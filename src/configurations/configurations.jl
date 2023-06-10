@@ -1,14 +1,18 @@
 include("camera.jl")
 
-function my_zeros(configurations::NonVacuumConfigurations)
+isvacuum(::AbstractConfigurations) = error("isvacuum not implemented for this type of configurations")
+isvacuum(::VacuumOTEConfigurations) = Vacuum()
+isvacuum(::VacuumETOConfigurations) = Vacuum()
+isvacuum(::NonVacuumOTEConfigurations) = NonVacuum()
+
+my_zeros(configurations::AbstractConfigurations) = my_zeros(isvacuum(configurations), configurations)
+my_zeros(::Vacuum, configurations) = zeros(8, number_of_initial_conditions(configurations))
+function my_zeros(::NonVacuum, configurations)
     NE = length(configurations.observation_energies)
     return zeros(8+2*NE, number_of_initial_conditions(configurations))
 end
 
-my_zeros(configurations::VacuumConfigurations) = zeros(8, number_of_initial_conditions(configurations))
-
 observation_times(configurations::AbstractOTEConfigurations) = configurations.camera.observation_times
-
 axes_ranges(configurations::AbstractOTEConfigurations) = axes_ranges(configurations.camera)
 
 initial_data_cache(configurations::AbstractOTEConfigurations) = initial_data_cache(configurations.camera)

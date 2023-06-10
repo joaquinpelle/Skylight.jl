@@ -66,5 +66,6 @@ end
     @assert 0 < unit_mass_in_solar_masses "unit_mass_in_solar_masses must be positive"
 end
 
-VacuumConfigurations = Union{VacuumETOConfigurations, VacuumOTEConfigurations}
-NonVacuumConfigurations = Union{NonVacuumOTEConfigurations,}
+abstract type AbstractVacuumTrait end
+struct Vacuum <: AbstractVacuumTrait end
+struct NonVacuum <: AbstractVacuumTrait end

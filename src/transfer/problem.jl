@@ -1,4 +1,7 @@
-function integrate(initial_data, configurations::VacuumConfigurations, cb, cbp; method = VCABM(), kwargs...)
+integrate(initial_data, configurations::AbstractConfigurations, cb, cbp; kwargs...) = integrate(isvacuum(configurations), initial_data, configurations, cb, cbp; kwargs...)
+ensemble_problem(initial_data, configurations::AbstractConfigurations, cbp, args...) = ensemble_problem(isvacuum(configurations), initial_data, configurations, cbp, args...)
+
+function integrate(::Vacuum, initial_data, configurations, cb, cbp; method = VCABM(), kwargs...)
     N = size(initial_data, 2)  
     ensembleprob = ensemble_problem(initial_data, configurations, cbp)
     #Also consider EnsembleSplitThreads() for multinodes and EnsembleGPUArray() for GPU
@@ -7,7 +10,7 @@ function integrate(initial_data, configurations::VacuumConfigurations, cb, cbp; 
     return collect_run(sim, cb, cbp, method; kwargs...)
 end
 
-function integrate(initial_data, configurations::NonVacuumConfigurations, cb, cbp; τmax=2.0, method=VCABM(), kwargs...)
+function integrate(::NonVacuum, initial_data, configurations, cb, cbp; τmax=2.0, method=VCABM(), kwargs...)
     N = size(initial_data, 2)  
     ensembleprob = ensemble_problem(initial_data, configurations, cbp, τmax)
     full_cb = CallbackSet(cb, opacities_callback())  
@@ -17,7 +20,7 @@ function integrate(initial_data, configurations::NonVacuumConfigurations, cb, cb
     return collect_run(sim, cb, cbp, τmax, method; kwargs...)
 end
 
-function ensemble_problem(initial_data, configurations::VacuumConfigurations, cbp)
+function ensemble_problem(::Vacuum, initial_data, configurations, cbp)
     u0 = copy(initial_data[:,1])
     tspan = (0.0, 1e4*cbp.rmax)
     p = transfer_cache(configurations, cbp)
@@ -27,7 +30,7 @@ function ensemble_problem(initial_data, configurations::VacuumConfigurations, cb
     return EnsembleProblem(prob; output_func = output_func, prob_func = prob_func)
 end
 
-function ensemble_problem(initial_data, configurations::NonVacuumConfigurations, cbp, τmax)
+function ensemble_problem(::NonVacuum, initial_data, configurations, cbp, τmax)
     u0 = copy(initial_data[:,1])
     tspan = (0.0, 1e4*cbp.rmax)
     p = transfer_cache(configurations, cbp, τmax)
