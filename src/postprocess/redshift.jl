@@ -1,11 +1,14 @@
 function energies_quotients(initial_data, output_data, configurations::VacuumOTEConfigurations, camera::ImagePlane)
+    
+    same_size(initial_data, output_data) || throw(DimensionMismatch("initial_data and output_data must have the same size."))
+    
     spacetime = configurations.spacetime
     model = configurations.radiative_model
     coords_top = coordinates_topology(spacetime)
     cache = postprocess_cache(camera)
-    Nrays = number_of_initial_conditions(configurations)
+    Nrays = size(initial_data, 2)
     q = zeros(Nrays)
-    for i in 1:Nrays
+    for i in eachindex(q)
 
         @views begin 
             pi = initial_data[1:4,i]
@@ -27,6 +30,9 @@ function energies_quotients(initial_data, output_data, configurations::VacuumOTE
 end
 
 function energies_quotients(initial_data, output_data, configurations::VacuumOTEConfigurations, camera::PinholeCamera; observer_four_velocity=nothing)
+
+    same_size(initial_data, output_data) || throw(DimensionMismatch("initial_data and output_data must have the same size."))
+
     spacetime = configurations.spacetime
     model = configurations.radiative_model
     coords_top = coordinates_topology(spacetime)
@@ -34,9 +40,9 @@ function energies_quotients(initial_data, output_data, configurations::VacuumOTE
     observer_metric!(cache, camera.position, spacetime)
     observer_four_velocity!(cache, observer_four_velocity)
     
-    Nrays = number_of_initial_conditions(configurations)
+    Nrays = size(initial_data, 2)
     q = zeros(Nrays)
-    for i in 1:Nrays
+    for i in eachindex(q)
         @views begin 
             ki = initial_data[5:8,i]
             pf = output_data[1:4,i]

@@ -17,18 +17,21 @@ Compute observed bolometric intensities and energy quotients for a set of rays d
 """
 function observed_bolometric_intensities(initial_data::AbstractMatrix, output_data::AbstractMatrix, configurations::VacuumOTEConfigurations, ::ImagePlane)
 
+    same_size(initial_data, output_data) || throw(DimensionMismatch("The initial and output data must have the same size."))
+    eight_components(initial_data, output_data) || throw(DimensionMismatch("The initial and output data must have eight components.")) 
+    
     spacetime = configurations.spacetime
     model = configurations.radiative_model
     coords_top = coordinates_topology(spacetime)
 
     cache = postprocess_cache(configurations)
 
-    Nrays = number_of_initial_conditions(configurations)
+    Nrays = size(initial_data, 2)
     q = zeros(Nrays)
     Iobs = zeros(Nrays)
 
     @inbounds begin
-        for i in 1:Nrays
+        for i in eachindex(Iobs)
 
             @views begin 
                 pi = initial_data[1:4,i]
@@ -72,6 +75,8 @@ Compute observed bolometric intensities and energy quotients for a set of rays d
     Output units are CGS. The observer four-velocity and flux direction, if provided, must satisfy the conditions of being timelike and spacelike, respectively, as per the observer metric.
 """
 function observed_bolometric_intensities(initial_data::AbstractMatrix, output_data::AbstractMatrix, configurations::VacuumOTEConfigurations, camera::PinholeCamera; observer_four_velocity=nothing)
+    same_size(initial_data, output_data) || throw(DimensionMismatch("The initial and output data must have the same size."))
+    eight_components(initial_data, output_data) || throw(DimensionMismatch("The initial and output data must have eight components.")) 
 
     spacetime = configurations.spacetime
     model = configurations.radiative_model
@@ -81,12 +86,12 @@ function observed_bolometric_intensities(initial_data::AbstractMatrix, output_da
     observer_metric!(cache, camera.position, spacetime)
     observer_four_velocity!(cache, observer_four_velocity) 
 
-    Nrays = number_of_initial_conditions(configurations)
+    Nrays = size(initial_data, 2) 
     q = zeros(Nrays)
     Iobs = zeros(Nrays)
 
     @inbounds begin
-        for i in 1:Nrays
+        for i in eachindex(Iobs)
 
             @views begin 
                 ki = initial_data[5:8,i]
@@ -129,19 +134,22 @@ Compute observed specific intensities and energy quotients for a set of rays def
     Input energy units must be CGS. Output units are CGS.
 """
 function observed_specific_intensities(initial_data::AbstractMatrix, output_data::AbstractMatrix, configurations::VacuumOTEConfigurations, ::ImagePlane, observation_energies)
+    same_size(initial_data, output_data) || throw(DimensionMismatch("The initial and output data must have the same size."))
+    eight_components(initial_data, output_data) || throw(DimensionMismatch("The initial and output data must have eight components.")) 
+    
     spacetime = configurations.spacetime
     model = configurations.radiative_model
     coords_top = coordinates_topology(spacetime)
 
     cache = postprocess_cache(configurations)
 
-    Nrays = number_of_initial_conditions(configurations)
+    Nrays = size(initial_data, 2)
     NE = length(observation_energies)
 
     q = zeros(Nrays)
     Iobs = zeros(NE, Nrays)
     @inbounds begin
-        for i in 1:Nrays
+        for i in eachindex(Iobs)
 
             @views begin 
                 pi = initial_data[1:4,i]
@@ -158,7 +166,7 @@ function observed_specific_intensities(initial_data::AbstractMatrix, output_data
             metrics_and_four_velocities!(cache, pi, pf, spacetime, model, coords_top)
             q[i] = energies_quotient(ki, kf, cache)
             
-            for j in 1:NE
+            for j in eachindex(observation_energies)
                 emitted_energy = observation_energies[j]/q[i]
 
                 #The difference with the ETO scheme here should be the minus sign in front of the final momentum
@@ -191,6 +199,9 @@ Compute observed specific intensities and energy quotients for a set of rays def
 """
 function observed_specific_intensities(initial_data::AbstractMatrix, output_data::AbstractMatrix, configurations::VacuumOTEConfigurations, camera::PinholeCamera, observation_energies; observer_four_velocity=nothing)
     
+    same_size(initial_data, output_data) || throw(DimensionMismatch("The initial and output data must have the same size."))
+    eight_components(initial_data, output_data) || throw(DimensionMismatch("The initial and output data must have eight components."))
+    
     spacetime = configurations.spacetime
     model = configurations.radiative_model
     coords_top = coordinates_topology(spacetime)
@@ -199,13 +210,13 @@ function observed_specific_intensities(initial_data::AbstractMatrix, output_data
     observer_metric!(cache, camera.position, spacetime)
     observer_four_velocity!(cache, observer_four_velocity) 
 
-    Nrays = number_of_initial_conditions(configurations)
+    Nrays = size(initial_data, 2)
     NE = length(observation_energies)
 
     q = zeros(Nrays)
     Iobs = zeros(NE, Nrays)
     @inbounds begin
-        for i in 1:Nrays
+        for i in eachindex(Iobs)
 
             @views begin 
                 ki = initial_data[5:8,i]
@@ -220,7 +231,7 @@ function observed_specific_intensities(initial_data::AbstractMatrix, output_data
             emitter_metric_and_four_velocity!(cache, pf, spacetime, model, coords_top)
             q[i] = energies_quotient(ki, kf, cache)
             
-            for j in 1:NE
+            for j in eachindex(observation_energies)
                 emitted_energy = observation_energies[j]/q[i]
                 #The difference with the ETO scheme here should be the minus sign in front of the final momentum
                 #at get emitted intensity, and the is_final_position_at_source call (at observer in ETO)...

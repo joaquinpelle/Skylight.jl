@@ -17,10 +17,10 @@ function is_final_position_at_source(output_data, configurations)
     spacetime = configurations.spacetime
     model = configurations.radiative_model
 
-    Nrays = number_of_initial_conditions(configurations)
+    Nrays = size(output_data, 2)
     at_source = zeros(Bool, Nrays)
 
-    for i in 1:Nrays
+    for i in axes(output_data, 2)
         @views pf = output_data[1:4,i]
         at_source[i] = is_final_position_at_source(pf, spacetime, model)
     end
@@ -81,10 +81,10 @@ The function `is_final_position_at_observer` should already be defined elsewhere
 """
 function is_final_position_at_observer(output_data, configurations)
 
-    Nrays = number_of_initial_conditions(configurations)
+    Nrays = size(output_data, 2)
     at_observer = zeros(Bool, Nrays)
 
-    for i in 1:Nrays
+    for i in axes(output_data, 2)
         @views pf = output_data[1:4,i]
         at_observer[i] = is_final_position_at_observer(pf, configurations)
     end

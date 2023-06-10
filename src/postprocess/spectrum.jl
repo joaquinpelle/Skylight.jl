@@ -6,7 +6,7 @@ function spectrum(initial_data,
                 Emax, 
                 NE,
                 kwargs...)
-    
+    same_size(initial_data, output_data) || throw(DimensionMismatch("initial_data and output_data must have the same size."))
     energies = range(Emin, stop=Emax, length=NE)
     Iobs, _ = observed_specific_intensities(initial_data, output_data, configurations, energies; kwargs...)
     Fobs = fluxes(Iobs, camera)
@@ -22,6 +22,7 @@ function spectrum(initial_data,
                 NE,
                 kwargs...)
     
+    same_size(initial_data, output_data) || throw(DimensionMismatch("initial_data and output_data must have the same size."))
     energies = range(Emin, stop=Emax, length=NE)
     Iobs, _ = observed_specific_intensities(initial_data, output_data, configurations, energies; kwargs...)
     Fobs = fluxes(Iobs, camera, initial_data, output_data, configurations.spacetime; kwargs...)

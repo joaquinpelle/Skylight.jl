@@ -47,16 +47,16 @@ function angular_momentum(position::AbstractVector, momenta::AbstractMatrix, spa
 end
 
 function energy(positions::AbstractMatrix, momenta::AbstractMatrix, spacetime::AbstractSpacetime)
-    @assert size(positions) == size(momenta) "Positions and momenta must have the same size."
+    same_size(positions, momenta) || throw(DimensionMismatch("Positions and momenta must have the same size."))
     return [energy(positions[:,i], momenta[:,i], spacetime) for i in axes(momenta,2)]
 end
 
 function axial_angular_momentum(positions::AbstractMatrix, momenta::AbstractMatrix, spacetime::AbstractSpacetime)
-    @assert size(positions) == size(momenta) "Positions and momenta must have the same size."
+    same_size(positions, momenta) || throw(DimensionMismatch("Positions and momenta must have the same size."))
     return [axial_angular_momentum(positions[:,i], momenta[:,i], spacetime) for i in axes(momenta,2)]
 end
 
 function angular_momentum(positions::AbstractMatrix, momenta::AbstractMatrix, spacetime::AbstractSpacetime)
-    @assert size(positions) == size(momenta) "Positions and momenta must have the same size."
+    same_size(positions, momenta) || throw(DimensionMismatch("Positions and momenta must have the same size."))
     return [angular_momentum(positions[:,i], momenta[:,i], spacetime) for i in axes(momenta,2)]
 end

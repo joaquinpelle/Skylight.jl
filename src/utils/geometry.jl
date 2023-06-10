@@ -53,23 +53,17 @@ function cartesian_from_spherical(v)
 end
 
 function rotate_around_y_axis!(v, angle_in_degrees)
-    Nvectors = size(v, 2)
-
     ξ = deg2rad(angle_in_degrees)
-
     rotation_matrix = [cos(ξ) 0.0 sin(ξ); 0.0 1.0 0.0; -sin(ξ) 0.0 cos(ξ)]
-
-    for i in 1:Nvectors
-
+    for i in axes(v,2)
         v[:,i] .= rotation_matrix*v[:,i] 
-    
     end
     return nothing
 end
 
-function check_signature(metric)
-    @assert is_timelike([1.0, 0.0, 0.0, 0.0], metric) "The first coordinate basis vector is not timelike"
-    @assert is_spacelike([0.0, 1.0, 0.0, 0.0], metric) "The second coordinate basis vector is not spacelike"
-    @assert is_spacelike([0.0, 0.0, 1.0, 0.0], metric) "The third coordinate basis vector is not spacelike"
-    @assert is_spacelike([0.0, 0.0, 0.0, 1.0], metric) "The fourth coordinate basis vector is not spacelike"
+function lorentzian_signature(metric)
+    is_timelike([1.0, 0.0, 0.0, 0.0], metric) &&
+    is_spacelike([0.0, 1.0, 0.0, 0.0], metric) &&
+    is_spacelike([0.0, 0.0, 1.0, 0.0], metric) &&
+    is_spacelike([0.0, 0.0, 0.0, 1.0], metric) 
 end

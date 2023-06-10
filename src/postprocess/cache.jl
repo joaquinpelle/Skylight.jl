@@ -27,7 +27,7 @@ function observer_four_velocity!(cache, observer_four_velocity)
     if observer_four_velocity===nothing
         static_four_velocity!(cache.observer_four_velocity, cache.observer_metric)
     else
-        @assert is_timelike(observer_four_velocity, cache.observer_metric) "The observer four-velocity is not timelike."
+        is_timelike(observer_four_velocity, cache.observer_metric) || throw(ArgumentError("The observer four-velocity is not timelike."))
         cache.observer_four_velocity .= observer_four_velocity
     end
 end
@@ -36,7 +36,7 @@ function flux_direction!(cache, flux_direction, camera, spacetime)
     if flux_direction===nothing
         cache.flux_direction .= default_flux_direction(camera, spacetime)
     else
-        @assert is_spacelike(flux_direction, cache.observer_metric) "The flux direction is not spacelike."
+        is_spacelike(flux_direction, cache.observer_metric) || throw(ArgumentError("The flux direction is not spacelike."))
         cache.flux_direction = flux_direction
     end
 end

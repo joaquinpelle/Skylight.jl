@@ -21,7 +21,7 @@ function inverse_4x4_symmetric!(inv_matrix::Matrix{Float64},matrix::Matrix{Float
         D = b * f * i - b * g * h - c * e * i + c * g * f  + d * e * h - d * f^2
         det = a * A - b * B + c * C - d * D
 
-        @assert det != 0 "The matrix is singular and cannot be inverted."
+        det != 0 || error("The matrix is singular and cannot be inverted.")
 
         inv_det = 1.0 / det
 

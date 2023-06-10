@@ -119,8 +119,7 @@ function negative_unit_time_components!(kμ)
 end
 
 function coordinate_components_from_tetrad_components!(vectors, tetrad)
-    nvectors = size(vectors,2)
-    for i in 1:nvectors
+    for i in axes(vectors,2)
         vectors[:,i] = tetrad*vectors[:,i]  
     end
     return nothing

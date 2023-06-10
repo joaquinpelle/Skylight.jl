@@ -9,9 +9,8 @@ function line_emission_spectrum(
     start::Union{Number,Nothing}=nothing, 
     stop::Union{Number,Nothing}=nothing)
 
-    if bin_size===nothing && num_bins===nothing 
-        throw(ArgumentError("Either bin_size or num_bins must be specified."))
-    end
+    not_simultaneously_nothing(num_bins, bin_size) || throw(ArgumentError("Either bin_size or num_bins must be specified."))
+    same_size(initial_data, output_data) || throw(DimensionMismatch("initial_data and output_data must have the same size."))
 
     spacetime = configurations.spacetime
     model = configurations.radiative_model
@@ -19,12 +18,12 @@ function line_emission_spectrum(
 
     cache = postprocess_cache(configurations)
 
-    Nrays = number_of_initial_conditions(configurations)
+    Nrays = size(initial_data, 2)
     F = zeros(Nrays)
     q = zeros(Nrays)
     at_source = zeros(Bool, Nrays)
 
-    for i in 1:Nrays
+    for i in eachindex(F)
 
         @views begin 
 
@@ -74,9 +73,8 @@ function line_emission_spectrum(
     observer_four_velocity::AbstractVector=nothing,
     flux_direction::AbstractVector=nothing)
 
-    if bin_size===nothing && num_bins===nothing 
-        throw(ArgumentError("Either bin_size or num_bins must be specified."))
-    end
+    not_simultaneously_nothing(num_bins, bin_size) || throw(ArgumentError("Either bin_size or num_bins must be specified."))
+    same_size(initial_data, output_data) || throw(DimensionMismatch("initial_data and output_data must have the same size."))
 
     spacetime = configurations.spacetime
     model = configurations.radiative_model
@@ -89,12 +87,12 @@ function line_emission_spectrum(
     flux_direction!(cache, flux_direction, camera, spacetime) 
 
     dΩ = pixel_solid_angles(camera)
-    Nrays = number_of_initial_conditions(configurations)
+    Nrays = size(initial_data, 2)
     F = zeros(Nrays)
     q = zeros(Nrays)
     at_source = zeros(Bool, Nrays)
 
-    for i in 1:Nrays
+    for i in eachindex(F)
 
         @views begin 
             pi = initial_data[1:4,i]

@@ -9,7 +9,7 @@ function initialize(camera::PinholeCamera, configurations::AbstractOTEConfigurat
     cache = initial_data_cache(camera)
     
     metric!(cache.metric, position, spacetime)
-    check_signature(cache.metric)
+    lorentzian_signature(cache.metric) || throw(ArgumentError("The metric signature is not Lorentzian."))
     
     tetrad!(cache, position, spacetime)
 

@@ -7,8 +7,9 @@ end
 """For monochromatic / bolometric fluxes"""
 function fluxes(I::AbstractVector, camera::PinholeCamera, initial_data::AbstractMatrix, output_data::AbstractMatrix, spacetime::AbstractSpacetime; observer_four_velocity=nothing, flux_direction=nothing)
 
-    Nrays = number_of_initial_conditions(camera)
-    @assert size(I,1)==Nrays "The number of rays in the initial data and the number of rays in the image plane must be the same."
+    same_size(initial_data, output_data) || throw(DimensionMismatch("initial_data and output_data must have the same size."))
+    size(initial_data, 2) == length(I) || throw(DimensionMismatch("The number of rays in the initial and output data must be the same as the length of I."))
+    number_of_pixels(camera) == length(I) || throw(DimensionMismatch("The number of pixels in the camera must be the same as the length of I."))
 
     cache = postprocess_cache(camera)
     observer_metric!(cache, camera.position, spacetime)
@@ -16,9 +17,9 @@ function fluxes(I::AbstractVector, camera::PinholeCamera, initial_data::Abstract
     flux_direction!(cache, flux_direction, camera, spacetime) 
 
     dΩ = pixel_solid_angles(camera)
-    F = zeros(I)
+    F = zero(I)
     @inbounds begin
-        for i in 1:Nrays
+        for i in eachindex(I)
 
             @views begin 
                 ki = initial_data[5:8,i]
@@ -39,8 +40,9 @@ end
 """For multi-energies fluxes"""
 function fluxes(I::AbstractMatrix, camera::PinholeCamera, initial_data::AbstractMatrix, output_data::AbstractMatrix, spacetime::AbstractSpacetime; observer_four_velocity=nothing, flux_direction=nothing)
 
-    Nrays = number_of_initial_conditions(camera)
-    @assert size(I,2)==Nrays "The number of rays in the initial data and the number of rays in the image plane must be the same."
+    same_size(initial_data, output_data) || throw(DimensionMismatch("initial_data and output_data must have the same size."))
+    size(initial_data, 2) == length(I) || throw(DimensionMismatch("The number of rays in the initial and output data must be the same as the length of I."))
+    number_of_pixels(camera) == length(I) || throw(DimensionMismatch("The number of pixels in the camera must be the same as the length of I."))
 
     cache = postprocess_cache(camera)
     observer_metric!(cache, camera.position, spacetime)
@@ -50,7 +52,7 @@ function fluxes(I::AbstractMatrix, camera::PinholeCamera, initial_data::Abstract
     dΩ = pixel_solid_angles(camera)
     Fobs = zeros(Iobs)
     @inbounds begin
-        for i in 1:Nrays
+        for i in eachindex(I)
 
             @views begin 
                 ki = initial_data[5:8,i]
