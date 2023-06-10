@@ -10,3 +10,7 @@ function callback_setup(configurations; kwargs...)
     cbp = callback_parameters(configurations.spacetime, configurations.radiative_model, configurations; kwargs...)
     return cb, cbp
 end
+
+#Interface
+callback(spacetime, model, configurations; kwargs...) = throw(ArgumentError("Callback not implemented for this spacetime and radiative model"))
+callback_parameters(spacetime, model, configurations; kwargs...) = throw(ArgumentError("Callback parameters not implemented for this spacetime and radiative model"))
