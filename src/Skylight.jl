@@ -106,8 +106,6 @@ export emitter_four_velocity!,
     surface_differential!,
     emitted_bolometric_intensity,
     emitted_specific_intensity,
-    fluxes,
-    is_final_position_at_source,
     opaque_interior_surface_trait
 
 export AbstractCamera,
@@ -126,9 +124,12 @@ export initialize,
     callback_setup
 
 export is_final_position_at_observer,
+    is_final_position_at_source,
     energies_quotients, 
     observed_bolometric_intensities, 
     observed_specific_intensities,
+    fluxes,
+    spectrum,
     line_emission_spectrum, 
     rescale_intensities_normalization_at_real_observer!, 
     axes_ranges, 
