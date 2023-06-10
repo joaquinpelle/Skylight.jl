@@ -8,3 +8,9 @@ Callback params needs to have an rmax. Correct or tell.
 
 Coordinates are assumed to be either of cartesian or spherical topology, and to be ordered like
 t, r, θ, φ or t, x, y, z. The first coordinate is assumed to be timelike, and the other three spatial.
+
+AbstractAccretionDisk assumes inner_radius and outer_radius as fields...
+
+The procedure is modularized enough that you can build your own initial data as well (as a (8, Nrays) array)
+
+The integrator can integrate geodesics of any kind (timelike and spacelike too)
