@@ -1,3 +1,5 @@
+spectrum(initial_data, output_data, configurations::VacuumOTEConfigurations; Emin::Number, Emax::Number, NE::Integer, kwargs...) = spectrum(initial_data, output_data, configurations, configurations.camera, range(Emin, stop=Emax, length=NE); kwargs...)
+
 function spectrum(initial_data, 
                 output_data, 
                 configurations::VacuumOTEConfigurations,

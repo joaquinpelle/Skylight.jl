@@ -1,3 +1,7 @@
+observed_bolometric_intensities(initial_data, output_data, configurations::VacuumOTEConfigurations; kwargs...) = observed_bolometric_intensities(initial_data, output_data, configurations, configurations.camera; kwargs...)
+observed_specific_intensities(initial_data, output_data, configurations::VacuumOTEConfigurations, energy::Number; kwargs...) = observed_specific_intensities(initial_data, output_data, configurations, configurations.camera, [energy]; kwargs...)
+observed_specific_intensities(initial_data, output_data, configurations::VacuumOTEConfigurations, energies::AbstractVector; kwargs...) = observed_specific_intensities(initial_data, output_data, configurations, configurations.camera, energies; kwargs...)
+
 """
     observed_bolometric_intensities(initial_data, output_data, configurations::VacuumOTEConfigurations)
 

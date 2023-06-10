@@ -1,3 +1,5 @@
+energies_quotients(initial_data, output_data, configurations::VacuumOTEConfigurations; kwargs...) = energies_quotients(initial_data, output_data, configurations, configurations.camera; kwargs...)
+
 function energies_quotients(initial_data, output_data, configurations::VacuumOTEConfigurations, camera::ImagePlane)
     
     same_size(initial_data, output_data) || throw(DimensionMismatch("initial_data and output_data must have the same size."))
