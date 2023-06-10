@@ -119,9 +119,8 @@ export AbstractCamera,
 export max_radius
 
 export initialize, 
-    integrate, 
-    output_data, 
-    callback_setup
+    callback_setup,
+    integrate
 
 export is_final_position_at_observer,
     is_final_position_at_source,
