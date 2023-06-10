@@ -10,8 +10,9 @@ include("lineemission.jl")
 
 energies_quotients(initial_data, output_data, configurations::VacuumOTEConfigurations; kwargs...) = energies_quotients(initial_data, output_data, configurations, configurations.camera; kwargs...)
 observed_bolometric_intensities(initial_data, output_data, configurations::VacuumOTEConfigurations; kwargs...) = observed_bolometric_intensities(initial_data, output_data, configurations, configurations.camera; kwargs...)
-observed_specific_intensities(initial_data, output_data, configurations::VacuumOTEConfigurations, energies; kwargs...) = observed_specific_intensities(initial_data, output_data, configurations, configurations.camera, energies; kwargs...)
-spectrum(initial_data, output_data, configurations::VacuumOTEConfigurations; Emin, Emax, NE, kwargs...) = spectrum(initial_data, output_data, configurations, configurations.camera; Emin, Emax, NE, kwargs...)
+observed_specific_intensities(initial_data, output_data, configurations::VacuumOTEConfigurations, energy::Number; kwargs...) = observed_specific_intensities(initial_data, output_data, configurations, configurations.camera, [energy]; kwargs...)
+observed_specific_intensities(initial_data, output_data, configurations::VacuumOTEConfigurations, energies::AbstractVector; kwargs...) = observed_specific_intensities(initial_data, output_data, configurations, configurations.camera, energies; kwargs...)
+spectrum(initial_data, output_data, configurations::VacuumOTEConfigurations; Emin::Number, Emax::Number, NE::Integer, kwargs...) = spectrum(initial_data, output_data, configurations, configurations.camera, range(Emin, stop=Emax, length=NE); kwargs...)
 
 """
     line_emission_spectrum(initial_data, output_data, configurations::VacuumOTEConfigurations; 
