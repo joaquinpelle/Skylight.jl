@@ -66,3 +66,28 @@ end
 
 @inline sign(::ProgradeRotation) = 1.0
 @inline sign(::RetrogradeRotation) = -1.0
+
+function metric(position, spacetime)
+    g = zeros(4,4)
+    metric!(g, position, spacetime)
+    return g
+end
+
+function metric_inverse(position, spacetime)
+    ginv = zeros(4,4)
+    metric_inverse!(ginv, position, spacetime)
+    return ginv
+end
+
+function christoffel(position, spacetime)
+    Γ = zeros(4,4,4)
+    christoffel!(Γ, position, spacetime)
+    return Γ
+end
+
+function christoffel(position, spacetime, cache::AbstractChristoffelCache)
+    Γ = zeros(4,4,4)
+    christoffel!(Γ, position, spacetime, cache)
+    return Γ
+end
+
