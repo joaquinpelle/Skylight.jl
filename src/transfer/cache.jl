@@ -1,5 +1,7 @@
+transfer_cache(configurations::AbstractConfigurations, cbp) = transfer_cache(isvacuum(configurations), configurations, cbp)
+
 # Vacuum
-function transfer_cache(configurations::VacuumConfigurations, cbp)
+function transfer_cache(::Vacuum, configurations, cbp)
     spacetime = configurations.spacetime
     return VacuumCache(spacetime, cbp, vacuum_multi_thread_cache(spacetime))
 end
@@ -13,8 +15,7 @@ function vacuum_single_thread_cache(spacetime)
 end
 
 # Non vacuum
-
-function transfer_cache(configurations::NonVacuumConfigurations, cbp, τmax)
+function transfer_cache(::NonVacuum, configurations, cbp, τmax)
     spacetime = configurations.spacetime
     model = configurations.radiative_model
     observation_energies = configurations.observation_energies

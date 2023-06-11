@@ -1,11 +1,10 @@
-equations(::NonVacuumConfigurations) = non_vacuum_equations!
-equations(::VacuumConfigurations) = geodesic_equations!
+equations(configurations::AbstractConfigurations) = equations(isvacuum(configurations))
+equations(::NonVacuum) = non_vacuum_equations!
+equations(::Vacuum) = geodesic_equations!
 
 function non_vacuum_equations!(du, u::Array{Float64,1}, p::NonVacuumCache, t)
-
     geodesic_equations!(du, u, p, t)
     transfer_equations!(du, u, p, t)
-
     return nothing
 end
 
@@ -77,6 +76,5 @@ function transfer_equations!(du, u::Array{Float64,1}, p, t)
             du[8+NE+i] = jε[i]*exp(-u[8+i])
         end
     end
-
     return nothing
 end

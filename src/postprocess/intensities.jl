@@ -1,3 +1,7 @@
+observed_bolometric_intensities(initial_data, output_data, configurations::VacuumOTEConfigurations; kwargs...) = observed_bolometric_intensities(initial_data, output_data, configurations, configurations.camera; kwargs...)
+observed_specific_intensities(initial_data, output_data, configurations::VacuumOTEConfigurations, energy::Number; kwargs...) = observed_specific_intensities(initial_data, output_data, configurations, [energy]; kwargs...)
+observed_specific_intensities(initial_data, output_data, configurations::VacuumOTEConfigurations, energies::AbstractVector; kwargs...) = observed_specific_intensities(initial_data, output_data, configurations, configurations.camera, energies; kwargs...)
+
 """
     observed_bolometric_intensities(initial_data, output_data, configurations::VacuumOTEConfigurations)
 
@@ -30,28 +34,26 @@ function observed_bolometric_intensities(initial_data::AbstractMatrix, output_da
     q = zeros(Nrays)
     Iobs = zeros(Nrays)
 
-    @inbounds begin
-        for i in eachindex(Iobs)
+    for i in axes(initial_data, 2)
 
-            @views begin 
-                pi = initial_data[1:4,i]
-                ki = initial_data[5:8,i]
-                
-                pf = output_data[1:4,i]
-                kf = output_data[5:8,i]
-            end
-
-            if !is_final_position_at_source(pf, spacetime, model)
-                continue
-            end
-
-            metrics_and_four_velocities!(cache, pi, pf, spacetime, model, coords_top)
-            q[i] = energies_quotient(ki, kf, cache)
-
-            #The difference with the ETO scheme here should be the minus sign in front of the final momentum
-            #at get emitted intensity, and the is_final_position_at_source call (at observer in ETO)...
-            Iobs[i] = q[i]^4*emitted_bolometric_intensity(pf, -kf, cache.emitter_four_velocity, cache.emitter_metric, spacetime, model, coords_top)
+        @views begin 
+            pi = initial_data[1:4,i]
+            ki = initial_data[5:8,i]
+            
+            pf = output_data[1:4,i]
+            kf = output_data[5:8,i]
         end
+
+        if !is_final_position_at_source(pf, spacetime, model)
+            continue
+        end
+        
+        metrics_and_four_velocities!(cache, pi, pf, spacetime, model, coords_top)
+        q[i] = energies_quotient(ki, kf, cache)
+
+        #The difference with the ETO scheme here should be the minus sign in front of the final momentum
+        #at get emitted intensity, and the is_final_position_at_source call (at observer in ETO)...
+        Iobs[i] = q[i]^4*emitted_bolometric_intensity(pf, -kf, cache.emitter_four_velocity, cache.emitter_metric, spacetime, model, coords_top)
     end
     return Iobs, q
 end
@@ -90,27 +92,25 @@ function observed_bolometric_intensities(initial_data::AbstractMatrix, output_da
     q = zeros(Nrays)
     Iobs = zeros(Nrays)
 
-    @inbounds begin
-        for i in eachindex(Iobs)
+    for i in axes(initial_data, 2)
 
-            @views begin 
-                ki = initial_data[5:8,i]
-                pf = output_data[1:4,i]
-                kf = output_data[5:8,i]
-            end
-
-            if !is_final_position_at_source(pf, spacetime, model)
-                continue
-            end
-
-            emitter_metric_and_four_velocity!(cache, pf, spacetime, model, coords_top)
-            q[i] = energies_quotient(ki, kf, cache)
-            
-            #The difference with the ETO scheme here should be the minus sign in front of the final momentum
-            #at get emitted intensity, and the is_final_position_at_source call (at observer in ETO)...
-            Iem = emitted_bolometric_intensity(pf, -kf, cache.emitter_four_velocity, cache.emitter_metric, spacetime, model, coords_top)
-            Iobs[i] = q[i]^4*Iem        
+        @views begin 
+            ki = initial_data[5:8,i]
+            pf = output_data[1:4,i]
+            kf = output_data[5:8,i]
         end
+
+        if !is_final_position_at_source(pf, spacetime, model)
+            continue
+        end
+
+        emitter_metric_and_four_velocity!(cache, pf, spacetime, model, coords_top)
+        q[i] = energies_quotient(ki, kf, cache)
+        
+        #The difference with the ETO scheme here should be the minus sign in front of the final momentum
+        #at get emitted intensity, and the is_final_position_at_source call (at observer in ETO)...
+        Iem = emitted_bolometric_intensity(pf, -kf, cache.emitter_four_velocity, cache.emitter_metric, spacetime, model, coords_top)
+        Iobs[i] = q[i]^4*Iem        
     end
     return Iobs, q
 end
@@ -133,7 +133,7 @@ Compute observed specific intensities and energy quotients for a set of rays def
 # Notes
     Input energy units must be CGS. Output units are CGS.
 """
-function observed_specific_intensities(initial_data::AbstractMatrix, output_data::AbstractMatrix, configurations::VacuumOTEConfigurations, ::ImagePlane, observation_energies)
+function observed_specific_intensities(initial_data::AbstractMatrix, output_data::AbstractMatrix, configurations::VacuumOTEConfigurations, ::ImagePlane, observation_energies::AbstractVector)
     same_size(initial_data, output_data) || throw(DimensionMismatch("The initial and output data must have the same size."))
     eight_components(initial_data, output_data) || throw(DimensionMismatch("The initial and output data must have eight components.")) 
     
@@ -148,31 +148,29 @@ function observed_specific_intensities(initial_data::AbstractMatrix, output_data
 
     q = zeros(Nrays)
     Iobs = zeros(NE, Nrays)
-    @inbounds begin
-        for i in eachindex(Iobs)
+    for i in axes(initial_data,2)
 
-            @views begin 
-                pi = initial_data[1:4,i]
-                ki = initial_data[5:8,i]
-                
-                pf = output_data[1:4,i]
-                kf = output_data[5:8,i]
-            end
-
-            if !is_final_position_at_source(pf, spacetime, model)
-                continue
-            end
-
-            metrics_and_four_velocities!(cache, pi, pf, spacetime, model, coords_top)
-            q[i] = energies_quotient(ki, kf, cache)
+        @views begin 
+            pi = initial_data[1:4,i]
+            ki = initial_data[5:8,i]
             
-            for j in eachindex(observation_energies)
-                emitted_energy = observation_energies[j]/q[i]
+            pf = output_data[1:4,i]
+            kf = output_data[5:8,i]
+        end
 
-                #The difference with the ETO scheme here should be the minus sign in front of the final momentum
-                #at get emitted intensity, and the is_final_position_at_source call (at observer in ETO)...
-                Iobs[j, i] = q[i]^3*emitted_specific_intensity(pf, -kf, emitted_energy, cache.emitter_four_velocity, cache.emitter_metric, spacetime, model, coords_top)
-            end
+        if !is_final_position_at_source(pf, spacetime, model)
+            continue
+        end
+
+        metrics_and_four_velocities!(cache, pi, pf, spacetime, model, coords_top)
+        q[i] = energies_quotient(ki, kf, cache)
+        
+        for j in axes(observation_energies, 1)
+            emitted_energy = observation_energies[j]/q[i]
+
+            #The difference with the ETO scheme here should be the minus sign in front of the final momentum
+            #at get emitted intensity, and the is_final_position_at_source call (at observer in ETO)...
+            Iobs[j, i] = q[i]^3*emitted_specific_intensity(pf, -kf, emitted_energy, cache.emitter_four_velocity, cache.emitter_metric, spacetime, model, coords_top)
         end
     end
     return Iobs, q
@@ -215,29 +213,27 @@ function observed_specific_intensities(initial_data::AbstractMatrix, output_data
 
     q = zeros(Nrays)
     Iobs = zeros(NE, Nrays)
-    @inbounds begin
-        for i in eachindex(Iobs)
+    for i in axes(initial_data, 2)
 
-            @views begin 
-                ki = initial_data[5:8,i]
-                pf = output_data[1:4,i]
-                kf = output_data[5:8,i]
-            end
+        @views begin 
+            ki = initial_data[5:8,i]
+            pf = output_data[1:4,i]
+            kf = output_data[5:8,i]
+        end
 
-            if !is_final_position_at_source(pf, spacetime, model)
-                continue
-            end
+        if !is_final_position_at_source(pf, spacetime, model)
+            continue
+        end
 
-            emitter_metric_and_four_velocity!(cache, pf, spacetime, model, coords_top)
-            q[i] = energies_quotient(ki, kf, cache)
-            
-            for j in eachindex(observation_energies)
-                emitted_energy = observation_energies[j]/q[i]
-                #The difference with the ETO scheme here should be the minus sign in front of the final momentum
-                #at get emitted intensity, and the is_final_position_at_source call (at observer in ETO)...
-                Iem = emitted_specific_intensity(pf, -kf, emitted_energy, cache.emitter_four_velocity, cache.emitter_metric, spacetime, model, coords_top)
-                Iobs[j, i] = q[i]^3*Iem            
-            end
+        emitter_metric_and_four_velocity!(cache, pf, spacetime, model, coords_top)
+        q[i] = energies_quotient(ki, kf, cache)
+        
+        for j in axes(observation_energies, 1)
+            emitted_energy = observation_energies[j]/q[i]
+            #The difference with the ETO scheme here should be the minus sign in front of the final momentum
+            #at get emitted intensity, and the is_final_position_at_source call (at observer in ETO)...
+            Iem = emitted_specific_intensity(pf, -kf, emitted_energy, cache.emitter_four_velocity, cache.emitter_metric, spacetime, model, coords_top)
+            Iobs[j, i] = q[i]^3*Iem            
         end
     end
     return Iobs, q

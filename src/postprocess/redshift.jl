@@ -1,3 +1,5 @@
+energies_quotients(initial_data, output_data, configurations::VacuumOTEConfigurations; kwargs...) = energies_quotients(initial_data, output_data, configurations, configurations.camera; kwargs...)
+
 function energies_quotients(initial_data, output_data, configurations::VacuumOTEConfigurations, camera::ImagePlane)
     
     same_size(initial_data, output_data) || throw(DimensionMismatch("initial_data and output_data must have the same size."))
@@ -8,7 +10,7 @@ function energies_quotients(initial_data, output_data, configurations::VacuumOTE
     cache = postprocess_cache(camera)
     Nrays = size(initial_data, 2)
     q = zeros(Nrays)
-    for i in eachindex(q)
+    for i in axes(initial_data, 2)
 
         @views begin 
             pi = initial_data[1:4,i]
@@ -42,7 +44,7 @@ function energies_quotients(initial_data, output_data, configurations::VacuumOTE
     
     Nrays = size(initial_data, 2)
     q = zeros(Nrays)
-    for i in eachindex(q)
+    for i in axes(initial_data, 2)
         @views begin 
             ki = initial_data[5:8,i]
             pf = output_data[1:4,i]

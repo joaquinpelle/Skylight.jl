@@ -18,6 +18,10 @@ function eight_components(A::AbstractArray)
     return size(A,1) == 8
 end
 
+function eight_components(A::AbstractArray, B::AbstractArray)
+    return size(A,1) == 8 && size(B,1) == 8
+end
+
 function not_simultaneously_nothing(a, b)
-    return (a!==nothing || b!==nothing)
+    return a!==nothing || b!==nothing
 end

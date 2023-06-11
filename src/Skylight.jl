@@ -46,12 +46,11 @@ export AbstractSpacetime,
     ChargedWormholeSpacetimeSphericalCoordinates,
     ChargedWormholeSpacetimeRegularCoordinates,
     RARSpacetime,
-    BosonStarSpacetime,
-    NumericalSpacetime
+    BosonStarSpacetime
 
 export AbstractChristoffelCache
 
-export AbstractCoordinatesTopology, 
+export AbstractCoordinatesTopology,
     CartesianTopology,
     SphericalTopology
 
@@ -172,7 +171,17 @@ export PhysicalConstants,
     Dimensions
 
 export geometrized_to_CGS,
-    CGS_to_geometrized
+    CGS_to_geometrized,
+    pc_to_cm,
+    cm_to_pc,
+    eV_to_erg,
+    erg_to_eV,
+    keV_to_erg,
+    erg_to_keV,
+    per_erg_to_per_eV,
+    per_eV_to_per_erg,
+    per_erg_to_per_keV,
+    per_keV_to_per_erg
 
 export TT, XX, YY, ZZ,
     RR, TH, PH,

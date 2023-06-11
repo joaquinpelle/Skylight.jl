@@ -25,7 +25,7 @@ for E in energies
             Nstr = string(@sprintf("%04d", Nres))
             filename = "$(E)keV_ideg$(ξstr)_$(rname)_s$(srsat)rsat_N$(Nstr)"
 
-            image_plane = ImagePlane(distance = 1e-5*r_sup,
+            camera = ImagePlane(distance = 1e-5*r_sup,
                                     observer_inclination_in_degrees = ξ,
                                     horizontal_side = srsat*rsat,
                                     vertical_side = srsat*rsat,
@@ -35,7 +35,7 @@ for E in energies
             model = RARDisk(inner_radius=rd_in, outer_radius=rd_out, alpha=0.5, M1=M1)
                     
             configurations = VacuumOTEConfigurations(spacetime=spacetime,
-                                                    image_plane = image_plane,
+                                                    camera = camera,
                                                     radiative_model = model,
                                                     unit_mass_in_solar_masses=model.M1)
 
@@ -66,7 +66,7 @@ for E in energies
             λ_EHT_Apr17 = 0.13
             ε = PhysicalConstants.h*PhysicalConstants.c/λ_EHT_Apr17
 
-            Iobs, q = observed_specific_intensities(initial_data, output_data, configurations, [ε])
+            Iobs, q = observed_specific_intensities(initial_data, output_data, configurations, ε)
 
             zs = grid_view(Iobs, configurations; energy_index=1)
 
@@ -78,6 +78,13 @@ for E in energies
             colgap!(fig.layout, 7)
             CairoMakie.save("plots/RAR/specific/$(filename).png", fig)
 
+            obs_energies = ε*exp10.(range(1.0, stop=9.0, length=20))
+            F = spectrum(initial_data, output_data, configurations, obs_energies)
+            fig = Figure(font = "Times New Roman")
+            ax = Axis(fig[1,1], xlabel=L"E \, [\text{keV}]", ylabel=L"F_E \,[\text{erg} \,\text{s}^{-1}\,\text{keV}^{-1}]", ylabelsize = 26, xlabelsize = 26, xscale=log10, yscale=log10)
+            lines!(ax, erg_to_keV(obs_energies), keV_to_erg(F); linewidth=2.0, color=:blue)
+
+            CairoMakie.save("plots/RAR/spectrum/$(filename).png", fig)
         end
     end
 end
