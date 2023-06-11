@@ -20,19 +20,21 @@ function fluxes(I::AbstractVector, configurations, camera::PinholeCamera, initia
 
     dΩ = pixel_solid_angles(camera)
     F = zero(I)
-    for i in axes(initial_data,2)
+    @inbounds begin
+        for i in axes(initial_data,2)
 
-        @views begin 
-            ki = initial_data[5:8,i]
-            pf = output_data[1:4,i]
-        end
+            @views begin 
+                ki = initial_data[5:8,i]
+                pf = output_data[1:4,i]
+            end
 
-        if !is_final_position_at_source(pf, spacetime, model)
-            continue
+            if !is_final_position_at_source(pf, spacetime, model)
+                continue
+            end
+            nu = scalar_product(ki, cache.observer_four_velocity, cache.observer_metric)
+            nn = scalar_product(ki, cache.flux_direction, cache.observer_metric)
+            F[i] = nu*nn*I[i]*dΩ[i]        
         end
-        nu = scalar_product(ki, cache.observer_four_velocity, cache.observer_metric)
-        nn = scalar_product(ki, cache.flux_direction, cache.observer_metric)
-        F[i] = nu*nn*I[i]*dΩ[i]        
     end
     return F
 end
@@ -52,21 +54,23 @@ function fluxes(I::AbstractMatrix, configurations, camera::PinholeCamera, initia
 
     dΩ = pixel_solid_angles(camera)
     Fobs = zeros(Iobs)
-    for i in axes(initial_data, 2)
+    @inbounds begin
+        for i in axes(initial_data, 2)
 
-        @views begin 
-            ki = initial_data[5:8,i]
-            pf = output_data[1:4,i]
+            @views begin 
+                ki = initial_data[5:8,i]
+                pf = output_data[1:4,i]
+            end
+
+            if !is_final_position_at_source(pf, spacetime, model)
+                continue
+            end
+
+            nu = scalar_product(ki, cache.observer_four_velocity, cache.observer_metric)
+            nn = scalar_product(ki, cache.flux_direction, cache.observer_metric)
+            
+            Fobs[:,i] = nu*nn*I[:,i]*dΩ[i]        
         end
-
-        if !is_final_position_at_source(pf, spacetime, model)
-            continue
-        end
-
-        nu = scalar_product(ki, cache.observer_four_velocity, cache.observer_metric)
-        nn = scalar_product(ki, cache.flux_direction, cache.observer_metric)
-        
-        Fobs[:,i] = nu*nn*I[:,i]*dΩ[i]        
     end
     return Fobs
 end

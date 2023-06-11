@@ -52,29 +52,29 @@ function line_emission_spectrum(
     F = zeros(Nrays)
     q = zeros(Nrays)
     at_source = zeros(Bool, Nrays)
+    @inbounds begin
+        for i in axes(initial_data, 2)
 
-    for i in axes(initial_data, 2)
+            @views begin 
 
-        @views begin 
+                pi = initial_data[1:4,i]
+                ki = initial_data[5:8,i]
+                
+                pf = output_data[1:4,i]
+                kf = output_data[5:8,i]
 
-            pi = initial_data[1:4,i]
-            ki = initial_data[5:8,i]
-            
-            pf = output_data[1:4,i]
-            kf = output_data[5:8,i]
+            end
 
+            if !is_final_position_at_source(pf, spacetime, model)
+                continue
+            end
+            at_source[i] = true
+
+            metrics_and_four_velocities!(cache, pi, pf, spacetime, model, coords_top)
+            q[i] = energies_quotient(ki, kf, cache)
+            F[i] = q[i]^3*emission_profile(pf, spacetime, model)
         end
-
-        if !is_final_position_at_source(pf, spacetime, model)
-            continue
-        end
-        at_source[i] = true
-
-        metrics_and_four_velocities!(cache, pi, pf, spacetime, model, coords_top)
-        q[i] = energies_quotient(ki, kf, cache)
-        F[i] = q[i]^3*emission_profile(pf, spacetime, model)
     end
-
     if start===nothing
         start = minimum(q[at_source])
     end
@@ -122,25 +122,24 @@ function line_emission_spectrum(
     q = zeros(Nrays)
     at_source = zeros(Bool, Nrays)
 
-    for i in axes(initial_data, 2)
-
-        @views begin 
-            pi = initial_data[1:4,i]
-            ki = initial_data[5:8,i]
-            pf = output_data[1:4,i]
-            kf = output_data[5:8,i]
+    @inbounds begin
+        for i in axes(initial_data, 2)
+            @views begin 
+                pi = initial_data[1:4,i]
+                ki = initial_data[5:8,i]
+                pf = output_data[1:4,i]
+                kf = output_data[5:8,i]
+            end
+            if !is_final_position_at_source(pf, spacetime, model)
+                continue
+            end
+            at_source[i] = true
+            emitter_metric_and_four_velocity!(cache, pf, spacetime, model, coords_top)
+            nu = scalar_product(ki, cache.observer_four_velocity, cache.observer_metric)
+            nn = scalar_product(ki, cache.flux_direction, cache.observer_metric)
+            q[i] = energies_quotient(ki, kf, cache)
+            F[i] = nu*nn*q[i]^3*emission_profile(pf, spacetime, model)*dΩ[i]
         end
-
-        if !is_final_position_at_source(pf, spacetime, model)
-            continue
-        end
-        at_source[i] = true
-
-        emitter_metric_and_four_velocity!(cache, pf, spacetime, model, coords_top)
-        nu = scalar_product(ki, cache.observer_four_velocity, cache.observer_metric)
-        nn = scalar_product(ki, cache.flux_direction, cache.observer_metric)
-        q[i] = energies_quotient(ki, kf, cache)
-        F[i] = nu*nn*q[i]^3*emission_profile(pf, spacetime, model)*dΩ[i]
     end
 
     if start===nothing
