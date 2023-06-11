@@ -10,23 +10,23 @@ function energies_quotients(initial_data, output_data, configurations::VacuumOTE
     cache = postprocess_cache(camera)
     Nrays = size(initial_data, 2)
     q = zeros(Nrays)
-    for i in axes(initial_data, 2)
-
-        @views begin 
-            pi = initial_data[1:4,i]
-            ki = initial_data[5:8,i]
-            
-            pf = output_data[1:4,i]
-            kf = output_data[5:8,i]
+    @inbounds begin
+        for i in axes(initial_data, 2)
+            @views begin 
+                pi = initial_data[1:4,i]
+                ki = initial_data[5:8,i]
+                
+                pf = output_data[1:4,i]
+                kf = output_data[5:8,i]
+            end
+            #The difference with the ETO scheme here should be the minus sign in front of the final momentum
+            #at get emitted intensity, and the is_final_position_at_source call (at observer in ETO)...
+            if !is_final_position_at_source(pf, spacetime, model)
+                continue
+            end
+            metrics_and_four_velocities!(cache, pi, pf, spacetime, model, coords_top)
+            q[i] = energies_quotient(ki, kf, cache)
         end
-        #The difference with the ETO scheme here should be the minus sign in front of the final momentum
-        #at get emitted intensity, and the is_final_position_at_source call (at observer in ETO)...
-
-        if !is_final_position_at_source(pf, spacetime, model)
-            continue
-        end
-        metrics_and_four_velocities!(cache, pi, pf, spacetime, model, coords_top)
-        q[i] = energies_quotient(ki, kf, cache)
     end
     return q
 end
@@ -44,19 +44,21 @@ function energies_quotients(initial_data, output_data, configurations::VacuumOTE
     
     Nrays = size(initial_data, 2)
     q = zeros(Nrays)
-    for i in axes(initial_data, 2)
-        @views begin 
-            ki = initial_data[5:8,i]
-            pf = output_data[1:4,i]
-            kf = output_data[5:8,i]
+    @inbounds begin
+        for i in axes(initial_data, 2)
+            @views begin 
+                ki = initial_data[5:8,i]
+                pf = output_data[1:4,i]
+                kf = output_data[5:8,i]
+            end
+            #The difference with the ETO scheme here should be the minus sign in front of the final momentum
+            #at get emitted intensity, and the is_final_position_at_source call (at observer in ETO)...
+            if !is_final_position_at_source(pf, spacetime, model)
+                continue
+            end
+            emitter_metric_and_four_velocity!(cache, pf, spacetime, model, coords_top)
+            q[i] = energies_quotient(ki, kf, cache)
         end
-        #The difference with the ETO scheme here should be the minus sign in front of the final momentum
-        #at get emitted intensity, and the is_final_position_at_source call (at observer in ETO)...
-        if !is_final_position_at_source(pf, spacetime, model)
-            continue
-        end
-        emitter_metric_and_four_velocity!(cache, pf, spacetime, model, coords_top)
-        q[i] = energies_quotient(ki, kf, cache)
     end
     return q
 end
