@@ -53,7 +53,7 @@ function line_emission_spectrum(
     q = zeros(Nrays)
     at_source = zeros(Bool, Nrays)
 
-    for i in eachindex(F)
+    for i in axes(initial_data, 2)
 
         @views begin 
 
@@ -122,7 +122,7 @@ function line_emission_spectrum(
     q = zeros(Nrays)
     at_source = zeros(Bool, Nrays)
 
-    for i in eachindex(F)
+    for i in axes(initial_data, 2)
 
         @views begin 
             pi = initial_data[1:4,i]
