@@ -51,10 +51,9 @@ function pixel_solid_angles(camera::PinholeCamera)
     dα, dβ = grid_spacing(camera)
 
     solid_angles = zeros(Nα*Nβ)
-    i=1
-    for β in vecβ
-        solid_angles[i:(i-1+Nα)] .=  2*cos(β)*sin(dβ/2)*dα
-        i+=Nα
+    for (i,β) in enumerate(vecβ)
+        index = (i-1)*Nα+1
+        solid_angles[index:(index-1+Nα)] .=  2*cos(β)*sin(dβ/2)*dα
     end
     return solid_angles
 end

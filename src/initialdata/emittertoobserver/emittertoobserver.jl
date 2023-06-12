@@ -4,13 +4,11 @@ function initialize(configurations::VacuumETOConfigurations)
 
     Npp = configurations.number_of_packets_per_point
 
-    index = 1
-    for position in initial_positions(configurations)
-            @views packets_at_position = packets[:, index:(index+Npp-1)]
+    for (index, position) in enumerate(initial_positions(configurations))
+            packet_index = (index-1)*Npp+1
+            @views packets_at_position = packets[:, packet_index:(packet_index+Npp-1)]
             initialize_packets_at_position!(packets_at_position, position, cache, configurations)
-            index += Npp
     end
-
     return packets
 end
 
