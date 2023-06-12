@@ -119,8 +119,10 @@ function negative_unit_time_components!(kμ)
 end
 
 function coordinate_components_from_tetrad_components!(vectors, tetrad)
-    for i in axes(vectors,2)
-        vectors[:,i] = tetrad*vectors[:,i]  
+    size(tetrad) == (4,4) || throw(DimensionMismatch("Tetrad must be a 4x4 matrix"))
+    size(vectors,1) == 4 || throw(DimensionMismatch("First dimension of vectors must be 4"))
+    @threads for i in axes(vectors,2)
+        @inbounds vectors[:,i] = tetrad*vectors[:,i]  
     end
     return nothing
 end

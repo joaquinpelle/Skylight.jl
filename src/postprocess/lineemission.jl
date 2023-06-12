@@ -46,15 +46,15 @@ function line_emission_spectrum(
     model = configurations.radiative_model
     coords_top = coordinates_topology(spacetime)
 
-    cache = postprocess_cache(configurations)
+    threads_cache = postprocess_cache(configurations)
 
     Nrays = size(initial_data, 2)
     F = zeros(Nrays)
     q = zeros(Nrays)
     at_source = zeros(Bool, Nrays)
     @inbounds begin
-        for i in axes(initial_data, 2)
-
+        @threads for i in axes(initial_data, 2)
+            cache = threads_cache[threadid()]
             @views begin 
 
                 pi = initial_data[1:4,i]
@@ -110,11 +110,13 @@ function line_emission_spectrum(
     model = configurations.radiative_model
     coords_top = coordinates_topology(spacetime)
 
-    cache = postprocess_cache(configurations)
+    threads_cache = postprocess_cache(configurations)
 
-    observer_metric!(cache, camera.position, spacetime)
-    observer_four_velocity!(cache, observer_four_velocity) 
-    flux_direction!(cache, flux_direction, camera, spacetime) 
+    for cache in threads_cache
+        observer_metric!(cache, camera.position, spacetime)
+        observer_four_velocity!(cache, observer_four_velocity) 
+        flux_direction!(cache, flux_direction, camera, spacetime) 
+    end
 
     dΩ = pixel_solid_angles(camera)
     Nrays = size(initial_data, 2)
@@ -123,9 +125,9 @@ function line_emission_spectrum(
     at_source = zeros(Bool, Nrays)
 
     @inbounds begin
-        for i in axes(initial_data, 2)
+        @threads for i in axes(initial_data, 2)
+            cache = threads_cache[threadid()]
             @views begin 
-                pi = initial_data[1:4,i]
                 ki = initial_data[5:8,i]
                 pf = output_data[1:4,i]
                 kf = output_data[5:8,i]

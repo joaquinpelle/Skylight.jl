@@ -16,8 +16,8 @@ observation_times(configurations::AbstractOTEConfigurations) = configurations.ca
 axes_ranges(configurations::AbstractOTEConfigurations) = axes_ranges(configurations.camera)
 
 initial_data_cache(configurations::AbstractOTEConfigurations) = initial_data_cache(configurations.camera)
-initial_data_cache(::AbstractETOConfigurations) = ETOInitialDataCache()
 postprocess_cache(configurations::AbstractOTEConfigurations) = postprocess_cache(configurations.camera)
+initial_data_cache(::AbstractETOConfigurations) = [ETOInitialDataCache() for i in 1:nthreads()]
 
 function initial_positions(configurations::AbstractETOConfigurations)
     times = zero_times(configurations)

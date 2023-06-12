@@ -1,5 +1,6 @@
 module Skylight
 
+using Base.Threads: @threads, nthreads, threadid
 using DataInterpolations
 using DelimitedFiles
 using ForwardDiff
@@ -129,7 +130,7 @@ export is_final_position_at_observer,
     energies_quotients, 
     observed_bolometric_intensities, 
     observed_specific_intensities,
-    fluxes,
+    fluxes!,
     spectrum,
     line_emission_spectrum, 
     rescale_intensities_normalization_at_real_observer!, 

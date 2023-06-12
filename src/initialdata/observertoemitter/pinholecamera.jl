@@ -44,13 +44,13 @@ function rays_tetrad_components!(kμ, camera::PinholeCamera)
 end
 
 function rays_triad_components!(kμ, camera::PinholeCamera)
-    @views space_kμ = kμ[2:4,:]
-    i = 1 
-    for (α, β) in camera_grid(camera)
-        space_kμ[1,i] = cos(α)*cos(β)
-        space_kμ[2,i] = sin(α)*cos(β)
-        space_kμ[3,i] = sin(β)
-        i += 1
+    @views space_kμ = kμ[2:4,:] 
+    @inbounds begin
+        @threads for (i, (α, β)) in enumerate(camera_grid(camera))
+            space_kμ[1,i] = cos(α)*cos(β)
+            space_kμ[2,i] = sin(α)*cos(β)
+            space_kμ[3,i] = sin(β)
+        end
     end
     return nothing        
 end

@@ -7,11 +7,12 @@ function energies_quotients(initial_data, output_data, configurations::VacuumOTE
     spacetime = configurations.spacetime
     model = configurations.radiative_model
     coords_top = coordinates_topology(spacetime)
-    cache = postprocess_cache(camera)
+    threads_cache = postprocess_cache(camera)
     Nrays = size(initial_data, 2)
     q = zeros(Nrays)
     @inbounds begin
-        for i in axes(initial_data, 2)
+        @threads for i in axes(initial_data, 2)
+            cache = threads_cache[threadid()]
             @views begin 
                 pi = initial_data[1:4,i]
                 ki = initial_data[5:8,i]
@@ -38,14 +39,17 @@ function energies_quotients(initial_data, output_data, configurations::VacuumOTE
     spacetime = configurations.spacetime
     model = configurations.radiative_model
     coords_top = coordinates_topology(spacetime)
-    cache = postprocess_cache(camera)
-    observer_metric!(cache, camera.position, spacetime)
-    observer_four_velocity!(cache, observer_four_velocity)
-    
+    threads_cache = postprocess_cache(camera)
+    for cache in threads_cache
+        observer_metric!(cache, camera.position, spacetime)
+        observer_four_velocity!(cache, observer_four_velocity)
+    end
+
     Nrays = size(initial_data, 2)
     q = zeros(Nrays)
     @inbounds begin
-        for i in axes(initial_data, 2)
+        @threads for i in axes(initial_data, 2)
+            cache = threads_cache[threadid()]
             @views begin 
                 ki = initial_data[5:8,i]
                 pf = output_data[1:4,i]

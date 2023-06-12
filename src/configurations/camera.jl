@@ -51,16 +51,15 @@ function pixel_solid_angles(camera::PinholeCamera)
     dα, dβ = grid_spacing(camera)
 
     solid_angles = zeros(Nα*Nβ)
-    i=1
-    for β in vecβ
-        solid_angles[i:(i-1+Nα)] .=  2*cos(β)*sin(dβ/2)*dα
-        i+=Nα
+    for (i,β) in enumerate(vecβ)
+        index = (i-1)*Nα+1
+        solid_angles[index:(index-1+Nα)] .=  2*cos(β)*sin(dβ/2)*dα
     end
     return solid_angles
 end
 
 function default_tetrad(camera::PinholeCamera, spacetime::AbstractSpacetime)
-    cache = initial_data_cache(camera)
+    cache = PinholeCameraCache()
     metric!(cache.metric, camera.position, spacetime)
     tetrad!(cache, camera.position, spacetime)
     return cache.tetrad
@@ -75,7 +74,7 @@ end
 default_flux_direction(camera::PinholeCamera, spacetime::AbstractSpacetime) = default_tetrad(camera, spacetime)[:,2]
 max_radius(camera, spacetime) = 1.1*radius(camera.position, spacetime)
 initial_data_cache(::PinholeCamera) = PinholeCameraCache()
-postprocess_cache(::PinholeCamera) = PinholeCameraPostProcessCache()
+postprocess_cache(::PinholeCamera) = [PinholeCameraPostProcessCache() for i in 1:nthreads()]
 
 #ImagePlane methods
 
@@ -107,5 +106,5 @@ function max_radius(image_plane::ImagePlane, ::AbstractSpacetime)
     return 1.1*sqrt(d^2 + sα^2 + sβ^2)
 end
 
-initial_data_cache(::ImagePlane) = ImagePlaneCache()
-postprocess_cache(::ImagePlane) = ImagePlanePostProcessCache()
+initial_data_cache(::ImagePlane) = [ImagePlaneCache() for i in 1:nthreads()]
+postprocess_cache(::ImagePlane) = [ImagePlanePostProcessCache() for i in 1:nthreads()]
