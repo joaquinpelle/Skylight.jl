@@ -338,7 +338,7 @@ end
 
 
 #Common definitions
-
+"""This is really an upper bound to the horizon radius which actually depends on θ"""
 event_horizon_radius(spacetime::AbstractKerrSpacetime) = spacetime.M*(1+sqrt(1-spacetime.a^2))
 
 function isco_radius(spacetime::AbstractKerrSpacetime, rotation_sense::AbstractRotationSense)
