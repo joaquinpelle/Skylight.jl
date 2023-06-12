@@ -4,8 +4,8 @@ using Printf
 
 M1 = 1.02e7 #Unit mass in solar masses
 energies = [200] #energies in keV of the fermion
-inclinations = [5, 25, 45, 65, 85] #inclinations in degrees of the observer
-Nres = 10 #number of pixels per side of the image
+inclinations = [45] #inclinations in degrees of the observer
+Nres = 50 #number of pixels per side of the image
 srsat = 150 #side of the image plane in units of Rsat
 
 rsat = 1.980475e+12
@@ -49,7 +49,7 @@ for E in energies
             
             output_data = run.output_data
 
-            Iobs, q = observed_bolometric_intensities(initial_data, output_data, configurations)
+            @time Iobs, q = observed_bolometric_intensities(initial_data, output_data, configurations)
 
             xs,ys = axes_ranges(camera)
 
@@ -66,7 +66,7 @@ for E in energies
             λ_EHT_Apr17 = 0.13
             ε = PhysicalConstants.h*PhysicalConstants.c/λ_EHT_Apr17
 
-            Iobs, q = observed_specific_intensities(initial_data, output_data, configurations, ε)
+            @time Iobs, q = observed_specific_intensities(initial_data, output_data, configurations, ε)
 
             zs = grid_view(Iobs, configurations; energy_index=1)
 
@@ -79,7 +79,7 @@ for E in energies
             CairoMakie.save("plots/RAR/specific/$(filename).png", fig)
 
             obs_energies = ε*exp10.(range(1.0, stop=9.0, length=20))
-            F = spectrum(initial_data, output_data, configurations, obs_energies)
+            @time F = spectrum(initial_data, output_data, configurations, obs_energies)
             fig = Figure(font = "Times New Roman")
             ax = Axis(fig[1,1], xlabel=L"E \, [\text{keV}]", ylabel=L"F_E \,[\text{erg} \,\text{s}^{-1}\,\text{keV}^{-1}]", ylabelsize = 26, xlabelsize = 26, xscale=log10, yscale=log10)
             lines!(ax, erg_to_keV(obs_energies), keV_to_erg(F); linewidth=2.0, color=:blue)
