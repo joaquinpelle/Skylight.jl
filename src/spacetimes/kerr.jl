@@ -341,9 +341,9 @@ end
 event_horizon_radius(spacetime::AbstractKerrSpacetime) = spacetime.M*(1+sqrt(1-spacetime.a^2))
 
 function isco_radius(spacetime::AbstractKerrSpacetime, rotation_sense::AbstractRotationSense)
-    x = spacetime.a/spacetime.M      #Rotation parameter
-    Z1=1+cbrt(1-x^2)*(cbrt(1+x)+cbrt(1-x))
-    Z2=sqrt(3*x^2+Z1^2)
+    χ = spacetime.a/spacetime.M      #Rotation parameter
+    Z1=1+cbrt(1-χ^2)*(cbrt(1+χ)+cbrt(1-χ))
+    Z2=sqrt(3*χ^2+Z1^2)
     s = sign(rotation_sense)
     return spacetime.M*(3+Z2 - s*sqrt((3-Z1)*(3+Z1+2*Z2)))
 end
