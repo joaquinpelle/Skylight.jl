@@ -10,6 +10,7 @@ using Parameters
 using Polynomials
 using Random
 using Reexport
+using StaticArrays
 
 @reexport using DifferentialEquations
 @reexport using PreallocationTools
@@ -104,7 +105,8 @@ export AbstractRadiativeModel,
     SyntheticPolarCap,
     StarAcrossWormhole
 
-export emitter_four_velocity!,
+export allocate_cache,
+    emitter_four_velocity!,
     surface_differential!,
     emitted_bolometric_intensity,
     emitted_specific_intensity,
@@ -147,8 +149,10 @@ export contract
     cos_angle_between_vectors,
     cos_angle_between_null_vectors
     
-export inverse_4x4_symmetric!,
-    determinant_4x4_symmetric
+export inv4x4, 
+    inv4x4sym!,
+    det4x4,
+    det4x4sym
 
 export planck_function,
     planck_integral,

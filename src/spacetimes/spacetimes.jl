@@ -45,7 +45,7 @@ Returns: nothing.
 """
 function metric_inverse!(ginv, position, spacetime::AbstractSpacetime, g)
     metric!(g, position, spacetime)
-    inverse_4x4_symmetric!(ginv, g)
+    inv4x4sym!(ginv, g)
     return nothing
 end
 """
@@ -61,7 +61,7 @@ Returns: the volume element.
 """
 function volume_element(position, spacetime::AbstractSpacetime, g)
     metric!(g, position, spacetime)
-    return sqrt(-determinant_4x4_symmetric(g))
+    return sqrt(-det4x4sym(g))
 end
 
 @inline sign(::ProgradeRotation) = 1.0

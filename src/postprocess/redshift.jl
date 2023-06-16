@@ -8,6 +8,7 @@ function energies_quotients(initial_data, output_data, configurations::VacuumOTE
     model = configurations.radiative_model
     coords_top = coordinates_topology(spacetime)
     cache = postprocess_cache(camera)
+    model_cache = allocate_cache(model)
     Nrays = size(initial_data, 2)
     q = zeros(Nrays)
     @inbounds begin
@@ -24,7 +25,7 @@ function energies_quotients(initial_data, output_data, configurations::VacuumOTE
             if !is_final_position_at_source(pf, spacetime, model)
                 continue
             end
-            metrics_and_four_velocities!(cache, pi, pf, spacetime, model, coords_top)
+            metrics_and_four_velocities!(cache, pi, pf, spacetime, model, coords_top, model_cache)
             q[i] = energies_quotient(ki, kf, cache)
         end
     end
@@ -39,6 +40,7 @@ function energies_quotients(initial_data, output_data, configurations::VacuumOTE
     model = configurations.radiative_model
     coords_top = coordinates_topology(spacetime)
     cache = postprocess_cache(camera)
+    model_cache = allocate_cache(model)
     observer_metric!(cache, camera.position, spacetime)
     observer_four_velocity!(cache, observer_four_velocity)
     
@@ -56,7 +58,7 @@ function energies_quotients(initial_data, output_data, configurations::VacuumOTE
             if !is_final_position_at_source(pf, spacetime, model)
                 continue
             end
-            emitter_metric_and_four_velocity!(cache, pf, spacetime, model, coords_top)
+            emitter_metric_and_four_velocity!(cache, pf, spacetime, model, coords_top, model_cache)
             q[i] = energies_quotient(ki, kf, cache)
         end
     end

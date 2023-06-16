@@ -1,11 +1,13 @@
 #Required
+emitter_four_velocity!(vector, position, metric, spacetime, model, coords_top, cache) = error("emitter_four_velocity! not defined for this model.")
 emitter_four_velocity!(vector, position, metric, spacetime, model, coords_top) = error("emitter_four_velocity! not defined for this model.")
 emitted_bolometric_intensity(position, momentum, emitter_four_velocity, metric, spacetime, model, coords_top) = error("emitted_bolometric_intensity for this model.")
 emitted_specific_intensity(position, momentum, energy, emitter_four_velocity, metric, spacetime, model, coords_top) = error("emitted_specific_intensity not defined for this model.")
 is_final_position_at_source(position, spacetime, model) = error("is_final_position_at_source not defined for this model.")
 
 #Optional for surface emission models
-surface_differential!(differential, position, metric, spacetime, model, coords_top) = error("Surface differential not defined for this model.")
+allocate_cache(::AbstractRadiativeModel) = nothing
+surface_differential!(differential, position, model, coords_top) = error("Surface differential not defined for this model.")
 
 #For accretion disks
 temperature(position, spacetime, model) = error("Temperature not defined for this model.")
@@ -24,3 +26,6 @@ function unit_surface_normal!(vector, position, metric, metric_inverse, model, c
     normalize_spacelike!(vector, metric)
     return nothing
 end
+
+
+emitter_four_velocity!(v, position, metric, spacetime, model, coords_top, ::Nothing) = emitter_four_velocity!(v, position, metric, spacetime, model, coords_top)

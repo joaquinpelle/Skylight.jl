@@ -1,9 +1,9 @@
-function metric_and_tetrad!(cache::ETOInitialDataCache, position, configurations::AbstractConfigurations)
-    metric_and_tetrad!(cache, position, configurations, opaque_interior_surface_trait(configurations.radiative_model))
+function metric_and_tetrad!(cache::ETOInitialDataCache, position, model_cache, configurations::AbstractConfigurations)
+    metric_and_tetrad!(cache, position, model_cache, configurations, opaque_interior_surface_trait(configurations.radiative_model))
     return nothing
 end
 
-function metric_and_tetrad!(cache::ETOInitialDataCache, position, configurations::AbstractConfigurations, ::IsNotOpaqueInteriorSurface)
+function metric_and_tetrad!(cache::ETOInitialDataCache, position, model_cache, configurations::AbstractConfigurations, ::IsNotOpaqueInteriorSurface)
     spacetime = configurations.spacetime
     model = configurations.radiative_model
     coords_top = coordinates_topology(spacetime)
@@ -11,12 +11,12 @@ function metric_and_tetrad!(cache::ETOInitialDataCache, position, configurations
     metric, _, time_vector, triad = unpack_views(cache)
 
     metric!(metric, position, spacetime)
-    emitter_four_velocity!(time_vector, position, metric, spacetime, model, coords_top)
+    emitter_four_velocity!(time_vector, position, metric, spacetime, model, coords_top, model_cache)
     random_triad!(triad, time_vector, metric)
     return nothing
 end
 
-function metric_and_tetrad!(cache::ETOInitialDataCache, position, configurations::AbstractConfigurations, ::IsOpaqueInteriorSurface)
+function metric_and_tetrad!(cache::ETOInitialDataCache, position, model_cache, configurations::AbstractConfigurations, ::IsOpaqueInteriorSurface)
     spacetime = configurations.spacetime
     model = configurations.radiative_model
     coords_top = coordinates_topology(spacetime)
@@ -25,7 +25,7 @@ function metric_and_tetrad!(cache::ETOInitialDataCache, position, configurations
 
     metric!(metric, position, spacetime)
     metric_inverse!(metric_inverse, position, spacetime)
-    emitter_four_velocity!(time_vector, position, metric, spacetime, model, coords_top)
+    emitter_four_velocity!(time_vector, position, metric, spacetime, model, coords_top, model_cache)
     surface_adapted_triad!(triad, time_vector, metric, metric_inverse, position, model, coords_top)
     return nothing
 end

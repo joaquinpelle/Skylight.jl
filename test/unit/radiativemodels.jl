@@ -28,8 +28,8 @@ using Skylight, Test
     gμν = [-1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
 
     spacetime = MinkowskiSpacetimeCartesianCoordinates()
-
-    emitter_four_velocity!(vector, position, gμν, spacetime, model, coords_top)
+    model_cache = allocate_cache(model)
+    emitter_four_velocity!(vector, position, gμν, spacetime, model, coords_top, model_cache)
 
     @test vector ≈ [1.0/sqrt(0.9775), 0.0, 0.15/sqrt(0.9775), 0.0]
 
