@@ -2,13 +2,13 @@ equations(configurations::AbstractConfigurations) = equations(isvacuum(configura
 equations(::NonVacuum) = non_vacuum_equations!
 equations(::Vacuum) = geodesic_equations!
 
-function non_vacuum_equations!(du, u::Array{Float64,1}, p::NonVacuumCache, t)
-    geodesic_equations!(du, u, p, t)
+function non_vacuum_equations!(u::Array{Float64,1}, p::NonVacuumCache, t)
+    geodesic_equations!(u, p, t)
     transfer_equations!(du, u, p, t)
     return nothing
 end
 
-function geodesic_equations!(du, u::Array{Float64,1}, p, t)
+function geodesic_equations!(u::AbstractVector, p, t)
 
     spacetime = p.spacetime
     cache = p.multi_thread[Threads.threadid()]
@@ -41,13 +41,17 @@ function geodesic_equations!(du, u::Array{Float64,1}, p, t)
             end
         end
 
-        for i in 1:4
-            du[i] = vel[i]
-            du[4+i] = a[i]
-        end
+        du1 = vel[1]
+        du2 = vel[2]
+        du3 = vel[3]
+        du4 = vel[4]
+        du5 = a[1]
+        du6 = a[2]
+        du7 = a[3]
+        du8 = a[4]
     end
 
-    return nothing
+    return @SVector [du1, du2, du3, du4, du5, du6, du7, du8]
 end
 
 function transfer_equations!(du, u::Array{Float64,1}, p, t)

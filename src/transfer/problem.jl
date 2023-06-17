@@ -21,22 +21,22 @@ function integrate(::NonVacuum, initial_data, configurations, cb, cbp; τmax=2.0
 end
 
 function ensemble_problem(::Vacuum, initial_data, configurations, cbp)
-    u0 = copy(initial_data[:,1])
+    u0 = SVector{8, Float64}(initial_data[:,1]...)
     tspan = (0.0, 1e4*cbp.rmax)
     p = transfer_cache(configurations, cbp)
     prob = ODEProblem(equations(configurations), u0, tspan, p)
     output_func(sol, i) = (sol[end], false)
-    prob_func(prob, i, repeat) = remake(prob, u0 = initial_data[:,i])
+    prob_func(prob, i, repeat) = remake(prob, u0 = SVector{8,Float64}(initial_data[:,i]...))
     return EnsembleProblem(prob; output_func = output_func, prob_func = prob_func)
 end
 
 function ensemble_problem(::NonVacuum, initial_data, configurations, cbp, τmax)
-    u0 = copy(initial_data[:,1])
+    u0 = SVector{8, Float64}(initial_data[:,1]...)
     tspan = (0.0, 1e4*cbp.rmax)
     p = transfer_cache(configurations, cbp, τmax)
     prob = ODEProblem(equations(configurations), u0, tspan, p)
     output_func(sol, i) = (sol[end], false)
-    prob_func(prob, i, repeat) = remake(prob, u0 = initial_data[:,i])
+    prob_func(prob, i, repeat) = remake(prob, u0 = SVector{8,Float64}(initial_data[:,i]...))
     return EnsembleProblem(prob; output_func = output_func, prob_func = prob_func)
 end
 
