@@ -160,6 +160,9 @@ export planck_function,
     thermal_emission_window_specific_intensity,
     thermal_emission_window_bolometric_intensity
 
+export cartesian_from_spherical,
+    spherical_from_cartesian
+
 export time_translation_generator,
     time_translation_generator!,
     rotation_generators,
