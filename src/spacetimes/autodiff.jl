@@ -65,6 +65,8 @@ function christoffel!(Γ₂, position, spacetime::AbstractSpacetime, cache::Auto
 end
 
 """
+    metric_jacobian!(∂g, position, spacetime::AbstractSpacetime, g)
+
 Computes the Jacobian matrix of the metric function with respect to spacetime coordinates using forward-mode automatic differentiation.
 
 Parameters:
@@ -76,12 +78,13 @@ Parameters:
 Returns: nothing.
 """
 function metric_jacobian!(∂g, position, spacetime::AbstractSpacetime, g)
-    reshape(ForwardDiff.jacobian!(∂g, metric_field(spacetime), g, position), 4, 4, 4)
+    ForwardDiff.jacobian!(∂g, metric_field(spacetime), g, position)
     return nothing
 end
 
-
 """
+    metric_jacobian!(∂g, position, spacetime_metric_field::Function, g, cfg::ForwardDiff.JacobianConfig)
+
 Computes the Jacobian matrix of the metric function with respect to spacetime coordinates using forward-mode automatic differentiation.
 
 Parameters:
@@ -94,6 +97,6 @@ Parameters:
 Returns: nothing.
 """
 function metric_jacobian!(∂g, position, spacetime_metric_field::Function, g, cfg::ForwardDiff.JacobianConfig)
-    reshape(ForwardDiff.jacobian!(∂g, spacetime_metric_field, g, position, cfg), 4, 4, 4)
+    ForwardDiff.jacobian!(∂g, spacetime_metric_field, g, position, cfg)
     return nothing
 end
