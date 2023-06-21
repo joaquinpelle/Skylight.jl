@@ -100,8 +100,8 @@ function line_emission_spectrum(
     bin_size::Union{Number,Nothing}=nothing, 
     start::Union{Number,Nothing}=nothing, 
     stop::Union{Number,Nothing}=nothing,
-    observer_four_velocity::AbstractVector=nothing,
-    flux_direction::AbstractVector=nothing)
+    observer_four_velocity::Union{AbstractVector,Nothing}=nothing,
+    flux_direction::Union{AbstractVector,Nothing}=nothing)
 
     not_simultaneously_nothing(num_bins, bin_size) || throw(ArgumentError("Either bin_size or num_bins must be specified."))
     same_size(initial_data, output_data) || throw(DimensionMismatch("initial_data and output_data must have the same size."))
