@@ -47,7 +47,7 @@ function line_emission_spectrum(
     coords_top = coordinates_topology(spacetime)
 
     threads_cache = postprocess_cache(configurations)
-
+    model_cache = allocate_cache(model)
     Nrays = size(initial_data, 2)
     F = zeros(Nrays)
     q = zeros(Nrays)
@@ -70,7 +70,7 @@ function line_emission_spectrum(
             end
             at_source[i] = true
 
-            metrics_and_four_velocities!(cache, pi, pf, spacetime, model, coords_top)
+            metrics_and_four_velocities!(cache, pi, pf, spacetime, model, coords_top, model_cache)
             q[i] = energies_quotient(ki, kf, cache)
             F[i] = q[i]^3*emission_profile(pf, spacetime, model)
         end
@@ -100,8 +100,8 @@ function line_emission_spectrum(
     bin_size::Union{Number,Nothing}=nothing, 
     start::Union{Number,Nothing}=nothing, 
     stop::Union{Number,Nothing}=nothing,
-    observer_four_velocity::AbstractVector=nothing,
-    flux_direction::AbstractVector=nothing)
+    observer_four_velocity::Union{AbstractVector,Nothing}=nothing,
+    flux_direction::Union{AbstractVector,Nothing}=nothing)
 
     not_simultaneously_nothing(num_bins, bin_size) || throw(ArgumentError("Either bin_size or num_bins must be specified."))
     same_size(initial_data, output_data) || throw(DimensionMismatch("initial_data and output_data must have the same size."))
@@ -111,7 +111,7 @@ function line_emission_spectrum(
     coords_top = coordinates_topology(spacetime)
 
     threads_cache = postprocess_cache(configurations)
-
+    model_cache = allocate_cache(model)
     for cache in threads_cache
         observer_metric!(cache, camera.position, spacetime)
         observer_four_velocity!(cache, observer_four_velocity) 
@@ -136,7 +136,7 @@ function line_emission_spectrum(
                 continue
             end
             at_source[i] = true
-            emitter_metric_and_four_velocity!(cache, pf, spacetime, model, coords_top)
+            emitter_metric_and_four_velocity!(cache, pf, spacetime, model, coords_top, model_cache)
             nu = scalar_product(ki, cache.observer_four_velocity, cache.observer_metric)
             nn = scalar_product(ki, cache.flux_direction, cache.observer_metric)
             q[i] = energies_quotient(ki, kf, cache)

@@ -29,7 +29,7 @@ function observed_bolometric_intensities(initial_data::AbstractMatrix, output_da
     coords_top = coordinates_topology(spacetime)
 
     threads_cache = postprocess_cache(configurations)
-
+    model_cache = allocate_cache(model)
     Nrays = size(initial_data, 2)
     q = zeros(Nrays)
     Iobs = zeros(Nrays)
@@ -49,7 +49,7 @@ function observed_bolometric_intensities(initial_data::AbstractMatrix, output_da
                 continue
             end
             
-            metrics_and_four_velocities!(cache, pi, pf, spacetime, model, coords_top)
+            metrics_and_four_velocities!(cache, pi, pf, spacetime, model, coords_top, model_cache)
             q[i] = energies_quotient(ki, kf, cache)
 
             #The difference with the ETO scheme here should be the minus sign in front of the final momentum
@@ -85,9 +85,8 @@ function observed_bolometric_intensities(initial_data::AbstractMatrix, output_da
     spacetime = configurations.spacetime
     model = configurations.radiative_model
     coords_top = coordinates_topology(spacetime)
-
+    model_cache - allocate_cache(model)
     threads_cache = postprocess_cache(camera)
-    
     for cache in threads_cache
         observer_metric!(cache, camera.position, spacetime)
         observer_four_velocity!(cache, observer_four_velocity) 
@@ -111,7 +110,7 @@ function observed_bolometric_intensities(initial_data::AbstractMatrix, output_da
                 continue
             end
 
-            emitter_metric_and_four_velocity!(cache, pf, spacetime, model, coords_top)
+            emitter_metric_and_four_velocity!(cache, pf, spacetime, model, coords_top, model_cache)
             q[i] = energies_quotient(ki, kf, cache)
             
             #The difference with the ETO scheme here should be the minus sign in front of the final momentum
@@ -150,7 +149,7 @@ function observed_specific_intensities(initial_data::AbstractMatrix, output_data
     coords_top = coordinates_topology(spacetime)
 
     threads_cache = postprocess_cache(configurations)
-
+    model_cache = allocate_cache(model)
     Nrays = size(initial_data, 2)
     NE = length(observation_energies)
 
@@ -171,7 +170,7 @@ function observed_specific_intensities(initial_data::AbstractMatrix, output_data
                 continue
             end
 
-            metrics_and_four_velocities!(cache, pi, pf, spacetime, model, coords_top)
+            metrics_and_four_velocities!(cache, pi, pf, spacetime, model, coords_top, model_cache)
             q[i] = energies_quotient(ki, kf, cache)
             
             for j in 1:NE
@@ -215,7 +214,7 @@ function observed_specific_intensities(initial_data::AbstractMatrix, output_data
     coords_top = coordinates_topology(spacetime)
 
     threads_cache = postprocess_cache(camera)
-    
+    model_cache = allocate_cache(model)
     for cache in threads_cache
         observer_metric!(cache, camera.position, spacetime)
         observer_four_velocity!(cache, observer_four_velocity) 
@@ -239,7 +238,7 @@ function observed_specific_intensities(initial_data::AbstractMatrix, output_data
                 continue
             end
 
-            emitter_metric_and_four_velocity!(cache, pf, spacetime, model, coords_top)
+            emitter_metric_and_four_velocity!(cache, pf, spacetime, model, coords_top, model_cache)
             q[i] = energies_quotient(ki, kf, cache)
             
             for j in axes(observation_energies, 1)

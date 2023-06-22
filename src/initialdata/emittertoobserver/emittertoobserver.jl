@@ -1,28 +1,28 @@
 function initialize(configurations::VacuumETOConfigurations)
     threads_cache = initial_data_cache(configurations)
     packets = my_zeros(configurations)
-
+    model_cache = allocate_cache(configurations.radiative_model)
     Npp = configurations.number_of_packets_per_point
 
     @threads for (index, position) in enumerate(initial_positions(configurations))
             cache = threads_cache[threadid()]
             packet_index = (index-1)*Npp+1
             @views packets_at_position = packets[:, packet_index:(packet_index+Npp-1)]
-            initialize_packets_at_position!(packets_at_position, position, cache, configurations)
+            initialize_packets_at_position!(packets_at_position, position, cache, model_cache, configurations)
     end
     return packets
 end
 
-function initialize_packets_at_position!(packets_at_position, position, cache, configurations)
+function initialize_packets_at_position!(packets_at_position, position, cache, model_cache, configurations)
     
     model = configurations.radiative_model
-    
+ 
     @views begin
         xμ = packets_at_position[1:4,:]
         kμ = packets_at_position[5:8,:]
     end
     
-    metric_and_tetrad!(cache, position, configurations)
+    metric_and_tetrad!(cache, position, model_cache, configurations)
     
     @views tetrad = cache.tetrad
     

@@ -10,7 +10,7 @@ event_horizon_radius(spacetime) = error("Event horizon radius not defined for th
 circular_geodesic_angular_speed(position, spacetime, rotation_sense) = error("Circular geodesic angular speed not defined for this spacetime.")
 #custom set_christoffel
 christoffel!(Γ, position, spacetime::AbstractSpacetime, ::Nothing) = christoffel!(Γ, position, spacetime)
-allocate_christoffel_cache(::AbstractSpacetime) = AutoDiffChristoffelCache()
+allocate_christoffel_cache(spacetime::AbstractSpacetime) = AutoDiffChristoffelCache(spacetime)
 
 #By default we set non-stationarity and non-spherical symmetry  
 stationarity(::AbstractSpacetime) = IsNotStationary()
@@ -45,7 +45,7 @@ Returns: nothing.
 """
 function metric_inverse!(ginv, position, spacetime::AbstractSpacetime, g)
     metric!(g, position, spacetime)
-    inverse_4x4_symmetric!(ginv, g)
+    inv4x4sym!(ginv, g)
     return nothing
 end
 """
@@ -61,7 +61,7 @@ Returns: the volume element.
 """
 function volume_element(position, spacetime::AbstractSpacetime, g)
     metric!(g, position, spacetime)
-    return sqrt(-determinant_4x4_symmetric(g))
+    return sqrt(-det4x4sym(g))
 end
 
 @inline sign(::ProgradeRotation) = 1.0
@@ -91,3 +91,10 @@ function christoffel(position, spacetime, cache::AbstractChristoffelCache)
     return Γ
 end
 
+metric_field(spacetime::AbstractSpacetime) = (g,position) -> metric!(g,position,spacetime)
+
+function AutoDiffChristoffelCache(spacetime::AbstractSpacetime)
+    spacetime_metric_field = metric_field(spacetime)
+    cfg = ForwardDiff.JacobianConfig(spacetime_metric_field, Matrix{Float64}(undef, 4,4), Vector{Float64}(undef, 4), ForwardDiff.Chunk{4}())
+    return AutoDiffChristoffelCache(spacetime_metric_field=spacetime_metric_field, cfg=cfg)
+end

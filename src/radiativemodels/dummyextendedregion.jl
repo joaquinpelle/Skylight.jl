@@ -5,17 +5,17 @@ function emitter_four_velocity!(vector, position, metric, spacetime, model::Dumm
     return nothing
 end
 
-function invariant_absorptivity!(αε, point, ε, model::DummyExtendedRegion)
+function invariant_absorptivity!(αε, position, ε, ::DummyExtendedRegion)
 
-    t, r, θ, φ = point
+    r = position[2]
     @. αε = ε*exp(-(r-4)^2/2)*exp(-ε/2)
 
     return nothing
 end
 
-function invariant_emissivity!(jε, point, ε, model::DummyExtendedRegion)
+function invariant_emissivity!(jε, position, ε, ::DummyExtendedRegion)
 
-    t, r, θ, φ = point
+    r = position[2]
     @. jε = exp(-(r-6)^2/2)*exp(-ε/2)/ε^2
 
     return nothing

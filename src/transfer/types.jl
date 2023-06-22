@@ -8,8 +8,6 @@ struct Run{C,CB}
 end
 
 @with_kw mutable struct VacuumThreadCache{T}
-    point::Vector{Float64} = zeros(4)
-    velocity::Vector{Float64} = zeros(4)
     acceleration::Vector{Float64} = zeros(4)
     christoffel::Array{Float64, 3} = zeros(4,4,4)
     christoffel_cache::T
@@ -22,8 +20,6 @@ mutable struct VacuumCache{S, C, T}
 end
 
 @with_kw mutable struct NonVacuumThreadCache{T}
-    point::Vector{Float64} = zeros(4)
-    velocity::Vector{Float64} = zeros(4)
     acceleration::Vector{Float64} = zeros(4)
     christoffel::Array{Float64, 3} = zeros(4,4,4)
     christoffel_cache::T

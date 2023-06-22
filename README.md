@@ -4,17 +4,13 @@
 [![Coverage](https://codecov.io/gh/joaquinpelle/Skylight.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/joaquinpelle/Skylight.jl)
 [![Coverage](https://coveralls.io/repos/github/joaquinpelle/Skylight.jl/badge.svg?branch=main)](https://coveralls.io/github/joaquinpelle/Skylight.jl?branch=main)
 
-A general-relativistic ray tracing and radiative transport code for arbitrary spacetimes
+A general-relativistic ray tracing and radiative transport code for arbitrary spacetimes. With multithreading and automatic differentiation support.
 
 > [Reference](https://academic.oup.com/mnras/article-abstract/515/1/1316/6631564): Pelle, Joaquin, Oscar Reula, Federico Carrasco, and Carlos Bederian. "Skylight: a new code for general-relativistic ray-tracing and radiative transfer in arbitrary space–times." Monthly Notices of the Royal Astronomical Society 515, no. 1 (2022): 1316-1327.
 
-### Purpose
-
-A minimal working version of `skylight`. Currently under development for interfacing with 3D GRMHD simulations.
-  
 ### Requirements
 
-At least Julia v1.4
+At least Julia v1.6
 
 ### Folder contents
 
@@ -24,12 +20,8 @@ At least Julia v1.4
     │   ├── faq.md              # Frequently asked questions
     │   ├── misc.md             # Miscellaneous information
     │   ├── usage.md            # Getting started guide 
-    ├── run                     # Scripts and notebooks to run the code
+    ├── run                     # Example scripts and notebooks to run the code
     ├── src                     # Source files
-    │   ├── spacetimes          # Spacetime files
-    │   ├── emisisonmodels      # Emisison models files
-    │   ├── initialdata         # Initial data files
-    │   ├── utils               # General utilities
     ├── test                    # Test files 
     │   ├── benchmarks          # Load and stress tests
     │   ├── integration         # End-to-end, integration tests

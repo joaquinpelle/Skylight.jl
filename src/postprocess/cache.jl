@@ -1,9 +1,9 @@
 #ImagePlanePostProcessCache
-function metrics_and_four_velocities!(cache::ImagePlanePostProcessCache, initial_position, final_position, spacetime, model, coords_top)
+function metrics_and_four_velocities!(cache::ImagePlanePostProcessCache, initial_position, final_position, spacetime, model, coords_top, model_cache)
     metric!(cache.observer_metric, initial_position, spacetime) 
     metric!(cache.emitter_metric, final_position, spacetime)
     static_four_velocity!(cache.observer_four_velocity, cache.observer_metric)
-    emitter_four_velocity!(cache.emitter_four_velocity, final_position, cache.emitter_metric, spacetime, model, coords_top)
+    emitter_four_velocity!(cache.emitter_four_velocity, final_position, cache.emitter_metric, spacetime, model, coords_top, model_cache)
     return nothing
 end
 
@@ -41,8 +41,8 @@ function flux_direction!(cache, flux_direction, camera, spacetime)
     end
 end
 
-function emitter_metric_and_four_velocity!(cache::PinholeCameraPostProcessCache, final_position, spacetime, model, coords_top)
+function emitter_metric_and_four_velocity!(cache::PinholeCameraPostProcessCache, final_position, spacetime, model, coords_top, model_cache)
     metric!(cache.emitter_metric, final_position, spacetime)
-    emitter_four_velocity!(cache.emitter_four_velocity, final_position, cache.emitter_metric, spacetime, model, coords_top)
+    emitter_four_velocity!(cache.emitter_four_velocity, final_position, cache.emitter_metric, spacetime, model, coords_top, model_cache)
     return nothing
 end

@@ -58,7 +58,8 @@ end
 
     position = [rand(), 3.0, 0.0, 4.0]
 
-    Skylight.metric_and_tetrad!(cache, position, configurations)
+    model_cache = allocate_cache(model)
+    Skylight.metric_and_tetrad!(cache, position, model_cache, configurations)
 
     @views tetrad = cache.tetrad
 
@@ -137,12 +138,12 @@ end
 
     packets = Skylight.my_zeros(configurations)
     cache = Skylight.ETOInitialDataCache()
-
+    model_cache = allocate_cache(model)
     position = [rand(), 3.0, 0.0, 4.0]
 
     @views packets_at_position = packets[:,1:10]
     
-    Skylight.initialize_packets_at_position!(packets_at_position, position, cache, configurations)
+    Skylight.initialize_packets_at_position!(packets_at_position, position, cache, model_cache, configurations)
 
     @views begin
         xμ = packets_at_position[1:4,:]
