@@ -74,7 +74,7 @@ end
 default_flux_direction(camera::PinholeCamera, spacetime::AbstractSpacetime) = default_tetrad(camera, spacetime)[:,2]
 max_radius(camera, spacetime) = 1.1*radius(camera.position, spacetime)
 initial_data_cache(::PinholeCamera) = PinholeCameraCache()
-postprocess_cache(::PinholeCamera) = [PinholeCameraPostProcessCache() for i in 1:nthreads()]
+postprocess_cache(::PinholeCamera) = PinholeCameraPostProcessCache()
 
 #ImagePlane methods
 
