@@ -1,54 +1,60 @@
 Under construction...
-#### Units
+### Units
 
 Skylight uses geometrized units $c = G = 1$.
 
-#### Spacetimes
+### Spacetimes
 
 First, you have to choose a spacetime (and coordinates topology). Currently, the available options are:
 
-  * `MinkowskiSpacetimeCartesianCoordinates()`
-  * `MinkowskiSpacetimeSphericalCoordinates()`
-  * `SchwarzschildSpacetimeKerrSchildCoordinates()`
-  * `SchwarzschildSpacetimeSphericalCoordinates()`
-  * `KerrSpacetimeKerrSchildCoordinates()`
-  * `KerrSpacetimeBoyerLindquistCoordinates()`
-  * `JohannsenSpacetime()`
-  * `ChargedWormholeSphericalCoordinates()`
-  * `ChargedWormholeRegularCoordinates()`
+  * `MinkowskiSpacetimeCartesianCoordinates`
+  * `MinkowskiSpacetimeSphericalCoordinates`
+  * `SchwarzschildSpacetimeKerrSchildCoordinates`
+  * `SchwarzschildSpacetimeSphericalCoordinates`
+  * `KerrSpacetimeKerrSchildCoordinates`
+  * `KerrSpacetimeBoyerLindquistCoordinates`
+  * `FRKerrSpacetime`
+  * `JohannsenSpacetime`
+  * `RARSpacetime`
+  * `BosonStarSpacetime`
+  * `ChargedWormholeSphericalCoordinates`
+  * `ChargedWormholeRegularCoordinates`
 
-Most spacetimes depend on a set of parameters. For example, to construct a Kerr spacetime in Kerr-Schild coordinates with mass $M=1$ and spin $a/M=0.5$, run 
+Some spacetimes depends on a set of parameters and others have no parameters. For example, to instantiate a Kerr spacetime in Kerr-Schild coordinates with mass $M=1$ and spin $a/M=0.5$, run 
 
-```
-julia> spacetime = KerrSpacetimeKerrSchildCoordinate(M=1.0,a=0.5)
-```
-
-Spacetimes without parameters are constructed just like
-
-```
-julia> spacetime = MinkowskiSpacetimeCartesianCoordinates()
+```julia
+spacetime = KerrSpacetimeKerrSchildCoordinate(M=1.0,a=0.5)
 ```
 
-For more details about the spacetimes and the parameters they need, see the spacetimes documentation.
+Spacetimes without parameters are instantiated just like
 
-#### Emission models
+```julia
+spacetime = MinkowskiSpacetimeCartesianCoordinates()
+```
 
-The currently available radiative model is:
+For more details about the spacetimes and the parameters they need, see the Spacetimes section of the documentation.
 
-  * `SyntheticPolarCap()`
+#### Radiative models
+
+The currently available radiative models are:
+
+  * `ShakuraSunyaevAccretionDisk` (provisory temperature profile)
+  * `NovikovThorneAccretionDisk` (provisory temperature profile)
+  * `RARAccretionDisk`
+  * `AccretionDiskWithTabulatedTemperature`
+  * `SyntheticPolarCap`
 
 The following will be implemented soon:
 
-  * `BogdanovPolarCap()`
-  * `OnionHotSpots()`
-  * `ThinAccretionDisk()`
-  * `BlackHoleCorona()`
-  * `StarBehindWormhole()`
+  * `StarAcrossWormhole`
+  * `BogdanovPolarCap`
+  * `OnionHotSpots`
+  * `BlackHoleCorona`
 
-The radiative models are determined by a set of parameters. To construct a synthetic polar cap, for example 
+Radiative models also depend on a set of parameters. To construct a synthetic polar cap, for example 
 
-```
-julia> model = Skylight.SyntheticPolarCap(star_radius=5.0,
+```julia
+model = Skylight.SyntheticPolarCap(star_radius=5.0,
                                           angular_speed = 0.05, 
                                           misalignment_angle_in_degrees=90,
                                           angular_radius_in_degrees=60, 
@@ -61,24 +67,39 @@ For the details, see the radiative models documentation.
 
 For the observet-to-emitter scheme, use the following to construct an image plane
 
-```
-julia> camera = ImagePlane(distance = 500.0,
+```julia
+camera = ImagePlane(distance = 500.0,
                                 observer_inclination_in_degrees = 45,
                                 horizontal_side = 10.0,
                                 vertical_side = 10.0,
-                                horizontal_number_of_pixels = 50,
-                                vertical_number_of_pixels = 50,
+                                horizontal_number_of_pixels = 600,
+                                vertical_number_of_pixels = 600,
                                 observation_times = [0.0,1.0])
+```
+#### Pinhole camera 
+
+More generally, when asymptotic flatness isn't valid, or simply the observer is not located far away
+enough, a pinhole camera can be used. It can be constructed, for instance, as
+```julia
+camera = PinholeCamera(position = [0.0, 500, π/2-π/20, 0.0],
+                        horizontal_aperture_in_degrees = rad2deg(315/500),
+                        vertical_aperture_in_degrees = rad2deg(315/500),
+                        horizontal_number_of_pixels = 600,
+                        vertical_number_of_pixels = 600)
 ```
 
 #### Configurations
 
 The initial data configurations in the observer-to-emitter scheme are constructed as follows
 
+```julia
+configurations = VacuumOTEConfigurations(spacetime=spacetime,
+                                        radiative_model=model,
+                                        camera = camera,
+                                        unit_mass_in_solar_masses = 1.0)
 ```
-julia> configurations = VacuumOTEConfigurations(spacetime=spacetime,
-                                                     camera = camera)
-```
+where `unit_mass_in_solar_masses` is the unit mass in solar masses which determines fully the problem
+units together with `c=G=1`.
 
 In the emitter-to-observer scheme, use the following
 
@@ -93,8 +114,8 @@ julia> configurations = VacuumETOConfigurations(spacetime=spacetime,
 
 Finally, for creating the initial data, use
 
-```
-julia> initial_data = initialize(configurations)
+```julia
+initial_data = initialize(configurations)
 ```
 
 #### Geodesics
