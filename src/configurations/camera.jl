@@ -106,5 +106,5 @@ function max_radius(image_plane::ImagePlane, ::AbstractSpacetime)
     return 1.1*sqrt(d^2 + sα^2 + sβ^2)
 end
 
-initial_data_cache(::ImagePlane) = [ImagePlaneCache() for i in 1:nthreads()]
-postprocess_cache(::ImagePlane) = [ImagePlanePostProcessCache() for i in 1:nthreads()]
+initial_data_cache(::ImagePlane) = ImagePlaneCache()
+postprocess_cache(::ImagePlane) = ImagePlanePostProcessCache()
