@@ -22,8 +22,7 @@ Compute observed bolometric intensities and energy quotients for a set of rays d
 function observed_bolometric_intensities(initial_data::AbstractMatrix, 
                                         output_data::AbstractMatrix, 
                                         configurations::VacuumOTEConfigurations, 
-                                        ::ImagePlane;
-                                        chunks_per_thread::Int=2)
+                                        ::ImagePlane)
 
     same_size(initial_data, output_data) || throw(DimensionMismatch("The initial and output data must have the same size."))
     eight_components(initial_data, output_data) || throw(DimensionMismatch("The initial and output data must have eight components.")) 
@@ -38,7 +37,7 @@ function observed_bolometric_intensities(initial_data::AbstractMatrix,
 
     cache = postprocess_cache(configurations)
     model_cache = allocate_cache(model)
-    for i in chunk
+    for i in 1:Nrays
         @views begin 
             pi = initial_data[1:4,i]
             ki = initial_data[5:8,i]
