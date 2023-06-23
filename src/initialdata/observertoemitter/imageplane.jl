@@ -1,12 +1,9 @@
 function initialize(image_plane::ImagePlane, configurations::AbstractOTEConfigurations)
-    
-    
     rays = my_zeros(configurations)
-    threads_cache = initial_data_cache(configurations)
+    cache = initial_data_cache(configurations)
     Npx = number_of_pixels(image_plane)
     for (it, initial_time) in enumerate(observation_times(configurations)) 
-        @threads for (ipx, pixel_coordinates) in enumerate(camera_grid(image_plane))
-            cache = threads_cache[threadid()]
+        for (ipx, pixel_coordinates) in enumerate(camera_grid(image_plane))
             index = (it-1)*Npx+ipx
             @views ray = rays[1:8, index]
             initialize_single!(ray, initial_time, pixel_coordinates, configurations, cache)
