@@ -1,5 +1,5 @@
 observed_bolometric_intensities(initial_data, output_data, configurations::VacuumOTEConfigurations; kwargs...) = observed_bolometric_intensities(initial_data, output_data, configurations, configurations.camera; kwargs...)
-observed_specific_intensities(initial_data, output_data, configurations::VacuumOTEConfigurations, energy::Number; kwargs...) = observed_specific_intensities(initial_data, output_data, configurations, [energy]; kwargs...)
+observed_specific_intensities(initial_data, output_data, configurations::VacuumOTEConfigurations, energy::Real; kwargs...) = observed_specific_intensities(initial_data, output_data, configurations, [energy]; kwargs...)
 observed_specific_intensities(initial_data, output_data, configurations::VacuumOTEConfigurations, energies::AbstractVector; kwargs...) = observed_specific_intensities(initial_data, output_data, configurations, configurations.camera, energies; kwargs...)
 
 """
@@ -22,43 +22,6 @@ Compute observed bolometric intensities and energy quotients for a set of rays d
 function observed_bolometric_intensities(initial_data::AbstractMatrix, 
                                         output_data::AbstractMatrix, 
                                         configurations::VacuumOTEConfigurations, 
-                                        ::ImagePlane)
-
-    same_size(initial_data, output_data) || throw(DimensionMismatch("The initial and output data must have the same size."))
-    eight_components(initial_data, output_data) || throw(DimensionMismatch("The initial and output data must have eight components.")) 
-    
-    spacetime = configurations.spacetime
-    model = configurations.radiative_model
-    coords_top = coordinates_topology(spacetime)
-
-    Nrays = size(initial_data, 2)
-    q = zeros(Nrays)
-    Iobs = zeros(Nrays)
-
-    cache = postprocess_cache(configurations)
-    model_cache = allocate_cache(model)
-    for i in 1:Nrays
-        @views begin 
-            pi = initial_data[1:4,i]
-            ki = initial_data[5:8,i]
-            pf = output_data[1:4,i]
-            kf = output_data[5:8,i]
-        end
-        if !is_final_position_at_source(pf, spacetime, model)
-            continue
-        end
-        metrics_and_four_velocities!(cache, pi, pf, spacetime, model, coords_top, model_cache)
-        q[i] = energies_quotient(ki, kf, cache)
-        #The difference with the ETO scheme here should be the minus sign in front of the final momentum
-        #at get emitted intensity, and the is_final_position_at_source call (at observer in ETO)...
-        Iobs[i] = q[i]^4*emitted_bolometric_intensity(pf, -kf, cache.emitter_four_velocity, cache.emitter_metric, spacetime, model, coords_top)
-    end
-    return Iobs, q
-end
-
-function observed_bolometric_intensities_multithreading(initial_data::AbstractMatrix, 
-                                        output_data::AbstractMatrix, 
-                                        configurations::VacuumOTEConfigurations, 
                                         ::ImagePlane;
                                         chunks_per_thread::Int=2)
 
@@ -74,7 +37,8 @@ function observed_bolometric_intensities_multithreading(initial_data::AbstractMa
     Iobs = zeros(Nrays)
 
     # Break the work into chunks. More chunks per thread has better load balancing but more overhead
-    chunks = Iterators.partition(1:Nrays, div(Nrays, nthreads()*chunks_per_thread))
+    nchunks = div(Nrays, nthreads()*chunks_per_thread)
+    chunks = Iterators.partition(1:Nrays, nchunks)
     # Map over the chunks, creating an array of spawned tasks
     map(chunks) do chunk
         Threads.@spawn begin
@@ -123,45 +87,44 @@ function observed_bolometric_intensities(initial_data::AbstractMatrix,
                                         output_data::AbstractMatrix, 
                                         configurations::VacuumOTEConfigurations, 
                                         camera::PinholeCamera; 
-                                        observer_four_velocity=nothing)
+                                        observer_four_velocity=nothing,
+                                        chunks_per_thread::Int=2)
     same_size(initial_data, output_data) || throw(DimensionMismatch("The initial and output data must have the same size."))
     eight_components(initial_data, output_data) || throw(DimensionMismatch("The initial and output data must have eight components.")) 
 
     spacetime = configurations.spacetime
     model = configurations.radiative_model
     coords_top = coordinates_topology(spacetime)
-    model_cache - allocate_cache(model)
-    threads_cache = postprocess_cache(camera)
-    for cache in threads_cache
-        observer_metric!(cache, camera.position, spacetime)
-        observer_four_velocity!(cache, observer_four_velocity) 
-    end
-
     Nrays = size(initial_data, 2) 
     q = zeros(Nrays)
     Iobs = zeros(Nrays)
 
-    @inbounds begin
-        @threads for i in axes(initial_data, 2)
-            
-            cache = threads_cache[threadid()]
-            @views begin 
-                ki = initial_data[5:8,i]
-                pf = output_data[1:4,i]
-                kf = output_data[5:8,i]
+    # Break the work into chunks. More chunks per thread has better load balancing but more overhead
+    nchunks = div(Nrays, nthreads()*chunks_per_thread)
+    chunks = Iterators.partition(1:Nrays, nchunks)
+    # Map over the chunks, creating an array of spawned tasks
+    map(chunks) do chunk
+        Threads.@spawn begin
+            cache = postprocess_cache(configurations)
+            model_cache = allocate_cache(model)
+            observer_metric!(cache, camera.position, spacetime)
+            observer_four_velocity!(cache, observer_four_velocity) 
+            for i in chunk
+                @views begin 
+                    ki = initial_data[5:8,i]
+                    pf = output_data[1:4,i]
+                    kf = output_data[5:8,i]
+                end
+                if !is_final_position_at_source(pf, spacetime, model)
+                    continue
+                end
+                emitter_metric_and_four_velocity!(cache, pf, spacetime, model, coords_top, model_cache)
+                q[i] = energies_quotient(ki, kf, cache)
+                #The difference with the ETO scheme here should be the minus sign in front of the final momentum
+                #at get emitted intensity, and the is_final_position_at_source call (at observer in ETO)...
+                Iem = emitted_bolometric_intensity(pf, -kf, cache.emitter_four_velocity, cache.emitter_metric, spacetime, model, coords_top)
+                Iobs[i] = q[i]^4*Iem        
             end
-
-            if !is_final_position_at_source(pf, spacetime, model)
-                continue
-            end
-
-            emitter_metric_and_four_velocity!(cache, pf, spacetime, model, coords_top, model_cache)
-            q[i] = energies_quotient(ki, kf, cache)
-            
-            #The difference with the ETO scheme here should be the minus sign in front of the final momentum
-            #at get emitted intensity, and the is_final_position_at_source call (at observer in ETO)...
-            Iem = emitted_bolometric_intensity(pf, -kf, cache.emitter_four_velocity, cache.emitter_metric, spacetime, model, coords_top)
-            Iobs[i] = q[i]^4*Iem        
         end
     end
     return Iobs, q
@@ -189,7 +152,8 @@ function observed_specific_intensities(initial_data::AbstractMatrix,
                                     output_data::AbstractMatrix, 
                                     configurations::VacuumOTEConfigurations, 
                                     ::ImagePlane, 
-                                    observation_energies::AbstractVector)
+                                    observation_energies::AbstractVector;
+                                    chunks_per_thread::Int=2)
     same_size(initial_data, output_data) || throw(DimensionMismatch("The initial and output data must have the same size."))
     eight_components(initial_data, output_data) || throw(DimensionMismatch("The initial and output data must have eight components.")) 
     
@@ -197,37 +161,37 @@ function observed_specific_intensities(initial_data::AbstractMatrix,
     model = configurations.radiative_model
     coords_top = coordinates_topology(spacetime)
 
-    threads_cache = postprocess_cache(configurations)
-    model_cache = allocate_cache(model)
     Nrays = size(initial_data, 2)
     NE = length(observation_energies)
 
     q = zeros(Nrays)
     Iobs = zeros(NE, Nrays)
-    @inbounds begin
-        @threads for i in 1:Nrays
-            cache = threads_cache[threadid()]
-            @views begin 
-                pi = initial_data[1:4,i]
-                ki = initial_data[5:8,i]
-                
-                pf = output_data[1:4,i]
-                kf = output_data[5:8,i]
-            end
-
-            if !is_final_position_at_source(pf, spacetime, model)
-                continue
-            end
-
-            metrics_and_four_velocities!(cache, pi, pf, spacetime, model, coords_top, model_cache)
-            q[i] = energies_quotient(ki, kf, cache)
-            
-            for j in 1:NE
-                emitted_energy = observation_energies[j]/q[i]
-
-                #The difference with the ETO scheme here should be the minus sign in front of the final momentum
-                #at get emitted intensity, and the is_final_position_at_source call (at observer in ETO)...
-                Iobs[j, i] = q[i]^3*emitted_specific_intensity(pf, -kf, emitted_energy, cache.emitter_four_velocity, cache.emitter_metric, spacetime, model, coords_top)
+    # Break the work into chunks. More chunks per thread has better load balancing but more overhead
+    nchunks = div(Nrays, nthreads()*chunks_per_thread)
+    chunks = Iterators.partition(1:Nrays, nchunks)
+    # Map over the chunks, creating an array of spawned tasks
+    map(chunks) do chunk
+        Threads.@spawn begin
+            cache = postprocess_cache(configurations)
+            model_cache = allocate_cache(model)
+            for i in chunk
+                @views begin 
+                    pi = initial_data[1:4,i]
+                    ki = initial_data[5:8,i]
+                    pf = output_data[1:4,i]
+                    kf = output_data[5:8,i]
+                end
+                if !is_final_position_at_source(pf, spacetime, model)
+                    continue
+                end
+                metrics_and_four_velocities!(cache, pi, pf, spacetime, model, coords_top, model_cache)
+                q[i] = energies_quotient(ki, kf, cache)
+                for j in 1:NE
+                    emitted_energy = observation_energies[j]/q[i]
+                    #The difference with the ETO scheme here should be the minus sign in front of the final momentum
+                    #at get emitted intensity, and the is_final_position_at_source call (at observer in ETO)...
+                    Iobs[j, i] = q[i]^3*emitted_specific_intensity(pf, -kf, emitted_energy, cache.emitter_four_velocity, cache.emitter_metric, spacetime, model, coords_top)
+                end
             end
         end
     end
@@ -258,7 +222,8 @@ function observed_specific_intensities(initial_data::AbstractMatrix,
                                     configurations::VacuumOTEConfigurations, 
                                     camera::PinholeCamera, 
                                     observation_energies; 
-                                    observer_four_velocity=nothing)
+                                    observer_four_velocity=nothing,
+                                    chunks_per_thread::Int=2)
     
     same_size(initial_data, output_data) || throw(DimensionMismatch("The initial and output data must have the same size."))
     eight_components(initial_data, output_data) || throw(DimensionMismatch("The initial and output data must have eight components."))
@@ -266,41 +231,38 @@ function observed_specific_intensities(initial_data::AbstractMatrix,
     spacetime = configurations.spacetime
     model = configurations.radiative_model
     coords_top = coordinates_topology(spacetime)
-
-    threads_cache = postprocess_cache(camera)
-    model_cache = allocate_cache(model)
-    for cache in threads_cache
-        observer_metric!(cache, camera.position, spacetime)
-        observer_four_velocity!(cache, observer_four_velocity) 
-    end
-
     Nrays = size(initial_data, 2)
     NE = length(observation_energies)
-
     q = zeros(Nrays)
     Iobs = zeros(NE, Nrays)
-    @inbounds begin
-        @threads for i in axes(initial_data, 2)
-            cache = threads_cache[threadid()]
-            @views begin 
-                ki = initial_data[5:8,i]
-                pf = output_data[1:4,i]
-                kf = output_data[5:8,i]
-            end
-
-            if !is_final_position_at_source(pf, spacetime, model)
-                continue
-            end
-
-            emitter_metric_and_four_velocity!(cache, pf, spacetime, model, coords_top, model_cache)
-            q[i] = energies_quotient(ki, kf, cache)
-            
-            for j in axes(observation_energies, 1)
-                emitted_energy = observation_energies[j]/q[i]
-                #The difference with the ETO scheme here should be the minus sign in front of the final momentum
-                #at get emitted intensity, and the is_final_position_at_source call (at observer in ETO)...
-                Iem = emitted_specific_intensity(pf, -kf, emitted_energy, cache.emitter_four_velocity, cache.emitter_metric, spacetime, model, coords_top)
-                Iobs[j, i] = q[i]^3*Iem            
+    # Break the work into chunks. More chunks per thread has better load balancing but more overhead
+    nchunks = div(Nrays, nthreads()*chunks_per_thread)
+    chunks = Iterators.partition(1:Nrays, nchunks)
+    # Map over the chunks, creating an array of spawned tasks
+    map(chunks) do chunk
+        Threads.@spawn begin
+            cache = postprocess_cache(configurations)
+            model_cache = allocate_cache(model)
+            observer_metric!(cache, camera.position, spacetime)
+            observer_four_velocity!(cache, observer_four_velocity) 
+            for i in chunk
+                @views begin 
+                    ki = initial_data[5:8,i]
+                    pf = output_data[1:4,i]
+                    kf = output_data[5:8,i]
+                end
+                if !is_final_position_at_source(pf, spacetime, model)
+                    continue
+                end
+                emitter_metric_and_four_velocity!(cache, pf, spacetime, model, coords_top, model_cache)
+                q[i] = energies_quotient(ki, kf, cache)
+                for j in axes(observation_energies, 1)
+                    emitted_energy = observation_energies[j]/q[i]
+                    #The difference with the ETO scheme here should be the minus sign in front of the final momentum
+                    #at get emitted intensity, and the is_final_position_at_source call (at observer in ETO)...
+                    Iem = emitted_specific_intensity(pf, -kf, emitted_energy, cache.emitter_four_velocity, cache.emitter_metric, spacetime, model, coords_top)
+                    Iobs[j, i] = q[i]^3*Iem            
+                end
             end
         end
     end

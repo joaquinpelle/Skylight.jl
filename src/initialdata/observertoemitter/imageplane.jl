@@ -1,12 +1,20 @@
-function initialize(image_plane::ImagePlane, configurations::AbstractOTEConfigurations)
+function initialize(image_plane::ImagePlane, configurations::AbstractOTEConfigurations; chunks_per_thread::Int=2)
     rays = my_zeros(configurations)
-    cache = initial_data_cache(configurations)
     Npx = number_of_pixels(image_plane)
     for (it, initial_time) in enumerate(observation_times(configurations)) 
-        for (ipx, pixel_coordinates) in enumerate(camera_grid(image_plane))
-            index = (it-1)*Npx+ipx
-            @views ray = rays[1:8, index]
-            initialize_single!(ray, initial_time, pixel_coordinates, configurations, cache)
+        # Break the work into chunks. More chunks per thread has better load balancing but more overhead
+        nchunks = div(Npx, chunks_per_thread*nthreads())
+        chunks = Iterators.partition(enumerate(camera_grid(image_plane)), nchunks)
+        # Map over the chunks, creating an array of spawned tasks
+        map(chunks) do chunk
+            Threads.@spawn begin
+                cache = initial_data_cache(configurations)
+                for (ipx, pixel_coordinates) in chunk 
+                    index = (it-1)*Npx+ipx
+                    @views ray = rays[1:8, index]
+                    initialize_single!(ray, initial_time, pixel_coordinates, configurations, cache)
+                end
+            end
         end
     end
     return rays

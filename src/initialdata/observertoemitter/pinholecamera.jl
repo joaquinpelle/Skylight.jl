@@ -3,23 +3,18 @@
     a spherical-like spatial triad. The rays have unit energy in this tetrad. 
     See docs/pinholecamera.md for more details"""
 function initialize(camera::PinholeCamera, configurations::AbstractOTEConfigurations)
-    
     spacetime = configurations.spacetime
     position = camera.position
     cache = initial_data_cache(camera)
-    
     metric!(cache.metric, position, spacetime)
     lorentzian_signature(cache.metric) || throw(ArgumentError("The metric signature is not Lorentzian."))
-    
     tetrad!(cache, position, spacetime)
-
     rays = my_zeros(configurations)    
     @views begin
         xμ = rays[1:4,:]
         kμ = rays[5:8,:]
         tetrad = cache.tetrad
     end
-    
     rays_position!(xμ, position)
     rays_momenta!(kμ, tetrad, camera)
     return rays
