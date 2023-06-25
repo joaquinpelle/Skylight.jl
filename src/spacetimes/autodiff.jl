@@ -3,7 +3,7 @@ Calculates the Christoffel symbols of a given spacetime metric using the forward
 
 Parameters:
 - Γ₂: mutable array of size (4,4,4) to store the resulting Christoffel symbols.
-- position: tuple of four numbers representing a point in spacetime.
+- position: tuple of four numbers representing a position in spacetime.
 - spacetime: object representing the spacetime.
 - cache: object of type AutoDiffChristoffelCache with containers for metric elements and derivatives.
 
@@ -71,7 +71,7 @@ Computes the Jacobian matrix of the metric function with respect to spacetime co
 
 Parameters:
 - ∂g: mutable array of size (4,4,4) to store the resulting Jacobian matrix.
-- position: tuple of four numbers representing a point in spacetime.
+- position: tuple of four numbers representing a position in spacetime.
 - spacetime: object representing the spacetime.
 - g: array of size (4,4) containing the metric evaluated at the given position.
 
@@ -89,7 +89,7 @@ Computes the Jacobian matrix of the metric function with respect to spacetime co
 
 Parameters:
 - ∂g: mutable array of size (4,4,4) to store the resulting Jacobian matrix.
-- position: tuple of four numbers representing a point in spacetime.
+- position: tuple of four numbers representing a position in spacetime.
 - spacetime: object representing the spacetime.
 - g: array of size (4,4) containing the metric evaluated at the given position.
 - cfg: object of type ForwardDiff.JacobianConfig with preallocated work buffers 

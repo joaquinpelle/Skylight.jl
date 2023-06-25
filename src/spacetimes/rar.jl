@@ -30,8 +30,8 @@ end
 coordinates_topology(::RARSpacetime) = SphericalTopology()
 
 """"Ruffini-Arguelles-Rueda metric for dark-matter halo"""
-function metric!(g,point, spacetime::RARSpacetime)
-    t, r, θ, φ = point
+function metric!(g,position, spacetime::RARSpacetime)
+    t, r, θ, φ = position
     
     interp = spacetime.interp
 
@@ -59,8 +59,8 @@ function metric!(g,point, spacetime::RARSpacetime)
 
 end
 
-function metric_inverse!(g, point, spacetime::RARSpacetime)
-    t, r, θ, φ = point
+function metric_inverse!(g, position, spacetime::RARSpacetime)
+    t, r, θ, φ = position
 
     interp = spacetime.interp
     
