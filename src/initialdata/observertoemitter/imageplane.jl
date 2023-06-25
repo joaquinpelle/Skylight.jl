@@ -1,10 +1,10 @@
-function initialize(image_plane::ImagePlane, configurations::AbstractOTEConfigurations; chunks_per_thread::Int=2)
+function initialize(camera::ImagePlane, configurations::AbstractOTEConfigurations; chunks_per_thread::Int=2)
     rays = my_zeros(configurations)
-    Npx = number_of_pixels(image_plane)
+    Npx = number_of_pixels(camera)
     for (it, initial_time) in enumerate(observation_times(configurations)) 
         # Break the work into chunks. More chunks per thread has better load balancing but more overhead
         nchunks = div(Npx, chunks_per_thread*nthreads())
-        chunks = Iterators.partition(enumerate(camera_grid(image_plane)), nchunks)
+        chunks = Iterators.partition(enumerate(camera_grid(camera)), nchunks)
         # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
         @sync map(chunks) do camera_chunk
             Threads.@spawn begin
@@ -28,21 +28,21 @@ function initialize_single!(ray, initial_time, pixel_coordinates, configurations
         space_momentum = ray[6:8]
     end
     spacetime = configurations.spacetime
-    image_plane = configurations.camera
+    camera = configurations.camera
     coords_top = coordinates_topology(spacetime)
     ray[1] = initial_time  
-    space_position .= space_position_from(pixel_coordinates,image_plane,coords_top)
+    space_position .= space_position_from(pixel_coordinates,camera,coords_top)
     metric!(cache.metric,position,spacetime)
     static_four_velocity!(cache)
-    space_momentum .= space_momentum_from(pixel_coordinates,image_plane,coords_top)
+    space_momentum .= space_momentum_from(pixel_coordinates,camera,coords_top)
     set_null_ingoing_past_directed!(momentum,cache)
     return nothing
 end
 
-function space_position_from(pixel_coordinates, image_plane::ImagePlane, ::CartesianTopology)
+function space_position_from(pixel_coordinates, camera::ImagePlane, ::CartesianTopology)
     α,β = pixel_coordinates
-    ξ = image_plane.observer_inclination_in_radians
-    d = image_plane.distance
+    ξ = camera.observer_inclination_in_radians
+    d = camera.distance
     
     sinξ = sin(ξ)
     cosξ = cos(ξ)
@@ -54,10 +54,10 @@ function space_position_from(pixel_coordinates, image_plane::ImagePlane, ::Carte
     return [x, y, z]
 end
 
-function space_position_from(pixel_coordinates, image_plane::ImagePlane, ::SphericalTopology)
+function space_position_from(pixel_coordinates, camera::ImagePlane, ::SphericalTopology)
     α,β = pixel_coordinates
-    ξ = image_plane.observer_inclination_in_radians
-    d = image_plane.distance
+    ξ = camera.observer_inclination_in_radians
+    d = camera.distance
     
     sinξ = sin(ξ)
     cosξ = cos(ξ)
@@ -69,10 +69,10 @@ function space_position_from(pixel_coordinates, image_plane::ImagePlane, ::Spher
     return [r, θ, φ]
 end
 
-function space_momentum_from(pixel_coordinates, image_plane::ImagePlane, ::SphericalTopology)
+function space_momentum_from(pixel_coordinates, camera::ImagePlane, ::SphericalTopology)
     α,β = pixel_coordinates
-    ξ = image_plane.observer_inclination_in_radians
-    d = image_plane.distance
+    ξ = camera.observer_inclination_in_radians
+    d = camera.distance
     
     r = sqrt(α^2+β^2+d^2)
     
@@ -86,8 +86,8 @@ function space_momentum_from(pixel_coordinates, image_plane::ImagePlane, ::Spher
     return [kr, kθ, kφ]
 end
 
-function space_momentum_from(pixel_coordinates, image_plane::ImagePlane, ::CartesianTopology)
-    ξ = image_plane.observer_inclination_in_radians
+function space_momentum_from(pixel_coordinates, camera::ImagePlane, ::CartesianTopology)
+    ξ = camera.observer_inclination_in_radians
     kx = sin(ξ)
     ky = 0.0
     kz = cos(ξ)

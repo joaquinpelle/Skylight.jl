@@ -1,6 +1,6 @@
-function normalize_by_image_plane_distance!(array, configurations::AbstractOTEConfigurations)
-    image_plane_distance_CGS = geometrized_to_CGS(configurations.camera.distance, Dimensions.length, configurations) 
-    array ./= image_plane_distance_CGS^2
+function normalize_by_camera_distance!(array, configurations::AbstractOTEConfigurations)
+    camera_distance_CGS = geometrized_to_CGS(configurations.camera.distance, Dimensions.length, configurations) 
+    array ./= camera_distance_CGS^2
     return nothing
 end
 
@@ -11,7 +11,7 @@ function normalize_by_pixel_area!(array, configurations::AbstractOTEConfiguratio
 end
 
 function rescale_intensities_normalization_at_real_observer!(array, real_observer_distance_CGS, configurations::AbstractOTEConfigurations)
-    image_plane_distance_CGS = geometrized_to_CGS(configurations.camera.distance, Dimensions.length, configurations) 
-    array .*= (image_plane_distance_CGS/real_observer_distance_CGS)^2
+    camera_distance_CGS = geometrized_to_CGS(configurations.camera.distance, Dimensions.length, configurations) 
+    array .*= (camera_distance_CGS/real_observer_distance_CGS)^2
     return nothing
 end

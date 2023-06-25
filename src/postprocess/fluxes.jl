@@ -1,6 +1,6 @@
 function fluxes!(F, configurations, ::ImagePlane)
     normalize_by_pixel_area!(F, configurations)
-    normalize_by_image_plane_distance!(F, configurations)
+    normalize_by_camera_distance!(F, configurations)
     return F
 end
 

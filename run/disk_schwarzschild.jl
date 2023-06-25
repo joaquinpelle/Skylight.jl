@@ -31,7 +31,7 @@ for E in energies
         Nstr = string(@sprintf("%04d", Nres))
         filename = "$(E)keV_ideg$(ξstr)_s$(srsat)rsat_N$(Nstr)"
 
-        image_plane = ImagePlane(distance = 1e-5*r_sup,
+        camera = ImagePlane(distance = 1e-5*r_sup,
                                 observer_inclination_in_degrees = ξ,
                                 horizontal_side = srsat*rsat,
                                 vertical_side = srsat*rsat,
@@ -41,7 +41,7 @@ for E in energies
         model = Skylight.ShakuraSunyaevDisk(inner_radius=rd_in, outer_radius=rd_out, alpha=0.5, M1=M1)
                 
         configurations = VacuumOTEConfigurations(spacetime=spacetime,
-                                                image_plane = image_plane,
+                                                camera = camera,
                                                 radiative_model = model,
                                                 unit_mass_in_solar_masses=model.M1)
 
