@@ -54,8 +54,8 @@ function line_emission_spectrum(
     # Break the work into chunks. More chunks per thread has better load balancing but more overhead
     nchunks = div(Nrays, nthreads()*chunks_per_thread)
     chunks = Iterators.partition(1:Nrays, nchunks)
-    # Map over the chunks, creating an array of spawned tasks
-    map(chunks) do chunk
+    # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
+    @sync map(chunks) do chunk
         Threads.@spawn begin
             cache = postprocess_cache(configurations)
             model_cache = allocate_cache(model)
@@ -119,8 +119,8 @@ function line_emission_spectrum(
     # Break the work into chunks. More chunks per thread has better load balancing but more overhead
     nchunks = div(Nrays, nthreads()*chunks_per_thread)
     chunks = Iterators.partition(1:Nrays, nchunks)
-    # Map over the chunks, creating an array of spawned tasks
-    map(chunks) do chunk
+    # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
+    @sync map(chunks) do chunk
         Threads.@spawn begin
             cache = postprocess_cache(configurations)
             model_cache = allocate_cache(model)
