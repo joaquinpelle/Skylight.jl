@@ -268,3 +268,44 @@ function observed_specific_intensities(initial_data::AbstractMatrix,
     end
     return Iobs, q
 end
+
+function observed_bolometric_intensities_serial(initial_data::AbstractMatrix, output_data::AbstractMatrix, configurations::VacuumOTEConfigurations, ::ImagePlane)
+
+    same_size(initial_data, output_data) || throw(DimensionMismatch("The initial and output data must have the same size."))
+    eight_components(initial_data, output_data) || throw(DimensionMismatch("The initial and output data must have eight components.")) 
+    
+    spacetime = configurations.spacetime
+    model = configurations.radiative_model
+    coords_top = coordinates_topology(spacetime)
+
+    cache = postprocess_cache(configurations)
+    model_cache = allocate_cache(model)
+    Nrays = size(initial_data, 2)
+    q = zeros(Nrays)
+    Iobs = zeros(Nrays)
+
+    @inbounds begin
+        for i in axes(initial_data, 2)
+
+            @views begin 
+                pi = initial_data[1:4,i]
+                ki = initial_data[5:8,i]
+                
+                pf = output_data[1:4,i]
+                kf = output_data[5:8,i]
+            end
+
+            if !is_final_position_at_source(pf, spacetime, model)
+                continue
+            end
+            
+            metrics_and_four_velocities!(cache, pi, pf, spacetime, model, coords_top, model_cache)
+            q[i] = energies_quotient(ki, kf, cache)
+
+            #The difference with the ETO scheme here should be the minus sign in front of the final momentum
+            #at get emitted intensity, and the is_final_position_at_source call (at observer in ETO)...
+            Iobs[i] = q[i]^4*emitted_bolometric_intensity(pf, -kf, cache.emitter_four_velocity, cache.emitter_metric, spacetime, model, coords_top)
+        end
+    end
+    return Iobs, q
+end
