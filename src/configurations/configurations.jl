@@ -12,7 +12,6 @@ function my_zeros(::NonVacuum, configurations)
     return zeros(8+2*NE, number_of_initial_conditions(configurations))
 end
 
-observation_times(configurations::AbstractOTEConfigurations) = configurations.camera.observation_times
 axes_ranges(configurations::AbstractOTEConfigurations) = axes_ranges(configurations.camera)
 
 initial_data_cache(configurations::AbstractOTEConfigurations) = initial_data_cache(configurations.camera)
