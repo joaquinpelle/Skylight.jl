@@ -1,5 +1,5 @@
 #AbstractCamera methods
-function camera_grid(camera::AbstractCamera)
+function grid(camera::AbstractCamera)
     α, β = axes_ranges(camera)
     return Iterators.product(α, β)
 end

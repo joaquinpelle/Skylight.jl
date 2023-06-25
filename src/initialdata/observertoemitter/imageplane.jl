@@ -4,7 +4,7 @@ function initialize(camera::ImagePlane, configurations::AbstractOTEConfiguration
     for (it, initial_time) in enumerate(camera.observation_times) 
         # Break the work into chunks. More chunks per thread has better load balancing but more overhead
         nchunks = div(Npx, chunks_per_thread*nthreads())
-        chunks = Iterators.partition(enumerate(camera_grid(camera)), nchunks)
+        chunks = Iterators.partition(enumerate(grid(camera)), nchunks)
         # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
         @sync map(chunks) do camera_chunk
             Threads.@spawn begin
