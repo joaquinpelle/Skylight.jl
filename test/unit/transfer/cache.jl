@@ -14,7 +14,7 @@ using Skylight, Test
 
 
     cache = Skylight.vacuum_multi_thread_cache(spacetime)
-    @test length(cache) == nthreads()
+    @test length(cache) == Threads.nthreads()
     cache2 = cache[1]
 
     @test cache2.acceleration == zeros(4)
@@ -57,7 +57,7 @@ end
 
     @test geo_cache.spacetime == spacetime
     @test geo_cache.cbp == cbp
-    @test length(geo_cache.multi_thread) == nthreads()
+    @test length(geo_cache.multi_thread) == Threads.nthreads()
     @test typeof(geo_cache.multi_thread[1]) == Skylight.VacuumThreadCache{Skylight.KerrChristoffelCache}
 
 end
