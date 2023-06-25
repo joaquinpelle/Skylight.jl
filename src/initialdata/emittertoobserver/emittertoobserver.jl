@@ -3,14 +3,14 @@ function initialize(configurations::VacuumETOConfigurations; chunks_per_thread::
     Npp = configurations.number_of_packets_per_point
     # Break the work into chunks. More chunks per thread has better load balancing but more overhead
     nchunks = div(configurations.number_of_points, chunks_per_thread*nthreads())
-    chunks = Iterators.partition(enumerate(initial_positions(configurations)),nchunks)
+    nchunks > 0 || error("More chunks than points. Try reducing the chunks per thread.")
+    chunks = Iterators.partition(enumerate(initial_positions(configurations)), nchunks)
     # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
     @sync map(chunks) do chunk
         Threads.@spawn begin
             cache = initial_data_cache(configurations)
             model_cache = allocate_cache(configurations.radiative_model)
             for (index, position) in chunk
-                cache = threads_cache[threadid()]
                 packet_index = (index-1)*Npp+1
                 @views packets_at_position = packets[:, packet_index:(packet_index+Npp-1)]
                 initialize_packets_at_position!(packets_at_position, position, cache, model_cache, configurations)
