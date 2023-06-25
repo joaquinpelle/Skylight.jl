@@ -47,13 +47,13 @@ function line_emission_spectrum(
     model = configurations.radiative_model
     coords_top = coordinates_topology(spacetime)
 
-    Nrays = size(initial_data, 2)
-    F = zeros(Nrays)
-    q = zeros(Nrays)
-    at_source = zeros(Bool, Nrays)
+    nrays = size(initial_data, 2)
+    F = zeros(nrays)
+    q = zeros(nrays)
+    at_source = zeros(Bool, nrays)
     # Break the work into chunks. More chunks per thread has better load balancing but more overhead
-    nchunks = div(Nrays, nthreads()*chunks_per_thread)
-    chunks = Iterators.partition(1:Nrays, nchunks)
+    nchunks = div(nrays, nthreads()*chunks_per_thread)
+    chunks = Iterators.partition(1:nrays, nchunks)
     # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
     @sync map(chunks) do chunk
         Threads.@spawn begin
@@ -111,14 +111,14 @@ function line_emission_spectrum(
     coords_top = coordinates_topology(spacetime)
 
     dΩ = pixel_solid_angles(camera)
-    Nrays = size(initial_data, 2)
-    F = zeros(Nrays)
-    q = zeros(Nrays)
-    at_source = zeros(Bool, Nrays)
+    nrays = size(initial_data, 2)
+    F = zeros(nrays)
+    q = zeros(nrays)
+    at_source = zeros(Bool, nrays)
 
     # Break the work into chunks. More chunks per thread has better load balancing but more overhead
-    nchunks = div(Nrays, nthreads()*chunks_per_thread)
-    chunks = Iterators.partition(1:Nrays, nchunks)
+    nchunks = div(nrays, nthreads()*chunks_per_thread)
+    chunks = Iterators.partition(1:nrays, nchunks)
     # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
     @sync map(chunks) do chunk
         Threads.@spawn begin

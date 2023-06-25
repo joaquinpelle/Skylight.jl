@@ -14,8 +14,8 @@ function fluxes!(F::AbstractVector, configurations, camera::PinholeCamera, initi
 
     dΩ = pixel_solid_angles(camera)
     # Break the work into chunks. More chunks per thread has better load balancing but more overhead
-    nchunks = div(Nrays, nthreads()*chunks_per_thread)
-    chunks = Iterators.partition(1:Nrays, nchunks)
+    nchunks = div(nrays, nthreads()*chunks_per_thread)
+    chunks = Iterators.partition(1:nrays, nchunks)
     # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
     @sync map(chunks) do chunk
         Threads.@spawn begin
@@ -50,8 +50,8 @@ function fluxes!(F::AbstractMatrix, configurations, camera::PinholeCamera, initi
 
     dΩ = pixel_solid_angles(camera)
     # Break the work into chunks. More chunks per thread has better load balancing but more overhead
-    nchunks = div(Nrays, nthreads()*chunks_per_thread)
-    chunks = Iterators.partition(1:Nrays, nchunks)
+    nchunks = div(nrays, nthreads()*chunks_per_thread)
+    chunks = Iterators.partition(1:nrays, nchunks)
     # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
     @sync map(chunks) do chunk
         Threads.@spawn begin

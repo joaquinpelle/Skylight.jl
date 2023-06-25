@@ -6,11 +6,11 @@ function energies_quotients(initial_data, output_data, configurations::VacuumOTE
     spacetime = configurations.spacetime
     model = configurations.radiative_model
     coords_top = coordinates_topology(spacetime)
-    Nrays = size(initial_data, 2)
-    q = zeros(Nrays)
+    nrays = size(initial_data, 2)
+    q = zeros(nrays)
     # Break the work into chunks. More chunks per thread has better load balancing but more overhead
-    nchunks = div(Nrays, nthreads()*chunks_per_thread)
-    chunks = Iterators.partition(1:Nrays, nchunks)
+    nchunks = div(nrays, nthreads()*chunks_per_thread)
+    chunks = Iterators.partition(1:nrays, nchunks)
     # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
     @sync map(chunks) do chunk
         Threads.@spawn begin
@@ -44,11 +44,11 @@ function energies_quotients(initial_data, output_data, configurations::VacuumOTE
     model = configurations.radiative_model
     coords_top = coordinates_topology(spacetime)
 
-    Nrays = size(initial_data, 2)
-    q = zeros(Nrays)
+    nrays = size(initial_data, 2)
+    q = zeros(nrays)
     # Break the work into chunks. More chunks per thread has better load balancing but more overhead
-    nchunks = div(Nrays, nthreads()*chunks_per_thread)
-    chunks = Iterators.partition(1:Nrays, nchunks)
+    nchunks = div(nrays, nthreads()*chunks_per_thread)
+    chunks = Iterators.partition(1:nrays, nchunks)
     # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
     @sync map(chunks) do chunk
         Threads.@spawn begin

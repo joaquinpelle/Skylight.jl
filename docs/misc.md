@@ -12,6 +12,6 @@ t, r, θ, φ or t, x, y, z. The first coordinate is assumed to be timelike, and 
 
 AbstractAccretionDisk assumes inner_radius and outer_radius as fields.
 
-The procedure is modularized sufficiently so that custom initial data can be provided as well to the integrator (as a (8, Nrays) array)
+The procedure is modularized sufficiently so that custom initial data can be provided as well to the integrator (as a (8, nrays) array)
 
 The integrator can integrate geodesics of any kind (timelike and spacelike too)

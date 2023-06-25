@@ -32,13 +32,13 @@ function observed_bolometric_intensities(initial_data::AbstractMatrix,
     model = configurations.radiative_model
     coords_top = coordinates_topology(spacetime)
 
-    Nrays = size(initial_data, 2)
-    q = zeros(Nrays)
-    Iobs = zeros(Nrays)
+    nrays = size(initial_data, 2)
+    q = zeros(nrays)
+    Iobs = zeros(nrays)
 
     # Break the work into chunks. More chunks per thread has better load balancing but more overhead
-    nchunks = div(Nrays, nthreads()*chunks_per_thread)
-    chunks = Iterators.partition(1:Nrays, nchunks)
+    nchunks = div(nrays, nthreads()*chunks_per_thread)
+    chunks = Iterators.partition(1:nrays, nchunks)
     # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
     @sync map(chunks) do chunk
         Threads.@spawn begin
@@ -95,13 +95,13 @@ function observed_bolometric_intensities(initial_data::AbstractMatrix,
     spacetime = configurations.spacetime
     model = configurations.radiative_model
     coords_top = coordinates_topology(spacetime)
-    Nrays = size(initial_data, 2) 
-    q = zeros(Nrays)
-    Iobs = zeros(Nrays)
+    nrays = size(initial_data, 2) 
+    q = zeros(nrays)
+    Iobs = zeros(nrays)
 
     # Break the work into chunks. More chunks per thread has better load balancing but more overhead
-    nchunks = div(Nrays, nthreads()*chunks_per_thread)
-    chunks = Iterators.partition(1:Nrays, nchunks)
+    nchunks = div(nrays, nthreads()*chunks_per_thread)
+    chunks = Iterators.partition(1:nrays, nchunks)
     # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
     @sync map(chunks) do chunk
         Threads.@spawn begin
@@ -161,14 +161,14 @@ function observed_specific_intensities(initial_data::AbstractMatrix,
     model = configurations.radiative_model
     coords_top = coordinates_topology(spacetime)
 
-    Nrays = size(initial_data, 2)
+    nrays = size(initial_data, 2)
     NE = length(observation_energies)
 
-    q = zeros(Nrays)
-    Iobs = zeros(NE, Nrays)
+    q = zeros(nrays)
+    Iobs = zeros(NE, nrays)
     # Break the work into chunks. More chunks per thread has better load balancing but more overhead
-    nchunks = div(Nrays, nthreads()*chunks_per_thread)
-    chunks = Iterators.partition(1:Nrays, nchunks)
+    nchunks = div(nrays, nthreads()*chunks_per_thread)
+    chunks = Iterators.partition(1:nrays, nchunks)
     # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
     @sync map(chunks) do chunk
         Threads.@spawn begin
@@ -231,13 +231,13 @@ function observed_specific_intensities(initial_data::AbstractMatrix,
     spacetime = configurations.spacetime
     model = configurations.radiative_model
     coords_top = coordinates_topology(spacetime)
-    Nrays = size(initial_data, 2)
+    nrays = size(initial_data, 2)
     NE = length(observation_energies)
-    q = zeros(Nrays)
-    Iobs = zeros(NE, Nrays)
+    q = zeros(nrays)
+    Iobs = zeros(NE, nrays)
     # Break the work into chunks. More chunks per thread has better load balancing but more overhead
-    nchunks = div(Nrays, nthreads()*chunks_per_thread)
-    chunks = Iterators.partition(1:Nrays, nchunks)
+    nchunks = div(nrays, nthreads()*chunks_per_thread)
+    chunks = Iterators.partition(1:nrays, nchunks)
     # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
     @sync map(chunks) do chunk
         Threads.@spawn begin
@@ -280,9 +280,9 @@ function observed_bolometric_intensities_serial(initial_data::AbstractMatrix, ou
 
     cache = postprocess_cache(configurations)
     model_cache = allocate_cache(model)
-    Nrays = size(initial_data, 2)
-    q = zeros(Nrays)
-    Iobs = zeros(Nrays)
+    nrays = size(initial_data, 2)
+    q = zeros(nrays)
+    Iobs = zeros(nrays)
 
     @inbounds begin
         for i in axes(initial_data, 2)
