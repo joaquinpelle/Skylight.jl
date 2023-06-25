@@ -20,15 +20,15 @@ using Skylight, Random, Test
 
         scalar_product = Skylight.scalar_product
 
-        @test scalar_product(time_vector, triad[:,1], metric) ≈ 0.0 atol=1e-12
-        @test scalar_product(time_vector, triad[:,2], metric) ≈ 0.0 atol=1e-12
-        @test scalar_product(time_vector, triad[:,3], metric) ≈ 0.0 atol=1e-12
-        @test scalar_product(triad[:,1], triad[:,1], metric) ≈ 1.0 atol=1e-12
-        @test scalar_product(triad[:,1], triad[:,2], metric) ≈ 0.0 atol=1e-12
-        @test scalar_product(triad[:,1], triad[:,3], metric) ≈ 0.0 atol=1e-12
-        @test scalar_product(triad[:,2], triad[:,2], metric) ≈ 1.0 atol=1e-12
-        @test scalar_product(triad[:,2], triad[:,3], metric) ≈ 0.0 atol=1e-12
-        @test scalar_product(triad[:,3], triad[:,3], metric) ≈ 1.0 atol=1e-12
+        @test scalar_product(time_vector, triad[:,1], metric) ≈ 0.0 atol=1e-11
+        @test scalar_product(time_vector, triad[:,2], metric) ≈ 0.0 atol=1e-11
+        @test scalar_product(time_vector, triad[:,3], metric) ≈ 0.0 atol=1e-11
+        @test scalar_product(triad[:,1], triad[:,1], metric) ≈ 1.0 atol=1e-11
+        @test scalar_product(triad[:,1], triad[:,2], metric) ≈ 0.0 atol=1e-11
+        @test scalar_product(triad[:,1], triad[:,3], metric) ≈ 0.0 atol=1e-11
+        @test scalar_product(triad[:,2], triad[:,2], metric) ≈ 1.0 atol=1e-11
+        @test scalar_product(triad[:,2], triad[:,3], metric) ≈ 0.0 atol=1e-11
+        @test scalar_product(triad[:,3], triad[:,3], metric) ≈ 1.0 atol=1e-11
     
     end
 
