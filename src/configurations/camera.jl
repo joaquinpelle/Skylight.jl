@@ -72,7 +72,7 @@ function default_four_velocity(camera::PinholeCamera, spacetime::AbstractSpaceti
 end
 
 default_flux_direction(camera::PinholeCamera, spacetime::AbstractSpacetime) = default_tetrad(camera, spacetime)[:,2]
-max_radius(camera, spacetime) = 1.1*radius(camera.position, spacetime)
+max_radius(camera, spacetime) = 1.01*radius(camera.position, spacetime)
 initial_data_cache(::PinholeCamera) = PinholeCameraCache()
 postprocess_cache(::PinholeCamera) = PinholeCameraPostProcessCache()
 

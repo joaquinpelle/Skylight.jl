@@ -19,6 +19,7 @@ include("accretiondisk.jl")
 include("staracrosswormhole.jl")
 include("dummyextendedregion.jl")
 include("dummymodel.jl")
+include("../spacetimes/superposedpn/bbhdisk.jl")
 
 function unit_surface_normal!(vector, position, metric, metric_inverse, model, coords_top)
     surface_differential!(vector, position, model, coords_top)

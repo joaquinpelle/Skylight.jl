@@ -47,7 +47,9 @@ export AbstractSpacetime,
     ChargedWormholeSpacetimeSphericalCoordinates,
     ChargedWormholeSpacetimeRegularCoordinates,
     RARSpacetime,
-    BosonStarSpacetime
+    BosonStarSpacetime,
+    SuperposedPNSpacetime,
+    SuperposedPNNewSpacetime
 
 export AbstractChristoffelCache
 
@@ -103,7 +105,8 @@ export AbstractRadiativeModel,
     RARDisk,
     AccretionDiskWithTabulatedTemperature,
     SyntheticPolarCap,
-    StarAcrossWormhole
+    StarAcrossWormhole,
+    BBHDisk
 
 export allocate_cache,
     emitter_four_velocity!,
