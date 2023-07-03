@@ -16,7 +16,7 @@ function geodesic_equations(u::AbstractVector, p, t)
     @inbounds begin 
         @views begin
             position = u[1:4]
-            momentum = u[4:8]
+            momentum = u[5:8]
         end
     end
 
@@ -61,7 +61,7 @@ function transfer_equations(u::AbstractVector, p, t)
     @inbounds begin 
         @views begin
             position = u[1:4]
-            momentum = u[4:8]
+            momentum = u[5:8]
             τε = u[9:8+NE]
         end
     end

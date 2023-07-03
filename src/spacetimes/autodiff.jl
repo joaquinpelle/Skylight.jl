@@ -3,7 +3,7 @@ Calculates the Christoffel symbols of a given spacetime metric using the forward
 
 Parameters:
 - Γ₂: mutable array of size (4,4,4) to store the resulting Christoffel symbols.
-- position: tuple of four numbers representing a point in spacetime.
+- position: tuple of four numbers representing a position in spacetime.
 - spacetime: object representing the spacetime.
 - cache: object of type AutoDiffChristoffelCache with containers for metric elements and derivatives.
 
@@ -65,28 +65,31 @@ function christoffel!(Γ₂, position, spacetime::AbstractSpacetime, cache::Auto
 end
 
 """
+    metric_jacobian!(∂g, position, spacetime::AbstractSpacetime, g)
+
 Computes the Jacobian matrix of the metric function with respect to spacetime coordinates using forward-mode automatic differentiation.
 
 Parameters:
 - ∂g: mutable array of size (4,4,4) to store the resulting Jacobian matrix.
-- position: tuple of four numbers representing a point in spacetime.
+- position: tuple of four numbers representing a position in spacetime.
 - spacetime: object representing the spacetime.
 - g: array of size (4,4) containing the metric evaluated at the given position.
 
 Returns: nothing.
 """
 function metric_jacobian!(∂g, position, spacetime::AbstractSpacetime, g)
-    reshape(ForwardDiff.jacobian!(∂g, metric_field(spacetime), g, position), 4, 4, 4)
+    ForwardDiff.jacobian!(∂g, metric_field(spacetime), g, position)
     return nothing
 end
 
-
 """
+    metric_jacobian!(∂g, position, spacetime_metric_field::Function, g, cfg::ForwardDiff.JacobianConfig)
+
 Computes the Jacobian matrix of the metric function with respect to spacetime coordinates using forward-mode automatic differentiation.
 
 Parameters:
 - ∂g: mutable array of size (4,4,4) to store the resulting Jacobian matrix.
-- position: tuple of four numbers representing a point in spacetime.
+- position: tuple of four numbers representing a position in spacetime.
 - spacetime: object representing the spacetime.
 - g: array of size (4,4) containing the metric evaluated at the given position.
 - cfg: object of type ForwardDiff.JacobianConfig with preallocated work buffers 
@@ -94,6 +97,6 @@ Parameters:
 Returns: nothing.
 """
 function metric_jacobian!(∂g, position, spacetime_metric_field::Function, g, cfg::ForwardDiff.JacobianConfig)
-    reshape(ForwardDiff.jacobian!(∂g, spacetime_metric_field, g, position, cfg), 4, 4, 4)
+    ForwardDiff.jacobian!(∂g, spacetime_metric_field, g, position, cfg)
     return nothing
 end

@@ -207,9 +207,9 @@ end
 coordinates_topology(::KerrSpacetimeBoyerLindquistCoordinates) = SphericalTopology()
 radius(position, ::KerrSpacetimeBoyerLindquistCoordinates) = position[2]
 
-function metric!(g, point, spacetime::KerrSpacetimeBoyerLindquistCoordinates)
+function metric!(g, position, spacetime::KerrSpacetimeBoyerLindquistCoordinates)
     
-    t,r,θ,φ = point
+    t,r,θ,φ = position
 
     M = spacetime.M
     a = spacetime.a   
@@ -236,9 +236,9 @@ function metric!(g, point, spacetime::KerrSpacetimeBoyerLindquistCoordinates)
     return nothing
 end
 
-function metric_inverse!(ginv, point, spacetime::KerrSpacetimeBoyerLindquistCoordinates)
+function metric_inverse!(ginv, position, spacetime::KerrSpacetimeBoyerLindquistCoordinates)
     
-    t,r,θ,φ = point
+    t,r,θ,φ = position
 
     M = spacetime.M
     a = spacetime.a   
@@ -271,9 +271,9 @@ function metric_inverse!(ginv, point, spacetime::KerrSpacetimeBoyerLindquistCoor
     return nothing
 end
 
-function christoffel!(Γ, point, spacetime::KerrSpacetimeBoyerLindquistCoordinates) 
+function christoffel!(Γ, position, spacetime::KerrSpacetimeBoyerLindquistCoordinates) 
     
-    t, r, θ, φ = point
+    t, r, θ, φ = position
     
     M = spacetime.M
     a = spacetime.a

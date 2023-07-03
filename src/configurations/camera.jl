@@ -1,5 +1,5 @@
 #AbstractCamera methods
-function camera_grid(camera::AbstractCamera)
+function grid(camera::AbstractCamera)
     α, β = axes_ranges(camera)
     return Iterators.product(α, β)
 end
@@ -59,7 +59,7 @@ function pixel_solid_angles(camera::PinholeCamera)
 end
 
 function default_tetrad(camera::PinholeCamera, spacetime::AbstractSpacetime)
-    cache = initial_data_cache(camera)
+    cache = PinholeCameraCache()
     metric!(cache.metric, camera.position, spacetime)
     tetrad!(cache, camera.position, spacetime)
     return cache.tetrad
@@ -84,25 +84,25 @@ function number_of_times(camera::ImagePlane)
     return length(camera.observation_times)
 end
 
-function area(image_plane::ImagePlane)
-    sα, sβ = sides(image_plane)
+function area(camera::ImagePlane)
+    sα, sβ = sides(camera)
     return sα*sβ
 end
 
-function pixel_area(image_plane::ImagePlane)
-    dα, dβ = grid_spacing(image_plane)
+function pixel_area(camera::ImagePlane)
+    dα, dβ = grid_spacing(camera)
     return dα*dβ 
 end
 
-function sides(image_plane::ImagePlane)
-    sα = image_plane.horizontal_side
-    sβ = image_plane.vertical_side
+function sides(camera::ImagePlane)
+    sα = camera.horizontal_side
+    sβ = camera.vertical_side
     return sα, sβ
 end
 
-function max_radius(image_plane::ImagePlane, ::AbstractSpacetime) 
-    d = image_plane.distance
-    sα, sβ = sides(image_plane)
+function max_radius(camera::ImagePlane, ::AbstractSpacetime) 
+    d = camera.distance
+    sα, sβ = sides(camera)
     return 1.1*sqrt(d^2 + sα^2 + sβ^2)
 end
 

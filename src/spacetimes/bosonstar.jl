@@ -11,8 +11,8 @@ end
 coordinates_topology(::BosonStarSpacetime) = SphericalTopology() 
 radius(position, ::BosonStarSpacetime) = position[2]
 
-function metric!(g, point, spacetime::BosonStarSpacetime)
-    t, r, θ, φ = point
+function metric!(g, position, spacetime::BosonStarSpacetime)
+    t, r, θ, φ = position
 
     a = spacetime.a
     b = spacetime.b
@@ -40,8 +40,8 @@ function metric!(g, point, spacetime::BosonStarSpacetime)
     return nothing
 end
 
-function metric_inverse!(g, point, spacetime::BosonStarSpacetime)
-    t, r, θ, φ = point
+function metric_inverse!(g, position, spacetime::BosonStarSpacetime)
+    t, r, θ, φ = position
 
     a = spacetime.a
     b = spacetime.b

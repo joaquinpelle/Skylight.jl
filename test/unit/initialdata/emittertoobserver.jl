@@ -169,14 +169,14 @@ end
                                         misalignment_angle_in_degrees=90,
                                         angular_radius_in_degrees=60, 
                                         temperature=rand())
-    configurations = VacuumETOConfigurations(spacetime = spacetime, radiative_model = model, number_of_points=3, number_of_packets_per_point = 3, observer_distance = 500.0, unit_mass_in_solar_masses=1.0)
+    configurations = VacuumETOConfigurations(spacetime = spacetime, radiative_model = model, number_of_points=4, number_of_packets_per_point = 3, observer_distance = 500.0, unit_mass_in_solar_masses=1.0)
 
-    packets = initialize(configurations)
+    packets = initialize(configurations; chunks_per_thread=1)
 
     metric = zeros(4,4)
     metric!(metric, zeros(4), spacetime)
 
-    for i in 1:3
+    for i in 1:4
 
         @views begin
             packets_at_position = packets[:,i:(i+2)]

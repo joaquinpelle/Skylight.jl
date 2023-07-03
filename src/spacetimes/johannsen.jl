@@ -68,9 +68,9 @@ function metric!(g, position, spacetime::JohannsenSpacetime)
     return nothing
 end
 
-function metric_inverse!(g, point, spacetime::JohannsenSpacetime)
+function metric_inverse!(g, position, spacetime::JohannsenSpacetime)
 
-    t, r, θ, φ = point
+    t, r, θ, φ = position
 
     M = spacetime.M
     a = spacetime.a

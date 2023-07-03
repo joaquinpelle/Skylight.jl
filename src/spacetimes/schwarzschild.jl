@@ -206,8 +206,8 @@ end
 
 allocate_christoffel_cache(::SchwarzschildSpacetimeSphericalCoordinates) = nothing
 
-function christoffel!(Γ, point, spacetime::SchwarzschildSpacetimeSphericalCoordinates)
-    t, r, θ, φ = point
+function christoffel!(Γ, position, spacetime::SchwarzschildSpacetimeSphericalCoordinates)
+    t, r, θ, φ = position
     rs = 2*spacetime.M
     
     Γ[1,1,2] = rs/(2*r*(r-rs))          
