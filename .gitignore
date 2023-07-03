@@ -1,7 +1,7 @@
 *.jl.*.cov
 *.jl.cov
 *.jl.mem
-/Manifest.toml
+*Manifest.toml
 
 # The .gitignore file's purpose is to prevent everyone who collaborates on a project from accidentally commiting some common files in a project, 
 # such as generated cache files. Therefore you should not ignore .gitignore, since it's supposed to be included in the repository.
