@@ -26,10 +26,11 @@ abstract type AxialSymmetry <: AbstractSpacetimeSymmetry end
 struct IsAxiallySymmetric <: AxialSymmetry end
 struct IsNotAxiallySymmetric <: AxialSymmetry end
 
-@with_kw mutable struct AutoDiffChristoffelCache{F,C} <: AbstractChristoffelCache
+@with_kw mutable struct AutoDiffChristoffelCache{F,CA,CO} <: AbstractChristoffelCache
     g::Array{Float64,2} = zeros(4,4)
     ginv::Array{Float64,2} = zeros(4,4)
     ∂g::Array{Float64,3} = zeros(4,4,4)
     spacetime_metric_field::F
-    cfg::C
+    spacetime_cache::CA
+    cfg::CO
 end

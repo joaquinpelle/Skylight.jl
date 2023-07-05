@@ -7,7 +7,7 @@
     metric!(g,rand(4),spacetime)
     @test g == [-1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
 
-    cache = Skylight.ImagePlaneCache()
+    cache = Skylight.ImagePlaneCache(spacetime)
     @views g1 = cache.metric
     metric!(g1,rand(4),spacetime)
     @test g1 == [-1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]

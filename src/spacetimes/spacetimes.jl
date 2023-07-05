@@ -1,6 +1,6 @@
 #Required
 coordinates_topology(spacetime) = error("Coordinates topology not defined for this spacetime.")
-metric!(g, position, spacetime) = error("Metric not defined for this spacetime.")
+metric!(g, position, spacetime, cache) = error("Metric not defined for this spacetime.")
 
 #Optional
 # metric_inverse!(ginv, position, ::AbstractSpacetime) = error("Metric inverse not defined for this spacetime.")
@@ -8,6 +8,8 @@ metric!(g, position, spacetime) = error("Metric not defined for this spacetime."
 radius(position, spacetime) = error("Radius not defined for this spacetime.")
 event_horizon_radius(spacetime) = error("Event horizon radius not defined for this spacetime.")
 circular_geodesic_angular_speed(position, spacetime, rotation_sense) = error("Circular geodesic angular speed not defined for this spacetime.")
+allocate_cache(spacetime::AbstractSpacetime) = nothing
+metric!(g, position, spacetime::AbstractSpacetime, ::Nothing) = metric!(g, position, spacetime)
 #custom set_christoffel
 christoffel!(Γ, position, spacetime::AbstractSpacetime, ::Nothing) = christoffel!(Γ, position, spacetime)
 allocate_christoffel_cache(spacetime::AbstractSpacetime) = AutoDiffChristoffelCache(spacetime)
@@ -44,11 +46,12 @@ Parameters:
 
 Returns: nothing.
 """
-function metric_inverse!(ginv, position, spacetime::AbstractSpacetime, g)
-    metric!(g, position, spacetime)
+function metric_inverse!(ginv, position, spacetime::AbstractSpacetime, g, cache)
+    metric!(g, position, spacetime, cache)
     inv4x4sym!(ginv, g)
     return nothing
 end
+
 """
 Computes the volume element (square root of minus the determinant of the metric) at a given position 
 using a fast determinant for 4x4 symmetric matrices.
@@ -60,17 +63,17 @@ Parameters:
 
 Returns: the volume element.
 """
-function volume_element(position, spacetime::AbstractSpacetime, g)
-    metric!(g, position, spacetime)
+function volume_element(position, spacetime::AbstractSpacetime, g, cache)
+    metric!(g, position, spacetime, cache)
     return sqrt(-det4x4sym(g))
 end
 
 @inline sign(::ProgradeRotation) = 1.0
 @inline sign(::RetrogradeRotation) = -1.0
 
-function metric(position, spacetime)
+function metric(position, spacetime, cache)
     g = zeros(4,4)
-    metric!(g, position, spacetime)
+    metric!(g, position, spacetime, cache)
     return g
 end
 
@@ -92,10 +95,11 @@ function christoffel(position, spacetime, cache::AbstractChristoffelCache)
     return Γ
 end
 
-metric_field(spacetime::AbstractSpacetime) = (g,position) -> metric!(g,position,spacetime)
+metric_field(spacetime::AbstractSpacetime, cache) = (g,position) -> metric!(g,position,spacetime,cache)
 
 function AutoDiffChristoffelCache(spacetime::AbstractSpacetime)
-    spacetime_metric_field = metric_field(spacetime)
+    spacetime_cache = allocate_cache(spacetime)
+    spacetime_metric_field = metric_field(spacetime, spacetime_cache)
     cfg = ForwardDiff.JacobianConfig(spacetime_metric_field, Matrix{Float64}(undef, 4,4), Vector{Float64}(undef, 4), ForwardDiff.Chunk{4}())
-    return AutoDiffChristoffelCache(spacetime_metric_field=spacetime_metric_field, cfg=cfg)
+    return AutoDiffChristoffelCache(spacetime_metric_field=spacetime_metric_field, spacetime_cache=spacetime_cache, cfg=cfg)
 end

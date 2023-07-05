@@ -4,19 +4,18 @@ using Skylight, Test
     
     @testset "Unpack views" begin
         
-        cache = Skylight.ImagePlaneCache()
         spacetime = MinkowskiSpacetimeCartesianCoordinates()
+        cache = Skylight.ImagePlaneCache(spacetime)
         position = rand(4)
 
         Skylight.metric!(cache.metric,position,spacetime)
         Skylight.static_four_velocity!(cache)
 
-        metric, vector = Skylight.unpack_views(cache)
+        metric, vector, _ = Skylight.unpack_views(cache)
 
         @test metric == cache.metric
         @test vector == cache.vector
 
-        cache = Skylight.ETOInitialDataCache()
         spacetime = MinkowskiSpacetimeCartesianCoordinates()
 
         model = SyntheticPolarCap(
@@ -25,11 +24,11 @@ using Skylight, Test
                                             misalignment_angle_in_degrees=90,
                                             angular_radius_in_degrees=60, 
                                             temperature=rand())
+        cache = Skylight.ETOInitialDataCache(spacetime, model)
         configurations = VacuumETOConfigurations(spacetime = spacetime, radiative_model = model, number_of_points=10, number_of_packets_per_point = 10, observer_distance = 500.0, unit_mass_in_solar_masses=1.0)
-        model_cache = allocate_cache(model)
-        Skylight.metric_and_tetrad!(cache, position, model_cache, configurations)
+        Skylight.metric_and_tetrad!(cache, position, configurations)
 
-        metric, metric_inverse, time_vector, triad = Skylight.unpack_views(cache)
+        metric, metric_inverse, time_vector, triad, _, _ = Skylight.unpack_views(cache)
 
         @test metric == cache.metric
         @test metric_inverse == cache.metric_inverse
@@ -42,10 +41,9 @@ using Skylight, Test
 
         @testset "Observer to emitter" begin
 
-            cache = Skylight.ImagePlaneCache()
 
             spacetime = MinkowskiSpacetimeCartesianCoordinates()
-
+            cache = Skylight.ImagePlaneCache(spacetime)
             Skylight.metric!(cache.metric,position,spacetime)
             Skylight.static_four_velocity!(cache)
             @test cache.vector == [1.0, 0.0, 0.0, 0.0]
@@ -57,20 +55,17 @@ using Skylight, Test
 
             @testset "Generic model" begin
 
-                cache = Skylight.ETOInitialDataCache()
 
                 spacetime = MinkowskiSpacetimeCartesianCoordinates()
                 model = DummyExtendedRegion()
-
+                cache = Skylight.ETOInitialDataCache(spacetime, model)
                 configurations = VacuumETOConfigurations(spacetime = spacetime, radiative_model = model, number_of_points=10, number_of_packets_per_point = 10, observer_distance = 500.0, unit_mass_in_solar_masses=1.0)
 
                 packets = Skylight.my_zeros(configurations)
-                cache = Skylight.ETOInitialDataCache()
 
                 position = rand(4)
 
-                model_cache = allocate_cache(model)
-                Skylight.metric_and_tetrad!(cache, position, model_cache, configurations)
+                Skylight.metric_and_tetrad!(cache, position, configurations)
 
                 @views tetrad = cache.tetrad
 
@@ -90,7 +85,6 @@ using Skylight, Test
             
             @testset "Surface model" begin
                 
-                cache = Skylight.ETOInitialDataCache()
 
                 spacetime = MinkowskiSpacetimeCartesianCoordinates()
                 model = SyntheticPolarCap( 
@@ -102,12 +96,11 @@ using Skylight, Test
                 configurations = VacuumETOConfigurations(spacetime = spacetime, radiative_model = model, number_of_points=10, number_of_packets_per_point = 10, observer_distance = 500.0, unit_mass_in_solar_masses=1.0)
 
                 packets = Skylight.my_zeros(configurations)
-                cache = Skylight.ETOInitialDataCache()
+                cache = Skylight.ETOInitialDataCache(spacetime, model)
 
                 position = [rand(), 3.0, 0.0, 4.0]
 
-                model_cache = allocate_cache(model)
-                Skylight.metric_and_tetrad!(cache, position, model_cache, configurations)
+                Skylight.metric_and_tetrad!(cache, position, configurations)
 
                 @views tetrad = cache.tetrad
 

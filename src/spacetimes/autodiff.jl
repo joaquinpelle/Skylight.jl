@@ -39,9 +39,10 @@ function christoffel!(Γ₂, position, spacetime::AbstractSpacetime, cache::Auto
     ginv = cache.ginv
     ∂g = cache.∂g
     spacetime_metric_field = cache.spacetime_metric_field
+    scache = cache.spacetime_cache
     cfg = cache.cfg
 
-    metric_inverse!(ginv, position, spacetime, g)
+    metric_inverse!(ginv, position, spacetime, g, scache)
     metric_jacobian!(∂g, position, spacetime_metric_field, g, cfg)
     @inbounds begin
         for k in 1:4
@@ -77,8 +78,8 @@ Parameters:
 
 Returns: nothing.
 """
-function metric_jacobian!(∂g, position, spacetime::AbstractSpacetime, g)
-    ForwardDiff.jacobian!(∂g, metric_field(spacetime), g, position)
+function metric_jacobian!(∂g, position, spacetime::AbstractSpacetime, g, scache)
+    ForwardDiff.jacobian!(∂g, metric_field(spacetime, scache), g, position)
     return nothing
 end
 
