@@ -54,12 +54,11 @@ end
     configurations = VacuumETOConfigurations(spacetime = spacetime, radiative_model = model, number_of_points=10, number_of_packets_per_point = 10, observer_distance = 500.0, unit_mass_in_solar_masses=1.0)
 
     packets = Skylight.my_zeros(configurations)
-    cache = Skylight.ETOInitialDataCache()
+    cache = Skylight.ETOInitialDataCache(spacetime, model)
 
     position = [rand(), 3.0, 0.0, 4.0]
 
-    model_cache = allocate_cache(model)
-    Skylight.metric_and_tetrad!(cache, position, model_cache, configurations)
+    Skylight.metric_and_tetrad!(cache, position, configurations)
 
     @views tetrad = cache.tetrad
 
@@ -137,13 +136,12 @@ end
     configurations = VacuumETOConfigurations(spacetime = spacetime, radiative_model = model, number_of_points=10, number_of_packets_per_point = 10, observer_distance = 500.0, unit_mass_in_solar_masses=1.0)
 
     packets = Skylight.my_zeros(configurations)
-    cache = Skylight.ETOInitialDataCache()
-    model_cache = allocate_cache(model)
+    cache = Skylight.initial_data_cache(configurations)
     position = [rand(), 3.0, 0.0, 4.0]
 
     @views packets_at_position = packets[:,1:10]
     
-    Skylight.initialize_packets_at_position!(packets_at_position, position, cache, model_cache, configurations)
+    Skylight.initialize_packets_at_position!(packets_at_position, position, cache, configurations)
 
     @views begin
         xμ = packets_at_position[1:4,:]

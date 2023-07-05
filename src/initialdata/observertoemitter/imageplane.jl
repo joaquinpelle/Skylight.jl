@@ -32,7 +32,7 @@ function initialize_single!(ray, initial_time, pixel_coordinates, configurations
     coords_top = coordinates_topology(spacetime)
     ray[1] = initial_time  
     space_position .= space_position_from(pixel_coordinates,camera,coords_top)
-    metric!(cache.metric,position,spacetime)
+    metric!(cache.metric,position,spacetime,cache.spacetime_cache)
     static_four_velocity!(cache)
     space_momentum .= space_momentum_from(pixel_coordinates,camera,coords_top)
     set_null_ingoing_past_directed!(momentum,cache)
@@ -103,7 +103,7 @@ end
 
 """returns with unit energy"""
 function set_null!(momentum,cache)
-    gμν, tμ = unpack_views(cache)
+    gμν, tμ, _ = unpack_views(cache)
     t2 = norm_squared(tμ,gμν)
     k2 = norm_squared(momentum,gμν)    
     kt = scalar_product(momentum,tμ,gμν)

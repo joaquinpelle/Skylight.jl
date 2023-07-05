@@ -34,7 +34,7 @@ using Skylight, Test
             momentum = rand(4)
             momentum[1] = 0.0
 
-            cache = Skylight.ImagePlaneCache()
+            cache = Skylight.ImagePlaneCache(spacetime)
             Skylight.metric!(cache.metric,position,spacetime)
             Skylight.static_four_velocity!(cache)
 
@@ -83,7 +83,7 @@ using Skylight, Test
 
         ray = zeros(8)
         pixel_coordinates =  (1.0, 1.0)
-        cache = Skylight.ImagePlaneCache()
+        cache = Skylight.ImagePlaneCache(spacetime)
         cache.vector = [1.0, 0.0, 0.0, 0.0]
 
         Skylight.initialize_single!(ray,initial_time,pixel_coordinates,configurations,cache)

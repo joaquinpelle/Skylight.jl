@@ -9,18 +9,17 @@ function initialize(configurations::VacuumETOConfigurations; chunks_per_thread::
     @sync map(chunks) do chunk
         Threads.@spawn begin
             cache = initial_data_cache(configurations)
-            model_cache = allocate_cache(configurations.radiative_model)
             for (index, position) in chunk
                 packet_index = (index-1)*Npp+1
                 @views packets_at_position = packets[:, packet_index:(packet_index+Npp-1)]
-                initialize_packets_at_position!(packets_at_position, position, cache, model_cache, configurations)
+                initialize_packets_at_position!(packets_at_position, position, cache, configurations)
             end
         end
     end
     return packets
 end
 
-function initialize_packets_at_position!(packets_at_position, position, cache, model_cache, configurations)
+function initialize_packets_at_position!(packets_at_position, position, cache, configurations)
     
     model = configurations.radiative_model
  
@@ -29,7 +28,7 @@ function initialize_packets_at_position!(packets_at_position, position, cache, m
         kμ = packets_at_position[5:8,:]
     end
     
-    metric_and_tetrad!(cache, position, model_cache, configurations)
+    metric_and_tetrad!(cache, position, configurations)
     
     @views tetrad = cache.tetrad
     
@@ -68,4 +67,10 @@ function packets_unit_random_triad_components!(kμ, ::IsOpaqueInteriorSurface)
     @views ki = kμ[2:4,:] 
     random_uniform_points_unit_hemisphere_xaxis!(ki, CartesianTopology())
     return nothing
+end
+
+function ETOInitialDataCache(spacetime::AbstractSpacetime, model::AbstractRadiativeModel)
+    scache = allocate_cache(spacetime)
+    mcache = allocate_cache(model)
+    return ETOInitialDataCache(spacetime_cache=scache, model_cache=mcache)
 end

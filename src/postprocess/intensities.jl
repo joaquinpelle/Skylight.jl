@@ -43,7 +43,6 @@ function observed_bolometric_intensities(initial_data::AbstractMatrix,
     @sync map(chunks) do chunk
         Threads.@spawn begin
             cache = postprocess_cache(configurations)
-            model_cache = allocate_cache(model)
             for i in chunk
                 @views begin 
                     pi = initial_data[1:4,i]
@@ -54,7 +53,7 @@ function observed_bolometric_intensities(initial_data::AbstractMatrix,
                 if !is_final_position_at_source(pf, spacetime, model)
                     continue
                 end
-                metrics_and_four_velocities!(cache, pi, pf, spacetime, model, coords_top, model_cache)
+                metrics_and_four_velocities!(cache, pi, pf, spacetime, model, coords_top)
                 q[i] = energies_quotient(ki, kf, cache)
                 #The difference with the ETO scheme here should be the minus sign in front of the final momentum
                 #at get emitted intensity, and the is_final_position_at_source call (at observer in ETO)...
@@ -106,7 +105,6 @@ function observed_bolometric_intensities(initial_data::AbstractMatrix,
     @sync map(chunks) do chunk
         Threads.@spawn begin
             cache = postprocess_cache(configurations)
-            model_cache = allocate_cache(model)
             observer_metric!(cache, camera.position, spacetime)
             observer_four_velocity!(cache, observer_four_velocity) 
             for i in chunk
@@ -118,7 +116,7 @@ function observed_bolometric_intensities(initial_data::AbstractMatrix,
                 if !is_final_position_at_source(pf, spacetime, model)
                     continue
                 end
-                emitter_metric_and_four_velocity!(cache, pf, spacetime, model, coords_top, model_cache)
+                emitter_metric_and_four_velocity!(cache, pf, spacetime, model, coords_top)
                 q[i] = energies_quotient(ki, kf, cache)
                 #The difference with the ETO scheme here should be the minus sign in front of the final momentum
                 #at get emitted intensity, and the is_final_position_at_source call (at observer in ETO)...
@@ -173,7 +171,6 @@ function observed_specific_intensities(initial_data::AbstractMatrix,
     @sync map(chunks) do chunk
         Threads.@spawn begin
             cache = postprocess_cache(configurations)
-            model_cache = allocate_cache(model)
             for i in chunk
                 @views begin 
                     pi = initial_data[1:4,i]
@@ -184,7 +181,7 @@ function observed_specific_intensities(initial_data::AbstractMatrix,
                 if !is_final_position_at_source(pf, spacetime, model)
                     continue
                 end
-                metrics_and_four_velocities!(cache, pi, pf, spacetime, model, coords_top, model_cache)
+                metrics_and_four_velocities!(cache, pi, pf, spacetime, model, coords_top)
                 q[i] = energies_quotient(ki, kf, cache)
                 for j in 1:NE
                     emitted_energy = observation_energies[j]/q[i]
@@ -242,7 +239,6 @@ function observed_specific_intensities(initial_data::AbstractMatrix,
     @sync map(chunks) do chunk
         Threads.@spawn begin
             cache = postprocess_cache(configurations)
-            model_cache = allocate_cache(model)
             observer_metric!(cache, camera.position, spacetime)
             observer_four_velocity!(cache, observer_four_velocity) 
             for i in chunk
@@ -254,7 +250,7 @@ function observed_specific_intensities(initial_data::AbstractMatrix,
                 if !is_final_position_at_source(pf, spacetime, model)
                     continue
                 end
-                emitter_metric_and_four_velocity!(cache, pf, spacetime, model, coords_top, model_cache)
+                emitter_metric_and_four_velocity!(cache, pf, spacetime, model, coords_top)
                 q[i] = energies_quotient(ki, kf, cache)
                 for j in axes(observation_energies, 1)
                     emitted_energy = observation_energies[j]/q[i]
@@ -279,7 +275,6 @@ function observed_bolometric_intensities_serial(initial_data::AbstractMatrix, ou
     coords_top = coordinates_topology(spacetime)
 
     cache = postprocess_cache(configurations)
-    model_cache = allocate_cache(model)
     nrays = size(initial_data, 2)
     q = zeros(nrays)
     Iobs = zeros(nrays)
@@ -299,7 +294,7 @@ function observed_bolometric_intensities_serial(initial_data::AbstractMatrix, ou
                 continue
             end
             
-            metrics_and_four_velocities!(cache, pi, pf, spacetime, model, coords_top, model_cache)
+            metrics_and_four_velocities!(cache, pi, pf, spacetime, model, coords_top)
             q[i] = energies_quotient(ki, kf, cache)
 
             #The difference with the ETO scheme here should be the minus sign in front of the final momentum
