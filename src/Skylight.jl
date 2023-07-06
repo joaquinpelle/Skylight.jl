@@ -52,7 +52,8 @@ export AbstractSpacetime,
     SuperposedPNSpacetime,
     SuperposedPNNewSpacetime
 
-export AbstractChristoffelCache
+export AbstractSpacetimeCache
+    AbstractChristoffelCache
 
 export AbstractCoordinatesTopology,
     CartesianTopology,

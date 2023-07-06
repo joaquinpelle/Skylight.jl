@@ -2,6 +2,7 @@ abstract type AbstractSpacetime end
 abstract type AbstractBlackHoleSpacetime <: AbstractSpacetime end
 abstract type AbstractRegularCompactObjectSpacetime <: AbstractSpacetime end
 
+abstract type AbstractSpacetimeCache end
 abstract type AbstractChristoffelCache end
 
 abstract type AbstractCoordinatesTopology end
