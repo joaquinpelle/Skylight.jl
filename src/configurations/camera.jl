@@ -113,7 +113,7 @@ function max_radius(camera::ImagePlane, ::AbstractSpacetime)
     return 1.1*sqrt(d^2 + sα^2 + sβ^2)
 end
 
-initial_data_cache(::ImagePlane, spacetime::AbstractSpacetime) = ImagePlaneCache(spacetime_cache)
+initial_data_cache(::ImagePlane, spacetime::AbstractSpacetime) = ImagePlaneCache(spacetime)
 ImagePlaneCache(spacetime::AbstractSpacetime) = ImagePlaneCache(spacetime_cache = allocate_cache(spacetime))
 
 function postprocess_cache(::ImagePlane, spacetime::AbstractSpacetime, model::AbstractRadiativeModel)
