@@ -11,7 +11,7 @@ function vacuum_multi_thread_cache(spacetime)
 end
 
 function vacuum_single_thread_cache(spacetime) 
-    return VacuumThreadCache(christoffel_cache = allocate_christoffel_cache(spacetime))
+    return VacuumThreadCache(spacetime_cache = allocate_cache(spacetime), christoffel_cache = allocate_christoffel_cache(spacetime))
 end
 
 # Non vacuum
@@ -35,7 +35,8 @@ function non_vacuum_multi_thread_cache(spacetime, NE)
 end
 
 function non_vacuum_single_thread_cache(spacetime, NE)
-    return NonVacuumThreadCache(christoffel_cache = allocate_christoffel_cache(spacetime),
+    return NonVacuumThreadCache(spacetime_cache = allocate_cache(spacetime),
+                               christoffel_cache = allocate_christoffel_cache(spacetime),
                                ε = zeros(NE),
                                αε = zeros(NE),
                                jε = zeros(NE))
