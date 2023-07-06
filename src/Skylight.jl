@@ -50,7 +50,8 @@ export AbstractSpacetime,
     RARSpacetime,
     BosonStarSpacetime
 
-export AbstractChristoffelCache
+export AbstractSpacetimeCache
+    AbstractChristoffelCache
 
 export AbstractCoordinatesTopology,
     CartesianTopology,
