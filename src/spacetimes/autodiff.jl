@@ -9,21 +9,12 @@ Parameters:
 
 Returns: nothing.
 
-Note: for the automatic differentiation to work on a given spacetime, any cache array stored in the spacetime
-struct for metric calculations must be wrapped by the DiffCache() method as:
+Note: for the automatic differentiation to work on a given spacetime, any spacetime cache array used in 
+metric calculations must be wrapped by the DiffCache() method as:
     
     ```
-    @with_kw struct KerrSpacetimeKerrSchildCoordinates{T} <: AbstractSpacetime
-
-        M::Float64
-        a::Float64
-    
-        @assert M >= 0.0
-        @assert abs(a) <= M 
-    
-        #Metric cache
+    @with_kw mutable struct KerrSpacetimeCache{T} <: AbstractSpacetimeCache
         l::T = DiffCache(zeros(4))
-    
     end
     ```
 
