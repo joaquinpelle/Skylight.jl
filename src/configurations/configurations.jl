@@ -16,7 +16,7 @@ axes_ranges(configurations::AbstractOTEConfigurations) = axes_ranges(configurati
 
 initial_data_cache(::AbstractOTEConfigurations) = initial_data_cache(configurations.camera, configurations.spacetime)
 initial_data_cache(configurations::AbstractETOConfigurations) = ETOInitialDataCache(configurations.spacetime, configurations.radiative_model)
-postprocess_cache(configurations::AbstractOTEConfigurations) = postprocess_cache(configurations.camera, configurations.spacetime, configurations.model)
+postprocess_cache(configurations::AbstractOTEConfigurations) = postprocess_cache(configurations.camera, configurations.spacetime, configurations.radiative_model)
 
 function initial_positions(configurations::AbstractETOConfigurations)
     times = zero_times(configurations)
