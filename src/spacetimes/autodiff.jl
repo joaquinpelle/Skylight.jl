@@ -9,21 +9,12 @@ Parameters:
 
 Returns: nothing.
 
-Note: for the automatic differentiation to work on a given spacetime, any cache array stored in the spacetime
-struct for metric calculations must be wrapped by the DiffCache() method as:
+Note: for the automatic differentiation to work on a given spacetime, any spacetime cache array used in 
+metric calculations must be wrapped by the DiffCache() method as:
     
     ```
-    @with_kw struct KerrSpacetimeKerrSchildCoordinates{T} <: AbstractSpacetime
-
-        M::Float64
-        a::Float64
-    
-        @assert M >= 0.0
-        @assert abs(a) <= M 
-    
-        #Metric cache
+    @with_kw mutable struct KerrSpacetimeCache{T} <: AbstractSpacetimeCache
         l::T = DiffCache(zeros(4))
-    
     end
     ```
 
@@ -39,9 +30,10 @@ function christoffel!(Γ₂, position, spacetime::AbstractSpacetime, cache::Auto
     ginv = cache.ginv
     ∂g = cache.∂g
     spacetime_metric_field = cache.spacetime_metric_field
+    scache = cache.spacetime_cache
     cfg = cache.cfg
 
-    metric_inverse!(ginv, position, spacetime, g)
+    metric_inverse!(ginv, position, spacetime, g, scache)
     metric_jacobian!(∂g, position, spacetime_metric_field, g, cfg)
     @inbounds begin
         for k in 1:4
@@ -77,8 +69,8 @@ Parameters:
 
 Returns: nothing.
 """
-function metric_jacobian!(∂g, position, spacetime::AbstractSpacetime, g)
-    ForwardDiff.jacobian!(∂g, metric_field(spacetime), g, position)
+function metric_jacobian!(∂g, position, spacetime::AbstractSpacetime, g, scache)
+    ForwardDiff.jacobian!(∂g, metric_field(spacetime, scache), g, position)
     return nothing
 end
 

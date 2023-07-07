@@ -2,15 +2,11 @@ abstract type AbstractKerrSpacetime <: AbstractBlackHoleSpacetime end
 
 # Kerr Schild coordinates
 
-@with_kw struct KerrSpacetimeKerrSchildCoordinates{T} <: AbstractKerrSpacetime
+@with_kw struct KerrSpacetimeKerrSchildCoordinates <: AbstractKerrSpacetime
     M::Float64
     a::Float64
-
     @assert M >= 0.0 "M must be non-negative"
     @assert abs(a) <= M  "|a| must be smaller than M"
-
-    #Metric cache
-    l::T = zeros(4)
 end
 
 coordinates_topology(::KerrSpacetimeKerrSchildCoordinates) = CartesianTopology()
@@ -24,7 +20,6 @@ function radius(position, spacetime::KerrSpacetimeKerrSchildCoordinates)
 end
 
 function metric!(g, position, spacetime::KerrSpacetimeKerrSchildCoordinates)
-
     M = spacetime.M
     a = spacetime.a
     
@@ -35,34 +30,31 @@ function metric!(g, position, spacetime::KerrSpacetimeKerrSchildCoordinates)
     r = sqrt(r2)
     H2 = 2. * M * r / (r2 + a2 * z^2 / r2)
     
-    l = spacetime.l
-    l[1] = 1.
-    l[2] = (r*x + a*y)/(r2 + a2)
-    l[3] = (r*y - a*x)/(r2 + a2)
-    l[4] = z/r
+    l1 = 1.
+    l2 = (r*x + a*y)/(r2 + a2)
+    l3 = (r*y - a*x)/(r2 + a2)
+    l4 = z/r
     
-    g[1,1]=-1. + H2 * l[1]*l[1]
-    g[1,2]= 0. + H2 * l[1]*l[2]
-    g[1,3]= 0. + H2 * l[1]*l[3]
-    g[1,4]= 0. + H2 * l[1]*l[4]
+    g[1,1]=-1. + H2 * l1*l1
+    g[1,2]= 0. + H2 * l1*l2
+    g[1,3]= 0. + H2 * l1*l3
+    g[1,4]= 0. + H2 * l1*l4
     g[2,1]= g[1,2]
-    g[2,2]= 1. + H2 * l[2]*l[2]
-    g[2,3]= 0. + H2 * l[2]*l[3]
-    g[2,4]= 0. + H2 * l[2]*l[4]
+    g[2,2]= 1. + H2 * l2*l2
+    g[2,3]= 0. + H2 * l2*l3
+    g[2,4]= 0. + H2 * l2*l4
     g[3,1]= g[1,3]
     g[3,2]= g[2,3]
-    g[3,3]= 1. + H2 * l[3]*l[3]
-    g[3,4]= 0. + H2 * l[3]*l[4]
+    g[3,3]= 1. + H2 * l3*l3
+    g[3,4]= 0. + H2 * l3*l4
     g[4,1]= g[1,4]
     g[4,2]= g[2,4]
     g[4,3]= g[3,4]
-    g[4,4]= 1. + H2 * l[4]*l[4]
-    
+    g[4,4]= 1. + H2 * l4*l4
     return nothing
 end
 
 function metric_inverse!(g, position, spacetime::KerrSpacetimeKerrSchildCoordinates)
-
     M = spacetime.M
     a = spacetime.a
     
@@ -73,29 +65,27 @@ function metric_inverse!(g, position, spacetime::KerrSpacetimeKerrSchildCoordina
     r = sqrt(r2)
     H2 = 2. * M * r / (r2 + a2 * z^2 / r2)
     
-    l = spacetime.l
-    l[1] = -1.0
-    l[2] = (r*x + a*y)/(r2 + a2)
-    l[3] = (r*y - a*x)/(r2 + a2)
-    l[4] = z/r
+    l1 = -1.0
+    l2 = (r*x + a*y)/(r2 + a2)
+    l3 = (r*y - a*x)/(r2 + a2)
+    l4 = z/r
     
-    g[1,1]=-1. - H2 * l[1]*l[1]
-    g[1,2]= 0. - H2 * l[1]*l[2]
-    g[1,3]= 0. - H2 * l[1]*l[3]
-    g[1,4]= 0. - H2 * l[1]*l[4]
+    g[1,1]=-1. - H2 * l1*l1
+    g[1,2]= 0. - H2 * l1*l2
+    g[1,3]= 0. - H2 * l1*l3
+    g[1,4]= 0. - H2 * l1*l4
     g[2,1]= g[1,2]
-    g[2,2]= 1. - H2 * l[2]*l[2]
-    g[2,3]= 0. - H2 * l[2]*l[3]
-    g[2,4]= 0. - H2 * l[2]*l[4]
+    g[2,2]= 1. - H2 * l2*l2
+    g[2,3]= 0. - H2 * l2*l3
+    g[2,4]= 0. - H2 * l2*l4
     g[3,1]= g[1,3]
     g[3,2]= g[2,3]
-    g[3,3]= 1. - H2 * l[3]*l[3]
-    g[3,4]= 0. - H2 * l[3]*l[4]
+    g[3,3]= 1. - H2 * l3*l3
+    g[3,4]= 0. - H2 * l3*l4
     g[4,1]= g[1,4]
     g[4,2]= g[2,4]
     g[4,3]= g[3,4]
-    g[4,4]= 1. - H2 * l[4]*l[4]
-    
+    g[4,4]= 1. - H2 * l4*l4
     return nothing
 end
 

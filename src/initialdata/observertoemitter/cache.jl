@@ -8,15 +8,16 @@ function unpack_views(cache::ImagePlaneCache)
     @views begin
         metric = cache.metric
         vector = cache.vector
+        scache = cache.spacetime_cache
     end
-    return metric, vector
+    return metric, vector, scache
 end
 
 #PinholeCameraCache
 
 function tetrad!(cache::PinholeCameraCache, position, spacetime::AbstractSpacetime)
     coords_top = coordinates_topology(spacetime)
-    metric, time_vector, triad = unpack_views(cache)
+    metric, time_vector, triad, _ = unpack_views(cache)
     static_four_velocity!(time_vector, metric)
     spherical_like_triad!(triad, position, time_vector, metric, coords_top)
     return nothing
@@ -27,6 +28,7 @@ function unpack_views(cache::PinholeCameraCache)
         metric = cache.metric
         vector = cache.tetrad[:,1]
         triad  = cache.tetrad[:,2:4]
+        scache = cache.spacetime_cache
     end
-    return metric, vector, triad
+    return metric, vector, triad, scache
 end

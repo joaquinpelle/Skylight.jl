@@ -59,22 +59,29 @@ function pixel_solid_angles(camera::PinholeCamera)
 end
 
 function default_tetrad(camera::PinholeCamera, spacetime::AbstractSpacetime)
-    cache = PinholeCameraCache()
-    metric!(cache.metric, camera.position, spacetime)
+    cache = PinholeCameraCache(spacetime)
+    metric!(cache.metric, camera.position, spacetime, cache.spacetime_cache)
     tetrad!(cache, camera.position, spacetime)
     return cache.tetrad
 end
 
 function default_four_velocity(camera::PinholeCamera, spacetime::AbstractSpacetime)
     g = zeros(4,4)
-    metric!(g, camera.position, spacetime)
+    spacetime_cache = allocate_cache(spacetime)
+    metric!(g, camera.position, spacetime, spacetime_cache)
     return static_four_velocity(g)
 end
 
 default_flux_direction(camera::PinholeCamera, spacetime::AbstractSpacetime) = default_tetrad(camera, spacetime)[:,2]
 max_radius(camera, spacetime) = 1.1*radius(camera.position, spacetime)
-initial_data_cache(::PinholeCamera) = PinholeCameraCache()
-postprocess_cache(::PinholeCamera) = PinholeCameraPostProcessCache()
+
+initial_data_cache(::PinholeCamera, spacetime::AbstractSpacetime) = PinholeCameraCache(spacetime)
+PinholeCameraCache(spacetime::AbstractSpacetime) = PinholeCameraCache(spacetime_cache = allocate_cache(spacetime))
+
+function postprocess_cache(::PinholeCamera, spacetime::AbstractSpacetime, model::AbstractRadiativeModel) 
+    return PinholeCameraPostProcessCache(spacetime_cache = allocate_cache(spacetime), 
+                                        model_cache = allocate_cache(model))
+end
 
 #ImagePlane methods
 
@@ -106,5 +113,10 @@ function max_radius(camera::ImagePlane, ::AbstractSpacetime)
     return 1.1*sqrt(d^2 + sα^2 + sβ^2)
 end
 
-initial_data_cache(::ImagePlane) = ImagePlaneCache()
-postprocess_cache(::ImagePlane) = ImagePlanePostProcessCache()
+initial_data_cache(::ImagePlane, spacetime::AbstractSpacetime) = ImagePlaneCache(spacetime)
+ImagePlaneCache(spacetime::AbstractSpacetime) = ImagePlaneCache(spacetime_cache = allocate_cache(spacetime))
+
+function postprocess_cache(::ImagePlane, spacetime::AbstractSpacetime, model::AbstractRadiativeModel)
+    return ImagePlanePostProcessCache(spacetime_cache = allocate_cache(spacetime), 
+                               model_cache = allocate_cache(model))
+end

@@ -14,8 +14,7 @@ function energies_quotients(initial_data, output_data, configurations::VacuumOTE
     # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
     @sync map(chunks) do chunk
         Threads.@spawn begin
-            cache = postprocess_cache(camera)
-            model_cache = allocate_cache(model)
+            cache = postprocess_cache(configurations)
             for i in chunk
                 @views begin 
                     pi = initial_data[1:4,i]
@@ -29,7 +28,7 @@ function energies_quotients(initial_data, output_data, configurations::VacuumOTE
                 if !is_final_position_at_source(pf, spacetime, model)
                     continue
                 end
-                metrics_and_four_velocities!(cache, pi, pf, spacetime, model, coords_top, model_cache)
+                metrics_and_four_velocities!(cache, pi, pf, spacetime, model, coords_top)
                 q[i] = energies_quotient(ki, kf, cache)
             end
         end
@@ -52,8 +51,7 @@ function energies_quotients(initial_data, output_data, configurations::VacuumOTE
     # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
     @sync map(chunks) do chunk
         Threads.@spawn begin
-            cache = postprocess_cache(camera)
-            model_cache = allocate_cache(model)
+            cache = postprocess_cache(configurations)
             observer_metric!(cache, camera.position, spacetime)
             observer_four_velocity!(cache, observer_four_velocity)
             for i in chunk
@@ -67,7 +65,7 @@ function energies_quotients(initial_data, output_data, configurations::VacuumOTE
                 if !is_final_position_at_source(pf, spacetime, model)
                     continue
                 end
-                emitter_metric_and_four_velocity!(cache, pf, spacetime, model, coords_top, model_cache)
+                emitter_metric_and_four_velocity!(cache, pf, spacetime, model, coords_top)
                 q[i] = energies_quotient(ki, kf, cache)
             end
         end

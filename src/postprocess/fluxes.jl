@@ -19,7 +19,7 @@ function fluxes!(F::AbstractVector, configurations, camera::PinholeCamera, initi
     # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
     @sync map(chunks) do chunk
         Threads.@spawn begin
-            cache = postprocess_cache(camera)
+            cache = postprocess_cache(configurations)
             observer_metric!(cache, camera.position, spacetime)
             observer_four_velocity!(cache, observer_four_velocity) 
             flux_direction!(cache, flux_direction, camera, spacetime) 
@@ -55,7 +55,7 @@ function fluxes!(F::AbstractMatrix, configurations, camera::PinholeCamera, initi
     # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
     @sync map(chunks) do chunk
         Threads.@spawn begin
-            cache = postprocess_cache(camera)
+            cache = postprocess_cache(configurations)
             observer_metric!(cache, camera.position, spacetime)
             observer_four_velocity!(cache, observer_four_velocity) 
             flux_direction!(cache, flux_direction, camera, spacetime) 
