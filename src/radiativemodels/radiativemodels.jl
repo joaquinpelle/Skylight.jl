@@ -5,6 +5,7 @@ emitted_bolometric_intensity(position, momentum, emitter_four_velocity, metric, 
 emitted_bolometric_intensity(position, momentum, emitter_four_velocity, metric, spacetime, model, coords_top) = error("emitted_bolometric_intensity for this model.")
 emitted_specific_intensity(position, momentum, energy, emitter_four_velocity, metric, spacetime, model, coords_top, cache) = error("emitted_specific_intensity not defined for this model.")
 emitted_specific_intensity(position, momentum, energy, emitter_four_velocity, metric, spacetime, model, coords_top) = error("emitted_specific_intensity not defined for this model.")
+line_emission_profile(position, momentum, emitter_four_velocity, metric, spacetime, model, coords_top, cache) = error("line_emission_profile not defined for this model.")
 is_final_position_at_source(position, spacetime, model) = error("is_final_position_at_source not defined for this model.")
 
 #Optional for surface emission models
