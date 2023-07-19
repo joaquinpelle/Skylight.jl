@@ -223,6 +223,14 @@ function instantiate_custom_type(dict::Dict{Symbol, })
         PT = parametric_typename(T)
         return PT(kwarg_dict[:u], kwarg_dict[:t])
     end
+
+    if T <: Tuple
+        #Sort the dict pairs by the first element of the tuple (parsing the symbol as an Int)
+        #and return the tuple of the ordered values
+        sorted_pairs = sort(collect(kwarg_dict), by = x -> parse(Int, String(x.first)))
+        val_tuple = Tuple(x.second for x in sorted_pairs)
+        return val_tuple
+    end
     
     return T(; kwarg_dict...)
 end
@@ -236,7 +244,7 @@ end
 """
     load_nested_dict_from_hdf5(group::HDF5Group)
 
-Convert an HDF5 group to a dictionary.
+Convert an HDF5 group to a dictionary. If the value is "nothing", the value in the dict will be `nothing`.
 
 # Arguments
 - `group::HDF5Group`: The HDF5 group to convert to a dictionary.
@@ -253,7 +261,12 @@ function load_nested_dict_from_hdf5(group::HDF5.Group)
         if isa(obj, HDF5.Group)
             nested_dict[Symbol(name)] = load_nested_dict_from_hdf5(obj)
         elseif isa(obj, HDF5.Dataset)
-            nested_dict[Symbol(name)] = read(obj)
+            val = read(obj)
+            if val=="nothing"
+                nested_dict[Symbol(name)] = nothing
+            else
+                nested_dict[Symbol(name)] = val
+            end
         else
             @warn "Unsupported object type found in HDF5 group: $name"
         end
