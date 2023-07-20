@@ -187,7 +187,7 @@ function observed_specific_intensities(initial_data::AbstractMatrix,
                     emitted_energy = observation_energies[j]/q[i]
                     #The difference with the ETO scheme here should be the minus sign in front of the final momentum
                     #at get emitted intensity, and the is_final_position_at_source call (at observer in ETO)...
-                    Iobs[j, i] = q[i]^3*emitted_specific_intensity(pf, -kf, emitted_energy, cache.emitter_four_velocity, cache.emitter_metric, spacetime, model, coords_top)
+                    Iobs[j, i] = q[i]^3*emitted_specific_intensity(pf, -kf, emitted_energy, cache.emitter_four_velocity, cache.emitter_metric, spacetime, model, coords_top, cache.model_cache)
                 end
             end
         end
@@ -256,7 +256,7 @@ function observed_specific_intensities(initial_data::AbstractMatrix,
                     emitted_energy = observation_energies[j]/q[i]
                     #The difference with the ETO scheme here should be the minus sign in front of the final momentum
                     #at get emitted intensity, and the is_final_position_at_source call (at observer in ETO)...
-                    Iem = emitted_specific_intensity(pf, -kf, emitted_energy, cache.emitter_four_velocity, cache.emitter_metric, spacetime, model, coords_top)
+                    Iem = emitted_specific_intensity(pf, -kf, emitted_energy, cache.emitter_four_velocity, cache.emitter_metric, spacetime, model, coords_top, cache.model_cache)
                     Iobs[j, i] = q[i]^3*Iem            
                 end
             end

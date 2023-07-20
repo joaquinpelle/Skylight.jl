@@ -1,6 +1,6 @@
 """
     line_emission_spectrum(initial_data, output_data, configurations::VacuumOTEConfigurations; 
-                           emission_profile::Function, bin_size::Number=NaN, num_bins::Int=NaN,
+                           bin_size::Number=NaN, num_bins::Int=NaN,
                            start::Number=NaN, stop::Number=NaN)
 
 Compute the binned intensity of a line emission spectrum.
@@ -11,7 +11,6 @@ Compute the binned intensity of a line emission spectrum.
 - `configurations::VacuumOTEConfigurations`: Configuration parameters for the model.
 
 # Keywords
-- `emission_profile::Function`: User-defined function describing the emission profile.
 - `bin_size::Union{Nothing, Number}=nothing`: Size of each bin. Either `bin_size` or `num_bins` must be specified.
 - `num_bins::Union{Nothing, Number}=nothing`: Number of bins. Either `bin_size` or `num_bins` must be specified.
 - `start::Union{Nothing, Number}=nothing`: Lower bound of the range to be binned. If unspecified, the minimum of the energy quotients will be used.
@@ -33,7 +32,6 @@ function line_emission_spectrum(
     output_data::AbstractMatrix, 
     configurations::VacuumOTEConfigurations,
     ::ImagePlane; 
-    emission_profile::Function, 
     num_bins::Union{Number,Nothing}=nothing,
     bin_size::Union{Number,Nothing}=nothing, 
     start::Union{Number,Nothing}=nothing, 
@@ -70,8 +68,8 @@ function line_emission_spectrum(
                 end
                 at_source[i] = true
                 metrics_and_four_velocities!(cache, pi, pf, spacetime, model, coords_top)
-                q[i] = energies_quotient(ki, kf, cache)
-                F[i] = q[i]^3*emission_profile(pf, spacetime, model)
+                q[i] = energies_quotient(ki, kf, cache) #TODO add energy as argument below
+                F[i] = q[i]^3*line_emission_profile(pf, -kf, cache.emitter_four_velocity, cache.emitter_metric, spacetime, model, coords_top, cache)
             end
         end
     end
@@ -93,7 +91,6 @@ function line_emission_spectrum(
     output_data::AbstractMatrix, 
     configurations::VacuumOTEConfigurations,
     camera::PinholeCamera; 
-    emission_profile::Function, 
     num_bins::Union{Number,Nothing}=nothing,
     bin_size::Union{Number,Nothing}=nothing, 
     start::Union{Number,Nothing}=nothing, 
@@ -139,7 +136,7 @@ function line_emission_spectrum(
                 nu = scalar_product(ki, cache.observer_four_velocity, cache.observer_metric)
                 nn = scalar_product(ki, cache.flux_direction, cache.observer_metric)
                 q[i] = energies_quotient(ki, kf, cache)
-                F[i] = nu*nn*q[i]^3*emission_profile(pf, spacetime, model)*dΩ[i]
+                F[i] = nu*nn*q[i]^3*dΩ[i]*line_emission_profile(pf, -kf, cache.emitter_four_velocity, cache.emitter_metric, spacetime, model, coords_top, cache)
             end
         end
     end

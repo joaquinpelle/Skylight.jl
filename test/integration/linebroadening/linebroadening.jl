@@ -27,9 +27,9 @@ function test_line_broadening(figname, rotation_sense)
 
     initial_data = initialize(configurations)
     cb, cbp = callback_setup(configurations; rhorizon_bound=2e-1)
-    run = integrate(initial_data, configurations, cb, cbp; method=VCABM(), reltol=1e-13, abstol=1e-21)
+    run = integrate(initial_data, configurations, cb, cbp; method=VCABM(), reltol=1e-5, abstol=1e-5)
 
-    binned_fluxes, bins = line_emission_spectrum(initial_data, run.output_data, configurations; emission_profile = myprofile, bin_size_conditioner = 2.0, stop=1.05)
+    binned_fluxes, bins = line_emission_spectrum(initial_data, run.output_data, configurations; num_bins=30, stop=1.05)
     
     dexter = readdlm(dexter_filename(rotation_sense), ',', Float64)
 
@@ -60,13 +60,8 @@ function test_line_broadening(figname, rotation_sense)
 
 end
 
-function myprofile(position, spacetime::KerrSpacetimeBoyerLindquistCoordinates, ::NovikovThorneDisk)
-    r = radius(position, spacetime)
-    return 1/r^2
-end
-
 dexter_filename(::ProgradeRotation) = "dexter_a05_pro.txt"
 dexter_filename(::RetrogradeRotation) = "dexter_a05_ret.txt"
 
-test_line_broadening("linebroadening_pro_cond3.png", ProgradeRotation())
-# test_line_broadening("linebroadening_ret.png", RetrogradeRotation())
+test_line_broadening("linebroadening_pro.png", ProgradeRotation())
+test_line_broadening("linebroadening_ret.png", RetrogradeRotation())
