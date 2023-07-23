@@ -7,8 +7,8 @@ end
 """For monochromatic / bolometric fluxes"""
 function fluxes!(F::AbstractVector, configurations, camera::PinholeCamera, initial_data::AbstractMatrix, output_data::AbstractMatrix; observer_four_velocity=nothing, flux_direction=nothing, chunks_per_thread::Int=2)
     same_size(initial_data, output_data) || throw(DimensionMismatch("initial_data and output_data must have the same size."))
-    size(initial_data, 2) == size(I,1) || throw(DimensionMismatch("The number of rays in the initial and output data must be the same as the length of I."))
-    number_of_pixels(camera) == size(I,1) || throw(DimensionMismatch("The number of pixels in the camera must be the same as the length of I."))
+    size(initial_data, 2) == size(F,1) || throw(DimensionMismatch("The number of rays in the initial and output data must be the same as the length of F."))
+    number_of_pixels(camera) == size(F,1) || throw(DimensionMismatch("The number of pixels in the camera must be the same as the length of F."))
 
     spacetime = configurations.spacetime
 
@@ -43,8 +43,8 @@ end
 """For multi-energies fluxes"""
 function fluxes!(F::AbstractMatrix, configurations, camera::PinholeCamera, initial_data::AbstractMatrix, output_data::AbstractMatrix; observer_four_velocity=nothing, flux_direction=nothing, chunks_per_thread::Int=2)
     same_size(initial_data, output_data) || throw(DimensionMismatch("initial_data and output_data must have the same size."))
-    same_size(initial_data, I, 2) || throw(DimensionMismatch("The number of rays in the initial and output data must be the same as the length of I."))
-    number_of_pixels(camera) == size(I,2) || throw(DimensionMismatch("The number of pixels in the camera must be the same as the length of I."))
+    same_size(initial_data, F, 2) || throw(DimensionMismatch("The number of rays in the initial and output data must be the same as the length of F."))
+    number_of_pixels(camera) == size(F,2) || throw(DimensionMismatch("The number of pixels in the camera must be the same as the length of F."))
 
     spacetime = configurations.spacetime
 
