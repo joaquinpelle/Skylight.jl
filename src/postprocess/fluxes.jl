@@ -1,7 +1,6 @@
 function fluxes!(F, configurations, ::ImagePlane)
     normalize_by_pixel_area!(F, configurations)
     normalize_by_camera_distance!(F, configurations)
-    return F
 end
 
 """For monochromatic / bolometric fluxes"""
@@ -11,7 +10,8 @@ function fluxes!(F::AbstractVector, configurations, camera::PinholeCamera, initi
     number_of_pixels(camera) == size(F,1) || throw(DimensionMismatch("The number of pixels in the camera must be the same as the length of F."))
 
     spacetime = configurations.spacetime
-
+    model = configurations.radiative_model
+    nrays = number_of_pixels(camera)
     dΩ = pixel_solid_angles(camera)
     # Break the work into chunks. More chunks per thread has better load balancing but more overhead
     nchunks = div(nrays, nthreads()*chunks_per_thread)
@@ -37,7 +37,7 @@ function fluxes!(F::AbstractVector, configurations, camera::PinholeCamera, initi
             end
         end
     end
-    return F
+    return nothing
 end
 
 """For multi-energies fluxes"""
@@ -47,8 +47,9 @@ function fluxes!(F::AbstractMatrix, configurations, camera::PinholeCamera, initi
     number_of_pixels(camera) == size(F,2) || throw(DimensionMismatch("The number of pixels in the camera must be the same as the length of F."))
 
     spacetime = configurations.spacetime
-
+    model = configurations.radiative_model
     dΩ = pixel_solid_angles(camera)
+    nrays = number_of_pixels(camera)
     # Break the work into chunks. More chunks per thread has better load balancing but more overhead
     nchunks = div(nrays, nthreads()*chunks_per_thread)
     chunks = Iterators.partition(1:nrays, nchunks)
@@ -73,5 +74,5 @@ function fluxes!(F::AbstractMatrix, configurations, camera::PinholeCamera, initi
             end
         end
     end
-    return Fobs
+    return nothing
 end
