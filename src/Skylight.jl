@@ -77,10 +77,13 @@ export energy,
     axial_rotation_killing_vector
 
 export metric!,
+    metric,
     metric_inverse!,
+    metric_inverse,
     volume_element, 
     allocate_christoffel_cache, 
     christoffel!,
+    christoffel,
     coordinates_topology
 
 export radius,
@@ -106,7 +109,8 @@ export AbstractRadiativeModel,
     AccretionDiskWithTabulatedTemperature,
     SyntheticPolarCap,
     StarAcrossWormhole,
-    VerticalScreen
+    VerticalScreen,
+    LamppostCorona
 
 export allocate_cache,
     emitter_four_velocity!,
@@ -126,6 +130,7 @@ export AbstractCamera,
 export max_radius
 
 export initialize, 
+    initialize_serial,
     callback_setup,
     integrate
 
