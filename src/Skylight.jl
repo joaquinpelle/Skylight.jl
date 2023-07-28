@@ -129,6 +129,9 @@ export initialize,
     callback_setup,
     integrate
 
+export callback,
+    callback_parameters
+
 export is_final_position_at_observer,
     is_final_position_at_source,
     energies_quotients, 
