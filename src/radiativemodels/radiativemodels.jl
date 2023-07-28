@@ -21,6 +21,7 @@ include("bogdanovpolarcap.jl")
 include("accretiondisk.jl")
 include("staracrosswormhole.jl")
 include("verticalscreen.jl")
+include("lamppostcorona.jl")
 include("dummyextendedregion.jl")
 include("dummymodel.jl")
 
