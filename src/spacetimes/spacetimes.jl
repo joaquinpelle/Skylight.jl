@@ -70,6 +70,12 @@ end
 @inline sign(::ProgradeRotation) = 1.0
 @inline sign(::RetrogradeRotation) = -1.0
 
+function metric(position, spacetime)
+    g = zeros(4,4)
+    metric!(g, position, spacetime)
+    return g
+end
+
 function metric(position, spacetime, cache)
     g = zeros(4,4)
     metric!(g, position, spacetime, cache)
