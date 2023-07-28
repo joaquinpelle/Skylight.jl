@@ -58,11 +58,11 @@ end
     radiative_model::M
     number_of_points::Int
     number_of_packets_per_point::Int
-    observer_distance::Float64
+    max_radius::Float64
     unit_mass_in_solar_masses::Float64
     @assert 0 < number_of_points "number_of_points must be positive"
     @assert 0 < number_of_packets_per_point "number_of_packets_per_point must be positive"
-    @assert 0 < observer_distance "observer_distance must be positive"
+    @assert 0 < max_radius "max_radius must be positive"
     @assert 0 < unit_mass_in_solar_masses "unit_mass_in_solar_masses must be positive"
 end
 

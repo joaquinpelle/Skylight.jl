@@ -11,7 +11,7 @@ model = SyntheticPolarCap(star_radius=5.0,
 configurations = VacuumETOConfigurations(spacetime=spacetime,
                                    radiative_model = model,
                                    number_of_points=10,
-                                   number_of_packets_per_point = 100, observer_distance = 500.0,
+                                   number_of_packets_per_point = 100, max_radius = 500.0,
                                    unit_mass_in_solar_masses=1.0)
 
 initial_data = initialize(configurations)

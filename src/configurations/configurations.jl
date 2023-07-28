@@ -43,4 +43,4 @@ function number_of_initial_conditions(configurations::AbstractETOConfigurations)
 end
 
 max_radius(configurations::AbstractOTEConfigurations) = max_radius(configurations.camera, configurations.spacetime) 
-max_radius(configurations::AbstractETOConfigurations) = configurations.observer_distance
+max_radius(configurations::AbstractETOConfigurations) = configurations.max_radius

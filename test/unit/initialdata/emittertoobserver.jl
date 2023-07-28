@@ -51,7 +51,7 @@ end
                                         misalignment_angle_in_degrees=90,
                                         angular_radius_in_degrees=60, 
                                         temperature=rand())
-    configurations = VacuumETOConfigurations(spacetime = spacetime, radiative_model = model, number_of_points=10, number_of_packets_per_point = 10, observer_distance = 500.0, unit_mass_in_solar_masses=1.0)
+    configurations = VacuumETOConfigurations(spacetime = spacetime, radiative_model = model, number_of_points=10, number_of_packets_per_point = 10, max_radius = 500.0, unit_mass_in_solar_masses=1.0)
 
     packets = Skylight.my_zeros(configurations)
     cache = Skylight.ETOInitialDataCache(spacetime, model)
@@ -98,7 +98,7 @@ end
                                         misalignment_angle_in_degrees=90,
                                         angular_radius_in_degrees=60, 
                                         temperature=rand())
-    configurations = VacuumETOConfigurations(spacetime = spacetime, radiative_model = model, number_of_points=3, number_of_packets_per_point = 3, observer_distance = 500.0, unit_mass_in_solar_masses=1.0)
+    configurations = VacuumETOConfigurations(spacetime = spacetime, radiative_model = model, number_of_points=3, number_of_packets_per_point = 3, max_radius = 500.0, unit_mass_in_solar_masses=1.0)
 
     metric = zeros(4,4)
     metric!(metric, zeros(4), spacetime)
@@ -133,7 +133,7 @@ end
                                         angular_radius_in_degrees=60, 
                                         temperature=rand())
                                         
-    configurations = VacuumETOConfigurations(spacetime = spacetime, radiative_model = model, number_of_points=10, number_of_packets_per_point = 10, observer_distance = 500.0, unit_mass_in_solar_masses=1.0)
+    configurations = VacuumETOConfigurations(spacetime = spacetime, radiative_model = model, number_of_points=10, number_of_packets_per_point = 10, max_radius = 500.0, unit_mass_in_solar_masses=1.0)
 
     packets = Skylight.my_zeros(configurations)
     cache = Skylight.initial_data_cache(configurations)
@@ -167,7 +167,7 @@ end
                                         misalignment_angle_in_degrees=90,
                                         angular_radius_in_degrees=60, 
                                         temperature=rand())
-    configurations = VacuumETOConfigurations(spacetime = spacetime, radiative_model = model, number_of_points=4, number_of_packets_per_point = 3, observer_distance = 500.0, unit_mass_in_solar_masses=1.0)
+    configurations = VacuumETOConfigurations(spacetime = spacetime, radiative_model = model, number_of_points=4, number_of_packets_per_point = 3, max_radius = 500.0, unit_mass_in_solar_masses=1.0)
 
     packets = initialize(configurations; chunks_per_thread=1)
 
