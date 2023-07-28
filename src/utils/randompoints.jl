@@ -5,7 +5,6 @@ Populate the given array `points` with points randomly and uniformly
 distributed in an annulus with inner radius `rmin` and outer radius `rmax`.
 The type of the coordinate system is determined by `coords_top`.
 """
-
 function random_uniform_points_annulus!(points, rmin, rmax, coords_top)
     N = size(points,2)
     r = random_cylindrical_radius(N, rmin, rmax)
@@ -78,8 +77,28 @@ function random_uniform_points_unit_hemisphere_xaxis!(v,::CartesianTopology)
     return nothing
 end
 
+"""
+    random_cylindrical_radius(N, rmin, rmax)
+
+Generates `N` random numbers representing cylindrical radii, following a 
+uniform distribution between `rmin` and `rmax`.
+"""
 random_cylindrical_radius(N, rmin, rmax) = sqrt.(rmin^2 .+ (rmax^2 - rmin^2)*rand(N))
+
+"""
+    random_polar_angle(N, θmax)
+
+Generates `N` random numbers representing polar angles, following a 
+uniform distribution from 0 to `θmax` (in radians).
+"""
 random_polar_angle(N, θmax) = acos.(1.0.-(1.0-cos(θmax))*rand(N))
+
+"""
+    random_azimuthal_angle(N)
+
+Generates `N` random numbers representing azimuthal angles, following a 
+uniform distribution from 0 to 2π.
+"""
 random_azimuthal_angle(N) = 2π*rand(N)
 
 """
