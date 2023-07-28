@@ -1,12 +1,13 @@
 @with_kw struct LamppostCorona <: AbstractRadiativeModel
     height::Float64
+    theta_offset::Float64 = 1e-8
     @assert height > 0.0 "height must be positive"
 end
 
 function space_positions(npoints, model::LamppostCorona, ::SphericalTopology)
     space_pos = zeros(3, npoints)
     space_pos[1,:] .= model.height
-    space_pos[2,:] .= eps()
+    space_pos[2,:] .= model.theta_offset
     return space_pos
 end
 
