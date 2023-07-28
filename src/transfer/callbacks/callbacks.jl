@@ -15,3 +15,5 @@ end
 #Interface
 callback(spacetime, model, coords_top) = throw(ArgumentError("Callback not implemented for this spacetime and radiative model"))
 callback_parameters(spacetime, model, configurations; kwargs...) = throw(ArgumentError("Callback parameters not implemented for this spacetime and radiative model"))
+
+callback(spacetime::AbstractSpacetime, model::AbstractRadiativeModel) = callback(spacetime, model, coordinates_topology(spacetime))
