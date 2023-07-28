@@ -2,6 +2,7 @@ include("syntheticpolarcap.jl")
 include("black_hole_accretion_disk.jl")
 include("regular_compact_object_accretion_disk.jl")
 include("staracrosswormhole.jl")
+include("verticalscreen.jl")
 include("dummyextendedregion.jl")
 include("opacities.jl")
 

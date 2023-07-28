@@ -105,7 +105,8 @@ export AbstractRadiativeModel,
     RARDisk,
     AccretionDiskWithTabulatedTemperature,
     SyntheticPolarCap,
-    StarAcrossWormhole
+    StarAcrossWormhole,
+    VerticalScreen
 
 export allocate_cache,
     emitter_four_velocity!,
