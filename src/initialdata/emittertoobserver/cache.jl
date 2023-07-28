@@ -1,3 +1,9 @@
+function ETOInitialDataCache(spacetime::AbstractSpacetime, model::AbstractRadiativeModel)
+    scache = allocate_cache(spacetime)
+    mcache = allocate_cache(model)
+    return ETOInitialDataCache(spacetime_cache=scache, model_cache=mcache)
+end
+
 function metric_and_tetrad!(cache::ETOInitialDataCache, position, configurations::AbstractConfigurations)
     metric_and_tetrad!(cache, position, configurations, opaque_interior_surface_trait(configurations.radiative_model))
     return nothing
