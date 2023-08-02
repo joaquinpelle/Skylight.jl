@@ -1,6 +1,7 @@
 @with_kw struct LamppostCorona <: AbstractRadiativeModel
     height::Float64
     theta_offset::Float64 = 1e-8
+    spectral_index::Float64 = 2.0
     @assert height > 0.0 "height must be positive"
 end
 
