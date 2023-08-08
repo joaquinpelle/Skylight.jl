@@ -61,7 +61,7 @@ function rotate_around_y_axis!(v, angle_in_degrees)
     return nothing
 end
 
-function lorentzian_signature(metric)
+function has_lorentzian_signature(metric)
     is_timelike([1.0, 0.0, 0.0, 0.0], metric) &&
     is_spacelike([0.0, 1.0, 0.0, 0.0], metric) &&
     is_spacelike([0.0, 0.0, 1.0, 0.0], metric) &&
