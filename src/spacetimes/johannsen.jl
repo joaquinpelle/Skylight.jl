@@ -68,7 +68,7 @@ function metric!(g, position, spacetime::JohannsenSpacetime)
     return nothing
 end
 
-function metric_inverse!(g, position, spacetime::JohannsenSpacetime)
+function metric_inverse!(g, position, spacetime::JohannsenSpacetime, gaux, cache)
 
     t, r, θ, φ = position
 

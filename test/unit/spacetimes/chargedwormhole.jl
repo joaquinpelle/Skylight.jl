@@ -25,7 +25,7 @@ end
     @test g ≈ [gtt 0.0 0.0 0.0; 0.0 grr 0.0 0.0; 0.0 0.0 25.0 0.0; 0.0 0.0 0.0 25sin(π/3)^2]
     
     ginv = zeros(4,4)
-    metric_inverse!(ginv,point,spacetime)
+    metric_inverse!(ginv,point,spacetime, g, nothing)
     
     @test g*ginv ≈ [1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
 
@@ -47,7 +47,7 @@ end
     @test g ≈ [gtt 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 25.75 0.0; 0.0 0.0 0.0 25.75*sin(π/3)^2]
     
     ginv = zeros(4,4)
-    metric_inverse!(ginv,point,spacetime)
+    metric_inverse!(ginv,point,spacetime, g, nothing)
     
     @test g*ginv ≈ [1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
 

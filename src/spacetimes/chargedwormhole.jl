@@ -46,7 +46,7 @@ function metric!(g, position, spacetime::ChargedWormholeSpacetimeSphericalCoordi
 
 end
 
-function metric_inverse!(g, position, spacetime::ChargedWormholeSpacetimeSphericalCoordinates)
+function metric_inverse!(g, position, spacetime::ChargedWormholeSpacetimeSphericalCoordinates, gaux, cache)
         
     t, r, θ, φ = position
 
@@ -174,7 +174,7 @@ function metric!(g, position, spacetime::ChargedWormholeSpacetimeRegularCoordina
 
 end
 
-function metric_inverse!(g, position, spacetime::ChargedWormholeSpacetimeRegularCoordinates)
+function metric_inverse!(g, position, spacetime::ChargedWormholeSpacetimeRegularCoordinates, gaux, cache)
         
     t, l, θ, φ = position
 

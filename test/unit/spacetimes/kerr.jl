@@ -72,7 +72,7 @@ end
         metric!(g3,point,spacetime3)
 
         ginv = zeros(4,4)
-        metric_inverse!(ginv,point,spacetime3)
+        metric_inverse!(ginv,point,spacetime3, g, nothing)
         @test g3*ginv ≈ [1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
     end
 
@@ -98,7 +98,7 @@ end
         @test g ≈ [gtt 0.0 0.0 gtφ; 0.0 Σ/Δ 0.0 0.0; 0.0 0.0 Σ 0.0; gtφ 0.0 0.0 gφφ]
         
         ginv = zeros(4,4)
-        metric_inverse!(ginv,point,spacetime)
+        metric_inverse!(ginv,point,spacetime, g, nothing)
         
         det = gtt*gφφ-gtφ^2
 

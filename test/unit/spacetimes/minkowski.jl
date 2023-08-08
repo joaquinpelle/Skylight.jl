@@ -13,7 +13,7 @@
     @test g1 == [-1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
 
     ginv = zeros(4,4)
-    metric_inverse!(ginv,rand(4),spacetime)
+    metric_inverse!(ginv,rand(4),spacetime, g, nothing)
     @test g*ginv == [1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
     
 end
@@ -29,7 +29,7 @@ end
     @test g == [-1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 4.0 0.0; 0.0 0.0 0.0 4.0]
 
     ginv = zeros(4,4)
-    metric_inverse!(ginv,position,spacetime)
+    metric_inverse!(ginv,position,spacetime, g, nothing)
     @test g*ginv ≈ [1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
 
 end

@@ -59,7 +59,7 @@ function metric!(g,position, spacetime::RARSpacetime)
 
 end
 
-function metric_inverse!(g, position, spacetime::RARSpacetime)
+function metric_inverse!(g, position, spacetime::RARSpacetime, gaux, cache)
     t, r, θ, φ = position
 
     interp = spacetime.interp

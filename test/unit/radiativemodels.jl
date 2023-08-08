@@ -44,7 +44,7 @@ using Skylight, Test
     metric_inverse = zeros(4,4)
 
     metric!(metric, position, spacetime)
-    metric_inverse!(metric_inverse, position, spacetime)
+    metric_inverse!(metric_inverse, position, spacetime, metric, nothing)
 
     normal = zeros(4)
     Skylight.unit_surface_normal!(normal, position, metric, metric_inverse, model, coords_top)

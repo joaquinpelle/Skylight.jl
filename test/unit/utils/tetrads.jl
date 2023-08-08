@@ -72,7 +72,7 @@ using Skylight, Random, Test
             spacetime = KerrSpacetimeKerrSchildCoordinates(M=1.0, a=0.9)
 
             metric!(metric, position, spacetime)
-            metric_inverse!(metric_inverse, position, spacetime)
+            metric_inverse!(metric_inverse, position, spacetime, metric, nothing)
 
             time_vector = [1.0, 0.0, 0.0, 0.0]
             Skylight.normalize_timelike!(time_vector, metric)

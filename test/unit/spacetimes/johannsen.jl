@@ -100,7 +100,7 @@ end
     @test g ≈ g1
     
     ginv = zeros(4,4)
-    metric_inverse!(ginv,point,spacetime)
+    metric_inverse!(ginv,point,spacetime, g, nothing)
     
     @test g1*ginv ≈ [1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
 

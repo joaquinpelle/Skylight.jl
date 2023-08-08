@@ -11,7 +11,7 @@ function metric!(g, position, ::MinkowskiSpacetimeCartesianCoordinates)
     return nothing
 end
 
-metric_inverse!(g, q, spacetime::MinkowskiSpacetimeCartesianCoordinates) = metric!(g, q, spacetime)
+metric_inverse!(g, q, spacetime::MinkowskiSpacetimeCartesianCoordinates, gaux, cache) = metric!(g, q, spacetime)
 
 #Spherical coordinates
 
@@ -29,7 +29,7 @@ function metric!(g, position, ::MinkowskiSpacetimeSphericalCoordinates)
     return nothing
 end
 
-function metric_inverse!(g, position, spacetime::MinkowskiSpacetimeSphericalCoordinates)
+function metric_inverse!(g, position, ::MinkowskiSpacetimeSphericalCoordinates, gaux, cache)
     t, r, θ, φ = position
     fill!(g,0.0)
     g[1,1] = -1.0

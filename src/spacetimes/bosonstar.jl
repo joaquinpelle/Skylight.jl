@@ -40,7 +40,7 @@ function metric!(g, position, spacetime::BosonStarSpacetime)
     return nothing
 end
 
-function metric_inverse!(g, position, spacetime::BosonStarSpacetime)
+function metric_inverse!(g, position, spacetime::BosonStarSpacetime, gaux, cache)
     t, r, θ, φ = position
 
     a = spacetime.a
