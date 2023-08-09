@@ -73,7 +73,7 @@ export energy,
     angular_momentum,
     axial_angular_momentum,
     time_translation_killing_vector,
-    rotation_killing_vector,
+    spherical_rotation_killing_vectors,
     axial_rotation_killing_vector
 
 export metric!,
@@ -140,8 +140,7 @@ export callback,
 export is_final_position_at_observer,
     is_final_position_at_source,
     energies_quotients, 
-    observed_bolometric_intensities,
-    observed_bolometric_intensities_multithreading, 
+    observed_bolometric_intensities, 
     observed_specific_intensities,
     fluxes!,
     spectrum,
@@ -169,8 +168,8 @@ export inv4x4,
 export planck_function,
     planck_integral,
     thermal_emission_window_intensity,
-    thermal_emission_window_specific_intensity,
-    thermal_emission_window_bolometric_intensity
+    thermal_emission_specific_intensity,
+    thermal_emission_bolometric_intensity
 
 export cartesian_from_spherical,
     spherical_from_cartesian
