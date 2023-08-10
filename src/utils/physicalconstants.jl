@@ -19,4 +19,8 @@ const G = 6.6743015e-8          #Newton gravitational constant in CGS
 const M_sun = 1.988414e33       #Solar mass in CGS
 const pc = 3.08567758149e18     #1pc in cm                                             (exact)
 const mu = 1.6605390666050e-24  #Atomic mass unit in CGS
+const re = 2.817940326213e-17   #Classical electron radius in CGS
+const αf = 7.29735256931e-3     #Fine structure constant
+const sigma_T = 0.665245873216e-24 #Thomson cross section in CGS
+
 end
