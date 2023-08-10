@@ -2,9 +2,9 @@
 Ion torus model from https://www.aanda.org/articles/aa/abs/2012/07/aa19209-12/aa19209-12.html
 """
 
-@with_kw mutable struct IonTorus{T} <: AbstractRadiativeModel
+@with_kw mutable struct IonTorus{T,S} <: AbstractRadiativeModel
     λ::Float64 = 0.7 #Specific angular momentum dimensionless parameter
-    εc::Float64 = 1e-17 #Central energy density in CGS
+    ϵc::Float64 = 1e-17 #Central energy density in CGS
     n::Float64 = 3/2 #Polytropic index
     Tec::Float64 = 1e10 #Central electorn temperature in Kelvin
     ξ::Float64 = 0.01 #Electron to proton temperature ratio at the center 
@@ -12,12 +12,13 @@ Ion torus model from https://www.aanda.org/articles/aa/abs/2012/07/aa19209-12/aa
     He_abundance::Float64 = 0.25
     β::Float64 = 0.45 #Equipartition factor
     rotation_sense::T = ProgradeRotation()
+    radiative_process::R = Bremsstrahlung()
     μᵢ::Float64 = 4/(4H_abundance+He_abundance)
     μₑ::Float64 = 2/(1+He_abundance)
     𝓜₀::Float64 = μᵢ/(μᵢ+μₑ)
     𝓜₁::Float64 = μᵢ*ξ/(μᵢ*ξ+μₑ)
-    K::Float64 = PhysicalConstants.k_B*Tec/((1-β)*PhysicalConstants.mu*εc^(1/n)*μₑ*𝓜₁) 
-    Hc::Float64 = (n+1)*log(1+K*εc^(1/n))
+    K::Float64 = PhysicalConstants.k_B*Tec/((1-β)*PhysicalConstants.mu*ϵc^(1/n)*μₑ*𝓜₁) 
+    Hc::Float64 = (n+1)*log(1+K*ϵc^(1/n))
     l0::Float64 = 0.0
     rcusp::Float64 = 0.0
     rcenter::Float64 = 0.0
@@ -96,21 +97,21 @@ function torus_normalized_potential(position, spacetime, model::IonTorus, g)
     return (W-Ws)/(Wc-Ws)
 end
 
-#TODO evaluate omega>0 conditional
+#TODO evaluate omega>0 conditional with ifelse()
 function energy_density(position, spacetime, model::IonTorus, g)
     n = model.n
     K = model.K
-    εc = model.εc
+    ϵc = model.ϵc
     ω = torus_normalized_potential(position, spacetime, model, g)
-    ε = K^(-n)*((K*εc^(1/n)+1)^ω - 1)^n
-    return ε
+    ϵ = K^(-n)*((K*ϵc^(1/n)+1)^ω - 1)^n
+    return ϵ
 end
 
 function pressure(position, spacetime, model::IonTorus, g)
     n = model.n
     K = model.K
-    ε = energy_density(position, spacetime, model, g)
-    return K*ε^(1+1/n)
+    ϵ = energy_density(position, spacetime, model, g)
+    return K*ϵ^(1+1/n)
 end
 
 function electron_temperature(position, spacetime, model::IonTorus, g)
@@ -118,15 +119,15 @@ function electron_temperature(position, spacetime, model::IonTorus, g)
     k_B = PhysicalConstants.k_B
     n = model.n
     K = model.K
-    εc = model.εc
+    ϵc = model.ϵc
     β = model.β
     𝓜₀ = model.𝓜₀
     𝓜₁ = model.𝓜₁
     μₑ = model.μₑ
     ω = torus_normalized_potential(position, spacetime, model, g)
-    ε = K^(-n)*((K*εc^(1/n)+1)^ω - 1)^n
-    P = K*ε^(1+1/n)
-    factor = (1-β)*mu*P/(k_B*ε)
+    ϵ = K^(-n)*((K*ϵc^(1/n)+1)^ω - 1)^n
+    P = K*ϵ^(1+1/n)
+    factor = (1-β)*mu*P/(k_B*ϵ)
     return ((1-ω)*𝓜₀+ω*𝓜₁)*μₑ*factor
 end
 
@@ -137,66 +138,114 @@ function ion_temperature(position, spacetime, model::IonTorus, g)
     k_B = PhysicalConstants.k_B
     n = model.n
     K = model.K
-    εc = model.εc
+    ϵc = model.ϵc
     β = model.β
     𝓜₀ = model.𝓜₀
     𝓜₁ = model.𝓜₁
     μₑ = model.μₑ
     μᵢ = model.μᵢ
     ω = torus_normalized_potential(position, spacetime, model, g)
-    ε = K^(-n)*((K*εc^(1/n)+1)^ω - 1)^n
-    P = K*ε^(1+1/n)
-    factor = (1-β)*mu*P/(k_B*ε)
+    ϵ = K^(-n)*((K*ϵc^(1/n)+1)^ω - 1)^n
+    P = K*ϵ^(1+1/n)
+    factor = (1-β)*mu*P/(k_B*ϵ)
     return ((μₑ/μᵢ)𝓜₀+ω*(𝓜₀-𝓜₁))*μᵢ*factor
 end
 
-function dimensionless_electron_temperature(position, spacetime, model::IonTorus, g)
+function number_densities(position, spacetime, model::IonTorus, g)
     mu = PhysicalConstants.mu
-    k_B = PhysicalConstants.k_B
-    c = PhysicalConstants.c
-    me = PhysicalConstants.me
-    n = model.n
-    K = model.K
-    εc = model.εc
-    β = model.β
-    𝓜₀ = model.𝓜₀
-    𝓜₁ = model.𝓜₁
-    μₑ = model.μₑ
-    ω = torus_normalized_potential(position, spacetime, model, g)
-    ε = K^(-n)*((K*εc^(1/n)+1)^ω - 1)^n
-    P = K*ε^(1+1/n)
-    factor = (1-β)*mu*P/(k_B*ε)
-    Te = ((1-ω)*𝓜₀+ω*𝓜₁)*μₑ*factor
-    return k_B*Te/(me*c^2)
-end
-
-function dimensionless_ion_temperature(position, spacetime, model::IonTorus, g)
-    K = model.K
-    n = model.polytropic_index
-    mu = PhysicalConstants.mu
-    k_B = PhysicalConstants.k_B
-    c = PhysicalConstants.c
-    n = model.n
-    K = model.K
-    εc = model.εc
-    β = model.β
-    𝓜₀ = model.𝓜₀
-    𝓜₁ = model.𝓜₁
     μₑ = model.μₑ
     μᵢ = model.μᵢ
-    mi = mu*μᵢ
-    ω = torus_normalized_potential(position, spacetime, model, g)
-    ε = K^(-n)*((K*εc^(1/n)+1)^ω - 1)^n
-    P = K*ε^(1+1/n)
-    factor = (1-β)*mu*P/(k_B*ε)
-    Ti = ((μₑ/μᵢ)𝓜₀+ω*(𝓜₀-𝓜₁))*μᵢ*factor
-    return k_B*Ti/(mi*c^2)
+    ϵ = energy_density(position, spacetime, model, g)
+    ne = ϵ/(mu*μₑ)
+    ni = ϵ/(mu*μᵢ)
+    return ne, ni
 end
 
+function number_densities_and_electron_temperature(model::IonTorus, ω)
+    mu = PhysicalConstants.mu
+    k_B = PhysicalConstants.k_B
+    μₑ = model.μₑ
+    μᵢ = model.μᵢ
+    n = model.n
+    K = model.K
+    ϵc = model.ϵc
+    β = model.β
+    𝓜₀ = model.𝓜₀
+    𝓜₁ = model.𝓜₁
+    ϵ = K^(-n)*((K*ϵc^(1/n)+1)^ω - 1)^n
+    P = K*ϵ^(1+1/n)
+    factor = (1-β)*mu*P/(k_B*ϵ)
+    ne = ϵ/(mu*μₑ)
+    ni = ϵ/(mu*μᵢ)
+    Te = ((1-ω)*𝓜₀+ω*𝓜₁)*μₑ*factor
+    return ne, ni, Te
+end
+
+function electron_number_density_temperature_and_magnetic_field(model::IonTorus, ω)
+    mu = PhysicalConstants.mu
+    k_B = PhysicalConstants.k_B
+    μₑ = model.μₑ
+    n = model.n
+    K = model.K
+    ϵc = model.ϵc
+    β = model.β
+    𝓜₀ = model.𝓜₀
+    𝓜₁ = model.𝓜₁
+    ϵ = K^(-n)*((K*ϵc^(1/n)+1)^ω - 1)^n
+    P = K*ϵ^(1+1/n)
+    factor = (1-β)*mu*P/(k_B*ϵ)
+    ne = ϵ/(mu*μₑ)
+    Te = ((1-ω)*𝓜₀+ω*𝓜₁)*μₑ*factor
+    B = sqrt(24π*β*P)
+    return ne, Te, B
+end
+
+#TODO rename rest_frame functions
+#TODO beware superluminal four v
+function rest_frame_four_velocity!(vector, position, g, spacetime, model::IonTorus, coords_top)
+    angular_speed = constant_angular_momentum_angular_speed(position, spacetime, model, g)
+    circular_motion_four_velocity!(vector, position, angular_speed, metric, coords_top)
+end
+rest_frame_absorptivity!(αε, position, ε, g, spacetime, model::IonTorus, coords_top) = nothing
+rest_frame_emissivity!(jε, position, ε, g, spacetime, model::IonTorus, coords_top) = rest_frame_emissivity!(model.radiative_process, jε, position, ε, g, spacetime, model, coords_top)
+#TODO benchmark ifelse against regular if
+function rest_frame_emissivity!(::Bremsstrahlung, jε, position, ε, g, spacetime, model::IonTorus, coords_top)
+    ω = torus_normalized_potential(position, spacetime, model, g)
+    ne, ni, Te = number_densities_and_electron_temperature(model, ω)
+    for (i,εk) in enumerate(ε)
+        jε[i] = ifelse(ω>0, 
+                       bremsstrahlung_emissivity(ne, ni, Te, εk),
+                       0.0)
+    end
+    return nothing
+end
+
+#TODO implement synchrotron emissivity
+function rest_frame_emissivity!(::Synchrotron, jε, position, ε, g, spacetime, model::IonTorus, coords_top)
+    ω = torus_normalized_potential(position, spacetime, model, g)
+    ne, ni, Te = number_densities_and_electron_temperature(model, ω)
+    for (i,εk) in enumerate(ε)
+        jε[i] = ifelse(ω>0, 
+                       bremsstrahlung_emissivity(ne, ni, Te, εk),
+                       0.0)
+    end
+    return nothing
+end
+
+#TODO: implement total
+function rest_frame_emissivity!(::Total, jε, position, ε, g, spacetime, model::IonTorus, coords_top)
+    ω = torus_normalized_potential(position, spacetime, model, g)
+    ne, ni, Te = number_densities_and_electron_temperature(model, ω)
+    for (i,εk) in enumerate(ε)
+        jε[i] = ifelse(ω>0, 
+                       bremsstrahlung_emissivity(ne, ni, Te, εk),
+                       0.0)
+    end
+    return nothing
+end
 torus_normalized_potential(position, spacetime, model::IonTorus) = torus_normalized_potential(position, spacetime, model, zeros(4,4))
 energy_density(position, spacetime, model::IonTorus) = energy_density(position, spacetime, model, zeros(4,4))
 pressure(position, spacetime, model::IonTorus) = pressure(position, spacetime, model, zeros(4,4))
 electron_temperature(position, spacetime, model::IonTorus) = electron_temperature(position, spacetime, model, zeros(4,4))
 ion_temperature(position, spacetime, model::IonTorus) = ion_temperature(position, spacetime, model, zeros(4,4))
-dimensionless_electron_temperature(position, spacetime, model::IonTorus) = dimensionless_electron_temperature(position, spacetime, model, zeros(4,4))
-dimensionless_ion_temperature(position, spacetime, model::IonTorus) = dimensionless_ion_temperature(position, spacetime, model, zeros(4,4))
+number_densities(position, spacetime, model::IonTorus) = number_densities(position, spacetime, model, zeros(4,4))
