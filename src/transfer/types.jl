@@ -22,6 +22,8 @@ end
 
 @with_kw mutable struct NonVacuumThreadCache{SC, CC}
     acceleration::Vector{Float64} = zeros(4)
+    metric::Array{Float64, 2} = zeros(4,4)
+    vμ::Vector{Float64} = zeros(4)
     christoffel::Array{Float64, 3} = zeros(4,4,4)
     spacetime_cache::SC
     christoffel_cache::CC
@@ -30,9 +32,10 @@ end
     jε::Vector{Float64}
 end
 
-mutable struct NonVacuumCache{S, M, C, SC, CC}
+@with_kw mutable struct NonVacuumCache{S, M, C, SC, CC, CT}
     spacetime::S
     model::M
+    coordinates_topology::CT
     cbp::C
     τmax::Float64
     observation_energies::Vector{Float64}

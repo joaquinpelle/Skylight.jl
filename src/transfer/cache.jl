@@ -20,9 +20,9 @@ function transfer_cache(::NonVacuum, configurations, cbp, τmax)
     model = configurations.radiative_model
     observation_energies = configurations.observation_energies
     NE = length(observation_energies)
-
     return NonVacuumCache(spacetime, 
                          model, 
+                         coordinates_topology(spacetime),
                          cbp,
                          τmax, 
                          observation_energies,
