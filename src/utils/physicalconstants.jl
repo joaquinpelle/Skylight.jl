@@ -18,5 +18,5 @@ const ce = 4.80320471257e-10    #Electron charge in esu-CGS and Gaussian-CGS (st
 const G = 6.6743015e-8          #Newton gravitational constant in CGS
 const M_sun = 1.988414e33       #Solar mass in CGS
 const pc = 3.08567758149e18     #1pc in cm                                             (exact)
-
+const mu = 1.6605390666050e-24  #Atomic mass unit in CGS
 end
