@@ -330,12 +330,21 @@ end
 #Common definitions
 event_horizon_radius(spacetime::AbstractKerrSpacetime) = spacetime.M*(1+sqrt(1-spacetime.a^2))
 
+#Innermost stable circular orbit radius
 function isco_radius(spacetime::AbstractKerrSpacetime, rotation_sense::AbstractRotationSense)
     χ = spacetime.a/spacetime.M      #Rotation parameter
     Z1=1+cbrt(1-χ^2)*(cbrt(1+χ)+cbrt(1-χ))
     Z2=sqrt(3*χ^2+Z1^2)
     s = sign(rotation_sense)
     return spacetime.M*(3+Z2 - s*sqrt((3-Z1)*(3+Z1+2*Z2)))
+end
+
+#Marginally bound circular orbit radius
+function mbco_radius(spacetime::AbstractKerrSpacetime, rotation_sense::AbstractRotationSense)
+    M = spacetime.M
+    a = spacetime.a
+    s = sign(rotation_sense)
+    return 2M-s*a+2sqrt(M)*sqrt(M-s*a)
 end
 
 function circular_geodesic_angular_speed(position, spacetime::AbstractKerrSpacetime, rotation_sense::AbstractRotationSense)
@@ -345,4 +354,27 @@ function circular_geodesic_angular_speed(position, spacetime::AbstractKerrSpacet
     s = sign(rotation_sense)
     Ω = s*sqrt(M)/(r^1.5 + s*a*sqrt(M))
     return Ω
+end
+
+function circular_geodesic_specific_angular_momentum(position, spacetime::AbstractKerrSpacetime, rotation_sense::AbstractRotationSense)
+    M = spacetime.M
+    a = spacetime.a
+    r = radius(position, spacetime)
+    s = sign(rotation_sense)
+    sqrtM = sqrt(M)
+    sqrtr = sqrt(r)
+    Ω = s*sqrtM*(r^2-s*2a*sqrtM*sqrtr+a^2)/(r^1.5 -2M*sqrtr + s*a*sqrtM)
+    return Ω
+end
+
+function innermost_stable_specific_angular_momentum(spacetime::AbstractKerrSpacetime, rotation_sense)
+    risco = isco_radius(spacetime, rotation_sense)
+    position = equatorial_position(risco, coordinates_topology(spacetime))
+    return circular_geodesic_specific_angular_momentum(position, spacetime, rotation_sense)
+end
+
+function marginally_bound_specific_angular_momentum(spacetime::AbstractKerrSpacetime, rotation_sense)
+    rmbco = mbco_radius(spacetime, rotation_sense)
+    position = equatorial_position(rmbco, coordinates_topology(spacetime))
+    return circular_geodesic_specific_angular_momentum(position, spacetime, rotation_sense)
 end
