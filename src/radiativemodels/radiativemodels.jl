@@ -15,6 +15,10 @@ surface_differential!(differential, position, model, coords_top) = error("Surfac
 #For accretion disks
 temperature(position, spacetime, model) = error("Temperature not defined for this model.")
 
+include("radiativeprocesses/thermalemission.jl")
+include("radiativeprocesses/bremsstrahlung.jl")
+include("radiativeprocesses/synchrotron.jl")
+
 include("syntheticpolarcap.jl")
 include("onionhotspots.jl")
 include("bogdanovpolarcap.jl")
