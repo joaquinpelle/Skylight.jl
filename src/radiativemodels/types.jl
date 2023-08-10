@@ -1,3 +1,9 @@
+abstract type AbstractRadiativeProcess end
+struct Bremsstrahlung <: AbstractRadiativeProcess end
+struct Synchrotron <: AbstractRadiativeProcess end
+struct InverseCompton <: AbstractRadiativeProcess end
+struct ThermalEmission <: AbstractRadiativeProcess end
+
 abstract type AbstractRadiativeModel end
 abstract type AbstractSurfaceEmissionModel <: AbstractRadiativeModel end
 

@@ -114,6 +114,11 @@ export AbstractRadiativeModel,
     VerticalScreen,
     LamppostCorona
 
+export Bremsstrahlung,
+    Synchrotron,
+    InverseCompton,
+    ThermalEmission
+
 export allocate_cache,
     emitter_four_velocity!,
     surface_differential!,
