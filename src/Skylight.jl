@@ -11,6 +11,7 @@ using Parameters
 using Polynomials
 using Random
 using Reexport
+using Roots
 using StaticArrays
 
 @reexport using DifferentialEquations
@@ -90,6 +91,7 @@ export radius,
     event_horizon_radius,
     isco_radius,
     circular_geodesic_angular_speed,
+    circular_geodesic_specific_angular_momentum,
     radial_bounds,
     mass,
     mass_enclosed,
