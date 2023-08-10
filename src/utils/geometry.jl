@@ -67,3 +67,12 @@ function has_lorentzian_signature(metric)
     is_spacelike([0.0, 0.0, 1.0, 0.0], metric) &&
     is_spacelike([0.0, 0.0, 0.0, 1.0], metric) 
 end
+
+function equatorial_position(r, ::SphericalTopology)
+    return [0.0, r, π/2, 0.0]
+end
+
+function equatorial_position(r, ::CartesianTopology)
+    spherical_position = equatorial_position(r, SphericalTopology())
+    return [0.0, cartesian_from_spherical(spherical_position[2:end])...]
+end
