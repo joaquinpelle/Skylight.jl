@@ -18,7 +18,7 @@ function bremsstrahlung_fee(ne, θe)
     c = PhysicalConstants.c
     αf = PhysicalConstants.alpha_f
     me = PhysicalConstants.me
-    return ne^2*re^2*αf*me*c^3*Fee(θe)
+    return ne^2*re^2*αf*me*c^3*bremsstrahlung_Fee(θe)
 end
 
 function bremsstrahlung_fei(ne, ni, θe)
@@ -26,11 +26,13 @@ function bremsstrahlung_fei(ne, ni, θe)
     c = PhysicalConstants.c
     αf = PhysicalConstants.alpha_f
     me = PhysicalConstants.me
-    return ne*ni*σT*αf*me*c^3*Fei(θe)
+    return ne*ni*σT*αf*me*c^3*bremsstrahlung_Fei(θe)
 end
 
 function bremsstrahlung_emissivity(ε, ne, ni, Te)
     k_B = PhysicalConstants.k_B
+    c = PhysicalConstants.c
+    me = PhysicalConstants.me
     θe = k_B*Te/(me*c^2)
     γE = 0.57721566490153286060651209
     x = k_B*Te/ε
