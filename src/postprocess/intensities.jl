@@ -57,7 +57,7 @@ function observed_bolometric_intensities(initial_data::AbstractMatrix,
                 q[i] = energies_quotient(ki, kf, cache)
                 #The difference with the ETO scheme here should be the minus sign in front of the final momentum
                 #at get emitted intensity, and the is_final_position_at_source call (at observer in ETO)...
-                Iobs[i] = q[i]^4*emitted_bolometric_intensity(pf, -kf, cache.rest_frame_four_velocity, cache.emitter_metric, spacetime, model, coords_top, cache.model_cache)
+                Iobs[i] = q[i]^4*rest_frame_bolometric_intensity(pf, -kf, cache.rest_frame_four_velocity, cache.emitter_metric, spacetime, model, coords_top, cache.model_cache)
             end
         end
     end
@@ -120,7 +120,7 @@ function observed_bolometric_intensities(initial_data::AbstractMatrix,
                 q[i] = energies_quotient(ki, kf, cache)
                 #The difference with the ETO scheme here should be the minus sign in front of the final momentum
                 #at get emitted intensity, and the is_final_position_at_source call (at observer in ETO)...
-                Iem = emitted_bolometric_intensity(pf, -kf, cache.rest_frame_four_velocity, cache.emitter_metric, spacetime, model, coords_top, cache.model_cache)
+                Iem = rest_frame_bolometric_intensity(pf, -kf, cache.rest_frame_four_velocity, cache.emitter_metric, spacetime, model, coords_top, cache.model_cache)
                 Iobs[i] = q[i]^4*Iem        
             end
         end
@@ -187,7 +187,7 @@ function observed_specific_intensities(initial_data::AbstractMatrix,
                     emitted_energy = observation_energies[j]/q[i]
                     #The difference with the ETO scheme here should be the minus sign in front of the final momentum
                     #at get emitted intensity, and the is_final_position_at_source call (at observer in ETO)...
-                    Iobs[j, i] = q[i]^3*emitted_specific_intensity(pf, -kf, emitted_energy, cache.rest_frame_four_velocity, cache.emitter_metric, spacetime, model, coords_top, cache.model_cache)
+                    Iobs[j, i] = q[i]^3*rest_frame_specific_intensity(pf, -kf, emitted_energy, cache.rest_frame_four_velocity, cache.emitter_metric, spacetime, model, coords_top, cache.model_cache)
                 end
             end
         end
@@ -256,7 +256,7 @@ function observed_specific_intensities(initial_data::AbstractMatrix,
                     emitted_energy = observation_energies[j]/q[i]
                     #The difference with the ETO scheme here should be the minus sign in front of the final momentum
                     #at get emitted intensity, and the is_final_position_at_source call (at observer in ETO)...
-                    Iem = emitted_specific_intensity(pf, -kf, emitted_energy, cache.rest_frame_four_velocity, cache.emitter_metric, spacetime, model, coords_top, cache.model_cache)
+                    Iem = rest_frame_specific_intensity(pf, -kf, emitted_energy, cache.rest_frame_four_velocity, cache.emitter_metric, spacetime, model, coords_top, cache.model_cache)
                     Iobs[j, i] = q[i]^3*Iem            
                 end
             end
@@ -299,7 +299,7 @@ function observed_bolometric_intensities_serial(initial_data::AbstractMatrix, ou
 
             #The difference with the ETO scheme here should be the minus sign in front of the final momentum
             #at get emitted intensity, and the is_final_position_at_source call (at observer in ETO)...
-            Iobs[i] = q[i]^4*emitted_bolometric_intensity(pf, -kf, cache.rest_frame_four_velocity, cache.emitter_metric, spacetime, model, coords_top, cache.model_cache)
+            Iobs[i] = q[i]^4*rest_frame_bolometric_intensity(pf, -kf, cache.rest_frame_four_velocity, cache.emitter_metric, spacetime, model, coords_top, cache.model_cache)
         end
     end
     return Iobs, q

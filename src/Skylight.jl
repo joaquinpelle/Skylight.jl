@@ -123,8 +123,8 @@ export Bremsstrahlung,
 export allocate_cache,
     rest_frame_four_velocity!,
     surface_differential!,
-    emitted_bolometric_intensity,
-    emitted_specific_intensity,
+    rest_frame_bolometric_intensity,
+    rest_frame_specific_intensity,
     opaque_interior_surface_trait
 
 export AbstractCamera,

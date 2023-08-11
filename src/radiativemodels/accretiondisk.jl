@@ -17,12 +17,12 @@ function rest_frame_four_velocity!(vector, position, metric, spacetime, model::A
     circular_motion_four_velocity!(vector, position, angular_speed, metric, coords_top)
 end
 
-function emitted_bolometric_intensity(position, momentum, rest_frame_four_velocity, metric, spacetime, model::AbstractAccretionDisk, coords_top)
+function rest_frame_bolometric_intensity(position, momentum, rest_frame_four_velocity, metric, spacetime, model::AbstractAccretionDisk, coords_top)
     T = temperature(position, spacetime, model)
     return thermal_emission_bolometric_intensity(T)
 end
 
-function emitted_specific_intensity(position, momentum, energy, rest_frame_four_velocity, metric, spacetime, model::AbstractAccretionDisk, coords_top)
+function rest_frame_specific_intensity(position, momentum, energy, rest_frame_four_velocity, metric, spacetime, model::AbstractAccretionDisk, coords_top)
     T = temperature(position, spacetime, model)
     return thermal_emission_specific_intensity(energy, T)
 end

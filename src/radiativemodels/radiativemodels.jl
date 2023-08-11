@@ -1,10 +1,10 @@
 #Required
 rest_frame_four_velocity!(vector, position, metric, spacetime, model, coords_top, cache) = error("rest_frame_four_velocity! not defined for this model.")
 rest_frame_four_velocity!(vector, position, metric, spacetime, model, coords_top) = error("rest_frame_four_velocity! not defined for this model.")
-emitted_bolometric_intensity(position, momentum, rest_frame_four_velocity, metric, spacetime, model, coords_top, cache) = error("emitted_bolometric_intensity for this model.")
-emitted_bolometric_intensity(position, momentum, rest_frame_four_velocity, metric, spacetime, model, coords_top) = error("emitted_bolometric_intensity for this model.")
-emitted_specific_intensity(position, momentum, energy, rest_frame_four_velocity, metric, spacetime, model, coords_top, cache) = error("emitted_specific_intensity not defined for this model.")
-emitted_specific_intensity(position, momentum, energy, rest_frame_four_velocity, metric, spacetime, model, coords_top) = error("emitted_specific_intensity not defined for this model.")
+rest_frame_bolometric_intensity(position, momentum, rest_frame_four_velocity, metric, spacetime, model, coords_top, cache) = error("rest_frame_bolometric_intensity for this model.")
+rest_frame_bolometric_intensity(position, momentum, rest_frame_four_velocity, metric, spacetime, model, coords_top) = error("rest_frame_bolometric_intensity for this model.")
+rest_frame_specific_intensity(position, momentum, energy, rest_frame_four_velocity, metric, spacetime, model, coords_top, cache) = error("rest_frame_specific_intensity not defined for this model.")
+rest_frame_specific_intensity(position, momentum, energy, rest_frame_four_velocity, metric, spacetime, model, coords_top) = error("rest_frame_specific_intensity not defined for this model.")
 line_emission_profile(position, momentum, rest_frame_four_velocity, metric, spacetime, model, coords_top, cache) = error("line_emission_profile not defined for this model.")
 is_final_position_at_source(position, spacetime, model) = error("is_final_position_at_source not defined for this model.")
 
@@ -37,5 +37,5 @@ function unit_surface_normal!(vector, position, metric, metric_inverse, model, c
 end
 
 rest_frame_four_velocity!(v, position, metric, spacetime, model, coords_top, ::Nothing) = rest_frame_four_velocity!(v, position, metric, spacetime, model, coords_top)
-emitted_bolometric_intensity(position, momentum, rest_frame_four_velocity, metric, spacetime, model, coords_top, ::Nothing) = emitted_bolometric_intensity(position, momentum, rest_frame_four_velocity, metric, spacetime, model, coords_top)
-emitted_specific_intensity(position, momentum, energy, rest_frame_four_velocity, metric, spacetime, model, coords_top, ::Nothing) = emitted_specific_intensity(position, momentum, energy, rest_frame_four_velocity, metric, spacetime, model, coords_top)
+rest_frame_bolometric_intensity(position, momentum, rest_frame_four_velocity, metric, spacetime, model, coords_top, ::Nothing) = rest_frame_bolometric_intensity(position, momentum, rest_frame_four_velocity, metric, spacetime, model, coords_top)
+rest_frame_specific_intensity(position, momentum, energy, rest_frame_four_velocity, metric, spacetime, model, coords_top, ::Nothing) = rest_frame_specific_intensity(position, momentum, energy, rest_frame_four_velocity, metric, spacetime, model, coords_top)
