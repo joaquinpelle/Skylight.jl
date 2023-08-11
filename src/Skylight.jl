@@ -121,7 +121,7 @@ export Bremsstrahlung,
     ThermalEmission
 
 export allocate_cache,
-    emitter_four_velocity!,
+    rest_frame_four_velocity!,
     surface_differential!,
     emitted_bolometric_intensity,
     emitted_specific_intensity,

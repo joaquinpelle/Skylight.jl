@@ -17,7 +17,7 @@ function metric_and_tetrad!(cache::ETOInitialDataCache, position, configurations
     metric, _, time_vector, triad, scache, mcache = unpack_views(cache)
 
     metric!(metric, position, spacetime, scache)
-    emitter_four_velocity!(time_vector, position, metric, spacetime, model, coords_top, mcache)
+    rest_frame_four_velocity!(time_vector, position, metric, spacetime, model, coords_top, mcache)
     random_triad!(triad, time_vector, metric)
     return nothing
 end
@@ -31,7 +31,7 @@ function metric_and_tetrad!(cache::ETOInitialDataCache, position, configurations
 
     metric!(metric, position, spacetime, scache)
     metric_inverse!(metric_inverse, position, spacetime, metric, scache)
-    emitter_four_velocity!(time_vector, position, metric, spacetime, model, coords_top, mcache)
+    rest_frame_four_velocity!(time_vector, position, metric, spacetime, model, coords_top, mcache)
     surface_adapted_triad!(triad, time_vector, metric, metric_inverse, position, model, coords_top)
     return nothing
 end

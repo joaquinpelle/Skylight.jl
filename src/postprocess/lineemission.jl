@@ -69,7 +69,7 @@ function line_emission_spectrum(
                 at_source[i] = true
                 metrics_and_four_velocities!(cache, pi, pf, spacetime, model, coords_top)
                 q[i] = energies_quotient(ki, kf, cache) #TODO add energy as argument below
-                F[i] = q[i]^3*line_emission_profile(pf, -kf, cache.emitter_four_velocity, cache.emitter_metric, spacetime, model, coords_top, cache)
+                F[i] = q[i]^3*line_emission_profile(pf, -kf, cache.rest_frame_four_velocity, cache.emitter_metric, spacetime, model, coords_top, cache)
             end
         end
     end
@@ -136,7 +136,7 @@ function line_emission_spectrum(
                 nu = scalar_product(ki, cache.observer_four_velocity, cache.observer_metric)
                 nn = scalar_product(ki, cache.flux_direction, cache.observer_metric)
                 q[i] = energies_quotient(ki, kf, cache)
-                F[i] = nu*nn*q[i]^3*dΩ[i]*line_emission_profile(pf, -kf, cache.emitter_four_velocity, cache.emitter_metric, spacetime, model, coords_top, cache)
+                F[i] = nu*nn*q[i]^3*dΩ[i]*line_emission_profile(pf, -kf, cache.rest_frame_four_velocity, cache.emitter_metric, spacetime, model, coords_top, cache)
             end
         end
     end

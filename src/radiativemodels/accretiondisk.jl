@@ -12,17 +12,17 @@ function surface_differential!(covector, position, ::AbstractAccretionDisk, ::Sp
     covector[4] = 0.0
 end    
 
-function emitter_four_velocity!(vector, position, metric, spacetime, model::AbstractAccretionDisk, coords_top)
+function rest_frame_four_velocity!(vector, position, metric, spacetime, model::AbstractAccretionDisk, coords_top)
     angular_speed = circular_geodesic_angular_speed(position, spacetime, model.rotation_sense)
     circular_motion_four_velocity!(vector, position, angular_speed, metric, coords_top)
 end
 
-function emitted_bolometric_intensity(position, momentum, emitter_four_velocity, metric, spacetime, model::AbstractAccretionDisk, coords_top)
+function emitted_bolometric_intensity(position, momentum, rest_frame_four_velocity, metric, spacetime, model::AbstractAccretionDisk, coords_top)
     T = temperature(position, spacetime, model)
     return thermal_emission_bolometric_intensity(T)
 end
 
-function emitted_specific_intensity(position, momentum, energy, emitter_four_velocity, metric, spacetime, model::AbstractAccretionDisk, coords_top)
+function emitted_specific_intensity(position, momentum, energy, rest_frame_four_velocity, metric, spacetime, model::AbstractAccretionDisk, coords_top)
     T = temperature(position, spacetime, model)
     return thermal_emission_specific_intensity(energy, T)
 end
@@ -50,7 +50,7 @@ function temperature(position, spacetime, ::NovikovThorneDisk)
     return 1.5e-8 * (1.0 - 2.0 / r)^(0.25)
 end
 
-function line_emission_profile(position, momentum, emitter_four_velocity, metric, spacetime::KerrSpacetimeBoyerLindquistCoordinates, ::NovikovThorneDisk, coords_top, cache)
+function line_emission_profile(position, momentum, rest_frame_four_velocity, metric, spacetime::KerrSpacetimeBoyerLindquistCoordinates, ::NovikovThorneDisk, coords_top, cache)
     r = radius(position, spacetime)
     return 1.0/r^2
 end
@@ -117,7 +117,7 @@ function temperature(position, spacetime, model::RARDisk)
     return T
 end
 
-function line_emission_profile(position, momentum, emitter_four_velocity, metric, spacetime, model::RARDisk, coords_top, cache)
+function line_emission_profile(position, momentum, rest_frame_four_velocity, metric, spacetime, model::RARDisk, coords_top, cache)
     r = radius(position, spacetime)
     return 1.0/r^2
 end
@@ -145,7 +145,7 @@ end
     profile_interpolator::S = build_interpolator(filename)
 end
 
-function line_emission_profile(position, momentum, emitter_four_velocity, metric, spacetime, ::AccretionDiskWithTabulatedTemperature, coords_top, cache)
+function line_emission_profile(position, momentum, rest_frame_four_velocity, metric, spacetime, ::AccretionDiskWithTabulatedTemperature, coords_top, cache)
     r = radius(position, spacetime)
     return model.profile_interpolator(r)
 end

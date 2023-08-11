@@ -29,7 +29,7 @@ function surface_differential!(covector, position, ::SyntheticPolarCap, ::Cartes
     return nothing
 end
 
-function emitter_four_velocity!(vector, position, metric, spacetime, model::SyntheticPolarCap, coords_top)
+function rest_frame_four_velocity!(vector, position, metric, spacetime, model::SyntheticPolarCap, coords_top)
     angular_speed = model.angular_speed
     circular_motion_four_velocity!(vector, position, angular_speed, metric, coords_top)
     return nothing

@@ -12,7 +12,7 @@ function space_positions(npoints, model::LamppostCorona, ::SphericalTopology)
     return space_pos
 end
 
-function emitter_four_velocity!(vector, position, metric, spacetime, ::LamppostCorona, coords_top)
+function rest_frame_four_velocity!(vector, position, metric, spacetime, ::LamppostCorona, coords_top)
     static_four_velocity!(vector, metric)
     return nothing
 end

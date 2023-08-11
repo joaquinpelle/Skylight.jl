@@ -3,7 +3,7 @@ function metrics_and_four_velocities!(cache::ImagePlanePostProcessCache, initial
     metric!(cache.observer_metric, initial_position, spacetime, cache.spacetime_cache) 
     metric!(cache.emitter_metric, final_position, spacetime, cache.spacetime_cache)
     static_four_velocity!(cache.observer_four_velocity, cache.observer_metric)
-    emitter_four_velocity!(cache.emitter_four_velocity, final_position, cache.emitter_metric, spacetime, model, coords_top, cache.model_cache)
+    rest_frame_four_velocity!(cache.rest_frame_four_velocity, final_position, cache.emitter_metric, spacetime, model, coords_top, cache.model_cache)
     return nothing
 end
 
@@ -12,9 +12,9 @@ function unpack_views(cache::ImagePlanePostProcessCache)
         observer_metric = cache.observer_metric
         emitter_metric = cache.emitter_metric
         observer_four_velocity = cache.observer_four_velocity
-        emitter_four_velocity = cache.emitter_four_velocity
+        rest_frame_four_velocity = cache.rest_frame_four_velocity
     end
-    return observer_metric, emitter_metric, observer_four_velocity, emitter_four_velocity
+    return observer_metric, emitter_metric, observer_four_velocity, rest_frame_four_velocity
 end
 
 #PinholeCameraPostProcessCache
@@ -43,6 +43,6 @@ end
 
 function emitter_metric_and_four_velocity!(cache::PinholeCameraPostProcessCache, final_position, spacetime, model, coords_top)
     metric!(cache.emitter_metric, final_position, spacetime, cache.spacetime_cache)
-    emitter_four_velocity!(cache.emitter_four_velocity, final_position, cache.emitter_metric, spacetime, model, coords_top, cache.model_cache)
+    rest_frame_four_velocity!(cache.rest_frame_four_velocity, final_position, cache.emitter_metric, spacetime, model, coords_top, cache.model_cache)
     return nothing
 end
