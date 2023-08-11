@@ -18,3 +18,5 @@ The integrator can integrate geodesics of any kind (timelike and spacelike too)
 
 You need invariant emissivity to work for vectors of energies
 Setting absorptovity function to nothing is equivalent to setting absorptivity to zero
+
+The intensity integrated in non-vacuum is the invariant intensity
