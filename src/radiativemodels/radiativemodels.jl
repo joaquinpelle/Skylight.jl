@@ -26,6 +26,7 @@ include("accretiondisk.jl")
 include("staracrosswormhole.jl")
 include("verticalscreen.jl")
 include("lamppostcorona.jl")
+include("iontorus.jl")
 include("dummyextendedregion.jl")
 include("dummymodel.jl")
 
