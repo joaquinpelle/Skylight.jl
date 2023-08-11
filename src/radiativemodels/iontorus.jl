@@ -214,35 +214,38 @@ function rest_frame_emissivity!(::Bremsstrahlung, jε, position, ε, g, spacetim
     ne, ni, Te = number_densities_and_electron_temperature(model, ω)
     for (i,εk) in enumerate(ε)
         jε[i] = ifelse(ω>0, 
-                       bremsstrahlung_emissivity(ne, ni, Te, εk),
+                       bremsstrahlung_emissivity(εk, ne, ni, Te),
                        0.0)
     end
     return nothing
 end
 
-#TODO implement synchrotron emissivity
-function rest_frame_emissivity!(::Synchrotron, jε, position, ε, g, spacetime, model::IonTorus, coords_top)
+#TODO revise that I probably should not calculate the variables outside the torus
+function rest_frame_emissivity!(sy::Synchrotron, jε, position, ε, g, spacetime, model::IonTorus, coords_top)
     ω = torus_normalized_potential(position, spacetime, model, g)
-    ne, ni, Te = number_densities_and_electron_temperature(model, ω)
+    ne, Te, B = electron_number_density_temperature_and_magentic_field(model, ω)
+    α = sy.α(Te)
+    β = sy.β(Te)
+    γ = sy.γ(Te)
     for (i,εk) in enumerate(ε)
         jε[i] = ifelse(ω>0, 
-                       bremsstrahlung_emissivity(ne, ni, Te, εk),
+                       synchrotron_emissivity(εk, ne, Te, B, α, β, γ),
                        0.0)
     end
     return nothing
 end
 
 #TODO: implement total
-function rest_frame_emissivity!(::Total, jε, position, ε, g, spacetime, model::IonTorus, coords_top)
-    ω = torus_normalized_potential(position, spacetime, model, g)
-    ne, ni, Te = number_densities_and_electron_temperature(model, ω)
-    for (i,εk) in enumerate(ε)
-        jε[i] = ifelse(ω>0, 
-                       bremsstrahlung_emissivity(ne, ni, Te, εk),
-                       0.0)
-    end
-    return nothing
-end
+# function rest_frame_emissivity!(::Total, jε, position, ε, g, spacetime, model::IonTorus, coords_top)
+#     ω = torus_normalized_potential(position, spacetime, model, g)
+#     ne, ni, Te = electron_number_density_temperature_and_magentic_field(model, ω)
+#     for (i,εk) in enumerate(ε)
+#         jε[i] = ifelse(ω>0, 
+#                        bremsstrahlung_emissivity(ne, ni, Te, εk),
+#                        0.0)
+#     end
+#     return nothing
+# end
 torus_normalized_potential(position, spacetime, model::IonTorus) = torus_normalized_potential(position, spacetime, model, zeros(4,4))
 energy_density(position, spacetime, model::IonTorus) = energy_density(position, spacetime, model, zeros(4,4))
 pressure(position, spacetime, model::IonTorus) = pressure(position, spacetime, model, zeros(4,4))
