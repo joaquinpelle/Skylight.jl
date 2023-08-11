@@ -29,9 +29,8 @@ function bremsstrahlung_fei(ne, ni, θe)
     return ne*ni*σT*αf*me*c^3*Fei(θe)
 end
 
-function bremsstrahlung_emissivity(ne,ni,Te,ε)
+function bremsstrahlung_emissivity(ε, ne, ni, Te)
     k_B = PhysicalConstants.k_B
-    h = PhysicalConstants.h
     θe = k_B*Te/(me*c^2)
     γE = 0.57721566490153286060651209
     x = k_B*Te/ε
