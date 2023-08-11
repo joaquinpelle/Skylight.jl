@@ -113,7 +113,12 @@ export AbstractRadiativeModel,
     SyntheticPolarCap,
     StarAcrossWormhole,
     VerticalScreen,
-    LamppostCorona
+    LamppostCorona,
+    IonTorus
+
+export torus_specific_angular_momentum!,
+    cusp_and_center_radius!,
+    torus_potentials_at_center_and_surface!
 
 export Bremsstrahlung,
     Synchrotron,
