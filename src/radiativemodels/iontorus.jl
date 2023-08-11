@@ -2,7 +2,7 @@
 Ion torus model from https://www.aanda.org/articles/aa/abs/2012/07/aa19209-12/aa19209-12.html
 """
 
-@with_kw mutable struct IonTorus{T,S} <: AbstractRadiativeModel
+@with_kw mutable struct IonTorus{R,P} <: AbstractRadiativeModel
     λ::Float64 = 0.7 #Specific angular momentum dimensionless parameter
     ϵc::Float64 = 1e-17 #Central energy density in CGS
     n::Float64 = 3/2 #Polytropic index
@@ -11,8 +11,8 @@ Ion torus model from https://www.aanda.org/articles/aa/abs/2012/07/aa19209-12/aa
     H_abundance::Float64 = 0.75
     He_abundance::Float64 = 0.25
     β::Float64 = 0.45 #Equipartition factor
-    rotation_sense::T = ProgradeRotation()
-    radiative_process::R = Bremsstrahlung()
+    rotation_sense::R = ProgradeRotation()
+    radiative_process::P = Bremsstrahlung()
     μᵢ::Float64 = 4/(4H_abundance+He_abundance)
     μₑ::Float64 = 2/(1+He_abundance)
     𝓜₀::Float64 = μᵢ/(μᵢ+μₑ)
@@ -32,7 +32,7 @@ end
 
 function torus_specific_angular_momentum!(model::IonTorus, spacetime)
     λ = model.λ
-    lms = innermost_stable_circular_orbit_specific_angular_momentum(spacetime, model.rotation_sense)
+    lms = innermost_stable_specific_angular_momentum(spacetime, model.rotation_sense)
     lmb = marginally_bound_specific_angular_momentum(spacetime, model.rotation_sense)
     model.l0 = lms + λ*(lmb - lms)
     model._l0_is_set = true
@@ -46,10 +46,12 @@ function cusp_and_center_radius!(model::IonTorus, spacetime)
     end
     M = spacetime.M
     l0 = model.l0
+    rmb = mbco_radius(spacetime, model.rotation_sense)
+    rms = isco_radius(spacetime, model.rotation_sense)
     rmax = 100M
     aux(r) = circular_geodesic_specific_angular_momentum([0.0,r,π/2,0.0], spacetime, model.rotation_sense)-l0
     model.rcusp = find_zero(aux, (rmb, rms))
-    model.rmax = find_zero(aux, (rms, rmax))
+    model.rcenter = find_zero(aux, (rms, rmax))
     model._radii_are_set = true
     return nothing
 end
@@ -76,7 +78,7 @@ end
 torus_potential(position, spacetime, model::IonTorus) = torus_potential(position, spacetime, model, zeros(4,4))
 
 function torus_potential_at_surface(spacetime, model::IonTorus)
-    position = equatorial_position(model.rcusp, spacetime) 
+    position = equatorial_position(model.rcusp, coordinates_topology(spacetime)) 
     return torus_potential(position, spacetime, model) 
 end
 
@@ -202,8 +204,8 @@ end
 
 #TODO rename rest_frame functions
 #TODO beware superluminal four v
-function rest_frame_four_velocity!(vector, position, g, spacetime, model::IonTorus, coords_top)
-    angular_speed = constant_angular_momentum_angular_speed(position, spacetime, model, g)
+function rest_frame_four_velocity!(vector, position, metric, spacetime, model::IonTorus, coords_top)
+    angular_speed = constant_angular_momentum_angular_speed(position, spacetime, model, metric)
     circular_motion_four_velocity!(vector, position, angular_speed, metric, coords_top)
 end
 rest_frame_absorptivity!(αε, position, ε, g, spacetime, model::IonTorus, coords_top) = nothing
