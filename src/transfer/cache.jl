@@ -1,4 +1,4 @@
-transfer_cache(configurations::AbstractConfigurations, cbp) = transfer_cache(isvacuum(configurations), configurations, cbp)
+transfer_cache(configurations::AbstractConfigurations, args...) = transfer_cache(isvacuum(configurations), configurations, args...)
 
 # Vacuum
 function transfer_cache(::Vacuum, configurations, cbp)
