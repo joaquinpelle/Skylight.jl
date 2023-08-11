@@ -12,6 +12,7 @@ using Polynomials
 using Random
 using Reexport
 using Roots
+using SpecialFunctions
 using StaticArrays
 
 @reexport using DifferentialEquations
