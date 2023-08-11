@@ -73,7 +73,7 @@ function transfer_equations(u::AbstractVector, p, t)
     rest_frame_four_velocity!(vμ, position, metric, spacetime, model, coords_top)
     rest_frame_energy = scalar_product(vμ, momentum, metric)
     ε .= -observation_energies*rest_frame_energy
-    rest_frame_absorptivity!(αε, position, ε, metric, spacetime, model)
-    rest_frame_emissivity!(jε, position, ε, metric, spacetime, model)
+    rest_frame_absorptivity!(αε, position, ε, metric, spacetime, model, coords_top)
+    rest_frame_emissivity!(jε, position, ε, metric, spacetime, model, coords_top)
     return SVector{NE,Float64}(ε.*αε...), SVector{NE,Float64}(jε./(ε.^2).*exp.(-τε)...)
 end

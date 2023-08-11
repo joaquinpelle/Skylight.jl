@@ -31,12 +31,14 @@ function ensemble_problem(::Vacuum, initial_data::AbstractMatrix, configurations
 end
 
 function ensemble_problem(::NonVacuum, initial_data::AbstractMatrix, configurations::AbstractConfigurations, cbp::AbstractCallbackParameters, τmax::Real)
-    u0 = SVector{8, Float64}(initial_data[:,1]...)
+    NE = length(configurations.observation_energies)
+    Nvars = 8+2*NE
+    u0 = SVector{Nvars, Float64}(initial_data[:,1]...)
     tspan = (0.0, 1e4*cbp.rmax)
     p = transfer_cache(configurations, cbp, τmax)
     prob = ODEProblem(equations(configurations), u0, tspan, p)
     output_func(sol, i) = (sol[end], false)
-    prob_func(prob, i, repeat) = remake(prob, u0 = SVector{8,Float64}(initial_data[:,i]...))
+    prob_func(prob, i, repeat) = remake(prob, u0 = SVector{Nvars,Float64}(initial_data[:,i]...))
     return EnsembleProblem(prob; output_func = output_func, prob_func = prob_func)
 end
 
