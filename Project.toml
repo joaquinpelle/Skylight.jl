@@ -30,6 +30,7 @@ Parameters = "0.12"
 Polynomials = "3"
 PreallocationTools = "0.4"
 Reexport = "1"
+Roots = "2"
 StaticArrays = "1"
 julia = "1.1"
 
