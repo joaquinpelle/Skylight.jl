@@ -30,6 +30,14 @@ Ion torus model from https://www.aanda.org/articles/aa/abs/2012/07/aa19209-12/aa
     @assert isa(rotation_sense, AbstractRotationSense) "Rotation sense must be either ProgradeRotation() or RetrogradeRotation()"
 end
 
+function IonTorus(spacetime::AbstractSpacetime; kwargs...)
+    model = IonTorus(; kwargs...)
+    torus_specific_angular_momentum!(model, spacetime)
+    cusp_and_center_radius!(model, spacetime)
+    torus_potentials_at_center_and_surface!(model, spacetime)
+    return model
+end
+
 function torus_specific_angular_momentum!(model::IonTorus, spacetime)
     λ = model.λ
     lms = innermost_stable_specific_angular_momentum(spacetime, model.rotation_sense)
@@ -217,10 +225,12 @@ function electron_number_density_temperature_and_magnetic_field(ω, model::IonTo
 end
 
 #TODO beware superluminal four v
+#TODO evaluate doing inside source in equations.jl
 function rest_frame_four_velocity!(vector, position, metric, spacetime, model::IonTorus, coords_top)
     angular_speed = constant_angular_momentum_angular_speed(metric, model)
     circular_motion_four_velocity!(vector, position, angular_speed, metric, coords_top)
 end
+
 rest_frame_absorptivity!(αε, position, ε, g, spacetime, model::IonTorus, coords_top) = nothing
 rest_frame_emissivity!(jε, position, ε, g, spacetime, model::IonTorus, coords_top) = rest_frame_emissivity!(model.radiative_process, jε, position, ε, g, spacetime, model, coords_top)
 
