@@ -20,3 +20,5 @@ You need invariant emissivity to work for vectors of energies
 Setting absorptovity function to nothing is equivalent to setting absorptivity to zero
 
 The intensity integrated in non-vacuum is the invariant intensity
+
+The non-vacuum transfer equations only work towards the past because of rest frame energy sign assumption
