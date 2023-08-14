@@ -22,3 +22,5 @@ Setting absorptovity function to nothing is equivalent to setting absorptivity t
 The intensity integrated in non-vacuum is the invariant intensity
 
 The non-vacuum transfer equations only work towards the past because of rest frame energy sign assumption
+
+Observation energies in non-vacuum need to be their CGS values
