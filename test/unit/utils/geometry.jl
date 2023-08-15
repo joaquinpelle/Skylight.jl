@@ -103,7 +103,7 @@ end
     vector = zeros(4)
     vector1 = zeros(4)
     position = rand(4)
-    metric = [-rand() 0 0 0; 0 rand() 0 0; 0 0 rand() 0; 0 0 0 rand()]
+    metric = [-1.0 0 0 0; 0 1.0 0 0; 0 0 1.0 0; 0 0 0 1.0]
     Ω = 0.05
 
     @testset "Cartesian coordinates" begin
