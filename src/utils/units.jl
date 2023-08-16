@@ -24,6 +24,8 @@ end
 
 pc_to_cm(d) = d*PhysicalConstants.pc
 cm_to_pc(d) = d/PhysicalConstants.pc
+Hz_to_erg(ν) = ν*PhysicalConstants.h
+erg_to_Hz(E) = E/PhysicalConstants.h
 eV_to_erg(E) = E*PhysicalConstants.eV
 erg_to_eV(E) = E/PhysicalConstants.eV
 keV_to_erg(E) = E*(1e3*PhysicalConstants.eV)
