@@ -126,3 +126,21 @@ function circular_motion_four_velocity!(vector, position, angular_speed, metric,
     normalize_timelike!(vector,metric)
     return nothing
 end
+
+function circular_motion_four_velocity_allowing_spacelike!(vector, position, angular_speed, metric, ::CartesianTopology)
+    vector[1] =  1.0
+    vector[2] = -angular_speed*position[3]
+    vector[3] =  angular_speed*position[2]
+    vector[4] =  0.0
+    normalize!(vector,metric)
+    return nothing
+end
+
+function circular_motion_four_velocity_allowing_spacelike!(vector, position, angular_speed, metric, ::SphericalTopology)
+    vector[1] =  1.0
+    vector[2] =  0.0
+    vector[3] =  0.0
+    vector[4] =  angular_speed
+    normalize!(vector,metric)
+    return nothing
+end
