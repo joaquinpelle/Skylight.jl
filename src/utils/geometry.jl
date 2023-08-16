@@ -4,6 +4,11 @@ raise_index(v, metric_inverse) = metric_inverse*v
 scalar_product(v,u,metric) = dot(v,metric,u)
 norm_squared(v,metric) = scalar_product(v,v,metric)
 
+function normalize!(v, metric)
+    v ./= sqrt(abs(norm_squared(v,metric)))
+    return nothing
+end
+
 function normalize_timelike!(v, metric)
     v ./= sqrt(-norm_squared(v,metric))
     return nothing
