@@ -72,26 +72,28 @@ function constant_angular_momentum_angular_speed(g::AbstractMatrix, model::IonTo
     return -(gtφ+l0*gtt)/(gφφ+l0*gtφ)
 end 
 
-function torus_potential(g::AbstractMatrix, model::IonTorus)
+function torus_potential(r::Real, g::AbstractMatrix, model::IonTorus)
     gtt = g[1,1]
     gtφ = g[1,4]
     gφφ = g[4,4]
     Ω = constant_angular_momentum_angular_speed(g, model)
     p2 = gtt+2Ω*gtφ+Ω^2*gφφ
-    return ifelse(p2<0.0, 0.5*log(abs(p2)/(gtt+Ω*gtφ)^2), -Inf)
+    return ifelse(p2<0.0 && r>=model.rcusp, 0.5*log(abs(p2)/(gtt+Ω*gtφ)^2), -Inf)
 end
 
 function torus_potential_at_surface(spacetime, model::IonTorus)
-    position = equatorial_position(model.rcusp, coordinates_topology(spacetime)) 
+    r = model.rcusp
+    position = equatorial_position(r, coordinates_topology(spacetime)) 
     g = metric(position, spacetime)
-    return torus_potential(g, model) 
+    return torus_potential(r, g, model) 
 end
 
 function torus_potential_at_center(spacetime, model::IonTorus)
     # return model.Hc+torus_potential_at_surface(spacetime, model) 
-    position = equatorial_position(model.rcenter, coordinates_topology(spacetime)) 
+    r = model.rcenter
+    position = equatorial_position(r, coordinates_topology(spacetime)) 
     g = metric(position, spacetime)
-    return torus_potential(g, model) 
+    return torus_potential(r, g, model) 
 end
 
 function torus_potentials_at_center_and_surface!(model::IonTorus, spacetime)
@@ -175,7 +177,7 @@ function number_densities_and_electron_temperature(ω::Real, model::IonTorus)
     return ne, ni, Te
 end
 
-function electron_number_density_temperature_and_magnetic_field(ω, model::IonTorus)
+function electron_number_density_temperature_and_magnetic_field(ω::Real, model::IonTorus)
     ϵ = energy_density(ω, model)
     Te = electron_temperature(ω, ϵ, model)
     ne = electron_number_density(ϵ, model)
@@ -189,18 +191,21 @@ function rest_frame_four_velocity!(vector, position, metric, spacetime, model::I
     p2 = metric[1,1]+2Ω*metric[1,4]+Ω^2*metric[4,4]
     ifelse(p2 < 0.0,
         circular_motion_four_velocity_allowing_spacelike!(vector, position, Ω, metric, coords_top),
-        static_four_velocity!(vector, metric))
+        static_four_velocity_allowing_spacelike!(vector, metric))
 end
 
 rest_frame_absorptivity!(αε, position, ε, g, spacetime, model::IonTorus, coords_top) = nothing
 rest_frame_emissivity!(jε, position, ε, g, spacetime, model::IonTorus, coords_top) = rest_frame_emissivity!(model.radiative_process, jε, position, ε, g, spacetime, model, coords_top)
 
 function rest_frame_emissivity!(::Bremsstrahlung, jε, position, ε, g, spacetime, model::IonTorus, coords_top)
-    ω = torus_normalized_potential(g, model)
+    r = position[2]
+    ω = torus_normalized_potential(r, g, model)
     if ω>0
         ne, ni, Te = number_densities_and_electron_temperature(ω, model)
-        for (i,εk) in enumerate(ε)
-            jε[i] = bremsstrahlung_emissivity(εk, ne, ni, Te)
+        @inbounds begin
+            for (i,εk) in enumerate(ε)
+                jε[i] = bremsstrahlung_emissivity(εk, ne, ni, Te)
+            end
         end
     end
     return nothing
@@ -232,8 +237,8 @@ end
 #     end
 #     return nothing
 # end
-function torus_normalized_potential(g::AbstractMatrix, model::IonTorus)
-    W = torus_potential(g, model)
+function torus_normalized_potential(r::Real, g::AbstractMatrix, model::IonTorus)
+    W = torus_potential(r, g, model)
     return torus_normalized_potential(W, model)
 end
 
@@ -256,7 +261,6 @@ end
 function ion_temperature(g::AbstractMatrix, model::IonTorus)
     ω = torus_normalized_potential(g, model)
     ϵ = energy_density(ω, model) 
-    P = pressure(ϵ, model)
     return ion_temperature(ω, ϵ, model)
 end
 
@@ -265,8 +269,8 @@ function number_densities(g::AbstractMatrix, model::IonTorus)
     return number_densities(ϵ, model)
 end
 
-torus_potential(position, spacetime, model::IonTorus) = torus_potential(metric(position, spacetime), model)
-torus_normalized_potential(position, spacetime, model::IonTorus) = torus_normalized_potential(metric(position, spacetime), model)
+torus_potential(position, spacetime, model::IonTorus) = torus_potential(position[2], metric(position, spacetime), model)
+torus_normalized_potential(position, spacetime, model::IonTorus) = torus_normalized_potential(position[2], metric(position, spacetime), model)
 energy_density(position, spacetime, model::IonTorus) = energy_density(metric(position, spacetime), model)
 pressure(position, spacetime, model::IonTorus) = pressure(metric(position, spacetime), model)
 electron_temperature(position, spacetime, model::IonTorus) = electron_temperature(metric(position, spacetime), model) 
