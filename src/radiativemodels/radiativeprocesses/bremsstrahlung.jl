@@ -36,15 +36,10 @@ function bremsstrahlung_emissivity(ε, ne, ni, Te)
     me = PhysicalConstants.me
     θe = k_B*Te/(me*c^2)
     x = k_B*Te/ε
-    try
-        Gmean = ifelse(x < 1, 
-                    3*x/π,
-                    sqrt(3)/π*log(4/γE*x))
-        fbr = bremsstrahlung_fee(ne, θe) + bremsstrahlung_fei(ne, ni, θe)
-        jε = fbr/(4π*k_B*Te)*exp(-1/x)*Gmean
+    Gmean = ifelse(x < 1, 
+                  3*x/π,
+                  sqrt(3)/π*log(4*x/γE))
+    fbr = bremsstrahlung_fee(ne, θe) + bremsstrahlung_fei(ne, ni, θe)
+    jε = fbr/(4π*k_B*Te)*exp(-1/x)*Gmean
     return jε 
-    catch e
-        println("Te = $Te", " x = $x")
-        rethrow(e)
-    end
 end
