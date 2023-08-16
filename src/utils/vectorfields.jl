@@ -92,6 +92,12 @@ function static_four_velocity!(vector, metric)
     return nothing
 end
 
+function static_four_velocity_allowing_spacelike!(vector, metric)
+    time_translation_generator!(vector)
+    normalize!(vector, metric)
+    return nothing
+end
+
 function circular_motion_four_velocity(position, angular_speed, metric, ::CartesianTopology)
     vector = zeros(4)
     vector[1] =  1.0
