@@ -123,7 +123,8 @@ export torus_specific_angular_momentum!,
 export Bremsstrahlung,
     Synchrotron,
     InverseCompton,
-    ThermalEmission
+    ThermalEmission,
+    SynchrotronAndBremsstrahlung
 
 export allocate_cache,
     rest_frame_four_velocity!,
