@@ -15,6 +15,13 @@ end
 
 #PinholeCameraCache
 
+function tetrad!(cache::PinholeCameraCache, camera, spacetime::AbstractSpacetime)
+    metric!(cache.metric, camera.position, spacetime, cache.spacetime_cache)
+    v = default_four_velocity(camera, spacetime)
+    tetrad!(cache, camera.position, v, spacetime)
+    return nothing
+end
+
 function tetrad!(cache::PinholeCameraCache, position, four_velocity, spacetime::AbstractSpacetime)
     coords_top = coordinates_topology(spacetime)
     metric, time_vector, triad, _ = unpack_views(cache)
