@@ -58,3 +58,22 @@ function planck_integral(E,T)
  
     return  factor*sum(exp(-n*x)*(x3 + (3*x2 + 6*(x+1/n)/n)/n)/n for n in 1:4)
 end
+
+"""
+    rayleigh_jeans_function(E, T)
+
+Rayleigh-Jeans law of black body radiation in terms of energy.
+
+# Arguments
+- `E::Float64`: The energy in erg.
+- `T::Float64`: The temperature in Kelvin.
+
+# Returns
+- `::Float64`: The Rayleigh-Jeans function in CGS.
+"""
+function rayleigh_jeans_function(E, T)
+    c = PhysicalConstants.c
+    h = PhysicalConstants.h
+    k_B = PhysicalConstants.k_B
+    return (8 * π / (c^3 * h^3)) * E^2 * k_B * T
+end
