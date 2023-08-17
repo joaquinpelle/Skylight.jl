@@ -181,7 +181,7 @@ function to_hdf5_compatible_dict(dict::Dict{T, S}; depth::Int=0, max_depth::Int=
             hdf5_dict[key] = to_hdf5_compatible_dict(value, depth=depth+1, max_depth=max_depth)
         elseif isa(value, Function)
             hdf5_dict[key] = string(value)
-        elseif value === nothing
+        elseif isnothing(value)
             hdf5_dict[key] = "Nothing"
         else
             fields_dict = to_hdf5_compatible_dict(value, depth=depth+1, max_depth=max_depth)
@@ -229,7 +229,7 @@ function to_hdf5_compatible_dict(obj::T; depth::Int=0, max_depth::Int=8) where T
         if isa(value, NoSaveField)
             continue
         # Check if the field is of type Nothing
-        elseif isa(value, Nothing)
+        elseif isnothing(value)
             value = "nothing"
         # Check if the field is a subtype of Function
         elseif isa(value, Function)
@@ -283,7 +283,7 @@ function to_hdf5_compatible_dict(cb::T; depth::Int=0, max_depth::Int=8) where {T
         elseif field == :save_positions
             value = string(:(BitVector($([Bool(x) for x in value])))) 
         # Check if the field is of type Nothing
-        elseif isa(value, Nothing)
+        elseif isnothing(value)
             value = "nothing"
         # Check if the field is a subtype of Function
         elseif isa(value, Function)

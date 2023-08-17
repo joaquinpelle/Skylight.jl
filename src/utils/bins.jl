@@ -31,7 +31,7 @@ function bin_values_and_sum_weights(bins, values, weights)
         bin_index = findfirst(b -> b > value, bins)
         
         # skip values outside the bin range
-        if bin_index == 1 || bin_index === nothing
+        if bin_index == 1 || isnothing(bin_index)
             continue
         end
         

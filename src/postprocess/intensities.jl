@@ -280,7 +280,7 @@ Compute observed specific intensities
 """
 function observed_specific_intensities(initial_data::AbstractMatrix, output_data::AbstractMatrix, configurations::NonVacuumOTEConfigurations; observer_four_velocity=nothing) 
     NE = length(configurations.observation_energies)
-    if observer_four_velocity === nothing
+    if isnothing(observer_four_velocity)
         return @. observation_energies^3*output_data[9+NE:end,:]
     end
     spacetime = configurations.spacetime
