@@ -178,23 +178,23 @@ end
 
 function number_densities_and_electron_temperature(ω::Real, model::IonTorus)
     ϵ = energy_density(ω, model)
-    Te = electron_temperature(ω, ϵ, model)
     ne, ni = number_densities(ϵ, model)
+    Te = electron_temperature(ω, ϵ, model)
     return ne, ni, Te
 end
 
 function electron_number_density_temperature_and_magnetic_field(ω::Real, model::IonTorus)
     ϵ = energy_density(ω, model)
-    Te = electron_temperature(ω, ϵ, model)
     ne = electron_number_density(ϵ, model)
+    Te = electron_temperature(ω, ϵ, model)
     B = magnetic_field(ϵ, model)
     return ne, Te, B
 end
 
 function number_densities_electron_temperature_and_magnetic_field(ω::Real, model::IonTorus)
     ϵ = energy_density(ω, model)
-    Te = electron_temperature(ω, ϵ, model)
     ne, ni = number_densities(ϵ, model)
+    Te = electron_temperature(ω, ϵ, model)
     B = magnetic_field(ϵ, model)
     return ne, ni, Te, B
 end
@@ -231,7 +231,7 @@ function rest_frame_emissivity!(sy::Synchrotron, jε, position, ε, g, spacetime
     r = position[2]
     ω = torus_normalized_potential(r, g, model)
     if ω>0
-        ne, Te, B = electron_number_density_temperature_and_magentic_field(ω, model)
+        ne, Te, B = electron_number_density_temperature_and_magnetic_field(ω, model)
         α = sy.α(Te)
         β = sy.β(Te)
         γ = sy.γ(Te)
@@ -246,14 +246,14 @@ function rest_frame_emissivity!(sy::Synchrotron, jε, position, ε, g, spacetime
     return nothing
 end
 
-function rest_frame_emissivity!(::SynchrotronAndBremsstrahlung, jε, position, ε, g, spacetime, model::IonTorus, coords_top)
+function rest_frame_emissivity!(syb::SynchrotronAndBremsstrahlung, jε, position, ε, g, spacetime, model::IonTorus, coords_top)
     r = position[2]
     ω = torus_normalized_potential(r, g, model)
     if ω>0
         ne, ni, Te, B = number_densities_electron_temperature_and_magnetic_field(ω, model)
-        α = sy.α(Te)
-        β = sy.β(Te)
-        γ = sy.γ(Te)
+        α = syb.α(Te)
+        β = syb.β(Te)
+        γ = syb.γ(Te)
         @inbounds begin 
             for (i,εk) in enumerate(ε)
                 jε[i] = synchrotron_emissivity(εk, ne, Te, B, α, β, γ) + bremsstrahlung_emissivity(εk, ne, ni, Te)
@@ -263,11 +263,6 @@ function rest_frame_emissivity!(::SynchrotronAndBremsstrahlung, jε, position, �
         fill!(jε, 0.0)
     end
     return nothing
-end
-
-function torus_normalized_potential(r::Real, g::AbstractMatrix, model::IonTorus)
-    W = torus_potential(r, g, model)
-    return torus_normalized_potential(W, model)
 end
 
 function energy_density(r::Real, g::AbstractMatrix, model::IonTorus)
