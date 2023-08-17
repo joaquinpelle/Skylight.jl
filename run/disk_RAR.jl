@@ -49,7 +49,7 @@ for E in energies
             
             output_data = run.output_data
 
-            @time Iobs, q = observed_bolometric_intensities(initial_data, output_data, configurations)
+            @time Iobs = observed_bolometric_intensities(initial_data, output_data, configurations)
 
             xs,ys = axes_ranges(camera)
 
@@ -66,7 +66,7 @@ for E in energies
             λ_EHT_Apr17 = 0.13
             ε = PhysicalConstants.h*PhysicalConstants.c/λ_EHT_Apr17
 
-            @time Iobs, q = observed_specific_intensities(initial_data, output_data, configurations, ε)
+            @time Iobs = observed_specific_intensities(initial_data, output_data, configurations, ε)
 
             zs = grid_view(Iobs, configurations; energy_index=1)
 

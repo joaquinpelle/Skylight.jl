@@ -25,7 +25,7 @@ run = integrate(initial_data, configurations, cb, cbp; method=VCABM(), reltol=1e
 
 output_data = run.output_data
 
-Iobs, q = observed_bolometric_intensities(initial_data, output_data, configurations)
+Iobs = observed_bolometric_intensities(initial_data, output_data, configurations)
 
 xs,ys = axes_ranges(camera)
 

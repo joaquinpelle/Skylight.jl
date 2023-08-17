@@ -61,7 +61,7 @@ function observed_bolometric_intensities(initial_data::AbstractMatrix,
             end
         end
     end
-    return Iobs, q
+    return Iobs
 end
 
 """ observed_bolometric_intensities(initial_data, output_data, configurations::VacuumOTEConfigurations, camera::PinholeCamera; observer_four_velocity=nothing) 
@@ -125,7 +125,7 @@ function observed_bolometric_intensities(initial_data::AbstractMatrix,
             end
         end
     end
-    return Iobs, q
+    return Iobs
 end
 
 """
@@ -192,7 +192,7 @@ function observed_specific_intensities(initial_data::AbstractMatrix,
             end
         end
     end
-    return Iobs, q
+    return Iobs
 end
 
 """
@@ -262,7 +262,7 @@ function observed_specific_intensities(initial_data::AbstractMatrix,
             end
         end
     end
-    return Iobs, q
+    return Iobs
 end
 
 """
@@ -341,5 +341,5 @@ function observed_bolometric_intensities_serial(initial_data::AbstractMatrix, ou
             Iobs[i] = q[i]^4*rest_frame_bolometric_intensity(pf, -kf, cache.rest_frame_four_velocity, cache.emitter_metric, spacetime, model, coords_top, cache.model_cache)
         end
     end
-    return Iobs, q
+    return Iobs
 end

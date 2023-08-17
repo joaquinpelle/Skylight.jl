@@ -54,7 +54,7 @@ for E in energies
         save_to_hdf5("io/schw/$(filename).h5", configurations, initial_data, run)        
         
         output_data = run.output_data
-        Iobs, q = observed_bolometric_intensities(initial_data, output_data, configurations)
+        Iobs = observed_bolometric_intensities(initial_data, output_data, configurations)
 
         xs,ys = axes_ranges(camera)
 
@@ -71,7 +71,7 @@ for E in energies
         λ_EHT_Apr17 = 0.13
         ε = PhysicalConstants.h*PhysicalConstants.c/λ_EHT_Apr17
 
-        Iobs, q = observed_specific_intensities(initial_data, output_data, configurations, [ε])
+        Iobs = observed_specific_intensities(initial_data, output_data, configurations, [ε])
 
         zs = grid_view(Iobs, configurations; energy_index=1)
 
