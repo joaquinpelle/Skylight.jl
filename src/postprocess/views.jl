@@ -2,6 +2,7 @@
 
 @kwmethod function grid_view(output_data, configurations::NonVacuumOTEConfigurations; energy_index)
     NE = length(configurations.observation_energies)
+    1 <= energy_index <= NE || throw(ArgumentError("energy_index must be between 1 and $NE"))
     Nα, Nβ = numbers_of_pixels_per_side(configurations.camera)
     @views grid = reshape(output_data[8+NE+energy_index,:], (Nα, Nβ))
     return grid
