@@ -41,7 +41,39 @@ function fluxes!(F::AbstractVector, configurations, camera::PinholeCamera, initi
 end
 
 """For multi-energies fluxes"""
-function fluxes!(F::AbstractMatrix, configurations, camera::PinholeCamera, initial_data::AbstractMatrix, output_data::AbstractMatrix; observer_four_velocity=nothing, flux_direction=nothing, chunks_per_thread::Int=2)
+function fluxes!(F::AbstractMatrix, configurations::NonVacuumOTEConfigurations, camera::PinholeCamera, initial_data::AbstractMatrix, output_data::AbstractMatrix; observer_four_velocity=nothing, flux_direction=nothing, chunks_per_thread::Int=2)
+    same_size(initial_data, output_data) || throw(DimensionMismatch("initial_data and output_data must have the same size."))
+    same_size(initial_data, F, 2) || throw(DimensionMismatch("The number of rays in the initial and output data must be the same as the length of F."))
+    number_of_pixels(camera) == size(F,2) || throw(DimensionMismatch("The number of pixels in the camera must be the same as the length of F."))
+
+    spacetime = configurations.spacetime
+    dΩ = pixel_solid_angles(camera)
+    nrays = number_of_pixels(camera)
+    # Break the work into chunks. More chunks per thread has better load balancing but more overhead
+    nchunks = div(nrays, nthreads()*chunks_per_thread)
+    chunks = Iterators.partition(1:nrays, nchunks)
+    # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
+    @sync map(chunks) do chunk
+        Threads.@spawn begin
+            cache = postprocess_cache(configurations)
+            observer_metric!(cache, camera.position, spacetime)
+            observer_four_velocity!(cache, observer_four_velocity) 
+            flux_direction!(cache, flux_direction, camera, spacetime) 
+            for i in chunk
+                @views begin 
+                    ki = initial_data[5:8,i]
+                end
+                nu = scalar_product(ki, cache.observer_four_velocity, cache.observer_metric)
+                nn = scalar_product(ki, cache.flux_direction, cache.observer_metric)
+                F[:,i] *= nu*nn*dΩ[i]        
+            end
+        end
+    end
+    return nothing
+end
+
+"""For multi-energies fluxes"""
+function fluxes!(F::AbstractMatrix, configurations::VacuumOTEConfigurations, camera::PinholeCamera, initial_data::AbstractMatrix, output_data::AbstractMatrix; observer_four_velocity=nothing, flux_direction=nothing, chunks_per_thread::Int=2)
     same_size(initial_data, output_data) || throw(DimensionMismatch("initial_data and output_data must have the same size."))
     same_size(initial_data, F, 2) || throw(DimensionMismatch("The number of rays in the initial and output data must be the same as the length of F."))
     number_of_pixels(camera) == size(F,2) || throw(DimensionMismatch("The number of pixels in the camera must be the same as the length of F."))

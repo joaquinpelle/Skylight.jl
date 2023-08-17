@@ -265,6 +265,45 @@ function observed_specific_intensities(initial_data::AbstractMatrix,
     return Iobs, q
 end
 
+"""
+    observed_specific_intensities(output_data, configurations::NonVacuumOTEConfigurations)
+
+Compute observed specific intensities
+
+# Arguments
+- `output_data::AbstractMatrix`: A matrix containing the final data of the rays. The first four entries for each ray represent the final position, while entries five to eight represent the final momentum.
+- `configurations::NonVacuumOTEConfigurations`: The configurations with which the initial and output data were obtained.
+
+# Returns
+- `Iobs::AbstractMatrix`: A vector of observed specific intensities in CGS units for each ray, normalized by the distance to the image plane. The intensities are in CGS units.
+
+"""
+function observed_specific_intensities(initial_data::AbstractMatrix, output_data::AbstractMatrix, configurations::NonVacuumOTEConfigurations; observer_four_velocity=nothing) 
+    NE = length(configurations.observation_energies)
+    if observer_four_velocity === nothing
+        return @. observation_energies^3*output_data[9+NE:end,:]
+    end
+    spacetime = configurations.spacetime
+    observer_metric = metric(camera.position, spacetime)
+    nrays = size(initial_data, 2)
+    Iobs = zeros(NE, nrays)
+    # Break the work into chunks. More chunks per thread has better load balancing but more overhead
+    nchunks = div(nrays, nthreads()*chunks_per_thread)
+    chunks = Iterators.partition(1:nrays, nchunks)
+    # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
+    @sync map(chunks) do chunk
+        Threads.@spawn begin
+            for i in chunk
+                @views begin 
+                    ki = initial_data[5:8,i]
+                end
+                observer_rest_frame_energy = scalar_product(ki, observer_four_velocity, observer_metric)
+                @. Iobs[:, i] = (observation_energies*observer_rest_frame_energy)^3*output_data[9+NE:end,i]
+            end
+        end
+    end
+end
+
 function observed_bolometric_intensities_serial(initial_data::AbstractMatrix, output_data::AbstractMatrix, configurations::VacuumOTEConfigurations, ::ImagePlane)
 
     same_size(initial_data, output_data) || throw(DimensionMismatch("The initial and output data must have the same size."))
