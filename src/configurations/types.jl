@@ -21,13 +21,13 @@ abstract type AbstractCamera end
     observer_inclination_in_radians::Float64 = deg2rad(observer_inclination_in_degrees)
 end
 
-@with_kw struct PinholeCamera <: AbstractCamera 
+@with_kw mutable struct PinholeCamera <: AbstractCamera 
     position::Vector{Float64}
     horizontal_aperture_in_degrees::Float64 #This is distance*cos(horizontal_aperture_angle)
     vertical_aperture_in_degrees::Float64   #This is distance*cos(horizontal_aperture_angle)
     horizontal_number_of_pixels::Int
     vertical_number_of_pixels::Int
-    four_velocity::Vector{Float64} = static_four_velocity(metric(position, spacetime))
+    four_velocity::Vector{Float64} = zeros(4) 
     @assert 0 < horizontal_aperture_in_degrees <= 180
     @assert 0 < vertical_aperture_in_degrees <= 90
     @assert 0 < horizontal_number_of_pixels

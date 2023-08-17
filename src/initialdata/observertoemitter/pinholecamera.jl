@@ -5,10 +5,11 @@
 function initialize(camera::PinholeCamera, configurations::AbstractOTEConfigurations)
     spacetime = configurations.spacetime
     position = camera.position
+    four_velocity!(camera, spacetime)
     cache = initial_data_cache(configurations)
     metric!(cache.metric, position, spacetime,cache.spacetime_cache)
     has_lorentzian_signature(cache.metric) || throw(ArgumentError("The metric signature is not Lorentzian."))
-    tetrad!(cache, position, spacetime)
+    tetrad!(cache, position, camera.four_velocity, spacetime)
     rays = my_zeros(configurations)    
     @views begin
         xμ = rays[1:4,:]

@@ -58,10 +58,16 @@ function pixel_solid_angles(camera::PinholeCamera)
     return solid_angles
 end
 
+function four_velocity!(camera::PinholeCamera, spacetime::AbstractSpacetime)
+    if all(camera.four_velocity .== 0.0)
+        camera.four_velocity .= static_four_velocity(metric(camera.position, spacetime))
+    end 
+end
+
 function default_tetrad(camera::PinholeCamera, spacetime::AbstractSpacetime)
     cache = PinholeCameraCache(spacetime)
     metric!(cache.metric, camera.position, spacetime, cache.spacetime_cache)
-    tetrad!(cache, camera.position, spacetime)
+    tetrad!(cache, camera.position, camera.four_velocity, spacetime)
     return cache.tetrad
 end
 
