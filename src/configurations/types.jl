@@ -27,6 +27,7 @@ end
     vertical_aperture_in_degrees::Float64   #This is distance*cos(horizontal_aperture_angle)
     horizontal_number_of_pixels::Int
     vertical_number_of_pixels::Int
+    four_velocity::Vector{Float64} = static_four_velocity(metric(position, spacetime))
     @assert 0 < horizontal_aperture_in_degrees <= 180
     @assert 0 < vertical_aperture_in_degrees <= 90
     @assert 0 < horizontal_number_of_pixels

@@ -18,7 +18,7 @@ end
 function tetrad!(cache::PinholeCameraCache, position, spacetime::AbstractSpacetime)
     coords_top = coordinates_topology(spacetime)
     metric, time_vector, triad, _ = unpack_views(cache)
-    static_four_velocity!(time_vector, metric)
+    time_vector .= camera.four_velocity
     spherical_like_triad!(triad, position, time_vector, metric, coords_top)
     return nothing
 end
