@@ -343,3 +343,40 @@ function observed_bolometric_intensities_serial(initial_data::AbstractMatrix, ou
     end
     return Iobs
 end
+
+function observed_bolometric_intensities_tmap(initial_data::AbstractMatrix, 
+                                        output_data::AbstractMatrix, 
+                                        configurations::VacuumOTEConfigurations, 
+                                        ::ImagePlane;
+                                        tasks_per_thread::Int=2)
+    same_size(initial_data, output_data) || throw(DimensionMismatch("The initial and output data must have the same size."))
+    eight_components(initial_data, output_data) || throw(DimensionMismatch("The initial and output data must have eight components.")) 
+    nrays = size(initial_data, 2)
+    Iobs = zeros(nrays)
+    itr = 1:nrays
+    task(chunk, Iobs, initial_data, output_data, configurations) = begin
+        spacetime = configurations.spacetime
+        model = configurations.radiative_model
+        coords_top = coordinates_topology(spacetime)
+        cache = postprocess_cache(configurations)
+        for i in chunk
+            @views begin 
+                pi = initial_data[1:4,i]
+                ki = initial_data[5:8,i]
+                pf = output_data[1:4,i]
+                kf = output_data[5:8,i]
+            end
+            if !is_final_position_at_source(pf, spacetime, model)
+                continue
+            end
+            metrics_and_four_velocities!(cache, pi, pf, spacetime, model, coords_top)
+            q = energies_quotient(ki, kf, cache)
+            #The difference with the ETO scheme here should be the minus sign in front of the final momentum
+            #at get emitted intensity, and the is_final_position_at_source call (at observer in ETO)...
+            Iobs[i] = q^4*rest_frame_bolometric_intensity(pf, -kf, cache.rest_frame_four_velocity, cache.emitter_metric, spacetime, model, coords_top, cache.model_cache)
+        end
+        return nothing
+    end
+    tmap(task, itr, Iobs, initial_data, output_data, configurations; tasks_per_thread=tasks_per_thread)
+    return Iobs
+end
