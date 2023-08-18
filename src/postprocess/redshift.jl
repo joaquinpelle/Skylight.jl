@@ -9,8 +9,8 @@ function energies_quotients(initial_data, output_data, configurations::VacuumOTE
     nrays = size(initial_data, 2)
     q = zeros(nrays)
     # Break the work into chunks. More chunks per thread has better load balancing but more overhead
-    nchunks = div(nrays, nthreads()*tasks_per_thread)
-    chunks = Iterators.partition(1:nrays, nchunks)
+    chunk_size = div(nrays, nthreads()*tasks_per_thread)
+    chunks = Iterators.partition(1:nrays, chunk_size)
     # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
     @sync map(chunks) do chunk
         Threads.@spawn begin
@@ -46,8 +46,8 @@ function energies_quotients(initial_data, output_data, configurations::VacuumOTE
     nrays = size(initial_data, 2)
     q = zeros(nrays)
     # Break the work into chunks. More chunks per thread has better load balancing but more overhead
-    nchunks = div(nrays, nthreads()*tasks_per_thread)
-    chunks = Iterators.partition(1:nrays, nchunks)
+    chunk_size = div(nrays, nthreads()*tasks_per_thread)
+    chunks = Iterators.partition(1:nrays, chunk_size)
     # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
     @sync map(chunks) do chunk
         Threads.@spawn begin

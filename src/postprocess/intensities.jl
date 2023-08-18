@@ -37,8 +37,8 @@ function observed_bolometric_intensities(initial_data::AbstractMatrix,
     Iobs = zeros(nrays)
 
     # Break the work into chunks. More chunks per thread has better load balancing but more overhead
-    nchunks = div(nrays, nthreads()*tasks_per_thread)
-    chunks = Iterators.partition(1:nrays, nchunks)
+    chunk_size = max(1, div(nrays, nthreads()*tasks_per_thread))
+    chunks = Iterators.partition(1:nrays, chunk_size)
     # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
     @sync map(chunks) do chunk
         Threads.@spawn begin
@@ -99,8 +99,8 @@ function observed_bolometric_intensities(initial_data::AbstractMatrix,
     Iobs = zeros(nrays)
 
     # Break the work into chunks. More chunks per thread has better load balancing but more overhead
-    nchunks = div(nrays, nthreads()*tasks_per_thread)
-    chunks = Iterators.partition(1:nrays, nchunks)
+    chunk_size = max(1, div(nrays, nthreads()*tasks_per_thread))
+    chunks = Iterators.partition(1:nrays, chunk_size)
     # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
     @sync map(chunks) do chunk
         Threads.@spawn begin
@@ -165,8 +165,8 @@ function observed_specific_intensities(initial_data::AbstractMatrix,
     q = zeros(nrays)
     Iobs = zeros(NE, nrays)
     # Break the work into chunks. More chunks per thread has better load balancing but more overhead
-    nchunks = div(nrays, nthreads()*tasks_per_thread)
-    chunks = Iterators.partition(1:nrays, nchunks)
+    chunk_size = div(nrays, nthreads()*tasks_per_thread)
+    chunks = Iterators.partition(1:nrays, chunk_size)
     # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
     @sync map(chunks) do chunk
         Threads.@spawn begin
@@ -233,8 +233,8 @@ function observed_specific_intensities(initial_data::AbstractMatrix,
     q = zeros(nrays)
     Iobs = zeros(NE, nrays)
     # Break the work into chunks. More chunks per thread has better load balancing but more overhead
-    nchunks = div(nrays, nthreads()*tasks_per_thread)
-    chunks = Iterators.partition(1:nrays, nchunks)
+    chunk_size = div(nrays, nthreads()*tasks_per_thread)
+    chunks = Iterators.partition(1:nrays, chunk_size)
     # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
     @sync map(chunks) do chunk
         Threads.@spawn begin
@@ -288,8 +288,8 @@ function observed_specific_intensities(initial_data::AbstractMatrix, output_data
     nrays = size(initial_data, 2)
     Iobs = zeros(NE, nrays)
     # Break the work into chunks. More chunks per thread has better load balancing but more overhead
-    nchunks = div(nrays, nthreads()*tasks_per_thread)
-    chunks = Iterators.partition(1:nrays, nchunks)
+    chunk_size = div(nrays, nthreads()*tasks_per_thread)
+    chunks = Iterators.partition(1:nrays, chunk_size)
     # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
     @sync map(chunks) do chunk
         Threads.@spawn begin
