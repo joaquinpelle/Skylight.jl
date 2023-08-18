@@ -1,8 +1,8 @@
-function initialize(configurations::VacuumETOConfigurations; chunks_per_thread::Int=2)
+function initialize(configurations::VacuumETOConfigurations; tasks_per_thread::Int=2)
     packets = my_zeros(configurations)
     Npp = configurations.number_of_packets_per_point
     # Break the work into chunks. More chunks per thread has better load balancing but more overhead
-    nchunks = div(configurations.number_of_points, chunks_per_thread*nthreads())
+    nchunks = div(configurations.number_of_points, tasks_per_thread*nthreads())
     nchunks > 0 || error("More chunks than points. Try reducing the chunks per thread or consider `initialize_serial`")
     chunks = Iterators.partition(enumerate(initial_positions(configurations)), nchunks)
     # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.

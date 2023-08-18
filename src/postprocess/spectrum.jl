@@ -20,7 +20,7 @@ function spectrum(initial_data,
                 energies; 
                 observer_four_velocity=nothing, 
                 flux_direction=nothing, 
-                chunks_per_thread::Int=2)
+                tasks_per_thread::Int=2)
     
     same_size(initial_data, output_data) || throw(DimensionMismatch("initial_data and output_data must have the same size."))
     eight_components(initial_data, output_data) || throw(DimensionMismatch("The initial and output data must have eight components."))
@@ -35,7 +35,7 @@ function spectrum(initial_data,
     Fobs = zeros(NE, nrays)
     dΩ = pixel_solid_angles(camera)
     # Break the work into chunks. More chunks per thread has better load balancing but more overhead
-    nchunks = div(nrays, nthreads()*chunks_per_thread)
+    nchunks = div(nrays, nthreads()*tasks_per_thread)
     chunks = Iterators.partition(1:nrays, nchunks)
     # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
     @sync map(chunks) do chunk
@@ -85,7 +85,7 @@ function spectrum(initial_data,
                 camera::PinholeCamera;
                 observer_four_velocity=nothing, 
                 flux_direction=nothing, 
-                chunks_per_thread::Int=2)
+                tasks_per_thread::Int=2)
     
     number_of_pixels(camera) == size(initial_data,2) || throw(DimensionMismatch("The number of pixels in the camera must be the same as the number of data rows."))
     
@@ -96,7 +96,7 @@ function spectrum(initial_data,
     Fobs = zeros(NE, nrays)
     dΩ = pixel_solid_angles(camera)
     # Break the work into chunks. More chunks per thread has better load balancing but more overhead
-    nchunks = div(nrays, nthreads()*chunks_per_thread)
+    nchunks = div(nrays, nthreads()*tasks_per_thread)
     chunks = Iterators.partition(1:nrays, nchunks)
     # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
     @sync map(chunks) do chunk

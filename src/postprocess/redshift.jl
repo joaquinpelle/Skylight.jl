@@ -1,6 +1,6 @@
 energies_quotients(initial_data, output_data, configurations::VacuumOTEConfigurations; kwargs...) = energies_quotients(initial_data, output_data, configurations, configurations.camera; kwargs...)
 
-function energies_quotients(initial_data, output_data, configurations::VacuumOTEConfigurations, camera::ImagePlane; chunks_per_thread::Int=2)
+function energies_quotients(initial_data, output_data, configurations::VacuumOTEConfigurations, camera::ImagePlane; tasks_per_thread::Int=2)
     same_size(initial_data, output_data) || throw(DimensionMismatch("initial_data and output_data must have the same size."))
     
     spacetime = configurations.spacetime
@@ -9,7 +9,7 @@ function energies_quotients(initial_data, output_data, configurations::VacuumOTE
     nrays = size(initial_data, 2)
     q = zeros(nrays)
     # Break the work into chunks. More chunks per thread has better load balancing but more overhead
-    nchunks = div(nrays, nthreads()*chunks_per_thread)
+    nchunks = div(nrays, nthreads()*tasks_per_thread)
     chunks = Iterators.partition(1:nrays, nchunks)
     # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
     @sync map(chunks) do chunk
@@ -36,7 +36,7 @@ function energies_quotients(initial_data, output_data, configurations::VacuumOTE
     return q
 end
 
-function energies_quotients(initial_data, output_data, configurations::VacuumOTEConfigurations, camera::PinholeCamera; observer_four_velocity=nothing, chunks_per_thread::Int=2)
+function energies_quotients(initial_data, output_data, configurations::VacuumOTEConfigurations, camera::PinholeCamera; observer_four_velocity=nothing, tasks_per_thread::Int=2)
     same_size(initial_data, output_data) || throw(DimensionMismatch("initial_data and output_data must have the same size."))
 
     spacetime = configurations.spacetime
@@ -46,7 +46,7 @@ function energies_quotients(initial_data, output_data, configurations::VacuumOTE
     nrays = size(initial_data, 2)
     q = zeros(nrays)
     # Break the work into chunks. More chunks per thread has better load balancing but more overhead
-    nchunks = div(nrays, nthreads()*chunks_per_thread)
+    nchunks = div(nrays, nthreads()*tasks_per_thread)
     chunks = Iterators.partition(1:nrays, nchunks)
     # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
     @sync map(chunks) do chunk

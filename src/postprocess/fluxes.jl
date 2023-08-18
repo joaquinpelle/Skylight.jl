@@ -4,7 +4,7 @@ function fluxes!(F, configurations, ::ImagePlane)
 end
 
 """For monochromatic / bolometric fluxes"""
-function fluxes!(F::AbstractVector, configurations, camera::PinholeCamera, initial_data::AbstractMatrix, output_data::AbstractMatrix; observer_four_velocity=nothing, flux_direction=nothing, chunks_per_thread::Int=2)
+function fluxes!(F::AbstractVector, configurations, camera::PinholeCamera, initial_data::AbstractMatrix, output_data::AbstractMatrix; observer_four_velocity=nothing, flux_direction=nothing, tasks_per_thread::Int=2)
     same_size(initial_data, output_data) || throw(DimensionMismatch("initial_data and output_data must have the same size."))
     size(initial_data, 2) == size(F,1) || throw(DimensionMismatch("The number of rays in the initial and output data must be the same as the length of F."))
     number_of_pixels(camera) == size(F,1) || throw(DimensionMismatch("The number of pixels in the camera must be the same as the length of F."))
@@ -14,7 +14,7 @@ function fluxes!(F::AbstractVector, configurations, camera::PinholeCamera, initi
     nrays = number_of_pixels(camera)
     dΩ = pixel_solid_angles(camera)
     # Break the work into chunks. More chunks per thread has better load balancing but more overhead
-    nchunks = div(nrays, nthreads()*chunks_per_thread)
+    nchunks = div(nrays, nthreads()*tasks_per_thread)
     chunks = Iterators.partition(1:nrays, nchunks)
     # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
     @sync map(chunks) do chunk
@@ -41,7 +41,7 @@ function fluxes!(F::AbstractVector, configurations, camera::PinholeCamera, initi
 end
 
 """For multi-energies fluxes"""
-function fluxes!(F::AbstractMatrix, configurations::NonVacuumOTEConfigurations, camera::PinholeCamera, initial_data::AbstractMatrix, output_data::AbstractMatrix; observer_four_velocity=nothing, flux_direction=nothing, chunks_per_thread::Int=2)
+function fluxes!(F::AbstractMatrix, configurations::NonVacuumOTEConfigurations, camera::PinholeCamera, initial_data::AbstractMatrix, output_data::AbstractMatrix; observer_four_velocity=nothing, flux_direction=nothing, tasks_per_thread::Int=2)
     same_size(initial_data, output_data) || throw(DimensionMismatch("initial_data and output_data must have the same size."))
     same_size(initial_data, F, 2) || throw(DimensionMismatch("The number of rays in the initial and output data must be the same as the length of F."))
     number_of_pixels(camera) == size(F,2) || throw(DimensionMismatch("The number of pixels in the camera must be the same as the length of F."))
@@ -50,7 +50,7 @@ function fluxes!(F::AbstractMatrix, configurations::NonVacuumOTEConfigurations, 
     dΩ = pixel_solid_angles(camera)
     nrays = number_of_pixels(camera)
     # Break the work into chunks. More chunks per thread has better load balancing but more overhead
-    nchunks = div(nrays, nthreads()*chunks_per_thread)
+    nchunks = div(nrays, nthreads()*tasks_per_thread)
     chunks = Iterators.partition(1:nrays, nchunks)
     # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
     @sync map(chunks) do chunk
@@ -73,7 +73,7 @@ function fluxes!(F::AbstractMatrix, configurations::NonVacuumOTEConfigurations, 
 end
 
 """For multi-energies fluxes"""
-function fluxes!(F::AbstractMatrix, configurations::VacuumOTEConfigurations, camera::PinholeCamera, initial_data::AbstractMatrix, output_data::AbstractMatrix; observer_four_velocity=nothing, flux_direction=nothing, chunks_per_thread::Int=2)
+function fluxes!(F::AbstractMatrix, configurations::VacuumOTEConfigurations, camera::PinholeCamera, initial_data::AbstractMatrix, output_data::AbstractMatrix; observer_four_velocity=nothing, flux_direction=nothing, tasks_per_thread::Int=2)
     same_size(initial_data, output_data) || throw(DimensionMismatch("initial_data and output_data must have the same size."))
     same_size(initial_data, F, 2) || throw(DimensionMismatch("The number of rays in the initial and output data must be the same as the length of F."))
     number_of_pixels(camera) == size(F,2) || throw(DimensionMismatch("The number of pixels in the camera must be the same as the length of F."))
@@ -83,7 +83,7 @@ function fluxes!(F::AbstractMatrix, configurations::VacuumOTEConfigurations, cam
     dΩ = pixel_solid_angles(camera)
     nrays = number_of_pixels(camera)
     # Break the work into chunks. More chunks per thread has better load balancing but more overhead
-    nchunks = div(nrays, nthreads()*chunks_per_thread)
+    nchunks = div(nrays, nthreads()*tasks_per_thread)
     chunks = Iterators.partition(1:nrays, nchunks)
     # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
     @sync map(chunks) do chunk

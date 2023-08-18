@@ -36,7 +36,7 @@ function line_emission_spectrum(
     bin_size::Union{Number,Nothing}=nothing, 
     start::Union{Number,Nothing}=nothing, 
     stop::Union{Number,Nothing}=nothing,
-    chunks_per_thread::Int=2)
+    tasks_per_thread::Int=2)
 
     not_simultaneously_nothing(num_bins, bin_size) || throw(ArgumentError("Either bin_size or num_bins must be specified."))
     same_size(initial_data, output_data) || throw(DimensionMismatch("initial_data and output_data must have the same size."))
@@ -50,7 +50,7 @@ function line_emission_spectrum(
     q = zeros(nrays)
     at_source = zeros(Bool, nrays)
     # Break the work into chunks. More chunks per thread has better load balancing but more overhead
-    nchunks = div(nrays, nthreads()*chunks_per_thread)
+    nchunks = div(nrays, nthreads()*tasks_per_thread)
     chunks = Iterators.partition(1:nrays, nchunks)
     # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
     @sync map(chunks) do chunk
@@ -97,7 +97,7 @@ function line_emission_spectrum(
     stop::Union{Number,Nothing}=nothing,
     observer_four_velocity::Union{AbstractVector,Nothing}=nothing,
     flux_direction::Union{AbstractVector,Nothing}=nothing,
-    chunks_per_thread::Int=2)
+    tasks_per_thread::Int=2)
     
     not_simultaneously_nothing(num_bins, bin_size) || throw(ArgumentError("Either bin_size or num_bins must be specified."))
     same_size(initial_data, output_data) || throw(DimensionMismatch("initial_data and output_data must have the same size."))
@@ -113,7 +113,7 @@ function line_emission_spectrum(
     at_source = zeros(Bool, nrays)
 
     # Break the work into chunks. More chunks per thread has better load balancing but more overhead
-    nchunks = div(nrays, nthreads()*chunks_per_thread)
+    nchunks = div(nrays, nthreads()*tasks_per_thread)
     chunks = Iterators.partition(1:nrays, nchunks)
     # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
     @sync map(chunks) do chunk

@@ -23,7 +23,7 @@ function observed_bolometric_intensities(initial_data::AbstractMatrix,
                                         output_data::AbstractMatrix, 
                                         configurations::VacuumOTEConfigurations, 
                                         ::ImagePlane;
-                                        chunks_per_thread::Int=2)
+                                        tasks_per_thread::Int=2)
 
     same_size(initial_data, output_data) || throw(DimensionMismatch("The initial and output data must have the same size."))
     eight_components(initial_data, output_data) || throw(DimensionMismatch("The initial and output data must have eight components.")) 
@@ -37,7 +37,7 @@ function observed_bolometric_intensities(initial_data::AbstractMatrix,
     Iobs = zeros(nrays)
 
     # Break the work into chunks. More chunks per thread has better load balancing but more overhead
-    nchunks = div(nrays, nthreads()*chunks_per_thread)
+    nchunks = div(nrays, nthreads()*tasks_per_thread)
     chunks = Iterators.partition(1:nrays, nchunks)
     # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
     @sync map(chunks) do chunk
@@ -87,7 +87,7 @@ function observed_bolometric_intensities(initial_data::AbstractMatrix,
                                         configurations::VacuumOTEConfigurations, 
                                         camera::PinholeCamera; 
                                         observer_four_velocity=nothing,
-                                        chunks_per_thread::Int=2)
+                                        tasks_per_thread::Int=2)
     same_size(initial_data, output_data) || throw(DimensionMismatch("The initial and output data must have the same size."))
     eight_components(initial_data, output_data) || throw(DimensionMismatch("The initial and output data must have eight components.")) 
 
@@ -99,7 +99,7 @@ function observed_bolometric_intensities(initial_data::AbstractMatrix,
     Iobs = zeros(nrays)
 
     # Break the work into chunks. More chunks per thread has better load balancing but more overhead
-    nchunks = div(nrays, nthreads()*chunks_per_thread)
+    nchunks = div(nrays, nthreads()*tasks_per_thread)
     chunks = Iterators.partition(1:nrays, nchunks)
     # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
     @sync map(chunks) do chunk
@@ -151,7 +151,7 @@ function observed_specific_intensities(initial_data::AbstractMatrix,
                                     configurations::VacuumOTEConfigurations, 
                                     ::ImagePlane, 
                                     observation_energies::AbstractVector;
-                                    chunks_per_thread::Int=2)
+                                    tasks_per_thread::Int=2)
     same_size(initial_data, output_data) || throw(DimensionMismatch("The initial and output data must have the same size."))
     eight_components(initial_data, output_data) || throw(DimensionMismatch("The initial and output data must have eight components.")) 
     
@@ -165,7 +165,7 @@ function observed_specific_intensities(initial_data::AbstractMatrix,
     q = zeros(nrays)
     Iobs = zeros(NE, nrays)
     # Break the work into chunks. More chunks per thread has better load balancing but more overhead
-    nchunks = div(nrays, nthreads()*chunks_per_thread)
+    nchunks = div(nrays, nthreads()*tasks_per_thread)
     chunks = Iterators.partition(1:nrays, nchunks)
     # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
     @sync map(chunks) do chunk
@@ -220,7 +220,7 @@ function observed_specific_intensities(initial_data::AbstractMatrix,
                                     camera::PinholeCamera, 
                                     observation_energies; 
                                     observer_four_velocity=nothing,
-                                    chunks_per_thread::Int=2)
+                                    tasks_per_thread::Int=2)
     
     same_size(initial_data, output_data) || throw(DimensionMismatch("The initial and output data must have the same size."))
     eight_components(initial_data, output_data) || throw(DimensionMismatch("The initial and output data must have eight components."))
@@ -233,7 +233,7 @@ function observed_specific_intensities(initial_data::AbstractMatrix,
     q = zeros(nrays)
     Iobs = zeros(NE, nrays)
     # Break the work into chunks. More chunks per thread has better load balancing but more overhead
-    nchunks = div(nrays, nthreads()*chunks_per_thread)
+    nchunks = div(nrays, nthreads()*tasks_per_thread)
     chunks = Iterators.partition(1:nrays, nchunks)
     # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
     @sync map(chunks) do chunk
@@ -288,7 +288,7 @@ function observed_specific_intensities(initial_data::AbstractMatrix, output_data
     nrays = size(initial_data, 2)
     Iobs = zeros(NE, nrays)
     # Break the work into chunks. More chunks per thread has better load balancing but more overhead
-    nchunks = div(nrays, nthreads()*chunks_per_thread)
+    nchunks = div(nrays, nthreads()*tasks_per_thread)
     chunks = Iterators.partition(1:nrays, nchunks)
     # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
     @sync map(chunks) do chunk
