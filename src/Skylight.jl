@@ -1,6 +1,6 @@
 module Skylight
 
-using Base.Threads: @threads, nthreads, threadid
+using Base.Threads: @threads, @spawn, nthreads, threadid
 using DataInterpolations
 using DelimitedFiles
 using ForwardDiff
@@ -144,7 +144,6 @@ export AbstractCamera,
 export max_radius
 
 export initialize, 
-    initialize_serial,
     callback_setup,
     integrate
 

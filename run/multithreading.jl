@@ -22,6 +22,8 @@ function time_intensities(; N, tasks_per_thread)
     @time _ = Skylight.observed_bolometric_intensities_serial(initial_data, output_data, configurations, camera)
     println("Multithread")
     @time _ = observed_bolometric_intensities(initial_data, output_data, configurations, camera; tasks_per_thread=tasks_per_thread)
+    println("Multithread tmap")
+    @time _ = Skylight.observed_bolometric_intensities_tmap(initial_data, output_data, configurations, camera; tasks_per_thread=tasks_per_thread)
     return nothing
 end
 
@@ -46,6 +48,8 @@ function btime_intensities(; N, tasks_per_thread)
     @btime _ = Skylight.observed_bolometric_intensities_serial($initial_data, $output_data, $configurations, $camera)
     println("Multithread")
     @btime _ = observed_bolometric_intensities($initial_data, $output_data, $configurations, $camera; tasks_per_thread = $tasks_per_thread)
+    println("Multithread tmap")
+    @btime _ = Skylight.observed_bolometric_intensities_tmap($initial_data, $output_data, $configurations, $camera; tasks_per_thread = $tasks_per_thread)
     return nothing
 end
 
