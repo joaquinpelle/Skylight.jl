@@ -1,21 +1,16 @@
 function initialize(configurations::VacuumETOConfigurations; tasks_per_thread::Int=2)
     packets = my_zeros(configurations)
-    Npp = configurations.number_of_packets_per_point
-    # Break the work into chunks. More chunks per thread has better load balancing but more overhead
-    chunk_size = div(configurations.number_of_points, tasks_per_thread*nthreads())
-    chunk_size > 0 || error("More chunks than points. Try reducing the chunks per thread or consider `initialize_serial`")
-    chunks = Iterators.partition(enumerate(initial_positions(configurations)), chunk_size)
-    # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
-    @sync map(chunks) do chunk
-        Threads.@spawn begin
-            cache = initial_data_cache(configurations)
-            for (index, position) in chunk
-                packet_index = (index-1)*Npp+1
-                @views packets_at_position = packets[:, packet_index:(packet_index+Npp-1)]
-                initialize_packets_at_position!(packets_at_position, position, cache, configurations)
-            end
+    task(chunk, packets, configurations) = begin
+        Npp = configurations.number_of_packets_per_point
+        cache = initial_data_cache(configurations)
+        for (index, position) in chunk
+            packet_index = (index-1)*Npp+1
+            @views packets_at_position = packets[:, packet_index:(packet_index+Npp-1)]
+            initialize_packets_at_position!(packets_at_position, position, cache, configurations)
         end
     end
+    itr = enumerate(initial_positions(configurations))
+    tmap(task, itr, packets, configurations; tasks_per_thread=tasks_per_thread)
     return packets
 end
 

@@ -31,7 +31,7 @@ function spectrum(initial_data,
     coords_top = coordinates_topology(spacetime)
     nrays = size(initial_data, 2)
     NE = length(energies)
-    q = zeros(nrays)
+    
     Fobs = zeros(NE, nrays)
     dΩ = pixel_solid_angles(camera)
     # Break the work into chunks. More chunks per thread has better load balancing but more overhead
@@ -54,15 +54,15 @@ function spectrum(initial_data,
                     continue
                 end
                 emitter_metric_and_four_velocity!(cache, pf, spacetime, model, coords_top)
-                q[i] = energies_quotient(ki, kf, cache)
+                q = energies_quotient(ki, kf, cache)
                 for j in axes(energies, 1)
-                    emitted_energy = energies[j]/q[i]
+                    emitted_energy = energies[j]/q
                     #The difference with the ETO scheme here should be the minus sign in front of the final momentum
                     #at get emitted intensity, and the is_final_position_at_source call (at observer in ETO)...
                     Fem = rest_frame_specific_intensity(pf, -kf, emitted_energy, cache.rest_frame_four_velocity, cache.emitter_metric, spacetime, model, coords_top, cache.model_cache)
                     nu = scalar_product(ki, cache.observer_four_velocity, cache.observer_metric)
                     nn = scalar_product(ki, cache.flux_direction, cache.observer_metric)
-                    Fobs[j, i] = q[i]^3*Fem*nu*nn*dΩ[i]            
+                    Fobs[j, i] = q^3*Fem*nu*nn*dΩ[i]            
                 end
             end
         end

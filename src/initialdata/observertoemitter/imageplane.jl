@@ -1,21 +1,18 @@
 function initialize(camera::ImagePlane, configurations::AbstractOTEConfigurations; tasks_per_thread::Int=2)
     rays = my_zeros(configurations)
-    Npx = number_of_pixels(camera)
-    for (it, initial_time) in enumerate(camera.observation_times) 
-        # Break the work into chunks. More chunks per thread has better load balancing but more overhead
-        chunk_size = max(1, div(Npx, tasks_per_thread*nthreads()))
-        chunks = Iterators.partition(enumerate(grid(camera)), chunk_size)
-        # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
-        @sync map(chunks) do camera_chunk
-            Threads.@spawn begin
-                cache = initial_data_cache(configurations)
-                for (ipx, pixel_coordinates) in camera_chunk 
-                    index = (it-1)*Npx+ipx
-                    @views ray = rays[1:8, index]
-                    initialize_single!(ray, initial_time, pixel_coordinates, configurations, cache)
-                end
-            end
+    task(chunk, rays, configurations, it, initial_time) = begin
+        cache = initial_data_cache(configurations)
+        Npx = number_of_pixels(configurations.camera)
+        for (ipx, pixel_coordinates) in chunk 
+            index = (it-1)*Npx+ipx
+            @views ray = rays[1:8, index]
+            initialize_single!(ray, initial_time, pixel_coordinates, configurations, cache)
         end
+        return nothing
+    end
+    itr = enumerate(grid(camera))
+    for it in enumerate(camera.observation_times) 
+        tmap(task, itr, rays, configurations, it, initial_time; tasks_per_thread=tasks_per_thread) 
     end
     return rays
 end

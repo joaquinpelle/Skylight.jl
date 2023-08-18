@@ -47,7 +47,7 @@ function line_emission_spectrum(
 
     nrays = size(initial_data, 2)
     F = zeros(nrays)
-    q = zeros(nrays)
+    
     at_source = zeros(Bool, nrays)
     # Break the work into chunks. More chunks per thread has better load balancing but more overhead
     chunk_size = div(nrays, nthreads()*tasks_per_thread)
@@ -68,8 +68,8 @@ function line_emission_spectrum(
                 end
                 at_source[i] = true
                 metrics_and_four_velocities!(cache, pi, pf, spacetime, model, coords_top)
-                q[i] = energies_quotient(ki, kf, cache) #TODO add energy as argument below
-                F[i] = q[i]^3*line_emission_profile(pf, -kf, cache.rest_frame_four_velocity, cache.emitter_metric, spacetime, model, coords_top, cache)
+                q = energies_quotient(ki, kf, cache) #TODO add energy as argument below
+                F[i] = q^3*line_emission_profile(pf, -kf, cache.rest_frame_four_velocity, cache.emitter_metric, spacetime, model, coords_top, cache)
             end
         end
     end
@@ -109,7 +109,7 @@ function line_emission_spectrum(
     dΩ = pixel_solid_angles(camera)
     nrays = size(initial_data, 2)
     F = zeros(nrays)
-    q = zeros(nrays)
+    
     at_source = zeros(Bool, nrays)
 
     # Break the work into chunks. More chunks per thread has better load balancing but more overhead
@@ -135,8 +135,8 @@ function line_emission_spectrum(
                 emitter_metric_and_four_velocity!(cache, pf, spacetime, model, coords_top)
                 nu = scalar_product(ki, cache.observer_four_velocity, cache.observer_metric)
                 nn = scalar_product(ki, cache.flux_direction, cache.observer_metric)
-                q[i] = energies_quotient(ki, kf, cache)
-                F[i] = nu*nn*q[i]^3*dΩ[i]*line_emission_profile(pf, -kf, cache.rest_frame_four_velocity, cache.emitter_metric, spacetime, model, coords_top, cache)
+                q = energies_quotient(ki, kf, cache)
+                F[i] = nu*nn*q^3*dΩ[i]*line_emission_profile(pf, -kf, cache.rest_frame_four_velocity, cache.emitter_metric, spacetime, model, coords_top, cache)
             end
         end
     end
