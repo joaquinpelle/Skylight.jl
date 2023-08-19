@@ -2,7 +2,7 @@
     M::Float64
     a::Float64
     R0::Float64
-
+    M == 1.0 || "Warning: circular orbit functions currently implemented only for M = 1.0"
     @assert M >= 0.0 "M must be non-negative"
 end
 
@@ -62,16 +62,12 @@ function horizons(spacetime::FRKerrSpacetime)
 end
 
 function event_horizon_radius(spacetime::FRKerrSpacetime)
-
     h = horizon_parameter(spacetime)
-    
     if h==0.0
         error("Horizons are degenerate. Please use horizons() to find the horizons and decide.")
     end
-
     ri = horizons(spacetime)
     ri = ri[ri.>0.0]
-
     if length(ri)==1
         return ri[1]
     elseif (length(ri)==2 || length(ri)==3)
@@ -84,17 +80,12 @@ function event_horizon_radius(spacetime::FRKerrSpacetime)
 end
 
 function cosmologic_horizon_radius(spacetime::FRKerrSpacetime)
-
-    R0 = spacetime.R0
     h = horizon_parameter(spacetime)
-    
     if h==0.0
         error("Horizons are degenerate. Please use horizons() to find the horizons and decide.")
     end
-
     ri = horizons(spacetime)
     ri = ri[ri.>0.0]
-
     if length(ri)==3
         return ri[3]
     else
@@ -102,21 +93,42 @@ function cosmologic_horizon_radius(spacetime::FRKerrSpacetime)
     end
 end
 
-"""Provisory taken equal to Kerr"""
-function isco_radius(spacetime::FRKerrSpacetime, rotation_sense::AbstractRotationSense)
-    x = spacetime.a/spacetime.M      #Rotation parameter
-    Z1=1+cbrt(1-x^2)*(cbrt(1+x)+cbrt(1-x))
-    Z2=sqrt(3*x^2+Z1^2)
-    s = sign(rotation_sense)
-    return spacetime.M*(3+Z2 - s*sqrt((3-Z1)*(3+Z1+2*Z2)))
+"""Set for M=1"""
+function circular_geodesic_energy(position, spacetime::FRKerrSpacetime, rotation_sense::AbstractRotationSense)
+    a = spacetime.a
+    R0 = spacetime.R0
+    r = radius(position, spacetime)
+    term1 = 1 - 2 / r - (r^2 + a^2) * (R0 / 12) + a * (1 / r^3 - (R0 / 12))^(1/2)
+    term2 = (1 - 3 / r - a^2 * (R0 / 12) + 2 * a * (1 / r^3 - (R0 / 12))^(1/2))^(1/2)
+    E = term1 / term2
+    return E
 end
 
-"""Provisory taken equal to Kerr"""
-function circular_geodesic_angular_speed(position, spacetime::FRKerrSpacetime, rotation_sense::AbstractRotationSense)
-    M = spacetime.M
+"""Set for M=1"""
+function circular_geodesic_specific_angular_momentum(position, spacetime::FRKerrSpacetime, rotation_sense::AbstractRotationSense)
     a = spacetime.a
+    R0 = spacetime.R0
+    y = R0/12
     r = radius(position, spacetime)
     s = sign(rotation_sense)
-    Ω = s*sqrt(M)/(r^1.5 + s*a*sqrt(M))
-    return Ω
+    A = 2*a + a*r*(r^2 + a^2)*y - s*r*(r^2 + a^2)*(r^(-3) - y)^(1/2)
+    B = r*(1 - 2/r - (r^2+a^2)*y + s*a*(r^(-3) - y)^(1/2))
+    l_K = -A / B
+    return l_K
+end
+
+"""Set for M=1"""
+function isco_radius(spacetime::FRKerrSpacetime, rotation_sense::AbstractRotationSense)
+    bounds = (1.0, 10.0)  # Search interval between 1 and 10 for r
+    result = optimize(r -> circular_geodesic_specific_angular_momentum([0.0,r,π/2,0.0], spacetime, rotation_sense), bounds[1], bounds[2]) 
+    r_isco = Optim.minimizer(result)
+    return r_isco 
+end
+
+"""Set for M=1"""
+function mbco_radius(spacetime::FRKerrSpacetime, rotation_sense::AbstractRotationSense)
+    equation(r) = circular_geodesic_energy([0.0,r,π/2,0.0], spacetime, rotation_sense) - 1
+    roots = find_zeros(equation, 1, 10) 
+    r_mbco = maximum(roots)
+    return r_mbco 
 end
