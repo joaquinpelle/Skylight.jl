@@ -11,7 +11,7 @@ function initialize(camera::ImagePlane, configurations::AbstractOTEConfiguration
         return nothing
     end
     itr = enumerate(grid(camera))
-    for it in enumerate(camera.observation_times) 
+    for (it, initial_time) in enumerate(camera.observation_times) 
         tmap(task, itr, rays, configurations, it, initial_time; tasks_per_thread=tasks_per_thread) 
     end
     return rays

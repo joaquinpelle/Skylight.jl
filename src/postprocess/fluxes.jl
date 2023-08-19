@@ -24,7 +24,7 @@ fluxes_task(chunk, F::AbstractVector, initial_data, output_data, configurations,
     return nothing
 end
 
-fluxes_task(chunk, F::AbstracMatrix, initial_data, output_data, configurations, dΩ; kwargs...) = begin
+fluxes_task(chunk, F::AbstractMatrix, initial_data, output_data, configurations, dΩ; kwargs...) = begin
     cache = fluxes_task_init(configurations; kwargs...)
     for i in chunk
         @views begin 
