@@ -363,8 +363,8 @@ function circular_geodesic_specific_angular_momentum(position, spacetime::Abstra
     s = sign(rotation_sense)
     sqrtM = sqrt(M)
     sqrtr = sqrt(r)
-    Ω = s*sqrtM*(r^2-s*2a*sqrtM*sqrtr+a^2)/(r^1.5 -2M*sqrtr + s*a*sqrtM)
-    return Ω
+    l_K = s*sqrtM*(r^2-s*2a*sqrtM*sqrtr+a^2)/(r^1.5 -2M*sqrtr + s*a*sqrtM)
+    return l_K
 end
 
 function innermost_stable_specific_angular_momentum(spacetime::AbstractKerrSpacetime, rotation_sense)
