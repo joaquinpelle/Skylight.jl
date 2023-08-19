@@ -7,6 +7,7 @@ using ForwardDiff
 using HDF5
 using KeywordDispatch
 using LinearAlgebra
+using Optim
 using Parameters
 using Polynomials
 using Random
