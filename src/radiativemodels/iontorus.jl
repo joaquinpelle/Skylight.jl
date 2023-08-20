@@ -56,7 +56,7 @@ function cusp_and_center_radius!(model::IonTorus, spacetime)
     l0 = model.l0
     rmb = mbco_radius(spacetime, model.rotation_sense)
     rms = isco_radius(spacetime, model.rotation_sense)
-    rmax = 100M
+    rmax = 10M
     aux(r) = circular_geodesic_specific_angular_momentum([0.0,r,π/2,0.0], spacetime, model.rotation_sense)-l0
     model.rcusp = find_zero(aux, (rmb, rms))
     model.rcenter = find_zero(aux, (rms, rmax))
