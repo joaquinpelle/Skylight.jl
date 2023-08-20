@@ -2,7 +2,6 @@
     M::Float64
     a::Float64
     R0::Float64
-    M == 1.0 || "Warning: circular orbit functions currently implemented only for M = 1.0"
     @assert M >= 0.0 "M must be non-negative"
 end
 
@@ -62,6 +61,11 @@ function horizons(spacetime::FRKerrSpacetime)
 end
 
 function event_horizon_radius(spacetime::FRKerrSpacetime)
+    #The horizon parameter is undefined for R0=0, so we use Kerr in that case
+    if spacetime.R0==0.0
+        return event_horizon_radius(KerrSpacetimeBoyerLindquistCoordinates(M=spacetime.M,a=spacetime.a))
+    end
+
     h = horizon_parameter(spacetime)
     if h==0.0
         error("Horizons are degenerate. Please use horizons() to find the horizons and decide.")
@@ -98,8 +102,9 @@ function circular_geodesic_energy(position, spacetime::FRKerrSpacetime, rotation
     a = spacetime.a
     R0 = spacetime.R0
     r = radius(position, spacetime)
-    term1 = 1 - 2 / r - (r^2 + a^2) * (R0 / 12) + a * (1 / r^3 - (R0 / 12))^(1/2)
-    term2 = (1 - 3 / r - a^2 * (R0 / 12) + 2 * a * (1 / r^3 - (R0 / 12))^(1/2))^(1/2)
+    s = sign(rotation_sense)
+    term1 = 1 - 2 / r - (r^2 + a^2) * (R0 / 12) + s*a * (1 / r^3 - (R0 / 12))^(1/2)
+    term2 = (1 - 3 / r - a^2 * (R0 / 12) + s*2 * a * (1 / r^3 - (R0 / 12))^(1/2))^(1/2)
     E = term1 / term2
     return E
 end
@@ -127,8 +132,42 @@ end
 
 """Set for M=1"""
 function mbco_radius(spacetime::FRKerrSpacetime, rotation_sense::AbstractRotationSense)
+    rmin = innermost_circular_orbit_radius(spacetime, rotation_sense)
     equation(r) = circular_geodesic_energy([0.0,r,π/2,0.0], spacetime, rotation_sense) - 1
-    roots = find_zeros(equation, 1, 10) 
+    roots = find_zeros(equation, rmin+1e-8, 10) 
     r_mbco = maximum(roots)
     return r_mbco 
+end
+
+function innermost_circular_orbit_radius(spacetime::FRKerrSpacetime, rotation_sense::AbstractRotationSense)
+    a = spacetime.a
+    R0 = spacetime.R0
+    s = sign(rotation_sense)
+    f(r) = (1 - 3 / r - a^2 * (R0 / 12) + s*2 * a * (1 / r^3 - (R0 / 12))^(1/2))
+    roots = find_zeros(f, 1, 10) 
+    rmin = minimum(roots)
+    return rmin 
+end
+
+"""Just return 100M, this if for ion torus"""
+function outermost_circular_orbit_radius(spacetime::FRKerrSpacetime, rotation_sense::AbstractRotationSense)
+    if spacetime.R0<=0.0
+        return 10*spacetime.M
+    else
+        return cbrt(12/spacetime.R0)
+    end
+    
+    return 
+end
+
+function innermost_stable_specific_angular_momentum(spacetime::FRKerrSpacetime, rotation_sense)
+    risco = isco_radius(spacetime, rotation_sense)
+    position = equatorial_position(risco, coordinates_topology(spacetime))
+    return circular_geodesic_specific_angular_momentum(position, spacetime, rotation_sense)
+end
+
+function marginally_bound_specific_angular_momentum(spacetime::FRKerrSpacetime, rotation_sense)
+    rmbco = mbco_radius(spacetime, rotation_sense)
+    position = equatorial_position(rmbco, coordinates_topology(spacetime))
+    return circular_geodesic_specific_angular_momentum(position, spacetime, rotation_sense)
 end
