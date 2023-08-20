@@ -367,13 +367,13 @@ function circular_geodesic_specific_angular_momentum(position, spacetime::Abstra
     return l_K
 end
 
-function innermost_stable_specific_angular_momentum(spacetime::AbstractKerrSpacetime, rotation_sense)
+function innermost_stable_specific_angular_momentum(spacetime::AbstractKerrSpacetime, rotation_sense::AbstractRotationSense)
     risco = isco_radius(spacetime, rotation_sense)
     position = equatorial_position(risco, coordinates_topology(spacetime))
     return circular_geodesic_specific_angular_momentum(position, spacetime, rotation_sense)
 end
 
-function marginally_bound_specific_angular_momentum(spacetime::AbstractKerrSpacetime, rotation_sense)
+function marginally_bound_specific_angular_momentum(spacetime::AbstractKerrSpacetime, rotation_sense::AbstractRotationSense)
     rmbco = mbco_radius(spacetime, rotation_sense)
     position = equatorial_position(rmbco, coordinates_topology(spacetime))
     return circular_geodesic_specific_angular_momentum(position, spacetime, rotation_sense)
