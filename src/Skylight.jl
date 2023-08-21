@@ -53,8 +53,8 @@ export AbstractSpacetime,
     RARSpacetime,
     BosonStarSpacetime
 
-export AbstractSpacetimeCache
-AbstractChristoffelCache
+export AbstractSpacetimeCache,
+    AbstractChristoffelCache
 
 export AbstractCoordinatesTopology,
     CartesianTopology,
@@ -164,17 +164,17 @@ export is_final_position_at_observer,
     axes_ranges,
     grid_view
 
-export contract
-lower_index,
-raise_index,
-scalar_product,
-norm_squared,
-normalize!,
-normalize_timelike!,
-normalize_spacelike!,
-orthogonal_projection,
-cos_angle_between_vectors,
-cos_angle_between_null_vectors
+export contract,
+    lower_index,
+    raise_index,
+    scalar_product,
+    norm_squared,
+    normalize!,
+    normalize_timelike!,
+    normalize_spacelike!,
+    orthogonal_projection,
+    cos_angle_between_vectors,
+    cos_angle_between_null_vectors
 
 export inv4x4,
     inv4x4sym!,
