@@ -1,3 +1,10 @@
+"""
+    MinkowskiSpacetimeCartesianCoordinates <: AbstractSpacetime
+
+Minkowski spacetime using Cartesian coordinates. The metric takes the form:
+
+See also: [Minkowski Spacetime](https://en.wikipedia.org/wiki/Minkowski_space). 
+"""
 struct MinkowskiSpacetimeCartesianCoordinates <: AbstractSpacetime end
 
 coordinates_topology(::MinkowskiSpacetimeCartesianCoordinates) = CartesianTopology()
@@ -20,7 +27,18 @@ function metric_inverse!(g,
 end
 
 #Spherical coordinates
+"""
+    MinkowskiSpacetimeSphericalCoordinates <: AbstractSpacetime
 
+Minkowski spacetime using spherical coordinates. The metric takes the form:
+
+```math
+\frac{n!}{k!(n - k)!} = \binom{n}{k}
+```
+where `r` is the radial coordinate and `θ` (theta) is the polar angle.
+
+See also: [Minkowski Spacetime](https://en.wikipedia.org/wiki/Minkowski_space). 
+"""
 struct MinkowskiSpacetimeSphericalCoordinates <: AbstractSpacetime end
 
 coordinates_topology(::MinkowskiSpacetimeSphericalCoordinates) = SphericalTopology()
