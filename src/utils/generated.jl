@@ -16,9 +16,9 @@ compose_N_times(3, detect_edges, matrix)
 """
 compose_N_times(N, f, x) = _compose_N_times(Val(N), f, x)
 
-@generated function _compose_N_times(::Val{N}, f, x) where N
+@generated function _compose_N_times(::Val{N}, f, x) where {N}
     expr = :(f(x))
-    for _ in 1:N-1
+    for _ in 1:(N - 1)
         expr = :(f($expr))
     end
     return expr

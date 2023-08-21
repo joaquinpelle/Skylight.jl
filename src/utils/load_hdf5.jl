@@ -54,13 +54,13 @@ function load_runs_from_hdf5(filename::String, run_indices::Vector{Int})
         for i in run_indices
             run_group = file["run_$(i)"]
             output_data = read(run_group, "output_data")
-            
+
             cb = load_callback_from_hdf5(filename, i)
             cbp = load_callback_params_from_hdf5(filename, i)
-            
+
             kwargs_group = file["run_$(run_index)/kwargs"]
             kwargs_dict = load_nested_dict_from_hdf5(kwargs_group)
-            
+
             push!(runs, (output_data, cb, cbp, kwargs_dict))
         end
         return runs
@@ -206,7 +206,7 @@ my_dict = Dict(:_typename => "MyTypeWithKW",
 
 my_instance = instantiate_custom_type(my_dict)
 """
-function instantiate_custom_type(dict::Dict{Symbol, })
+function instantiate_custom_type(dict::Dict{Symbol})
     typename = dict[:_typename]
     T = eval(Meta.parse(typename))
 
@@ -218,7 +218,7 @@ function instantiate_custom_type(dict::Dict{Symbol, })
     end
 
     kwarg_dict = Dict(Symbol(k) => v for (k, v) in pairs(dict) if (k != :_typename))
-    
+
     if T <: DataInterpolations.AbstractInterpolation
         PT = parametric_typename(T)
         return PT(kwarg_dict[:u], kwarg_dict[:t])
@@ -231,11 +231,11 @@ function instantiate_custom_type(dict::Dict{Symbol, })
         val_tuple = Tuple(x.second for x in sorted_pairs)
         return val_tuple
     end
-    
+
     return T(; kwarg_dict...)
 end
 
-function instantiate_custom_type(dict::Dict{String, T}) where T
+function instantiate_custom_type(dict::Dict{String, T}) where {T}
     # Convert the dictionary keys to symbols
     symbol_dict = Dict{Symbol, T}(Symbol(k) => v for (k, v) in dict)
     return instantiate_custom_type(symbol_dict)
@@ -254,7 +254,7 @@ Convert an HDF5 group to a dictionary. If the value is "nothing", the value in t
 """
 function load_nested_dict_from_hdf5(group::HDF5.Group)
     nested_dict = Dict{Symbol, Any}()
-    
+
     for name in keys(group)
         obj = group[name]
 
@@ -262,7 +262,7 @@ function load_nested_dict_from_hdf5(group::HDF5.Group)
             nested_dict[Symbol(name)] = load_nested_dict_from_hdf5(obj)
         elseif isa(obj, HDF5.Dataset)
             val = read(obj)
-            if val=="nothing"
+            if val == "nothing"
                 nested_dict[Symbol(name)] = nothing
             else
                 nested_dict[Symbol(name)] = val
@@ -271,6 +271,6 @@ function load_nested_dict_from_hdf5(group::HDF5.Group)
             @warn "Unsupported object type found in HDF5 group: $name"
         end
     end
-    
+
     return nested_dict
 end

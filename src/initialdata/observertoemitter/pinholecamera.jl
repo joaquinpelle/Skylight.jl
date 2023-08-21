@@ -6,13 +6,14 @@ function initialize(camera::PinholeCamera, configurations::AbstractOTEConfigurat
     spacetime = configurations.spacetime
     position = camera.position
     cache = initial_data_cache(configurations)
-    metric!(cache.metric, position, spacetime,cache.spacetime_cache)
-    has_lorentzian_signature(cache.metric) || throw(ArgumentError("The metric signature is not Lorentzian."))
+    metric!(cache.metric, position, spacetime, cache.spacetime_cache)
+    has_lorentzian_signature(cache.metric) ||
+        throw(ArgumentError("The metric signature is not Lorentzian."))
     tetrad!(cache, camera, spacetime)
-    rays = my_zeros(configurations)    
+    rays = my_zeros(configurations)
     @views begin
-        xμ = rays[1:4,:]
-        kμ = rays[5:8,:]
+        xμ = rays[1:4, :]
+        kμ = rays[5:8, :]
         tetrad = cache.tetrad
     end
     rays_position!(xμ, position)
@@ -39,15 +40,15 @@ function rays_tetrad_components!(kμ, camera::PinholeCamera)
 end
 
 function rays_triad_components!(kμ, camera::PinholeCamera)
-    @views space_kμ = kμ[2:4,:] 
+    @views space_kμ = kμ[2:4, :]
     @inbounds begin
-        pixels = (collect∘grid)(camera)
+        pixels = (collect ∘ grid)(camera)
         @threads for i in eachindex(pixels)
             α, β = pixels[i]
-            space_kμ[1,i] = cos(α)*cos(β)
-            space_kμ[2,i] = sin(α)*cos(β)
-            space_kμ[3,i] = sin(β)
+            space_kμ[1, i] = cos(α) * cos(β)
+            space_kμ[2, i] = sin(α) * cos(β)
+            space_kμ[3, i] = sin(β)
         end
     end
-    return nothing        
+    return nothing
 end

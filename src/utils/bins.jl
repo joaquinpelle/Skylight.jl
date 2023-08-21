@@ -16,7 +16,6 @@ Bin `values` and sum `weights` in each bin.
 - Values outside the range of `bins` are ignored.
 """
 function bin_values_and_sum_weights(bins, values, weights)
-
     if length(values) != length(weights)
         throw(ArgumentError("Length of values and weights must be the same"))
     end
@@ -29,12 +28,12 @@ function bin_values_and_sum_weights(bins, values, weights)
 
         # find the bin index for the current value
         bin_index = findfirst(b -> b > value, bins)
-        
+
         # skip values outside the bin range
         if bin_index == 1 || isnothing(bin_index)
             continue
         end
-        
+
         # decrement by 1 to get the correct index
         bin_index -= 1
 
@@ -66,11 +65,15 @@ Create bins for binning data.
 - If neither `bin_size` nor `num_bins` is provided, the function will throw an error.
 """
 
-function create_bins(; bin_size::Union{Number,Nothing}=nothing, num_bins::Union{Int,Nothing}=nothing, start::Number, stop::Number)
-    if !(bin_size===nothing)
+function create_bins(;
+    bin_size::Union{Number, Nothing} = nothing,
+    num_bins::Union{Int, Nothing} = nothing,
+    start::Number,
+    stop::Number)
+    if !(bin_size === nothing)
         return start:bin_size:stop
-    elseif !(num_bins===nothing)
-        return range(start, stop=stop, length=num_bins+1)
+    elseif !(num_bins === nothing)
+        return range(start, stop = stop, length = num_bins + 1)
     else
         error("Must provide either bin_size or num_bins")
     end
@@ -97,13 +100,12 @@ that the bin size is larger than the conditioner times the maximum local variati
 - `num_bins`: Number of bins.
 """
 function infer_num_bins(q, at_source, start, stop, bin_size_conditioner, edge_width, camera)
-    
     Nα, Nβ = numbers_of_pixels_per_side(camera)
     dα, dβ = grid_spacing(camera)
-    
+
     at_edge = detect_edges(edge_width, reshape(at_source, Nα, Nβ))
-    
+
     δq = approximate_gradient_norm(reshape(q, Nα, Nβ), dα, dβ)
     max_δq = maximum(δq[.!at_edge])
-    return Int(floor((stop-start)/(bin_size_conditioner*max_δq))) 
+    return Int(floor((stop - start) / (bin_size_conditioner * max_δq)))
 end

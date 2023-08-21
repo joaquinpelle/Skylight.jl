@@ -7,14 +7,25 @@ include("iontorus.jl")
 include("dummyextendedregion.jl")
 include("opacities.jl")
 
-function callback_setup(configurations; kwargs...)        
-    cb = callback(configurations.spacetime, configurations.radiative_model, coordinates_topology(configurations.spacetime))
-    cbp = callback_parameters(configurations.spacetime, configurations.radiative_model, configurations; kwargs...)
+function callback_setup(configurations; kwargs...)
+    cb = callback(configurations.spacetime,
+        configurations.radiative_model,
+        coordinates_topology(configurations.spacetime))
+    cbp = callback_parameters(configurations.spacetime,
+        configurations.radiative_model,
+        configurations;
+        kwargs...)
     return cb, cbp
 end
 
 #Interface
-callback(spacetime, model, coords_top) = throw(ArgumentError("Callback not implemented for this spacetime and radiative model"))
-callback_parameters(spacetime, model, configurations; kwargs...) = throw(ArgumentError("Callback parameters not implemented for this spacetime and radiative model"))
+function callback(spacetime, model, coords_top)
+    throw(ArgumentError("Callback not implemented for this spacetime and radiative model"))
+end
+function callback_parameters(spacetime, model, configurations; kwargs...)
+    throw(ArgumentError("Callback parameters not implemented for this spacetime and radiative model"))
+end
 
-callback(spacetime::AbstractSpacetime, model::AbstractRadiativeModel) = callback(spacetime, model, coordinates_topology(spacetime))
+function callback(spacetime::AbstractSpacetime, model::AbstractRadiativeModel)
+    callback(spacetime, model, coordinates_topology(spacetime))
+end

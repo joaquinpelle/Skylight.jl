@@ -1,6 +1,6 @@
 abstract type AbstractCallbackParameters end
 
-struct Run{C,CB}
+struct Run{C, CB}
     output_data::Matrix{Float64}
     callback::C
     callback_parameters::CB
@@ -9,7 +9,7 @@ end
 
 @with_kw mutable struct VacuumThreadCache{SC, CC}
     acceleration::Vector{Float64} = zeros(4)
-    christoffel::Array{Float64, 3} = zeros(4,4,4)
+    christoffel::Array{Float64, 3} = zeros(4, 4, 4)
     spacetime_cache::SC
     christoffel_cache::CC
 end
@@ -22,9 +22,9 @@ end
 
 @with_kw mutable struct NonVacuumThreadCache{SC, CC}
     acceleration::Vector{Float64} = zeros(4)
-    metric::Array{Float64, 2} = zeros(4,4)
+    metric::Array{Float64, 2} = zeros(4, 4)
     vμ::Vector{Float64} = zeros(4)
-    christoffel::Array{Float64, 3} = zeros(4,4,4)
+    christoffel::Array{Float64, 3} = zeros(4, 4, 4)
     spacetime_cache::SC
     christoffel_cache::CC
     ε::Vector{Float64}

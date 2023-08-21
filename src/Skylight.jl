@@ -41,7 +41,7 @@ export AbstractSpacetime,
     MinkowskiSpacetimeCartesianCoordinates,
     MinkowskiSpacetimeSphericalCoordinates,
     AbstractSchwarzschildSpacetime,
-    SchwarzschildSpacetimeKerrSchildCoordinates, 
+    SchwarzschildSpacetimeKerrSchildCoordinates,
     SchwarzschildSpacetimeSphericalCoordinates,
     AbstractKerrSpacetime,
     KerrSpacetimeKerrSchildCoordinates,
@@ -54,7 +54,7 @@ export AbstractSpacetime,
     BosonStarSpacetime
 
 export AbstractSpacetimeCache
-    AbstractChristoffelCache
+AbstractChristoffelCache
 
 export AbstractCoordinatesTopology,
     CartesianTopology,
@@ -70,7 +70,7 @@ export IsStationary,
 
 export stationarity,
     spherical_symmetry,
-    axial_symmetry 
+    axial_symmetry
 
 export energy,
     angular_momentum,
@@ -83,8 +83,8 @@ export metric!,
     metric,
     metric_inverse!,
     metric_inverse,
-    volume_element, 
-    allocate_christoffel_cache, 
+    volume_element,
+    allocate_christoffel_cache,
     christoffel!,
     christoffel,
     coordinates_topology
@@ -145,7 +145,7 @@ export AbstractCamera,
 
 export max_radius
 
-export initialize, 
+export initialize,
     callback_setup,
     integrate
 
@@ -154,29 +154,29 @@ export callback,
 
 export is_final_position_at_observer,
     is_final_position_at_source,
-    energies_quotients, 
-    observed_bolometric_intensities, 
+    energies_quotients,
+    observed_bolometric_intensities,
     observed_specific_intensities,
     fluxes!,
     spectrum,
-    line_emission_spectrum, 
-    rescale_intensities_normalization_at_real_observer!, 
-    axes_ranges, 
+    line_emission_spectrum,
+    rescale_intensities_normalization_at_real_observer!,
+    axes_ranges,
     grid_view
 
 export contract
-    lower_index,
-    raise_index,
-    scalar_product,
-    norm_squared,
-    normalize!,
-    normalize_timelike!,
-    normalize_spacelike!,
-    orthogonal_projection,
-    cos_angle_between_vectors,
-    cos_angle_between_null_vectors
-    
-export inv4x4, 
+lower_index,
+raise_index,
+scalar_product,
+norm_squared,
+normalize!,
+normalize_timelike!,
+normalize_spacelike!,
+orthogonal_projection,
+cos_angle_between_vectors,
+cos_angle_between_null_vectors
+
+export inv4x4,
     inv4x4sym!,
     det4x4,
     det4x4sym
@@ -195,7 +195,7 @@ export time_translation_generator,
     rotation_generators,
     rotation_generators!,
     zaxis_rotation_generator,
-    zaxis_rotation_generator!, 
+    zaxis_rotation_generator!,
     static_four_velocity,
     static_four_velocity!,
     circular_motion_four_velocity,
@@ -234,5 +234,5 @@ export save_to_hdf5,
     load_callback_params_from_hdf5,
     load_kwargs_from_hdf5,
     load_callback_from_hdf5
-    
+
 end

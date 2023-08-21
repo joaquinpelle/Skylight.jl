@@ -24,8 +24,10 @@ to compute derivatives at each node of the chain rule. Also, in the `metric!(g, 
 when `metric!` is called.
 
 """
-function christoffel!(Γ₂, position, spacetime::AbstractSpacetime, cache::AutoDiffChristoffelCache)
-    
+function christoffel!(Γ₂,
+    position,
+    spacetime::AbstractSpacetime,
+    cache::AutoDiffChristoffelCache)
     g = cache.g
     ginv = cache.ginv
     ∂g = cache.∂g
@@ -40,13 +42,14 @@ function christoffel!(Γ₂, position, spacetime::AbstractSpacetime, cache::Auto
             for j in 1:4
                 for i in 1:j
                     for l in 1:4
-                        Γ₂[l, i, j] += 0.5 * ginv[k, l] * (∂g[k, j, i] + ∂g[i, k, j] - ∂g[i, j, k])
+                        Γ₂[l, i, j] += 0.5 * ginv[k, l] *
+                                       (∂g[k, j, i] + ∂g[i, k, j] - ∂g[i, j, k])
                     end
                 end
             end
         end
         for j in 1:4
-            for i in j+1:4
+            for i in (j + 1):4
                 for l in 1:4
                     Γ₂[l, i, j] = Γ₂[l, j, i]
                 end
@@ -88,7 +91,11 @@ Parameters:
 
 Returns: nothing.
 """
-function metric_jacobian!(∂g, position, spacetime_metric_field::Function, g, cfg::ForwardDiff.JacobianConfig)
+function metric_jacobian!(∂g,
+    position,
+    spacetime_metric_field::Function,
+    g,
+    cfg::ForwardDiff.JacobianConfig)
     ForwardDiff.jacobian!(∂g, spacetime_metric_field, g, position, cfg)
     return nothing
 end

@@ -4,4 +4,6 @@ include("emittertoobserver/emittertoobserver.jl")
 include("observertoemitter/imageplane.jl")
 include("observertoemitter/pinholecamera.jl")
 
-initialize(configurations::AbstractOTEConfigurations) = initialize(configurations.camera, configurations)
+function initialize(configurations::AbstractOTEConfigurations)
+    initialize(configurations.camera, configurations)
+end
