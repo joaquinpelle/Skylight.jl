@@ -1,5 +1,3 @@
-using Pkg
-Pkg.activate("Dev")
 using Skylight
 using Images
 
@@ -85,7 +83,7 @@ xaperture = 60
 n_factor = 1
 
 main(original_image,
-    "new_image.png";
+    "logo.png";
     d_obs_screen = 230.0,
     rel_bh_pos = 3 / 23,
     bh_size = 1 / 15.0,
