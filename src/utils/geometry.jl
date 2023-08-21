@@ -29,11 +29,9 @@ orthogonal_projection(v, u, metric) = v + u*scalar_product(v,u,metric)
 function cos_angle_between_vectors(v, w, u, metric)
     vp = orthogonal_projection(v, u, metric)  
     wp = orthogonal_projection(w, u, metric)
-
     vp_wp = scalar_product(vp, wp, metric)
     vp2 = scalar_product(vp, vp, metric)
     wp2 = scalar_product(wp, wp, metric)
-
     return vp_wp/sqrt(vp2*wp2)
 end
 
@@ -45,16 +43,14 @@ function spherical_from_cartesian(v)
     r = sqrt(v[1]^2 + v[2]^2 + v[3]^2)
     θ = acos(v[3]/r)      
     φ = atan(v[2],v[1])
-    
-    return [r,θ,φ]
+    return SVector{3}(r,θ,φ)
 end
 
 function cartesian_from_spherical(v)
     x = v[1]*sin(v[2])*cos(v[3])
     y = v[1]*sin(v[2])*sin(v[3])
     z = v[1]*cos(v[2])
-    
-    return [x, y, z]
+    return SVector{3}(x, y, z)
 end
 
 function rotate_around_y_axis!(v, angle_in_degrees)
@@ -67,17 +63,17 @@ function rotate_around_y_axis!(v, angle_in_degrees)
 end
 
 function has_lorentzian_signature(metric)
-    is_timelike([1.0, 0.0, 0.0, 0.0], metric) &&
-    is_spacelike([0.0, 1.0, 0.0, 0.0], metric) &&
-    is_spacelike([0.0, 0.0, 1.0, 0.0], metric) &&
-    is_spacelike([0.0, 0.0, 0.0, 1.0], metric) 
+    is_timelike(SVector{4}(1.0, 0.0, 0.0, 0.0), metric) &&
+    is_spacelike(SVector{4}(0.0, 1.0, 0.0, 0.0), metric) &&
+    is_spacelike(SVector{4}(0.0, 0.0, 1.0, 0.0), metric) &&
+    is_spacelike(SVector{4}(0.0, 0.0, 0.0, 1.0), metric) 
 end
 
 function equatorial_position(r, ::SphericalTopology)
-    return [0.0, r, π/2, 0.0]
+    return SVector{4}(0.0, r, π/2, 0.0)
 end
 
 function equatorial_position(r, ::CartesianTopology)
     spherical_position = equatorial_position(r, SphericalTopology())
-    return [0.0, cartesian_from_spherical(spherical_position[2:end])...]
+    return SVector{4}(0.0, cartesian_from_spherical(spherical_position[2:end])...)
 end
