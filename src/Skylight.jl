@@ -16,7 +16,7 @@ using Roots
 using SpecialFunctions
 using StaticArrays
 
-@reexport using DifferentialEquations
+@reexport using OrdinaryDiffEq
 @reexport using PreallocationTools
 
 include("utils/types.jl")
