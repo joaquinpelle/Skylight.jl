@@ -268,6 +268,8 @@ function metric_inverse!(ginv,
     return nothing
 end
 
+allocate_christoffel_cache(::KerrSpacetimeBoyerLindquistCoordinates) = nothing
+
 function christoffel!(Γ, position, spacetime::KerrSpacetimeBoyerLindquistCoordinates)
     t, r, θ, φ = position
 

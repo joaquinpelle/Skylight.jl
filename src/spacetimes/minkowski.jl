@@ -26,6 +26,17 @@ function metric_inverse!(g,
     metric!(g, q, spacetime)
 end
 
+function allocate_christoffel_cache(::MinkowskiSpacetimeCartesianCoordinates)
+    return nothing
+end
+
+function christoffel!(Γ,
+    position,
+    ::MinkowskiSpacetimeCartesianCoordinates)
+    fill!(Γ, 0.0)
+    return nothing
+end
+
 #Spherical coordinates
 """
     MinkowskiSpacetimeSphericalCoordinates <: AbstractSpacetime
@@ -60,5 +71,16 @@ function metric_inverse!(g, position, ::MinkowskiSpacetimeSphericalCoordinates, 
     g[2, 2] = 1.0
     g[3, 3] = 1 / r^2
     g[4, 4] = 1 / (r^2 * sin(θ)^2)
+    return nothing
+end
+
+function allocate_christoffel_cache(::MinkowskiSpacetimeSphericalCoordinates)
+    return nothing
+end
+
+function christoffel!(Γ,
+    position,
+    ::MinkowskiSpacetimeSphericalCoordinates)
+    fill!(Γ, 0.0)
     return nothing
 end

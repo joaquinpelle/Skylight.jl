@@ -8,7 +8,7 @@ function metric!(g, position, spacetime::AbstractSpacetime, ::Nothing)
 end
 
 #Optional
-allocate_cache(spacetime::AbstractSpacetime) = nothing
+allocate_cache(::AbstractSpacetime) = nothing
 radius(position, spacetime) = error("Radius not defined for this spacetime.")
 function event_horizon_radius(spacetime)
     error("Event horizon radius not defined for this spacetime.")
