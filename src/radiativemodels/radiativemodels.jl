@@ -139,3 +139,23 @@ function rest_frame_specific_intensity(position,
         model,
         coords_top)
 end
+
+"""
+    lorentz_factors(positions, spacetime, model)
+
+    Lorentz factors of the rest frame four velocities of `model` at given `positions`.
+"""
+function lorentz_factors(positions::AbstractMatrix, 
+    spacetime::AbstracSpacetime, 
+    model::AbstractRadiativeModel) 
+    coords_top = coordinates_topology(spacetime)
+    γ = zeros(length(positions))
+    g = zeros(4,4)
+    u = zeros(4)
+    for i in axes(positions, 2)
+        metric!(g, position, spacetime)
+        rest_frame_four_velocity!(u, position, g, spacetime, model, coords_top)
+        γ[i] = u[1] 
+    end
+    return γ
+end
