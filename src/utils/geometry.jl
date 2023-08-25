@@ -81,3 +81,16 @@ function equatorial_position(r, ::CartesianTopology)
     spherical_position = equatorial_position(r, SphericalTopology())
     return SVector{4}(0.0, cartesian_from_spherical(spherical_position[2:end])...)
 end
+
+function equatorial_position!(position, r, ::SphericalTopology)
+    position[2] = r
+    position[3] = π / 2
+    return nothing
+end
+
+function equatorial_position!(position, r, ::CartesianTopology)
+    position[2] = r
+    position[3] = 0.0
+    position[4] = 0.0
+    return nothing
+end
