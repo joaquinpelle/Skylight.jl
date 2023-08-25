@@ -59,6 +59,8 @@ function is_final_position_at_source(position, spacetime, model::AbstractAccreti
     return (r >= model.inner_radius) && (r <= model.outer_radius)
 end
 
+radial_bins(disk::AbstractAccretionDisk; nbins) = range(disk.inner_radius, disk.outer_radius, length=nbins+1)
+
 # Novikov-Thorne disk
 @with_kw struct NovikovThorneDisk{T} <: AbstractAccretionDisk
     inner_radius::Float64
