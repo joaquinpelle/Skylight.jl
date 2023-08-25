@@ -140,3 +140,27 @@ end
 
 @inline sign(::ProgradeRotation) = 1.0
 @inline sign(::RetrogradeRotation) = -1.0
+
+""" 
+    equatorial_ring_areas(edges, spacetime)
+
+Approximate areas of the equatorial rings delimited by `edges` in `spacetime`. The spacetime
+must be axisymmetric. The areas are computed using the formula
+`2π*sqrt(g[2,2]*g[4,4])*Δr`, where `g` is the metric evaluated at the center of
+the ring.
+"""
+function equatorial_ring_areas(edges::AbstractVector, spacetime::AbstractSpacetime)
+    is_axisymmetric(spacetime) || throw(ArgumentError("Spacetime must be axisymmetric"))
+    coords_top = coordinates_topology(spacetime)
+    centers = midpoints(edges)
+    Δr = widths(edges)
+    areas = zeros(length(centers))
+    g = zeros(4,4)
+    position = zeros(4)
+    for (i,r) in enumerate(radii)
+        position = equatorial_position!(position, r, coords_top)
+        metric!(g, position, spacetime)
+        areas[i] = 2π*sqrt(g[2,2]*g[4,4])*Δr[i]
+    end
+    return areas
+end
