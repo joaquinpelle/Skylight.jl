@@ -1,6 +1,7 @@
 abstract type AbstractRadiativeModel end
 abstract type AbstractSurfaceEmissionModel <: AbstractRadiativeModel end
 
+abstract type AbstractCorona <: AbstractRadiativeModel end
 abstract type AbstractAccretionDisk <: AbstractSurfaceEmissionModel end
 
 abstract type OpaqueInteriorSurfaceTrait end

@@ -45,6 +45,34 @@ function bin_values_and_sum_weights(bins, values, weights)
 end
 
 """
+    average_inside_bins(q, x, bins)
+
+Calculate the averages of a quantity `q` at value `x` in each bin defined by `bins`.
+"""
+function average_inside_bins(q, x, bins)
+    same_size(q, x) || throw(ArgumentError("q and x must have the same size"))
+    # Initialize an array to hold the sum of `q` values in each bin
+    qsums = zeros(eltype(q), length(bins)-1)
+    # Initialize an array to hold the count of `q` values in each bin
+    qcounts = zeros(Int, length(bins)-1)
+
+    for (xvalue, qvalue) in zip(x, q)
+        # Find the bin index for the current radii value
+        bin_index = searchsortedlast(bins, xvalue)
+
+        # If the bin_index is valid (i.e., the radius value is not beyond the last bin edge)
+        if bin_index > 0 && bin_index < length(bins)
+            # Update the sum and count of `q` values for this bin
+            qsums[bin_index] += qvalue
+            qcounts[bin_index] += 1
+        end
+    end
+    # Calculate the average `q` values for each bin
+    averages = qsums ./ qcounts
+    return averages
+end
+
+"""
     create_bins(; bin_size::Union{Number, Nothing}=nothing, num_bins::Union{Int, Nothing}=nothing, 
                  start::Number, stop::Number)
 
@@ -116,3 +144,4 @@ end
 Returns midpoints of given edges
 """
 midpoints(edges::AbstractVector) = 0.5*(edges[1:end-1] + edges[2:end])
+widths(edges::AbstractVector) = edges[2:end] - edges[1:end-1]

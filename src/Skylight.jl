@@ -15,6 +15,7 @@ using Reexport
 using Roots
 using SpecialFunctions
 using StaticArrays
+using StatsBase
 
 @reexport using OrdinaryDiffEq
 @reexport using PreallocationTools
@@ -105,9 +106,10 @@ export radius,
 
 export AbstractRadiativeModel,
     AbstractSurfaceEmissionModel,
+    AbstractCorona,
+    AbstractAccretionDisk,
     DummyExtendedRegion,
     DummyModel,
-    AbstractAccretionDisk,
     NovikovThorneDisk,
     ShakuraSunyaevDisk,
     RARDisk,
@@ -117,10 +119,6 @@ export AbstractRadiativeModel,
     VerticalScreen,
     LamppostCorona,
     IonTorus
-
-export torus_specific_angular_momentum!,
-    cusp_and_center_radius!,
-    torus_potentials_at_center_and_surface!
 
 export Bremsstrahlung,
     Synchrotron,
@@ -133,7 +131,14 @@ export allocate_cache,
     surface_differential!,
     rest_frame_bolometric_intensity,
     rest_frame_specific_intensity,
-    opaque_interior_surface_trait
+    opaque_interior_surface_trait,
+    lorentz_factors
+
+export emissivity_profile
+
+export torus_specific_angular_momentum!,
+    cusp_and_center_radius!,
+    torus_potentials_at_center_and_surface!
 
 export AbstractCamera,
     PinholeCamera,
