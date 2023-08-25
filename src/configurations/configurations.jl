@@ -39,8 +39,11 @@ end
 
 function space_positions(configurations::AbstractETOConfigurations)
     npoints = configurations.number_of_points
+    spacetime = configurations.spacetime
+    model = configurations.radiative_model
+    scache = allocate_cache(spacetime)
     coords_top = coordinates_topology(configurations.spacetime)
-    return space_positions(npoints, configurations.radiative_model, coords_top)
+    return space_positions(npoints, spacetime, model, coords_top, scache)
 end
 
 function zero_times(configurations::AbstractETOConfigurations)

@@ -11,7 +11,7 @@ using Skylight, Test
     @test model.angular_radius_in_radians ≈ π / 3
 
     coords_top = CartesianTopology()
-    points = Skylight.space_positions(10, model, coords_top)
+    points = Skylight.space_positions(10, spacetime, model, coords_top, nothing)
 
     for i in 1:10
         point = points[:, i]

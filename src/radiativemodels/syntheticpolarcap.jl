@@ -41,7 +41,7 @@ function rest_frame_four_velocity!(vector,
     return nothing
 end
 
-function space_positions(npoints, model::SyntheticPolarCap, coords_top::CartesianTopology)
+function space_positions(npoints, spacetime, model::SyntheticPolarCap, coords_top::CartesianTopology, cache)
     space_pos = zeros(3, npoints)
     random_uniform_points_unit_spherical_cap!(space_pos,
         model.angular_radius_in_degrees,
