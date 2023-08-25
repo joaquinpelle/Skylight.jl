@@ -1,5 +1,5 @@
  # Hints to translate a metric from C:
- 1. Change function to `metric!` and arguments to `g`, `position`, `spacetime::SuperposedPNSpacetime`
+ 1. Change function to `metric!` and arguments to `g`, `position`, `spacetime::SPNOldSpacetime`
  2. Extract `t,x,y,z = position`
  3. Remove all variable declarations
  4. Remove all remaining "double"

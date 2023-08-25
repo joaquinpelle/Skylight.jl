@@ -53,8 +53,8 @@ export AbstractSpacetime,
     ChargedWormholeSpacetimeRegularCoordinates,
     RARSpacetime,
     BosonStarSpacetime,
-    SuperposedPNSpacetime,
-    SuperposedPNNewSpacetime
+    SPNOldSpacetime,
+    SPNSpacetime
 
 export AbstractSpacetimeCache,
     AbstractChristoffelCache

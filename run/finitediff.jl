@@ -77,13 +77,13 @@ println(all(.≈(∂g, ∂gad, rtol = 1e-9)))
 benchmark_finitediff(position, spacetime)
 
 position = [0.0, 15.0, 0.0, 5.0]
-spacetime = SuperposedPNSpacetime(m = (0.5, 0.5), chi = (0.9, 0.9), b = 20.0)
+spacetime = SPNOldSpacetime(m = (0.5, 0.5), chi = (0.9, 0.9), b = 20.0)
 ∂g, ∂gad = jacobian_finitediff(position, spacetime)
 println(all(.≈(∂g, ∂gad, atol = 3e-10)))
 benchmark_finitediff(position, spacetime)
 
 position = [0.0, 1000.0, 0.0, 5.0]
-spacetime = SuperposedPNSpacetime(m = (0.5, 0.5), chi = (0.6, 0.6), b = 20.0)
+spacetime = SPNOldSpacetime(m = (0.5, 0.5), chi = (0.6, 0.6), b = 20.0)
 ∂g, ∂gad = jacobian_finitediff(position, spacetime)
 println(all(.≈(∂g, ∂gad, atol = 3e-10)))
 benchmark_finitediff(position, spacetime)
