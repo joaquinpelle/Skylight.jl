@@ -109,3 +109,10 @@ function infer_num_bins(q, at_source, start, stop, bin_size_conditioner, edge_wi
     max_δq = maximum(δq[.!at_edge])
     return Int(floor((stop - start) / (bin_size_conditioner * max_δq)))
 end
+
+"""
+    midpoints(edges)
+
+Returns midpoints of given edges
+"""
+midpoints(edges::AbstractVector) = 0.5*(edges[1:end-1] + edges[2:end])
