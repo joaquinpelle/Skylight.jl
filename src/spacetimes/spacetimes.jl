@@ -27,7 +27,7 @@ end
 Computes the inverse of the given metric at the given position using a fast inversion
 for 4x4 symmetric matrices.
 
-Parameters:
+Arguments:
 - ginv: mutable array of size (4,4) to store the resulting inverse metric.
 - position: tuple of four numbers representing a position in spacetime.
 - spacetime: object representing the spacetime.
@@ -96,7 +96,7 @@ end
 Computes the volume element (square root of minus the determinant of the metric) at a given position 
 using a fast determinant for 4x4 symmetric matrices.
 
-Parameters:
+Arguments:
 - position: tuple of four numbers representing a position in spacetime.
 - spacetime: object representing the spacetime.
 - g: array of size (4,4) to store the metric evaluated at the given position.

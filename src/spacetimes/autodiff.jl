@@ -1,7 +1,7 @@
 """"
 Calculates the Christoffel symbols of a given spacetime metric using the forward-mode automatic differentiation package ForwardDiff.
 
-Parameters:
+Arguments:
 - Γ₂: mutable array of size (4,4,4) to store the resulting Christoffel symbols.
 - position: tuple of four numbers representing a position in spacetime.
 - spacetime: object representing the spacetime.
@@ -64,7 +64,7 @@ end
 
 Computes the Jacobian matrix of the metric function with respect to spacetime coordinates using forward-mode automatic differentiation.
 
-Parameters:
+Arguments:
 - ∂g: mutable array of size (4,4,4) to store the resulting Jacobian matrix.
 - position: tuple of four numbers representing a position in spacetime.
 - spacetime: object representing the spacetime.
@@ -82,7 +82,7 @@ end
 
 Computes the Jacobian matrix of the metric function with respect to spacetime coordinates using forward-mode automatic differentiation.
 
-Parameters:
+Arguments:
 - ∂g: mutable array of size (4,4,4) to store the resulting Jacobian matrix.
 - position: tuple of four numbers representing a position in spacetime.
 - spacetime: object representing the spacetime.

@@ -68,7 +68,7 @@ end
 """
 Computes the inverse of a 4x4 symmetric matrix using the closed-form solution for the inverse.
 
-Parameters:
+Arguments:
 - inv_matrix: mutable array of size (4,4) to store the resulting inverse matrix.
 - matrix: array of size (4,4) containing the input symmetric matrix.
 
@@ -121,7 +121,7 @@ end
 """
 Computes the determinant of a 4x4 symmetric matrix using a closed-form formula.
 
-Parameters:
+Arguments:
 - matrix: array of size (4,4) containing the input symmetric matrix.
 
 Returns: the determinant of the input matrix.
