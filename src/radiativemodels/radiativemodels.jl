@@ -91,6 +91,8 @@ include("dummymodel.jl")
 include("../spacetimes/superposedpn/bbhdisk.jl")
 include("../spacetimes/superposedpn/bbhcorona.jl")
 
+stationarity(::AbstractRadiativeModel) = IsNotStationary()
+
 function unit_surface_normal!(vector, position, metric, metric_inverse, model, coords_top)
     surface_differential!(vector, position, model, coords_top)
     vector .= raise_index(vector, metric_inverse)
@@ -148,7 +150,7 @@ end
     Lorentz factors of the rest frame four velocities of `model` at given `positions`.
 """
 function lorentz_factors(positions::AbstractMatrix, 
-    spacetime::AbstracSpacetime, 
+    spacetime::AbstractSpacetime, 
     model::AbstractRadiativeModel) 
     coords_top = coordinates_topology(spacetime)
     γ = zeros(length(positions))

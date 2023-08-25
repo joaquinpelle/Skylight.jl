@@ -7,6 +7,8 @@ isvacuum(::VacuumOTEConfigurations) = Vacuum()
 isvacuum(::VacuumETOConfigurations) = Vacuum()
 isvacuum(::NonVacuumOTEConfigurations) = NonVacuum()
 
+stationarity(configurations::AbstractConfigurations) = stationarity(configurations.spacetime) && stationarity(configurations.radiative_model)
+
 function my_zeros(configurations::AbstractConfigurations)
     my_zeros(isvacuum(configurations), configurations)
 end

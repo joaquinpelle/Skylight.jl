@@ -5,3 +5,5 @@
 end
 
 opaque_interior_surface_trait(::StarAcrossWormhole) = IsOpaqueInteriorSurface()
+
+stationarity(::StarAcrossWormhole) = IsStationary()

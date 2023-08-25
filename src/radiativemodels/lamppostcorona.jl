@@ -5,6 +5,8 @@
     @assert height>0.0 "height must be positive"
 end
 
+stationarity(::LamppostCorona) = IsStationary()
+
 function space_positions(npoints, model::LamppostCorona, ::SphericalTopology)
     space_pos = zeros(3, npoints)
     space_pos[1, :] .= model.height

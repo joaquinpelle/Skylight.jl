@@ -39,6 +39,8 @@ function IonTorus(spacetime::AbstractSpacetime; kwargs...)
     return model
 end
 
+stationarity(::IonTorus) = IsStationary()
+
 function torus_specific_angular_momentum!(model::IonTorus, spacetime)
     λ = model.λ
     lms = innermost_stable_specific_angular_momentum(spacetime, model.rotation_sense)
