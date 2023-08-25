@@ -19,7 +19,7 @@ function is_final_position_at_source(output_data::AbstractMatrix, configurations
     nrays = size(output_data, 2)
     at_source = zeros(Bool, nrays)
     @threads for i in axes(output_data, 2)
-        @views pf = output_data[1:4,i]
+        @views pf = output_data[1:4, i]
         at_source[i] = is_final_position_at_source(pf, spacetime, model)
     end
     return grid_view(at_source, configurations)
@@ -39,7 +39,7 @@ A boolean grid indicating whether each ray's final position is at the edge of th
 """
 function is_final_position_at_edge(output_data, configurations)
     at_source = is_final_position_at_source(output_data, configurations)
-    return  detect_edges(at_source)
+    return detect_edges(at_source)
 end
 """
     is_final_position_at_edge(width::Int, output_data, configurations)
@@ -56,7 +56,7 @@ A boolean grid indicating whether each ray's final position is within the specif
 """
 function is_final_position_at_edge(width::Int, output_data, configurations)
     at_source = is_final_position_at_source(output_data, configurations)
-    return  detect_edges(width, at_source)
+    return detect_edges(width, at_source)
 end
 
 """
@@ -78,7 +78,7 @@ function is_final_position_at_observer(output_data, configurations)
     nrays = size(output_data, 2)
     at_observer = zeros(Bool, nrays)
     @threads for i in axes(output_data, 2)
-        @views pf = output_data[1:4,i]
+        @views pf = output_data[1:4, i]
         at_observer[i] = is_final_position_at_observer(pf, configurations)
     end
     return at_observer

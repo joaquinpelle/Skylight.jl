@@ -20,26 +20,25 @@ function to_dict(c::CustomType)
     return Dict(:field1 => c.field1, :field2 => c.field2, :field3 => c.field3)
 end
 
-spacetime = KerrSpacetimeKerrSchildCoordinates(M=1.0,a=0.9)
+spacetime = KerrSpacetimeKerrSchildCoordinates(M = 1.0, a = 0.9)
 
 camera = ImagePlane(distance = 500.0,
-                         observer_inclination_in_degrees = 45,
-                         horizontal_side = 20.0,
-                         vertical_side = 20.0,
-                         horizontal_number_of_pixels = 3,
-                         vertical_number_of_pixels = 3)
+    observer_inclination_in_degrees = 45,
+    horizontal_side = 20.0,
+    vertical_side = 20.0,
+    horizontal_number_of_pixels = 3,
+    vertical_number_of_pixels = 3)
 
-model = NovikovThorneDisk(inner_radius=6.0, outer_radius=18.0)
-        
-configurations = VacuumOTEConfigurations(spacetime=spacetime,
-                                   camera = camera,
-                                   radiative_model = model,
-                                   unit_mass_in_solar_masses=1.0)
+model = NovikovThorneDisk(inner_radius = 6.0, outer_radius = 18.0)
 
+configurations = VacuumOTEConfigurations(spacetime = spacetime,
+    camera = camera,
+    radiative_model = model,
+    unit_mass_in_solar_masses = 1.0)
 
-callback, callback_parameters = callback_setup(configurations; rhorizon_bound=2e-1)
-initial_data = rand(10,10)
-output_data = rand(10,10)
+callback, callback_parameters = callback_setup(configurations; rhorizon_bound = 2e-1)
+initial_data = rand(10, 10)
+output_data = rand(10, 10)
 
 @testset "Save and load tests" begin
     mktempdir() do dir
@@ -94,8 +93,13 @@ output_data = rand(10,10)
         end
 
         @testset "to_hdf5_compatible_dict and is_hdf5_supported_type tests" begin
-
-            test_dict = Dict(:a => 1, :b => 2.0, :c => 3 + 4im, :d => "test", :e => sin, :f => MyType2(1, 2.0, 3 + 4im, "test", sin), :g => nothing)
+            test_dict = Dict(:a => 1,
+                :b => 2.0,
+                :c => 3 + 4im,
+                :d => "test",
+                :e => sin,
+                :f => MyType2(1, 2.0, 3 + 4im, "test", sin),
+                :g => nothing)
             test_obj = MyType2(1, 2.0, 3 + 4im, "test", sin)
 
             @testset "is_hdf5_supported_type" begin
@@ -110,7 +114,7 @@ output_data = rand(10,10)
 
             @testset "to_hdf5_compatible_dict for Dict" begin
                 hdf5_dict = Skylight.to_hdf5_compatible_dict(test_dict)
-                
+
                 @test hdf5_dict[:a] == 1
                 @test hdf5_dict[:b] == 2.0
                 @test hdf5_dict[:c] == 3 + 4im
@@ -122,7 +126,7 @@ output_data = rand(10,10)
 
             @testset "to_hdf5_compatible_dict for custom type" begin
                 hdf5_dict = Skylight.to_hdf5_compatible_dict(test_obj)
-                
+
                 @test hdf5_dict["a"] == 1
                 @test hdf5_dict["b"] == 2.0
                 @test hdf5_dict["c"] == 3 + 4im
@@ -145,10 +149,10 @@ output_data = rand(10,10)
             @test hdf5_dict["affect_neg!"] == string(getfield(callback, :affect_neg!))
             @test hdf5_dict["initialize"] == string(getfield(callback, :initialize))
             @test hdf5_dict["finalize"] == string(getfield(callback, :finalize))
-            
+
             # `len` field is a number
             @test hdf5_dict["len"] == getfield(callback, :len)
-            
+
             # `idxs` field can be `nothing` or `AbstractArray`
             if getfield(callback, :idxs) === nothing
                 @test hdf5_dict["idxs"] == "nothing"
@@ -157,7 +161,8 @@ output_data = rand(10,10)
             end
 
             # `save_positions` field is a Tuple of Bools converted to BitVector
-            expected_str = string(:(BitVector($([Bool(x) for x in getfield(callback, :save_positions)]))))
+            expected_str = string(:(BitVector($([Bool(x) for x in getfield(callback,
+                :save_positions)]))))
             @test hdf5_dict["save_positions"] == expected_str
 
             # `interp_points`, `abstol`, `reltol` fields are numbers
@@ -166,7 +171,9 @@ output_data = rand(10,10)
             @test hdf5_dict["reltol"] == getfield(callback, :reltol)
 
             # `repeat_nudge` field is a Rational
-            expected_str = string(:(Rational($(numerator(getfield(callback, :repeat_nudge))), $(denominator(getfield(callback, :repeat_nudge))))))
+            expected_str = string(:(Rational($(numerator(getfield(callback,
+                    :repeat_nudge))),
+                $(denominator(getfield(callback, :repeat_nudge))))))
             @test hdf5_dict["repeat_nudge"] == expected_str
         end
     end

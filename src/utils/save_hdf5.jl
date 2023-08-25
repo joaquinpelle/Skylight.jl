@@ -1,4 +1,4 @@
- """
+"""
     save_to_hdf5(filename, configurations, initial_data, runs)
 
 Save the provided data to an HDF5 file. The data includes configurations, initial_data, and a collection of runs. Each run contains output_data, callback, callback_parameters, and kwargs for the solver function.
@@ -23,7 +23,11 @@ The file will be organized as follows:
 # Returns
 * Nothing.
 """
-function save_to_hdf5(filename::String, configurations::AbstractConfigurations, initial_data::Array, runs::Array{T,}; mode="cw" ) where {T<:Run}
+function save_to_hdf5(filename::String,
+    configurations::AbstractConfigurations,
+    initial_data::Array,
+    runs::Array{T};
+    mode = "cw") where {T <: Run}
     h5open(filename, mode) do file
         write(file, "initial_data", initial_data)
         save_obj_to_hdf5(file, "configs", configurations)
@@ -31,7 +35,13 @@ function save_to_hdf5(filename::String, configurations::AbstractConfigurations, 
     end
 end
 
-save_to_hdf5(filename::String, configurations::AbstractConfigurations, initial_data::Matrix, run::Run; mode) = save_to_hdf5(filename, configurations, initial_data, [run]; mode=mode)
+function save_to_hdf5(filename::String,
+    configurations::AbstractConfigurations,
+    initial_data::Matrix,
+    run::Run;
+    mode)
+    save_to_hdf5(filename, configurations, initial_data, [run]; mode = mode)
+end
 
 """
     append_runs_to_hdf5(filename::String, runs::Vector{Tuple{AbstractArray, Any, Any, Dict{Symbol,}}})
@@ -56,11 +66,11 @@ runs = [
 append_runs_to_hdf5(filename, runs)
 """
 
-function append_runs_to_hdf5(filename::String, runs::Array{T,}) where {T<:Run}
+function append_runs_to_hdf5(filename::String, runs::Array{T}) where {T <: Run}
     h5open(filename, "r+") do file
         # Count the number of existing runs
         num_runs = count(k -> startswith(k, "run_"), keys(file))
-        save_runs_to_hdf5(file, runs, num_runs=num_runs)
+        save_runs_to_hdf5(file, runs, num_runs = num_runs)
     end
 end
 
@@ -94,22 +104,19 @@ h5open(filename, "w") do file
 end
 """
 
-function save_runs_to_hdf5(file, runs; num_runs=0)
-    
+function save_runs_to_hdf5(file, runs; num_runs = 0)
     for (i, run) in enumerate(runs)
-
         run_group = create_group(file, "run_$(num_runs + i)")
-        
+
         # Unpack the run tuple
         output_data, callback, callback_parameters, kwargs = to_tuple(run)
-        
+
         # Save output data, callback, callback_parameters, and kwargs to the new run group
         write(run_group, "output_data", output_data)
         save_obj_to_hdf5(run_group, "callback", callback)
         save_obj_to_hdf5(run_group, "callback_parameters", callback_parameters)
         save_obj_to_hdf5(run_group, "kwargs", kwargs)
     end
-
 end
 
 """
@@ -123,11 +130,9 @@ Save an object to an HDF5 group by converting it to an HDF5 compatible dictionar
 * `obj`: An object of any type that should be saved to the HDF5 group.
 """
 function save_obj_to_hdf5(group, name, obj)
-    
     subgroup = create_group(group, name)
     dict = to_hdf5_compatible_dict(obj)
     save_nested_dict_to_hdf5(subgroup, dict)
-
 end
 
 """
@@ -165,7 +170,9 @@ The resulting HDF5 compatible dictionary can be used to save data to an HDF5 fil
 * An HDF5 compatible dictionary with keys of type `Symbol` and values of supported types.
 """
 
-function to_hdf5_compatible_dict(dict::Dict{T, S}; depth::Int=0, max_depth::Int=8 ) where {T, S}
+function to_hdf5_compatible_dict(dict::Dict{T, S};
+    depth::Int = 0,
+    max_depth::Int = 8) where {T, S}
     if depth > max_depth
         return nothing
     end
@@ -178,13 +185,17 @@ function to_hdf5_compatible_dict(dict::Dict{T, S}; depth::Int=0, max_depth::Int=
         elseif is_hdf5_supported_type(value)
             hdf5_dict[key] = value
         elseif isa(value, Dict)
-            hdf5_dict[key] = to_hdf5_compatible_dict(value, depth=depth+1, max_depth=max_depth)
+            hdf5_dict[key] = to_hdf5_compatible_dict(value,
+                depth = depth + 1,
+                max_depth = max_depth)
         elseif isa(value, Function)
             hdf5_dict[key] = string(value)
-        elseif value === nothing
+        elseif isnothing(value)
             hdf5_dict[key] = "Nothing"
         else
-            fields_dict = to_hdf5_compatible_dict(value, depth=depth+1, max_depth=max_depth)
+            fields_dict = to_hdf5_compatible_dict(value,
+                depth = depth + 1,
+                max_depth = max_depth)
             if !isempty(fields_dict)
                 hdf5_dict[key] = fields_dict
             end
@@ -215,7 +226,7 @@ If a field is not an HDF5-supported type and has no fields that can be converted
 # Returns
 * A `Dict{String, Any}` containing the fields of the input custom type, with nested custom types recursively converted to dictionaries. The dictionary will also include a "_typename" key with the name of the custom type as a string.
 """
-function to_hdf5_compatible_dict(obj::T; depth::Int=0, max_depth::Int=8) where T
+function to_hdf5_compatible_dict(obj::T; depth::Int = 0, max_depth::Int = 8) where {T}
     if depth > max_depth
         return nothing
     end
@@ -224,21 +235,21 @@ function to_hdf5_compatible_dict(obj::T; depth::Int=0, max_depth::Int=8) where T
     d["_typename"] = string(T)
     for field in fieldnames(T)
         value = getfield(obj, field)
-        
+
         # Check if the field is no-save
         if isa(value, NoSaveField)
             continue
-        # Check if the field is of type Nothing
-        elseif isa(value, Nothing)
+            # Check if the field is of type Nothing
+        elseif isnothing(value)
             value = "nothing"
-        # Check if the field is a subtype of Function
+            # Check if the field is a subtype of Function
         elseif isa(value, Function)
             value = string(value)
-        # Check if the field is a custom type not supported by HDF5.jl
+            # Check if the field is a custom type not supported by HDF5.jl
         elseif !is_hdf5_supported_type(value)
-            value = to_hdf5_compatible_dict(value, depth=depth+1, max_depth=max_depth)
+            value = to_hdf5_compatible_dict(value, depth = depth + 1, max_depth = max_depth)
         end
-        
+
         d[string(field)] = value
     end
     return d
@@ -268,7 +279,9 @@ for later instantiation.
   the data from the HDF5 file.
 - The function specifically handles certain fields of the DECallback type.
 """
-function to_hdf5_compatible_dict(cb::T; depth::Int=0, max_depth::Int=8) where {T<:SciMLBase.DECallback}
+function to_hdf5_compatible_dict(cb::T;
+    depth::Int = 0,
+    max_depth::Int = 8) where {T <: SciMLBase.DECallback}
     if depth > max_depth
         return nothing
     end
@@ -277,22 +290,22 @@ function to_hdf5_compatible_dict(cb::T; depth::Int=0, max_depth::Int=8) where {T
     d["_typename"] = string(T)
     for field in fieldnames(T)
         value = getfield(cb, field)
-        
+
         if field == :repeat_nudge
             value = string(:(Rational($(numerator(value)), $(denominator(value)))))
         elseif field == :save_positions
-            value = string(:(BitVector($([Bool(x) for x in value])))) 
-        # Check if the field is of type Nothing
-        elseif isa(value, Nothing)
+            value = string(:(BitVector($([Bool(x) for x in value]))))
+            # Check if the field is of type Nothing
+        elseif isnothing(value)
             value = "nothing"
-        # Check if the field is a subtype of Function
+            # Check if the field is a subtype of Function
         elseif isa(value, Function)
             value = string(value)
-        # Check if the field is a custom type not supported by HDF5.jl
+            # Check if the field is a custom type not supported by HDF5.jl
         elseif !is_hdf5_supported_type(value)
-            value = to_hdf5_compatible_dict(value, depth=depth+1, max_depth=max_depth)
+            value = to_hdf5_compatible_dict(value, depth = depth + 1, max_depth = max_depth)
         end
-        
+
         d[string(field)] = value
     end
     return d
@@ -318,12 +331,25 @@ According to the HDF5.jl documentation, the supported types include:
 * A `Bool` indicating whether the input value is of a type supported by HDF5.jl.
 """
 function is_hdf5_supported_type(value)
-    supported_types = [Int8, UInt8, Int16, UInt16, Int32, UInt32, Int64, UInt64, Float32, Float64]
+    supported_types = [
+        Int8,
+        UInt8,
+        Int16,
+        UInt16,
+        Int32,
+        UInt32,
+        Int64,
+        UInt64,
+        Float32,
+        Float64,
+    ]
     supported_complex_types = [Complex{t} for t in supported_types]
     supported_string_types = [String]
-    all_supported_types = vcat(supported_types, supported_complex_types, supported_string_types)
+    all_supported_types = vcat(supported_types,
+        supported_complex_types,
+        supported_string_types)
 
     T = isa(value, Array) ? eltype(value) : typeof(value)
-    
+
     return T in all_supported_types
 end

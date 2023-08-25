@@ -1,54 +1,56 @@
 @testset "Parameters" begin
-        
-    @test_throws AssertionError ChargedWormholeSpacetimeSphericalCoordinates(b0=-1.0, Q=0.5)
-    @test_throws AssertionError ChargedWormholeSpacetimeSphericalCoordinates(b0=1.0, Q=1.5)
-    @test_throws AssertionError ChargedWormholeSpacetimeRegularCoordinates(b0=-1.0, Q=0.5)
-    @test_throws AssertionError ChargedWormholeSpacetimeRegularCoordinates(b0=1.0, Q=1.5)
-
+    @test_throws AssertionError ChargedWormholeSpacetimeSphericalCoordinates(b0 = -1.0,
+        Q = 0.5)
+    @test_throws AssertionError ChargedWormholeSpacetimeSphericalCoordinates(b0 = 1.0,
+        Q = 1.5)
+    @test_throws AssertionError ChargedWormholeSpacetimeRegularCoordinates(b0 = -1.0,
+        Q = 0.5)
+    @test_throws AssertionError ChargedWormholeSpacetimeRegularCoordinates(b0 = 1.0,
+        Q = 1.5)
 end
 
 @testset "Spherical coordinates" begin
+    spacetime = ChargedWormholeSpacetimeSphericalCoordinates(b0 = 1.0, Q = 0.5)
 
-    spacetime = ChargedWormholeSpacetimeSphericalCoordinates(b0=1.0, Q=0.5)
-    
     @test coordinates_topology(spacetime) == SphericalTopology()
 
-    point = [rand(),5.0,π/3,0.0]
+    point = [rand(), 5.0, π / 3, 0.0]
 
-    g = zeros(4,4)
-    metric!(g,point,spacetime)
-    
+    g = zeros(4, 4)
+    metric!(g, point, spacetime)
+
     b = 0.2
-    gtt = -(1+0.25/25)
-    grr = 1/(1-0.2*0.2+0.25/25)    
-    
-    @test g ≈ [gtt 0.0 0.0 0.0; 0.0 grr 0.0 0.0; 0.0 0.0 25.0 0.0; 0.0 0.0 0.0 25sin(π/3)^2]
-    
-    ginv = zeros(4,4)
-    metric_inverse!(ginv,point,spacetime)
-    
-    @test g*ginv ≈ [1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
+    gtt = -(1 + 0.25 / 25)
+    grr = 1 / (1 - 0.2 * 0.2 + 0.25 / 25)
 
+    @test g ≈
+          [gtt 0.0 0.0 0.0; 0.0 grr 0.0 0.0; 0.0 0.0 25.0 0.0; 0.0 0.0 0.0 25sin(π / 3)^2]
+
+    ginv = zeros(4, 4)
+    metric_inverse!(ginv, point, spacetime, g, nothing)
+
+    @test g * ginv ≈ [1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
 end
 
 @testset "Regular coordinates" begin
+    spacetime = ChargedWormholeSpacetimeRegularCoordinates(b0 = 1.0, Q = 0.5)
 
-    spacetime = ChargedWormholeSpacetimeRegularCoordinates(b0=1.0, Q=0.5)
-    
     @test coordinates_topology(spacetime) == SphericalTopology()
 
-    point = [rand(),5.0,π/3,0.0]
+    point = [rand(), 5.0, π / 3, 0.0]
 
-    g = zeros(4,4)
-    metric!(g,point,spacetime)
-    
-    gtt = -(1+0.25/25.75)
-    
-    @test g ≈ [gtt 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 25.75 0.0; 0.0 0.0 0.0 25.75*sin(π/3)^2]
-    
-    ginv = zeros(4,4)
-    metric_inverse!(ginv,point,spacetime)
-    
-    @test g*ginv ≈ [1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
+    g = zeros(4, 4)
+    metric!(g, point, spacetime)
 
+    gtt = -(1 + 0.25 / 25.75)
+
+    @test g ≈ [gtt 0.0 0.0 0.0
+        0.0 1.0 0.0 0.0
+        0.0 0.0 25.75 0.0
+        0.0 0.0 0.0 25.75*sin(π / 3)^2]
+
+    ginv = zeros(4, 4)
+    metric_inverse!(ginv, point, spacetime, g, nothing)
+
+    @test g * ginv ≈ [1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
 end

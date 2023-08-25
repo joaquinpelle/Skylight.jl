@@ -107,7 +107,7 @@ In the emitter-to-observer scheme, use the following
 julia> configurations = VacuumETOConfigurations(spacetime=spacetime,
                                                      radiative_model=model,
                                                      number_of_points = 100
-                                                     number_of_packets_per_point = 100, observer_distance = 500.0)
+                                                     number_of_packets_per_point = 100, max_radius = 500.0)
 ```
 
 #### Initial data

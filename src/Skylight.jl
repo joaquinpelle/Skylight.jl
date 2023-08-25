@@ -1,19 +1,23 @@
 module Skylight
 
-using Base.Threads: @threads, nthreads, threadid
+using Base.Threads: @threads, @spawn, nthreads, threadid
 using DataInterpolations
 using DelimitedFiles
 using ForwardDiff
 using HDF5
 using KeywordDispatch
 using LinearAlgebra
+using Optim
 using Parameters
 using Polynomials
 using Random
 using Reexport
+using Roots
+using SpecialFunctions
 using StaticArrays
+using StatsBase
 
-@reexport using DifferentialEquations
+@reexport using OrdinaryDiffEq
 @reexport using PreallocationTools
 
 include("utils/types.jl")
@@ -38,7 +42,7 @@ export AbstractSpacetime,
     MinkowskiSpacetimeCartesianCoordinates,
     MinkowskiSpacetimeSphericalCoordinates,
     AbstractSchwarzschildSpacetime,
-    SchwarzschildSpacetimeKerrSchildCoordinates, 
+    SchwarzschildSpacetimeKerrSchildCoordinates,
     SchwarzschildSpacetimeSphericalCoordinates,
     AbstractKerrSpacetime,
     KerrSpacetimeKerrSchildCoordinates,
@@ -52,7 +56,7 @@ export AbstractSpacetime,
     SuperposedPNSpacetime,
     SuperposedPNNewSpacetime
 
-export AbstractSpacetimeCache
+export AbstractSpacetimeCache,
     AbstractChristoffelCache
 
 export AbstractCoordinatesTopology,
@@ -69,26 +73,31 @@ export IsStationary,
 
 export stationarity,
     spherical_symmetry,
-    axial_symmetry 
+    axial_symmetry
 
 export energy,
     angular_momentum,
     axial_angular_momentum,
     time_translation_killing_vector,
-    rotation_killing_vector,
+    spherical_rotation_killing_vectors,
     axial_rotation_killing_vector
 
 export metric!,
+    metric,
     metric_inverse!,
-    volume_element, 
-    allocate_christoffel_cache, 
+    metric_inverse,
+    volume_element,
+    allocate_christoffel_cache,
     christoffel!,
+    christoffel,
     coordinates_topology
 
 export radius,
     event_horizon_radius,
     isco_radius,
+    mbco_radius,
     circular_geodesic_angular_speed,
+    circular_geodesic_specific_angular_momentum,
     radial_bounds,
     mass,
     mass_enclosed,
@@ -99,23 +108,43 @@ export radius,
 
 export AbstractRadiativeModel,
     AbstractSurfaceEmissionModel,
+    AbstractCorona,
+    AbstractAccretionDisk,
     DummyExtendedRegion,
     DummyModel,
-    AbstractAccretionDisk,
     NovikovThorneDisk,
     ShakuraSunyaevDisk,
     RARDisk,
     AccretionDiskWithTabulatedTemperature,
     SyntheticPolarCap,
     StarAcrossWormhole,
+<<<<<<< HEAD
     BBHDisk
+=======
+    VerticalScreen,
+    LamppostCorona,
+    IonTorus
+
+export Bremsstrahlung,
+    Synchrotron,
+    InverseCompton,
+    ThermalEmission,
+    SynchrotronAndBremsstrahlung
+>>>>>>> main
 
 export allocate_cache,
-    emitter_four_velocity!,
+    rest_frame_four_velocity!,
     surface_differential!,
-    emitted_bolometric_intensity,
-    emitted_specific_intensity,
-    opaque_interior_surface_trait
+    rest_frame_bolometric_intensity,
+    rest_frame_specific_intensity,
+    opaque_interior_surface_trait,
+    lorentz_factors
+
+export emissivity_profile
+
+export torus_specific_angular_momentum!,
+    cusp_and_center_radius!,
+    torus_potentials_at_center_and_surface!
 
 export AbstractCamera,
     PinholeCamera,
@@ -127,35 +156,38 @@ export AbstractCamera,
 
 export max_radius
 
-export initialize, 
+export initialize,
     callback_setup,
     integrate
 
+export callback,
+    callback_parameters
+
 export is_final_position_at_observer,
     is_final_position_at_source,
-    energies_quotients, 
+    energies_quotients,
     observed_bolometric_intensities,
-    observed_bolometric_intensities_multithreading, 
     observed_specific_intensities,
     fluxes!,
     spectrum,
-    line_emission_spectrum, 
-    rescale_intensities_normalization_at_real_observer!, 
-    axes_ranges, 
+    line_emission_spectrum,
+    rescale_intensities_normalization_at_real_observer!,
+    axes_ranges,
     grid_view
 
-export contract
+export contract,
     lower_index,
     raise_index,
     scalar_product,
     norm_squared,
+    normalize!,
     normalize_timelike!,
     normalize_spacelike!,
     orthogonal_projection,
     cos_angle_between_vectors,
     cos_angle_between_null_vectors
-    
-export inv4x4, 
+
+export inv4x4,
     inv4x4sym!,
     det4x4,
     det4x4sym
@@ -163,8 +195,8 @@ export inv4x4,
 export planck_function,
     planck_integral,
     thermal_emission_window_intensity,
-    thermal_emission_window_specific_intensity,
-    thermal_emission_window_bolometric_intensity
+    thermal_emission_specific_intensity,
+    thermal_emission_bolometric_intensity
 
 export cartesian_from_spherical,
     spherical_from_cartesian
@@ -174,7 +206,7 @@ export time_translation_generator,
     rotation_generators,
     rotation_generators!,
     zaxis_rotation_generator,
-    zaxis_rotation_generator!, 
+    zaxis_rotation_generator!,
     static_four_velocity,
     static_four_velocity!,
     circular_motion_four_velocity,
@@ -187,6 +219,8 @@ export geometrized_to_CGS,
     CGS_to_geometrized,
     pc_to_cm,
     cm_to_pc,
+    Hz_to_erg,
+    erg_to_Hz,
     eV_to_erg,
     erg_to_eV,
     keV_to_erg,
@@ -211,5 +245,5 @@ export save_to_hdf5,
     load_callback_params_from_hdf5,
     load_kwargs_from_hdf5,
     load_callback_from_hdf5
-    
+
 end

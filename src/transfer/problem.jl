@@ -1,42 +1,85 @@
-integrate(initial_data, configurations::AbstractConfigurations, cb, cbp; kwargs...) = integrate(isvacuum(configurations), initial_data, configurations, cb, cbp; kwargs...)
-ensemble_problem(initial_data, configurations::AbstractConfigurations, cbp, args...) = ensemble_problem(isvacuum(configurations), initial_data, configurations, cbp, args...)
+function integrate(initial_data, configurations::AbstractConfigurations, cb, cbp; kwargs...)
+    integrate(isvacuum(configurations), initial_data, configurations, cb, cbp; kwargs...)
+end
+function ensemble_problem(initial_data::AbstractMatrix,
+    configurations::AbstractConfigurations,
+    cbp::AbstractCallbackParameters,
+    args...)
+    ensemble_problem(isvacuum(configurations), initial_data, configurations, cbp, args...)
+end
 
-function integrate(::Vacuum, initial_data, configurations, cb, cbp; method = VCABM(), kwargs...)
-    N = size(initial_data, 2)  
+function integrate(::Vacuum,
+    initial_data,
+    configurations,
+    cb,
+    cbp;
+    method = VCABM(),
+    kwargs...)
+    N = size(initial_data, 2)
     ensembleprob = ensemble_problem(initial_data, configurations, cbp)
     #Also consider EnsembleSplitThreads() for multinodes and EnsembleGPUArray() for GPU
-    stats = @timed sim = solve(ensembleprob, method, EnsembleThreads(); callback = cb, trajectories = N, kwargs...)
+    stats = @timed sim = solve(ensembleprob,
+        method,
+        EnsembleThreads();
+        callback = cb,
+        trajectories = N,
+        kwargs...)
     print_stats(stats)
     return collect_run(sim, cb, cbp, method; kwargs...)
 end
 
-function integrate(::NonVacuum, initial_data, configurations, cb, cbp; τmax=2.0, method=VCABM(), kwargs...)
-    N = size(initial_data, 2)  
+function integrate(::NonVacuum,
+    initial_data,
+    configurations,
+    cb,
+    cbp;
+    τmax = 2.0,
+    method = VCABM(),
+    kwargs...)
+    N = size(initial_data, 2)
     ensembleprob = ensemble_problem(initial_data, configurations, cbp, τmax)
-    full_cb = CallbackSet(cb, opacities_callback())  
+    full_cb = CallbackSet(cb, opacities_callback())
     #Also consider EnsembleSplitThreads() for multinodes and EnsembleGPUArray() for GPU
-    stats = @timed sim = solve(ensembleprob, method, EnsembleThreads(); callback = full_cb, trajectories = N, kwargs...)
+    stats = @timed sim = solve(ensembleprob,
+        method,
+        EnsembleThreads();
+        callback = full_cb,
+        trajectories = N,
+        kwargs...)
     print_stats(stats)
     return collect_run(sim, cb, cbp, τmax, method; kwargs...)
 end
 
-function ensemble_problem(::Vacuum, initial_data, configurations, cbp)
-    u0 = SVector{8, Float64}(initial_data[:,1]...)
-    tspan = (0.0, 1e4*cbp.rmax)
+function ensemble_problem(::Vacuum,
+    initial_data::AbstractMatrix,
+    configurations::AbstractConfigurations,
+    cbp::AbstractCallbackParameters)
+    u0 = SVector{8, Float64}(initial_data[:, 1]...)
+    tspan = (0.0, 1e4 * cbp.rmax)
     p = transfer_cache(configurations, cbp)
     prob = ODEProblem(equations(configurations), u0, tspan, p)
     output_func(sol, i) = (sol[end], false)
-    prob_func(prob, i, repeat) = remake(prob, u0 = SVector{8,Float64}(initial_data[:,i]...))
+    function prob_func(prob, i, repeat)
+        remake(prob, u0 = SVector{8, Float64}(initial_data[:, i]...))
+    end
     return EnsembleProblem(prob; output_func = output_func, prob_func = prob_func)
 end
 
-function ensemble_problem(::NonVacuum, initial_data, configurations, cbp, τmax)
-    u0 = SVector{8, Float64}(initial_data[:,1]...)
-    tspan = (0.0, 1e4*cbp.rmax)
+function ensemble_problem(::NonVacuum,
+    initial_data::AbstractMatrix,
+    configurations::AbstractConfigurations,
+    cbp::AbstractCallbackParameters,
+    τmax::Real)
+    NE = length(configurations.observation_energies)
+    Nvars = 8 + 2 * NE
+    u0 = SVector{Nvars, Float64}(initial_data[:, 1]...)
+    tspan = (0.0, 1e4 * cbp.rmax)
     p = transfer_cache(configurations, cbp, τmax)
     prob = ODEProblem(equations(configurations), u0, tspan, p)
     output_func(sol, i) = (sol[end], false)
-    prob_func(prob, i, repeat) = remake(prob, u0 = SVector{8,Float64}(initial_data[:,i]...))
+    function prob_func(prob, i, repeat)
+        remake(prob, u0 = SVector{Nvars, Float64}(initial_data[:, i]...))
+    end
     return EnsembleProblem(prob; output_func = output_func, prob_func = prob_func)
 end
 
@@ -49,9 +92,9 @@ end
 function collect_output(sim)
     N = size(sim.u, 1)
     Nvars = length(sim.u[1])
-    output_data = zeros(Nvars,N)
+    output_data = zeros(Nvars, N)
     for i in 1:N
-        output_data[:,i] = sim.u[i]
+        output_data[:, i] = sim.u[i]
     end
     return output_data
 end
@@ -65,8 +108,8 @@ end
 
 function print_stats(stats)
     println("Equations integration stats:")
-    println("Wall clock time: ",stats.time," seconds")
-    println("Memory allocated: ",Base.format_bytes(stats.bytes))
+    println("Wall clock time: ", stats.time, " seconds")
+    println("Memory allocated: ", Base.format_bytes(stats.bytes))
 end
 
 to_tuple(run::Run) = (run.output_data, run.callback, run.callback_parameters, run.kwargs)

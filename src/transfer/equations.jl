@@ -9,11 +9,10 @@ function non_vacuum_equations(u::AbstractVector, p::NonVacuumCache, t)
 end
 
 function geodesic_equations(u::AbstractVector, p, t)
-
     spacetime = p.spacetime
     cache = p.multi_thread[Threads.threadid()]
 
-    @inbounds begin 
+    @inbounds begin
         @views begin
             position = u[1:4]
             momentum = u[5:8]
@@ -22,18 +21,16 @@ function geodesic_equations(u::AbstractVector, p, t)
 
     Γ = cache.christoffel
     fill!(Γ, 0.0)
-
     christoffel_cache = cache.christoffel_cache
-    christoffel!(Γ, position, spacetime, christoffel_cache) 
+    christoffel!(Γ, position, spacetime, christoffel_cache)
 
     a = cache.acceleration
     fill!(a, 0.0)
-
-    @inbounds begin 
+    @inbounds begin
         for i in 1:4
             for j in 1:4
                 for k in 1:4
-                    a[i] += -Γ[i,j,k]*momentum[j]*momentum[k]
+                    a[i] += -Γ[i, j, k] * momentum[j] * momentum[k]
                 end
             end
         end
@@ -47,33 +44,37 @@ function geodesic_equations(u::AbstractVector, p, t)
         du7 = a[3]
         du8 = a[4]
     end
-
     return @SVector [du1, du2, du3, du4, du5, du6, du7, du8]
 end
 
 function transfer_equations(u::AbstractVector, p, t)
-
+    spacetime = p.spacetime
     model = p.model
+    coords_top = p.coordinates_topology
     observation_energies = p.observation_energies
     NE = p.NE
     cache = p.multi_thread[Threads.threadid()]
 
-    @inbounds begin 
+    @inbounds begin
         @views begin
             position = u[1:4]
             momentum = u[5:8]
-            τε = u[9:8+NE]
+            τε = u[9:(8 + NE)]
         end
     end
 
-    ε  = cache.ε
+    ε = cache.ε
     αε = cache.αε
     jε = cache.jε
-    
-    ε .= -observation_energies*momentum[1]
+    vμ = cache.vμ
+    metric = cache.metric
 
-    invariant_absorptivity!(αε, position, ε, model)
-    invariant_emissivity!(jε, position, ε, model)
-
-    return SVector{NE,Float64}(αε...), SVector{NE,Float64}(jε.*exp.(-τε)...)
+    metric!(metric, position, spacetime)
+    rest_frame_four_velocity!(vμ, position, metric, spacetime, model, coords_top)
+    rest_frame_energy = scalar_product(vμ, momentum, metric) #Without the negative sign because the momentum is past directed
+    ε .= observation_energies * rest_frame_energy
+    rest_frame_absorptivity!(αε, position, ε, metric, spacetime, model, coords_top)
+    rest_frame_emissivity!(jε, position, ε, metric, spacetime, model, coords_top)
+    return SVector{NE, Float64}(ε .* αε...),
+    SVector{NE, Float64}(jε ./ (ε .^ 2) .* exp.(-τε)...)
 end

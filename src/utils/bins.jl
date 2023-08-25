@@ -16,7 +16,6 @@ Bin `values` and sum `weights` in each bin.
 - Values outside the range of `bins` are ignored.
 """
 function bin_values_and_sum_weights(bins, values, weights)
-
     if length(values) != length(weights)
         throw(ArgumentError("Length of values and weights must be the same"))
     end
@@ -29,12 +28,12 @@ function bin_values_and_sum_weights(bins, values, weights)
 
         # find the bin index for the current value
         bin_index = findfirst(b -> b > value, bins)
-        
+
         # skip values outside the bin range
-        if bin_index == 1 || bin_index === nothing
+        if bin_index == 1 || isnothing(bin_index)
             continue
         end
-        
+
         # decrement by 1 to get the correct index
         bin_index -= 1
 
@@ -43,6 +42,34 @@ function bin_values_and_sum_weights(bins, values, weights)
     end
 
     return binned_values
+end
+
+"""
+    average_inside_bins(q, x, bins)
+
+Calculate the averages of a quantity `q` at value `x` in each bin defined by `bins`.
+"""
+function average_inside_bins(q, x, bins)
+    same_size(q, x) || throw(ArgumentError("q and x must have the same size"))
+    # Initialize an array to hold the sum of `q` values in each bin
+    qsums = zeros(eltype(q), length(bins)-1)
+    # Initialize an array to hold the count of `q` values in each bin
+    qcounts = zeros(Int, length(bins)-1)
+
+    for (xvalue, qvalue) in zip(x, q)
+        # Find the bin index for the current radii value
+        bin_index = searchsortedlast(bins, xvalue)
+
+        # If the bin_index is valid (i.e., the radius value is not beyond the last bin edge)
+        if bin_index > 0 && bin_index < length(bins)
+            # Update the sum and count of `q` values for this bin
+            qsums[bin_index] += qvalue
+            qcounts[bin_index] += 1
+        end
+    end
+    # Calculate the average `q` values for each bin
+    averages = qsums ./ qcounts
+    return averages
 end
 
 """
@@ -66,11 +93,15 @@ Create bins for binning data.
 - If neither `bin_size` nor `num_bins` is provided, the function will throw an error.
 """
 
-function create_bins(; bin_size::Union{Number,Nothing}=nothing, num_bins::Union{Int,Nothing}=nothing, start::Number, stop::Number)
-    if !(bin_size===nothing)
+function create_bins(;
+    bin_size::Union{Number, Nothing} = nothing,
+    num_bins::Union{Int, Nothing} = nothing,
+    start::Number,
+    stop::Number)
+    if !(bin_size === nothing)
         return start:bin_size:stop
-    elseif !(num_bins===nothing)
-        return range(start, stop=stop, length=num_bins+1)
+    elseif !(num_bins === nothing)
+        return range(start, stop = stop, length = num_bins + 1)
     else
         error("Must provide either bin_size or num_bins")
     end
@@ -97,13 +128,20 @@ that the bin size is larger than the conditioner times the maximum local variati
 - `num_bins`: Number of bins.
 """
 function infer_num_bins(q, at_source, start, stop, bin_size_conditioner, edge_width, camera)
-    
     Nα, Nβ = numbers_of_pixels_per_side(camera)
     dα, dβ = grid_spacing(camera)
-    
+
     at_edge = detect_edges(edge_width, reshape(at_source, Nα, Nβ))
-    
+
     δq = approximate_gradient_norm(reshape(q, Nα, Nβ), dα, dβ)
     max_δq = maximum(δq[.!at_edge])
-    return Int(floor((stop-start)/(bin_size_conditioner*max_δq))) 
+    return Int(floor((stop - start) / (bin_size_conditioner * max_δq)))
 end
+
+"""
+    midpoints(edges)
+
+Returns midpoints of given edges
+"""
+midpoints(edges::AbstractVector) = 0.5*(edges[1:end-1] + edges[2:end])
+widths(edges::AbstractVector) = edges[2:end] - edges[1:end-1]

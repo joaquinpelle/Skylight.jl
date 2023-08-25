@@ -1,37 +1,49 @@
-function initialize(configurations::VacuumETOConfigurations; chunks_per_thread::Int=2)
+function initialize(configurations::VacuumETOConfigurations; tasks_per_thread::Int = 2)
+    packets = my_zeros(configurations)
+    function task(chunk, packets, configurations)
+        Npp = configurations.number_of_packets_per_point
+        cache = initial_data_cache(configurations)
+        for (index, position) in chunk
+            packet_index = (index - 1) * Npp + 1
+            @views packets_at_position = packets[:, packet_index:(packet_index + Npp - 1)]
+            initialize_packets_at_position!(packets_at_position,
+                position,
+                cache,
+                configurations)
+        end
+    end
+    itr = enumerate(initial_positions(configurations))
+    tmap(task, itr, packets, configurations; tasks_per_thread = tasks_per_thread)
+    return packets
+end
+
+function initialize_serial(configurations::VacuumETOConfigurations)
     packets = my_zeros(configurations)
     Npp = configurations.number_of_packets_per_point
     # Break the work into chunks. More chunks per thread has better load balancing but more overhead
-    nchunks = div(configurations.number_of_points, chunks_per_thread*nthreads())
-    nchunks > 0 || error("More chunks than points. Try reducing the chunks per thread.")
-    chunks = Iterators.partition(enumerate(initial_positions(configurations)), nchunks)
-    # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
-    @sync map(chunks) do chunk
-        Threads.@spawn begin
-            cache = initial_data_cache(configurations)
-            for (index, position) in chunk
-                packet_index = (index-1)*Npp+1
-                @views packets_at_position = packets[:, packet_index:(packet_index+Npp-1)]
-                initialize_packets_at_position!(packets_at_position, position, cache, configurations)
-            end
-        end
+    cache = initial_data_cache(configurations)
+    for (index, position) in enumerate(initial_positions(configurations))
+        packet_index = (index - 1) * Npp + 1
+        @views packets_at_position = packets[:, packet_index:(packet_index + Npp - 1)]
+        initialize_packets_at_position!(packets_at_position,
+            position,
+            cache,
+            configurations)
     end
     return packets
 end
 
-function initialize_packets_at_position!(packets_at_position, position, cache, configurations)
-    
+function initialize_packets_at_position!(packets_at_position,
+    position,
+    cache,
+    configurations)
     model = configurations.radiative_model
- 
     @views begin
-        xμ = packets_at_position[1:4,:]
-        kμ = packets_at_position[5:8,:]
+        xμ = packets_at_position[1:4, :]
+        kμ = packets_at_position[5:8, :]
     end
-    
     metric_and_tetrad!(cache, position, configurations)
-    
     @views tetrad = cache.tetrad
-    
     packets_positions!(xμ, position)
     packets_momenta!(kμ, tetrad, model)
     return nothing
@@ -57,20 +69,14 @@ function packets_tetrad_components!(kμ, model)
 end
 
 function packets_unit_random_triad_components!(kμ, ::IsNotOpaqueInteriorSurface)
-    @views ki = kμ[2:4,:] 
+    @views ki = kμ[2:4, :]
     random_uniform_points_unit_sphere!(ki, CartesianTopology())
     return nothing
 end
 
-"""Sets only positive components along the surface normal"""    
+"""Sets only positive components along the surface normal"""
 function packets_unit_random_triad_components!(kμ, ::IsOpaqueInteriorSurface)
-    @views ki = kμ[2:4,:] 
+    @views ki = kμ[2:4, :]
     random_uniform_points_unit_hemisphere_xaxis!(ki, CartesianTopology())
     return nothing
-end
-
-function ETOInitialDataCache(spacetime::AbstractSpacetime, model::AbstractRadiativeModel)
-    scache = allocate_cache(spacetime)
-    mcache = allocate_cache(model)
-    return ETOInitialDataCache(spacetime_cache=scache, model_cache=mcache)
 end

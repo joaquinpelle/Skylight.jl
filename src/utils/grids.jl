@@ -15,15 +15,15 @@ The gradient is computed using central differences in the interior and forward o
 
 """
 function approximate_gradient_norm(z::Array, dx_spacing::Real, dy_spacing::Real)
-    dx = (circshift(z, (-1, 0)) - circshift(z, (1, 0))) / (2*dx_spacing)
-    dy = (circshift(z, (0, -1)) - circshift(z, (0, 1))) / (2*dy_spacing)
+    dx = (circshift(z, (-1, 0)) - circshift(z, (1, 0))) / (2 * dx_spacing)
+    dy = (circshift(z, (0, -1)) - circshift(z, (0, 1))) / (2 * dy_spacing)
 
     dx[1, :] = (z[2, :] - z[1, :]) / dx_spacing
-    dx[end, :] = (z[end, :] - z[end-1, :]) / dx_spacing
+    dx[end, :] = (z[end, :] - z[end - 1, :]) / dx_spacing
     dy[:, 1] = (z[:, 2] - z[:, 1]) / dy_spacing
-    dy[:, end] = (z[:, end] - z[:, end-1]) / dy_spacing
+    dy[:, end] = (z[:, end] - z[:, end - 1]) / dy_spacing
 
-    grad_norm = sqrt.(dx.^2 + dy.^2)
+    grad_norm = sqrt.(dx .^ 2 + dy .^ 2)
     return grad_norm
 end
 
@@ -51,15 +51,15 @@ function detect_edges(arr::Union{Matrix{Bool}, BitMatrix})
 
     # Create shifted arrays
     arr_shifted_up = vcat(arr[2:end, :], fill(false, 1, cols))
-    arr_shifted_down = vcat(fill(false, 1, cols), arr[1:end-1, :])
+    arr_shifted_down = vcat(fill(false, 1, cols), arr[1:(end - 1), :])
     arr_shifted_left = hcat(arr[:, 2:end], fill(false, rows, 1))
-    arr_shifted_right = hcat(fill(false, rows, 1), arr[:, 1:end-1])
+    arr_shifted_right = hcat(fill(false, rows, 1), arr[:, 1:(end - 1)])
 
     # Compute the sum of the squares of differences
-    diff = (arr .- arr_shifted_up).^2 + 
-           (arr .- arr_shifted_down).^2 + 
-           (arr .- arr_shifted_left).^2 + 
-           (arr .- arr_shifted_right).^2
+    diff = (arr .- arr_shifted_up) .^ 2 +
+           (arr .- arr_shifted_down) .^ 2 +
+           (arr .- arr_shifted_left) .^ 2 +
+           (arr .- arr_shifted_right) .^ 2
 
     # Return the edges (non-zero elements in the diff array)
     return diff .> 0
@@ -87,11 +87,10 @@ Boolean matrix, and the results are combined with an OR operation.
 """
 detect_edges(N::Int, arr::Union{Matrix{Bool}, BitMatrix}) = _detect_edges(Val(N), arr)
 
-@generated function _detect_edges(::Val{N}, arr) where N
+@generated function _detect_edges(::Val{N}, arr) where {N}
     result = :(detect_edges(arr))
     for _ in 2:N
         result = :($result .| detect_edges($result))
     end
     return result
 end
-
