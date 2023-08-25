@@ -16,6 +16,7 @@
 end
 
 opaque_interior_surface_trait(::SyntheticPolarCap) = IsOpaqueInteriorSurface()
+stationarity(::SyntheticPolarCap) = IsStationary()
 
 function surface_differential!(covector, position, ::SyntheticPolarCap, ::CartesianTopology)
     @views begin

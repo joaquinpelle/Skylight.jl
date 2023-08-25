@@ -3,3 +3,5 @@
     horizontal_side::Float64
     vertical_side::Float64
 end
+
+stationarity(::StarAcrossWormhole) = IsStationary()

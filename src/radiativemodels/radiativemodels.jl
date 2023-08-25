@@ -89,6 +89,8 @@ include("iontorus.jl")
 include("dummyextendedregion.jl")
 include("dummymodel.jl")
 
+stationarity(::AbstractRadiativeModel) = IsNotStationary()
+
 function unit_surface_normal!(vector, position, metric, metric_inverse, model, coords_top)
     surface_differential!(vector, position, model, coords_top)
     vector .= raise_index(vector, metric_inverse)

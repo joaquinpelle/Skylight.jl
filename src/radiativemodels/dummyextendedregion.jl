@@ -10,6 +10,8 @@ function rest_frame_four_velocity!(vector,
     return nothing
 end
 
+stationarity(::DummyExtendedRegion) = IsStationary()
+
 function rest_frame_absorptivity!(αε, position, ε, ::DummyExtendedRegion)
     r = position[2]
     @. αε = ε * exp(-(r - 4)^2 / 2) * exp(-ε / 2)

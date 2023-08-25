@@ -53,6 +53,8 @@ function rest_frame_specific_intensity(position,
     return thermal_emission_specific_intensity(energy, T)
 end
 
+stationarity(::AbstractAccretionDisk) = IsStationary()
+
 ## The following function is used to check if the ray is inside the accretion disk
 function is_final_position_at_source(position, spacetime, model::AbstractAccretionDisk)
     r = radius(position, spacetime)
