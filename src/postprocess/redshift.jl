@@ -97,3 +97,32 @@ function energies_quotient(ki, kf, cache)
     return scalar_product(ki, cache.observer_four_velocity, cache.observer_metric) /
            scalar_product(kf, cache.rest_frame_four_velocity, cache.emitter_metric)
 end
+
+"""
+Assuming all photons are emitted with unit initial energy
+"""
+function energies_quotients(data::AbstractMatrix, spacetime::AbstractSpacetime, disk::AbstractAccretionDisk)
+    coords_top = coordinates_topology(spacetime)
+    nrays = size(data, 2)
+    q = zeros(nrays)
+    # Break the work into chunks. More chunks per thread has better load balancing but more overhead
+    chunk_size = div(nrays, Threads.nthreads()*2)
+    chunks = Iterators.partition(1:nrays, chunk_size)
+    # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
+    @sync map(chunks) do chunk
+        Threads.@spawn begin
+            g = zeros(4,4)
+            u = zeros(4)
+            for i in chunk
+                @views begin 
+                    position = data[1:4,i]
+                    momentum = data[5:8,i]
+                end
+                metric!(g, position, spacetime)
+                rest_frame_four_velocity!(u, position, g, spacetime, disk, coords_top)
+                q[i] = -Skylight.scalar_product(u,momentum,g)
+            end
+        end
+    end
+    return q
+end
