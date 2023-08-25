@@ -146,7 +146,7 @@ end
     Lorentz factors of the rest frame four velocities of `model` at given `positions`.
 """
 function lorentz_factors(positions::AbstractMatrix, 
-    spacetime::AbstracSpacetime, 
+    spacetime::AbstractSpacetime, 
     model::AbstractRadiativeModel) 
     coords_top = coordinates_topology(spacetime)
     γ = zeros(length(positions))

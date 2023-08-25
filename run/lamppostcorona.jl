@@ -1,7 +1,5 @@
 using Skylight
-using StatsBase
 using CairoMakie
-using LinearAlgebra
 using Printf
 
 spacetime = KerrSpacetimeBoyerLindquistCoordinates(M=1.0, a=0.0)
