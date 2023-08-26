@@ -1,3 +1,7 @@
+"""
+`Skylight.jl` is an extensible package for general-relativistic ray tracing and radiative transfer
+in arbitrary spacetimes and radiative models.
+"""
 module Skylight
 
 using Base.Threads: @threads, @spawn, nthreads, threadid
