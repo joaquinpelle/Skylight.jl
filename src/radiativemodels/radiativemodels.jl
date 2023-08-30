@@ -5,7 +5,8 @@ function rest_frame_four_velocity!(vector,
     spacetime,
     model,
     coords_top,
-    cache)
+    spacetime_cache,
+    model_cache)
     error("rest_frame_four_velocity! not defined for this model.")
 end
 function rest_frame_four_velocity!(vector, position, metric, spacetime, model, coords_top)
@@ -109,6 +110,40 @@ function rest_frame_four_velocity!(v,
     ::Nothing)
     rest_frame_four_velocity!(v, position, metric, spacetime, model, coords_top)
 end
+
+function rest_frame_four_velocity!(v,
+    position,
+    metric,
+    spacetime,
+    model,
+    coords_top,
+    ::Nothing,
+    ::Nothing)
+    rest_frame_four_velocity!(v, position, metric, spacetime, model, coords_top)
+end
+
+function rest_frame_four_velocity!(v,
+    position,
+    metric,
+    spacetime,
+    model,
+    coords_top,
+    spacetime_cache::AbstractSpacetimeCache,
+    ::Nothing)
+    rest_frame_four_velocity!(v, position, metric, spacetime, model, coords_top, spacetime_cache)
+end
+
+function rest_frame_four_velocity!(v,
+    position,
+    metric,
+    spacetime,
+    model,
+    coords_top,
+    ::Nothing,
+    model_cache::AbstractModelCache)
+    rest_frame_four_velocity!(v, position, metric, spacetime, model, coords_top, model_cache)
+end
+
 function rest_frame_bolometric_intensity(position,
     momentum,
     rest_frame_four_velocity,
