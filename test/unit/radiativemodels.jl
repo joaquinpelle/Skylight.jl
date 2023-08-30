@@ -10,6 +10,7 @@ using Skylight, Test
     @test model.misalignment_angle_in_radians ≈ π / 2
     @test model.angular_radius_in_radians ≈ π / 3
 
+    spacetime = MinkowskiSpacetimeCartesianCoordinates()
     coords_top = CartesianTopology()
     points = Skylight.space_positions(10, spacetime, model, coords_top, nothing)
 
@@ -24,7 +25,6 @@ using Skylight, Test
     position = [rand(), 3.0, 0.0, 4.0]
     gμν = [-1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
 
-    spacetime = MinkowskiSpacetimeCartesianCoordinates()
     model_cache = allocate_cache(model)
     rest_frame_four_velocity!(vector,
         position,

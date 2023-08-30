@@ -1,7 +1,9 @@
-"""
+@doc raw"""
     MinkowskiSpacetimeCartesianCoordinates <: AbstractSpacetime
 
-Minkowski spacetime using Cartesian coordinates. The metric takes the form:
+Minkowski spacetime using Cartesian coordinates. The metric is
+
+``ds^2 = -dt^2 + dx^2 + dy^2 + dz^2``
 
 See also: [Minkowski Spacetime](https://en.wikipedia.org/wiki/Minkowski_space). 
 """
@@ -38,15 +40,14 @@ function christoffel!(Γ,
 end
 
 #Spherical coordinates
-"""
+@doc raw"""
     MinkowskiSpacetimeSphericalCoordinates <: AbstractSpacetime
 
-Minkowski spacetime using spherical coordinates. The metric takes the form:
+Minkowski spacetime in spherical coordinates. The metric is
 
-```math
-\frac{n!}{k!(n - k)!} = \binom{n}{k}
-```
-where `r` is the radial coordinate and `θ` (theta) is the polar angle.
+``ds^2 = -dt^2 + dr^2 + r^2 d\theta^2 + r^2 \sin^2 \theta d\phi^2``
+
+where $r$ is the radial coordinate and $θ$ is the polar angle.
 
 See also: [Minkowski Spacetime](https://en.wikipedia.org/wiki/Minkowski_space). 
 """

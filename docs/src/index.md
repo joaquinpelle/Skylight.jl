@@ -1,6 +1,7 @@
 # Skylight.jl
 
-```@autodocs
-Modules = [Skylight, PhysicalConstants]
-Order   = [:function, :type]
+### Docs under construction...
+
+```@docs
+Skylight.Skylight
 ```

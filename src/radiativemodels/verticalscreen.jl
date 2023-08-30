@@ -4,4 +4,4 @@
     vertical_side::Float64
 end
 
-stationarity(::StarAcrossWormhole) = IsStationary()
+stationarity(::VerticalScreen) = IsStationary()
