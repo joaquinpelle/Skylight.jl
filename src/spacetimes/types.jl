@@ -1,7 +1,7 @@
 """
     AbstractSpacetime
 
-    Supertype for representing the geometrical structure of spacetime. Specific implementations of spacetime, such as black holes and regular compact objects, are subtypes of this abstract type.
+Supertype for representing the geometrical structure of spacetime. Specific implementations of spacetime, such as black holes and regular compact objects, are subtypes of this abstract type.
 """
 abstract type AbstractSpacetime end
 
@@ -15,7 +15,7 @@ abstract type AbstractBlackHoleSpacetime <: AbstractSpacetime end
 """
     AbstractRegularCompactObjectSpacetime <: AbstractSpacetime
 
-    Supertype for representing spacetimes containing compact objects without horizons like boson stars. 
+Supertype for representing spacetimes containing compact objects without horizons like boson stars. 
 """
 abstract type AbstractRegularCompactObjectSpacetime <: AbstractSpacetime end
 

@@ -1,4 +1,5 @@
-Under construction...
+# How to use
+
 ### Units
 
 Skylight uses geometrized units $c = G = 1$.

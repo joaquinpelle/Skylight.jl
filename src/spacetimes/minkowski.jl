@@ -3,9 +3,7 @@
 
 Minkowski spacetime using Cartesian coordinates. The metric is
 
-\begin{equation}
-    \mathrm{d}s^2 = -\mathrm{d}t^2 + \mathrm{d}x^2 + \mathrm{d}y^2 + \mathrm{d}z^2
-\end{equation}
+``ds^2 = -dt^2 + dx^2 + dy^2 + dz^2``
 
 See also: [Minkowski Spacetime](https://en.wikipedia.org/wiki/Minkowski_space). 
 """
@@ -47,11 +45,9 @@ end
 
 Minkowski spacetime in spherical coordinates. The metric is
 
-\begin{equation}
-    \mathrm{d}s^2 = -\mathrm{d}t^2 + \mathrm{d}r^2 + r^2 \mathrm{d}\theta^2 + r^2 \sin^2 \theta \mathrm{d}\phi^2
-\end{equation}
+``ds^2 = -dt^2 + dr^2 + r^2 d\theta^2 + r^2 \sin^2 \theta d\phi^2``
 
-where `r` is the radial coordinate and `θ` (theta) is the polar angle.
+where $r$ is the radial coordinate and $θ$ is the polar angle.
 
 See also: [Minkowski Spacetime](https://en.wikipedia.org/wiki/Minkowski_space). 
 """

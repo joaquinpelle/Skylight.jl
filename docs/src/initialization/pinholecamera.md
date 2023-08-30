@@ -1,3 +1,4 @@
+# Pinhole camera
 The energy momentum tensor of the radiation field in terms of the specific intensity is given by
 
 $$
