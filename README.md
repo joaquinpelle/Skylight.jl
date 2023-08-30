@@ -1,5 +1,5 @@
 # Skylight
-[![Dev](https://img.shields.io/badge/docs-stable-blue.svg)](https://juliatesting.github.io/Skylight.jl/dev)
+[![Dev](https://img.shields.io/badge/docs-stable-blue.svg)](https://github.com/joaquinpelle/Skylight.jl/actions/workflows/documentation.yml)
 [![Build Status](https://github.com/joaquinpelle/Skylight.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/joaquinpelle/Skylight.jl/actions/workflows/CI.yml?query=branch%3Amain)
 [![Coverage](https://codecov.io/gh/joaquinpelle/Skylight.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/joaquinpelle/Skylight.jl)
 [![Coverage](https://coveralls.io/repos/github/joaquinpelle/Skylight.jl/badge.svg?branch=main)](https://coveralls.io/github/joaquinpelle/Skylight.jl?branch=main)
