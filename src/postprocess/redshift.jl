@@ -113,13 +113,15 @@ function energies_quotients(data::AbstractMatrix, spacetime::AbstractSpacetime, 
         Threads.@spawn begin
             g = zeros(4,4)
             u = zeros(4)
+            spacetime_cache = allocate_cache(spacetime)
+            model_cache = allocate_cache(model)
             for i in chunk
                 @views begin 
                     position = data[1:4,i]
                     momentum = data[5:8,i]
                 end
                 metric!(g, position, spacetime)
-                rest_frame_four_velocity!(u, position, g, spacetime, disk, coords_top)
+                rest_frame_four_velocity!(u, position, g, spacetime, model, coords_top, spacetime_cache, model_cache)
                 q[i] = -Skylight.scalar_product(u,momentum,g)
             end
         end
