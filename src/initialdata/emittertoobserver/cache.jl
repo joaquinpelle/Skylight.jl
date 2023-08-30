@@ -31,6 +31,7 @@ function metric_and_tetrad!(cache::ETOInitialDataCache,
         spacetime,
         model,
         coords_top,
+        scache,
         mcache)
     random_triad!(triad, time_vector, metric)
     return nothing
@@ -54,6 +55,7 @@ function metric_and_tetrad!(cache::ETOInitialDataCache,
         spacetime,
         model,
         coords_top,
+        scache,
         mcache)
     surface_adapted_triad!(triad,
         time_vector,

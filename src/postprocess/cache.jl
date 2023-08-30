@@ -14,6 +14,7 @@ function metrics_and_four_velocities!(cache::ImagePlanePostProcessCache,
         spacetime,
         model,
         coords_top,
+        cache.spacetime_cache,
         cache.model_cache)
     return nothing
 end
@@ -66,6 +67,7 @@ function emitter_metric_and_four_velocity!(cache::PinholeCameraPostProcessCache,
         spacetime,
         model,
         coords_top,
+        cache.spacetime_cache,
         cache.model_cache)
     return nothing
 end

@@ -28,3 +28,10 @@ end
     β::I = LinearInterpolation([10.44, -10.65, -4.008, -0.1897, 1.160, 1.095, 1.021], T)
     γ::I = LinearInterpolation([16.61, 9.169, 1.559, 0.0595, 0.2641, 0.8332, 1.031], T)
 end
+
+"""
+    AbstractModelCache
+
+Abstract type for caching model-related computations. This can be used as scratch memory in calculations involving the spacetime.
+"""
+abstract type AbstractModelCache end

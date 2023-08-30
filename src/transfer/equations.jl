@@ -68,9 +68,10 @@ function transfer_equations(u::AbstractVector, p, t)
     jε = cache.jε
     vμ = cache.vμ
     metric = cache.metric
+    spacetime_cache = cache.spacetime_cache
 
     metric!(metric, position, spacetime)
-    rest_frame_four_velocity!(vμ, position, metric, spacetime, model, coords_top)
+    rest_frame_four_velocity!(vμ, position, metric, spacetime, model, coords_top, spacetime_cache)
     rest_frame_energy = scalar_product(vμ, momentum, metric) #Without the negative sign because the momentum is past directed
     ε .= observation_energies * rest_frame_energy
     rest_frame_absorptivity!(αε, position, ε, metric, spacetime, model, coords_top)
