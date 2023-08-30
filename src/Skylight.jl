@@ -122,9 +122,6 @@ export AbstractRadiativeModel,
     AccretionDiskWithTabulatedTemperature,
     SyntheticPolarCap,
     StarAcrossWormhole,
-<<<<<<< HEAD
-    BBHDisk
-=======
     VerticalScreen,
     LamppostCorona,
     IonTorus
@@ -134,7 +131,6 @@ export Bremsstrahlung,
     InverseCompton,
     ThermalEmission,
     SynchrotronAndBremsstrahlung
->>>>>>> main
 
 export allocate_cache,
     rest_frame_four_velocity!,

@@ -73,17 +73,6 @@ end
 function default_tetrad(camera::PinholeCamera, spacetime::AbstractSpacetime)
     cache = PinholeCameraCache(spacetime)
     metric!(cache.metric, camera.position, spacetime, cache.spacetime_cache)
-<<<<<<< HEAD
-    tetrad!(cache, camera.position, spacetime)
-    return cache.tetrad
-end
-
-function default_four_velocity(camera::PinholeCamera, spacetime::AbstractSpacetime)
-    g = zeros(4,4)
-    spacetime_cache = allocate_cache(spacetime)
-    metric!(g, camera.position, spacetime, spacetime_cache)
-    return static_four_velocity(g)
-=======
     v = default_four_velocity(camera, spacetime)
     tetrad!(cache, camera.position, v, spacetime)
     return cache.tetrad
@@ -91,21 +80,9 @@ end
 
 function default_flux_direction(camera::PinholeCamera, spacetime::AbstractSpacetime)
     default_tetrad(camera, spacetime)[:, 2]
->>>>>>> main
 end
 max_radius(camera, spacetime) = 1.1 * radius(camera.position, spacetime)
 
-<<<<<<< HEAD
-default_flux_direction(camera::PinholeCamera, spacetime::AbstractSpacetime) = default_tetrad(camera, spacetime)[:,2]
-max_radius(camera, spacetime) = 1.1*radius(camera.position, spacetime)
-
-initial_data_cache(::PinholeCamera, spacetime::AbstractSpacetime) = PinholeCameraCache(spacetime)
-PinholeCameraCache(spacetime::AbstractSpacetime) = PinholeCameraCache(spacetime_cache = allocate_cache(spacetime))
-
-function postprocess_cache(::PinholeCamera, spacetime::AbstractSpacetime, model::AbstractRadiativeModel) 
-    return PinholeCameraPostProcessCache(spacetime_cache = allocate_cache(spacetime), 
-                                        model_cache = allocate_cache(model))
-=======
 function initial_data_cache(::PinholeCamera, spacetime::AbstractSpacetime)
     PinholeCameraCache(spacetime)
 end
@@ -118,7 +95,6 @@ function postprocess_cache(::PinholeCamera,
     model::AbstractRadiativeModel)
     return PinholeCameraPostProcessCache(spacetime_cache = allocate_cache(spacetime),
         model_cache = allocate_cache(model))
->>>>>>> main
 end
 
 #ImagePlane methods

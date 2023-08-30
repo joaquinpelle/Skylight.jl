@@ -101,7 +101,7 @@ end
 """
 Assuming all photons are emitted with unit initial energy
 """
-function energies_quotients(data::AbstractMatrix, spacetime::AbstractSpacetime, disk::AbstractAccretionDisk)
+function energies_quotients(data::AbstractMatrix, spacetime::AbstractSpacetime, model::AbstractRadiativeModel)
     coords_top = coordinates_topology(spacetime)
     nrays = size(data, 2)
     q = zeros(nrays)
@@ -119,7 +119,7 @@ function energies_quotients(data::AbstractMatrix, spacetime::AbstractSpacetime, 
                     momentum = data[5:8,i]
                 end
                 metric!(g, position, spacetime)
-                rest_frame_four_velocity!(u, position, g, spacetime, disk, coords_top)
+                rest_frame_four_velocity!(u, position, g, spacetime, model, coords_top)
                 q[i] = -Skylight.scalar_product(u,momentum,g)
             end
         end
