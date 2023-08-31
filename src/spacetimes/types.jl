@@ -30,22 +30,20 @@ abstract type AbstractSpacetimeCache end
 """
 AbstractSpacetimeCache
 
-Abstract type for caching Christoffel symbol-related calculations. This can be used as scratch memory in calculations in the `christoffel!` function.
+Abstract type for cache objects to be used as temporary storage in Christoffel symbol calculations.
 """
 abstract type AbstractChristoffelCache end
 
 """
-AutoDiffChristoffelCache{F, CA, CO} <: AbstractChristoffelCache
+    AutoDiffChristoffelCache{F, CA, CO} <: AbstractChristoffelCache
 
-Mutable structure for caching values needed when computing Christoffel symbols using automatic differentiation. It includes the metric tensor `g`, its inverse `ginv`, derivatives of the metric `∂g`, a spacetime metric field `spacetime_metric_field`, a cache for spacetime calculations `spacetime_cache`, and a Jacobian configuration `cfg`.
+Cache object for temporary storage in Christoffel symbol calculation via automatic differentiation. 
 
-# Fields
-- `g::Array{Float64, 2}`: The metric tensor (default: zeros(4, 4)).
-- `ginv::Array{Float64, 2}`: The inverse of the metric tensor (default: zeros(4, 4)).
-- `∂g::Array{Float64, 3}`: Derivatives of the metric tensor (default: zeros(4, 4, 4)).
-- `spacetime_metric_field::F`: A field representing the spacetime metric.
-- `spacetime_cache::CA`: A cache for spacetime-related computations.
-- `cfg::CO`: Configuration object for additional settings.
+# Constructor
+
+```
+AutoDiffChristoffelCache(spacetime::AbstractSpacetime)
+```
 """
 @with_kw mutable struct AutoDiffChristoffelCache{F, CA, CO} <: AbstractChristoffelCache
     g::Array{Float64, 2} = zeros(4, 4)
@@ -56,12 +54,58 @@ Mutable structure for caching values needed when computing Christoffel symbols u
     cfg::CO
 end
 
+"""
+    AbstractCoordinatesTopology
+
+Abstract type for representing the topology of the coordinates of a spacetime.
+"""
 abstract type AbstractCoordinatesTopology end
+
+"""
+    CartesianTopology <: AbstractCoordinatesTopology
+
+Cartesian coordinates topology.
+"""
 struct CartesianTopology <: AbstractCoordinatesTopology end
+
+"""
+    SphericalTopology <: AbstractCoordinatesTopology
+
+Spherical coordinates topology.
+"""
 struct SphericalTopology <: AbstractCoordinatesTopology end
 
+"""
+    AbstractRotationSense
+
+Abstract type for representing the rotation sense of a circular orbit in a spacetime.
+"""
 abstract type AbstractRotationSense end
+
+"""
+    ProgradeRotation <: AbstractRotationSense
+
+Prograde rotation sense for a circular orbit in a spacetime.
+
+# Constructor
+
+```
+ProgradeRotation()
+```
+"""
 struct ProgradeRotation <: AbstractRotationSense end
+
+"""
+    RetrogradeRotation <: AbstractRotationSense
+
+Retrograde rotation sense for a circular orbit in a spacetime.
+
+# Constructor
+
+```
+RetrogradeRotation()
+```
+"""
 struct RetrogradeRotation <: AbstractRotationSense end
 
 abstract type AbstractSpacetimeSymmetry end

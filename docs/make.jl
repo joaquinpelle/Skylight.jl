@@ -5,14 +5,14 @@ makedocs(
     sitename = "Skylight",
     format = Documenter.HTML(),
     modules = [Skylight],
-    assets = ["assets/logo.png"],
     pages = [
         "Home" => "index.md",
         "Getting started" => "gettingstarted.md",
         "Spacetimes" => [
             "Catalogue" => "spacetimes/catalogue.md",
             "Functions" => "spacetimes/functions.md",
-            "Symmetries and constants of motion" => "spacetimes/symmetries.md"
+            "Automatic differentiation" => "spacetimes/autodiff.md",
+            "Other types" => "spacetimes/othertypes.md"
             ],
         "Radiative models" => [
             "Catalogue" => "radiativemodels/catalogue.md",
@@ -49,6 +49,7 @@ makedocs(
             "Adding a radiative model" => "developers/radiativemodels.md"
         ],
         "api.md",
+        "publications.md",
         "citing.md",
         "contributing.md",
     ],

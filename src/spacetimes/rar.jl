@@ -21,6 +21,19 @@ function RARInterpolator(data_dir)
         dM = CubicSpline(dM[:, 2], dM[:, 1]))
 end
 
+@doc raw"""
+    RARSpacetime <: AbstractRegularCompactObjectSpacetime
+
+Ruffini-Arguelles-Rueda spacetime for dark-matter galactic core-halo. The spacetime is constructed
+by interpolating the data files in a given directory. The numerical data must include the $r$, $g_{tt}$,
+$g_{rr}$, $\partial_r \nu$, $M(r)$ and $\partial_r M$ as columns in that order. The data must be in geometrized 
+units.
+
+# Constructor
+```
+RARSpacetime("./rar_data")
+```
+"""
 @with_kw struct RARSpacetime{T} <: AbstractRegularCompactObjectSpacetime
     data_dir::String
     interp::RARInterpolator{T} = RARInterpolator(data_dir)

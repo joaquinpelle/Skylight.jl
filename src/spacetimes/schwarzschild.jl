@@ -1,7 +1,19 @@
 abstract type AbstractSchwarzschildSpacetime <: AbstractBlackHoleSpacetime end
 
-#Kerr-Schild coordinates
+@doc raw"""
+    SchwarzschildSpacetimeKerrSchildCoordinates <: AbstractSchwarzschildSpacetime
 
+[Schwarzschild spacetime](https://en.wikipedia.org/wiki/Schwarzschild_metric) in Kerr-Schild coordinates. The parameter $M$ is the mass. The metric is
+
+``g_{\mu \nu} = \eta_{\mu \nu} + H l_{\mu} l_{\nu}``
+
+where $\eta_{\mu \nu}$ is the flat metric, $H=2M/r$, and $l_{\mu}=(1,x,y,z)/r$.
+
+# Constructor
+```
+SchwarzschildSpacetimeKerrSchildCoordinates(M=1.0)
+```
+"""
 @with_kw struct SchwarzschildSpacetimeKerrSchildCoordinates <:
                 AbstractSchwarzschildSpacetime
     M::Float64
@@ -9,6 +21,12 @@ abstract type AbstractSchwarzschildSpacetime <: AbstractBlackHoleSpacetime end
 end
 
 coordinates_topology(::SchwarzschildSpacetimeKerrSchildCoordinates) = CartesianTopology()
+
+@doc raw"""
+    radius(position, spacetime::SchwarzschildSpacetimeKerrSchildCoordinates)
+
+    ``r = \sqrt{x^2 + y^2 + z^2}``
+""" 
 function radius(position, ::SchwarzschildSpacetimeKerrSchildCoordinates)
     sqrt(position[2]^2 + position[3]^2 + position[4]^2)
 end
@@ -150,8 +168,18 @@ function christoffel!(Γ,
     return nothing
 end
 
-#Spherical coordinates
+@doc raw"""
+    SchwarzschildSpacetimeSphericalCoordinates <: AbstractSchwarzschildSpacetime
 
+[Schwarzschild spacetime](https://en.wikipedia.org/wiki/Schwarzschild_metric) in spherical coordinates. The metric is
+
+``ds^2 = -(1-2M/r) dt^2 + (1-2M/r)^{-1} dr^2 + r^2 d\theta^2 + r^2 \sin^2 \theta d\phi^2``
+
+# Constructor
+```
+SchwarzschildSpacetimeSphericalCoordinates(M=1.0)
+```
+"""
 @with_kw struct SchwarzschildSpacetimeSphericalCoordinates <: AbstractSchwarzschildSpacetime
     M::Float64
     @assert M>=0.0 "M must be non-negative"
@@ -219,7 +247,7 @@ end
 
 mass(spacetime::AbstractSchwarzschildSpacetime) = spacetime.M
 event_horizon_radius(spacetime::AbstractSchwarzschildSpacetime) = 2 * spacetime.M
-isco_radius(spacetime::AbstractSchwarzschildSpacetime) = 6 * spacetime.M
+isco_radius(spacetime::AbstractSchwarzschildSpacetime, ::AbstractRotationSense) = 6 * spacetime.M
 
 function circular_geodesic_angular_speed(position,
     spacetime::AbstractSchwarzschildSpacetime,

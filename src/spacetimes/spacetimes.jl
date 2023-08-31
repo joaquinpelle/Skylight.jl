@@ -2,38 +2,96 @@
 function coordinates_topology(spacetime)
     error("Coordinates topology not defined for this spacetime.")
 end
+
+"""
+    metric!(g, position, spacetime, cache)
+
+Evaluate the spacetime metric at the given position and store the result in the given array using cache for temporary storage.  
+"""
 metric!(g, position, spacetime, cache) = error("Metric not defined for this spacetime.")
 function metric!(g, position, spacetime::AbstractSpacetime, ::Nothing)
     metric!(g, position, spacetime)
 end
 
 #Optional
+"""
+    allocate_cache(spacetime)
+
+Allocate a cache object for the given spacetime. The cache object is used to store temporary data in spacetime-related calculations.
+"""
 allocate_cache(::AbstractSpacetime) = nothing
+
+"""
+    radius(position, spacetime)
+
+Radius of the given position in the given spacetime. 
+"""
 radius(position, spacetime) = error("Radius not defined for this spacetime.")
+
+"""
+    event_horizon_radius(spacetime)
+
+Radius of the event horizon of the given spacetime. Defined only for black hole spacetimes.
+"""
 function event_horizon_radius(spacetime)
     error("Event horizon radius not defined for this spacetime.")
 end
+
+"""
+    isco_radius(spacetime, rotation_sense::AbstractRotationSense)
+
+Radius of the innermost stable circular orbit in the given spacetime and rotation sense (prograde or 
+retrograde), if defined.
+"""
+function isco_radius(spacetime, rotation_sense)
+    error("Isco radius radius not defined for this spacetime.")
+end
+
+"""
+    mbco_radius(spacetime, rotation_sense::AbstractRotationSense)
+
+Radius of the marginally bound circular orbit in the given spacetime and rotation sense (prograde or
+retrograde), if defined.
+"""
+function mbco_radius(spacetime, rotation_sense)
+    error("Marginally bound circular orbit not defined for this spacetime.")
+end
+
+"""
+    circular_geodesic_angular_speed(position, spacetime, rotation_sense::AbstractRotationSense)
+
+Angular speed of a circular geodesic at the given position in the given spacetime for a particle rotating
+in the given sense.
+""" 
 function circular_geodesic_angular_speed(position, spacetime, rotation_sense)
     error("Circular geodesic angular speed not defined for this spacetime.")
 end
+
+"""
+    christoffel!(Γ, position, spacetime, cache)
+
+Evaluate the Christoffel symbols at the given position and store the result in the given array using cache for temporary storage.
+Unless a more specific method is defined, automatic differentiation is used to compute the Christoffel symbols.
+""" 
 function christoffel!(Γ, position, spacetime::AbstractSpacetime, ::Nothing)
     christoffel!(Γ, position, spacetime)
 end
+
+"""
+    allocate_christoffel_cache(spacetime)
+
+Allocate a cache object for the Christoffel symbols calculation.
+Unless a more specific method is defined, an instance of [`Skylight.AutoDiffChristoffelCache`](@ref) is returned.
+""" 
 function allocate_christoffel_cache(spacetime::AbstractSpacetime)
     AutoDiffChristoffelCache(spacetime)
 end
 
 """
-Computes the inverse of the given metric at the given position using a fast inversion
-for 4x4 symmetric matrices.
+    metric_inverse!(ginv, position, spacetime, g, cache)
 
-Arguments:
-- ginv: mutable array of size (4,4) to store the resulting inverse metric.
-- position: tuple of four numbers representing a position in spacetime.
-- spacetime: object representing the spacetime.
-- g: array of size (4,4) to store the metric evaluated at the given position.
-
-Returns: nothing.
+Evaluate the inverse of the metric at the given position  and store the result in the given array, using `g` and `cache` for temporary storage.
+Unless a more specialized method is defined, a fast inversion method for 4x4 symmetric matrices is used.
 """
 function metric_inverse!(ginv, position, spacetime::AbstractSpacetime, g, cache)
     metric!(g, position, spacetime, cache)
@@ -42,9 +100,25 @@ function metric_inverse!(ginv, position, spacetime::AbstractSpacetime, g, cache)
 end
 
 #By default we set non-stationarity and non-spherical symmetry  
+"""
+    stationarity(spacetime)
+
+Return `IsStationary()` if the spacetime is stationary, `IsNotStationary()` otherwise.
+"""
 stationarity(::AbstractSpacetime) = IsNotStationary()
+
+"""
+    spherical_symmetry(spacetime)
+
+Return `IsSphericallySymmetric()` if the spacetime is spherically symmetric, `IsNotSphericallySymmetric()` otherwise.
+"""
 spherical_symmetry(::AbstractSpacetime) = IsNotSphericallySymmetric()
 #For z symmetry we check spherical symmetry by default first. Thus if a spacetime is declared spherically symmetric it's automatically axially symmetric.
+"""
+    axial_symmetry(spacetime)
+
+Return `IsAxiallySymmetric()` if the spacetime is axially symmetric, `IsNotAxiallySymmetric()` otherwise.
+"""
 function axial_symmetry(spacetime::AbstractSpacetime)
     isa(spherical_symmetry(spacetime), IsSphericallySymmetric) ? IsAxiallySymmetric() :
     IsNotAxiallySymmetric()
@@ -80,6 +154,11 @@ function metric_field(spacetime::AbstractSpacetime, cache)
     (g, position) -> metric!(g, position, spacetime, cache)
 end
 
+"""
+    metric(position, spacetime)
+
+Evaluate the spacetime metric at the given position and return the result. 
+"""
 function metric(position, spacetime::AbstractSpacetime)
     g = zeros(4, 4)
     cache = allocate_cache(spacetime)
@@ -87,6 +166,11 @@ function metric(position, spacetime::AbstractSpacetime)
     return g
 end
 
+"""
+    metric(position, spacetime, cache)
+
+Evaluate the spacetime metric at the given position and return the result using a cache object as temporary storage. 
+"""
 function metric(position, spacetime::AbstractSpacetime, cache)
     g = zeros(4, 4)
     metric!(g, position, spacetime, cache)
@@ -94,21 +178,22 @@ function metric(position, spacetime::AbstractSpacetime, cache)
 end
 
 """
-Computes the volume element (square root of minus the determinant of the metric) at a given position 
-using a fast determinant for 4x4 symmetric matrices.
+    volume_element(position, spacetime, g, cache)
 
-Arguments:
-- position: tuple of four numbers representing a position in spacetime.
-- spacetime: object representing the spacetime.
-- g: array of size (4,4) to store the metric evaluated at the given position.
-
-Returns: the volume element.
+Compute the volume element (square root of minus the determinant of the metric) at the given position 
+with a fast determinant for 4x4 symmetric matrices, using `g` and `cache` for temporary storage.
 """
 function volume_element(position, spacetime::AbstractSpacetime, g, cache)
     metric!(g, position, spacetime, cache)
     return sqrt(-det4x4sym(g))
 end
 
+"""
+    volume_element(position, spacetime)
+
+Compute the volume element (square root of minus the determinant of the metric) at the given position 
+with a fast determinant for 4x4 symmetric matrices.
+"""
 function volume_element(position, spacetime::AbstractSpacetime)
     g = zeros(4, 4)
     cache = allocate_cache(spacetime)
