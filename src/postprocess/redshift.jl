@@ -120,7 +120,7 @@ function energies_quotients(data::AbstractMatrix, spacetime::AbstractSpacetime, 
                     position = data[1:4,i]
                     momentum = data[5:8,i]
                 end
-                metric!(g, position, spacetime)
+                metric!(g, position, spacetime, spacetime_cache)
                 rest_frame_four_velocity!(u, position, g, spacetime, model, coords_top, spacetime_cache, model_cache)
                 q[i] = -Skylight.scalar_product(u,momentum,g)
             end
