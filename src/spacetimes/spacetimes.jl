@@ -81,7 +81,7 @@ end
     allocate_christoffel_cache(spacetime)
 
 Allocate a cache object for the Christoffel symbols calculation.
-Unless a more specific method is defined, an instance of [`AutoDiffChristoffelCache`](@ref) is returned.
+Unless a more specific method is defined, an instance of [`Skylight.AutoDiffChristoffelCache`](@ref) is returned.
 """ 
 function allocate_christoffel_cache(spacetime::AbstractSpacetime)
     AutoDiffChristoffelCache(spacetime)

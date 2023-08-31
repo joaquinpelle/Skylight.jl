@@ -12,7 +12,7 @@ makedocs(
             "Catalogue" => "spacetimes/catalogue.md",
             "Functions" => "spacetimes/functions.md",
             "Automatic differentiation" => "spacetimes/autodiff.md",
-            "Symmetries and constants of motion" => "spacetimes/symmetries.md"
+            "Other types" => "spacetimes/othertypes.md"
             ],
         "Radiative models" => [
             "Catalogue" => "radiativemodels/catalogue.md",

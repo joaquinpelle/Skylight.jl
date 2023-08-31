@@ -5,5 +5,5 @@ are calculated using forward-mode automatic differentiation from the metric coef
 functionality from the ForwardDiff package. 
 
 ```@docs
-AutoDiffChristoffelCache
+Skylight.AutoDiffChristoffelCache
 ```
