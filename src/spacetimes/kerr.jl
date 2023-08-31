@@ -1,7 +1,26 @@
 abstract type AbstractKerrSpacetime <: AbstractBlackHoleSpacetime end
 
-# Kerr Schild coordinates
+@doc raw"""
+    KerrSpacetimeKerrSchildCoordinates <: AbstractKerrSpacetime
 
+[Kerr spacetime](https://en.wikipedia.org/wiki/Kerr_metric) in Kerr-Schild coordinates. The parameter are the mass $M$ and the 
+dimensionless spin $a$. The metric is
+
+``g_{\mu \nu} = \eta_{\mu \nu} + H l_{\mu} l_{\nu}``
+
+where $\eta_{\mu \nu}$ is the flat metric, $H=2Mr^3/(r^4+a^2 z^2$, and 
+
+``l_{\mu}=(1,\frac{rx+ay}{r^2+a^2},\frac{ry-ax}{r^2+a^2},z/r)``
+
+where $r$ satisfies the equation
+
+``\frac{x^2+y^2}{r^2+a^2} + \frac{z^2}{r^2} = 1``
+
+# Example
+```
+KerrSpacetimeKerrSchildCoordinates(M=1.0, a=0.99)
+```
+"""
 @with_kw struct KerrSpacetimeKerrSchildCoordinates <: AbstractKerrSpacetime
     M::Float64
     a::Float64
@@ -189,8 +208,17 @@ function christoffel!(Γ,
     return nothing
 end
 
-# Boyer Lindquist coordinates
+@doc raw"""
+    KerrSpacetimeBoyerLindquistCoordinates <: AbstractKerrSpacetime
 
+[Kerr spacetime](https://en.wikipedia.org/wiki/Kerr_metric) in Boyer-Lindquist coordinates. The parameter are the mass $M$ and the 
+dimensionless spin $a$. 
+
+# Example
+```
+KerrSpacetimeBoyerLindquistCoordinates(M=1.0, a=0.99)
+```
+"""
 @with_kw struct KerrSpacetimeBoyerLindquistCoordinates <: AbstractKerrSpacetime
     M::Float64
     a::Float64

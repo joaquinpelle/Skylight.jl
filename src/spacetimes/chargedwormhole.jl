@@ -1,6 +1,17 @@
 abstract type AbstractChargedWormholeSpacetime <: AbstractSpacetime end
 allocate_christoffel_cache(::AbstractChargedWormholeSpacetime) = nothing
 
+"""
+    ChargedWormholeSpacetimeSphericalCoordinates <: AbstractSpacetime
+
+[Charged wormhole spacetime](https://arxiv.org/pdf/2210.14106.pdf) 
+in usual spherical coordinates.
+
+# Example
+```
+ChargedWormholeSpacetimeSphericalCoordinates(b0=1.0, Q=0.5)
+```
+"""
 @with_kw struct ChargedWormholeSpacetimeSphericalCoordinates <:
                 AbstractChargedWormholeSpacetime
     b0::Float64
@@ -120,6 +131,17 @@ function christoffel!(Γ, position, spacetime::ChargedWormholeSpacetimeSpherical
     return nothing
 end
 
+"""
+    ChargedWormholeSpacetimeRegularCoordinates <: AbstractSpacetime
+
+[Charged wormhole spacetime](https://arxiv.org/pdf/2210.14106.pdf) 
+in regular (throat crossing) coordinates.
+
+# Example
+```
+ChargedWormholeSpacetimeRegularCoordinates(b0=1.0, Q=0.5)
+```
+"""
 @with_kw struct ChargedWormholeSpacetimeRegularCoordinates <:
                 AbstractChargedWormholeSpacetime
     b0::Float64

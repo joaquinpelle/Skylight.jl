@@ -1,3 +1,14 @@
+@doc raw"""
+    FRKerrSpacetime <: AbstractBlackHoleSpacetime
+
+[$f(R)$-Kerr spacetime](https://www.worldscientific.com/doi/abs/10.1142/S0219887814500017) 
+(uncharged) with constant curvature $R_0$
+
+# Example
+```
+FRKerrSpacetime(M=1.0, a=0.99, R0=-0.0012) 
+```
+"""
 @with_kw struct FRKerrSpacetime <: AbstractBlackHoleSpacetime
     M::Float64
     a::Float64

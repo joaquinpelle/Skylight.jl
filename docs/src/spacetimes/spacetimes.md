@@ -1,9 +1,0 @@
-# Spacetimes
-
-```@docs
-AbstractSpacetime
-AbstractBlackHoleSpacetime
-AbstractRegularCompactObjectSpacetime
-MinkowskiSpacetimeCartesianCoordinates
-MinkowskiSpacetimeSphericalCoordinates
-```

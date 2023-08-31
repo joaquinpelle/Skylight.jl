@@ -56,8 +56,25 @@ Mutable structure for caching values needed when computing Christoffel symbols u
     cfg::CO
 end
 
+"""
+    AbstractCoordinatesTopology
+
+Abstract type for representing the topology of the coordinates of a spacetime.
+"""
 abstract type AbstractCoordinatesTopology end
+
+"""
+    CartesianTopology <: AbstractCoordinatesTopology
+
+Cartesian coordinates topology.
+"""
 struct CartesianTopology <: AbstractCoordinatesTopology end
+
+"""
+    SphericalTopology <: AbstractCoordinatesTopology
+
+Spherical coordinates topology.
+"""
 struct SphericalTopology <: AbstractCoordinatesTopology end
 
 abstract type AbstractRotationSense end

@@ -5,7 +5,6 @@ makedocs(
     sitename = "Skylight",
     format = Documenter.HTML(),
     modules = [Skylight],
-    assets = ["assets/logo.png"],
     pages = [
         "Home" => "index.md",
         "Getting started" => "gettingstarted.md",
