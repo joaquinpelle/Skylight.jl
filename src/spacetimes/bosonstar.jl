@@ -2,10 +2,10 @@
     BosonStarSpacetime <: AbstractRegularCompactObjectSpacetime
 
  [Boson star spacetime]() in spherical coordinates. It uses analyical fits. Either the
- fit parameters as described in... can be provided as vectors, or any of the symbols :LBS1,
- :LBS2, :LBS3, :SBS1, :SBS2 or :SBS3 as constructor arguments
+ fit parameters as described in... can be provided as vectors, or any of the symbols `:LBS1`,
+ `:LBS2`, `:LBS3`, `:SBS1`, `:SBS2` or `:SBS3` as constructor arguments
 
-# Examples
+# Constructors
 ```
 BosonStarSpacetime(a=aparams, a=9, R0=-0.0012) 
 BosonStarSpacetime(:LBS1)

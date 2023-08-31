@@ -11,6 +11,7 @@ makedocs(
         "Spacetimes" => [
             "Catalogue" => "spacetimes/catalogue.md",
             "Functions" => "spacetimes/functions.md",
+            "Automatic differentiation" => "spacetimes/autodiff.md",
             "Symmetries and constants of motion" => "spacetimes/symmetries.md"
             ],
         "Radiative models" => [
@@ -48,6 +49,7 @@ makedocs(
             "Adding a radiative model" => "developers/radiativemodels.md"
         ],
         "api.md",
+        "publications.md",
         "citing.md",
         "contributing.md",
     ],

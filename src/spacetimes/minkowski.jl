@@ -5,7 +5,7 @@
 
 ``ds^2 = -dt^2 + dx^2 + dy^2 + dz^2``
 
-# Example
+# Constructor
 ```
 MinkowskiSpacetimeCartesianCoordinates()
 ```
@@ -52,7 +52,7 @@ end
 
 where $r$ is the radial coordinate and $θ$ is the polar angle.
 
-# Example
+# Constructor
 ```
 MinkowskiSpacetimeSphericalCoordinates()
 ```

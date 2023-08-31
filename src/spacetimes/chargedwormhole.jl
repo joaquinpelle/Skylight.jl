@@ -7,7 +7,7 @@ allocate_christoffel_cache(::AbstractChargedWormholeSpacetime) = nothing
 [Charged wormhole spacetime](https://arxiv.org/pdf/2210.14106.pdf) 
 in usual spherical coordinates.
 
-# Example
+# Constructor
 ```
 ChargedWormholeSpacetimeSphericalCoordinates(b0=1.0, Q=0.5)
 ```
@@ -137,7 +137,7 @@ end
 [Charged wormhole spacetime](https://arxiv.org/pdf/2210.14106.pdf) 
 in regular (throat crossing) coordinates.
 
-# Example
+# Constructor
 ```
 ChargedWormholeSpacetimeRegularCoordinates(b0=1.0, Q=0.5)
 ```

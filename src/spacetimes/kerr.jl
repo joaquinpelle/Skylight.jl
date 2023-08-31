@@ -16,7 +16,7 @@ where $r$ satisfies the equation
 
 ``\frac{x^2+y^2}{r^2+a^2} + \frac{z^2}{r^2} = 1``
 
-# Example
+# Constructor
 ```
 KerrSpacetimeKerrSchildCoordinates(M=1.0, a=0.99)
 ```
@@ -214,7 +214,7 @@ end
 [Kerr spacetime](https://en.wikipedia.org/wiki/Kerr_metric) in Boyer-Lindquist coordinates. The parameter are the mass $M$ and the 
 dimensionless spin $a$. 
 
-# Example
+# Constructor
 ```
 KerrSpacetimeBoyerLindquistCoordinates(M=1.0, a=0.99)
 ```

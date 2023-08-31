@@ -29,7 +29,7 @@ by interpolating the data files in a given directory. The numerical data must in
 $g_{rr}$, $\partial_r \nu$, $M(r)$ and $\partial_r M$ as columns in that order. The data must be in geometrized 
 units.
 
-# Example
+# Constructor
 ```
 RARSpacetime("./rar_data")
 ```

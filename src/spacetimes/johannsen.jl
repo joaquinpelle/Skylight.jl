@@ -4,7 +4,7 @@
 [Johannsen spacetime](https://arxiv.org/pdf/1501.02809.pdf) to lowest order in the 
 deformation parameters with respect to the Kerr metric
 
-# Example
+# Constructor
 ```
 JohannsenSpacetime(M=1.0, a=0.99, α13=0.5, α22=0.0, α52=0.01, ϵ3=0.0)
 ```

@@ -9,7 +9,7 @@ abstract type AbstractSchwarzschildSpacetime <: AbstractBlackHoleSpacetime end
 
 where $\eta_{\mu \nu}$ is the flat metric, $H=2M/r$, and $l_{\mu}=(1,x,y,z)/r$.
 
-# Example
+# Constructor
 ```
 SchwarzschildSpacetimeKerrSchildCoordinates(M=1.0)
 ```
@@ -175,7 +175,7 @@ end
 
 ``ds^2 = -(1-2M/r) dt^2 + (1-2M/r)^{-1} dr^2 + r^2 d\theta^2 + r^2 \sin^2 \theta d\phi^2``
 
-# Example
+# Constructor
 ```
 SchwarzschildSpacetimeSphericalCoordinates(M=1.0)
 ```
@@ -247,7 +247,7 @@ end
 
 mass(spacetime::AbstractSchwarzschildSpacetime) = spacetime.M
 event_horizon_radius(spacetime::AbstractSchwarzschildSpacetime) = 2 * spacetime.M
-isco_radius(spacetime::AbstractSchwarzschildSpacetime) = 6 * spacetime.M
+isco_radius(spacetime::AbstractSchwarzschildSpacetime, ::AbstractRotationSense) = 6 * spacetime.M
 
 function circular_geodesic_angular_speed(position,
     spacetime::AbstractSchwarzschildSpacetime,
