@@ -231,12 +231,13 @@ end
     equatorial_ring_areas(edges, spacetime)
 
 Approximate areas of the equatorial rings delimited by `edges` in `spacetime`. The spacetime
-must be axisymmetric. The areas are computed using the formula
+must be stationary and axisymmetric. The areas are computed using the formula
 `2π*sqrt(g[2,2]*g[4,4])*Δr`, where `g` is the metric evaluated at the center of
 the ring.
 """
 function equatorial_ring_areas(edges::AbstractVector, spacetime::AbstractSpacetime)
-    is_axisymmetric(spacetime) || throw(ArgumentError("Spacetime must be axisymmetric"))
+    is_stationary(spacetime) || throw(ArgumentError("Spacetime must be axisymmetric"))
+    is_axisymmetric(spacetime) || throw(ArgumentError("Spacetime must be stationary"))
     coords_top = coordinates_topology(spacetime)
     centers = midpoints(edges)
     Δr = widths(edges)
