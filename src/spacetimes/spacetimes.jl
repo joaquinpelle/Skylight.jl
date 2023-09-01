@@ -150,7 +150,11 @@ function AutoDiffChristoffelCache(spacetime::AbstractSpacetime)
         cfg = cfg)
 end
 
-function metric_field(spacetime::AbstractSpacetime, cache)
+function metric_field(spacetime::AbstractSpacetime)
+    (g, position) -> metric!(g, position, spacetime)
+end
+
+function metric_field(spacetime::AbstractSpacetime, cache::AbstractSpacetimeCache)
     (g, position) -> metric!(g, position, spacetime, cache)
 end
 

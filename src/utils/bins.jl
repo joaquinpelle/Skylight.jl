@@ -73,6 +73,38 @@ function average_inside_bins(q, x, bins)
 end
 
 """
+    average_inside_bins(q, x, y, xbins, ybins)
+
+Calculate the averages of a quantity `q` at values `(x,y)` in each bin defined by `xbins` and `ybins`.
+"""
+function average_inside_bins(q, x, y, xbins, ybins)
+    same_size(q, x) || throw(ArgumentError("q and x must have the same size"))
+    same_size(q, y) || throw(ArgumentError("q and y must have the same size"))
+    # Initialize an array to hold the sum of `q` values in each bin
+    qsums = zeros(eltype(q), length(xbins)-1, length(ybins)-1)
+    # Initialize an array to hold the count of `q` values in each bin
+    qcounts = zeros(Int, length(xbins)-1, length(ybins)-1)
+
+    for (xvalue, yvalue, qvalue) in zip(x, y, q)
+        # Find the bin index for the current radii value
+        xbin_index = searchsortedlast(xbins, xvalue)
+        ybin_index = searchsortedlast(ybins, yvalue)
+
+        # If the bin_index is valid (i.e., the radius value is not beyond the last bin edge)
+        if xbin_index > 0 && xbin_index < length(xbins)
+            if ybin_index > 0 && ybin_index < length(ybins)
+                # Update the sum and count of `q` values for this bin
+                qsums[xbin_index, ybin_index] += qvalue
+                qcounts[xbin_index, ybin_index] += 1
+            end
+        end
+    end
+    # Calculate the average `q` values for each bin
+    averages = qsums ./ qcounts
+    return averages
+end
+
+"""
     create_bins(; bin_size::Union{Number, Nothing}=nothing, num_bins::Union{Int, Nothing}=nothing, 
                  start::Number, stop::Number)
 

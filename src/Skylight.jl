@@ -58,7 +58,8 @@ export AbstractSpacetime,
     RARSpacetime,
     BosonStarSpacetime,
     SPNOldSpacetime,
-    SPNSpacetime
+    SPNSpacetime,
+    SPNFrozenSpacetime
 
 export AbstractSpacetimeCache,
     AbstractChristoffelCache
@@ -124,7 +125,11 @@ export AbstractRadiativeModel,
     StarAcrossWormhole,
     VerticalScreen,
     LamppostCorona,
-    IonTorus
+    IonTorus,
+    BBHDisk,
+    BBHDiskBH1,
+    BBHDiskBH2,
+    BBHFrozenLamppostCorona
 
 export Bremsstrahlung,
     Synchrotron,
