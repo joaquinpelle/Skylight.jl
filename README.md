@@ -6,9 +6,7 @@
 [![SciML Code Style](https://img.shields.io/static/v1?label=code%20style&message=SciML&color=9558b2&labelColor=389826)](https://github.com/SciML/SciMLStyle)
 [![Aqua QA](https://raw.githubusercontent.com/JuliaTesting/Aqua.jl/master/badge.svg)](https://github.com/JuliaTesting/Aqua.jl)
 
-A general-relativistic ray tracing and radiative transport code for arbitrary spacetimes. With multithreading and automatic differentiation support.
-
-> [Reference](https://academic.oup.com/mnras/article-abstract/515/1/1316/6631564): Pelle, Joaquin, Oscar Reula, Federico Carrasco, and Carlos Bederian. "Skylight: a new code for general-relativistic ray-tracing and radiative transfer in arbitrary space–times." Monthly Notices of the Royal Astronomical Society 515, no. 1 (2022): 1316-1327.
+A general-relativistic ray tracing and radiative transport code for arbitrary spacetimes. With multithreading and automatic differentiation support. Documentation is under cosntruction and is available [here](https://joaquinpelle.github.io/Skylight.jl/dev).
 
 ### Requirements
 
@@ -38,6 +36,8 @@ At least Julia v1.6
 5. In the package mode, run the command `test`
 
 ### To cite this work
+
+> [Reference](https://academic.oup.com/mnras/article-abstract/515/1/1316/6631564): Pelle, Joaquin, Oscar Reula, Federico Carrasco, and Carlos Bederian. "Skylight: a new code for general-relativistic ray-tracing and radiative transfer in arbitrary space–times." Monthly Notices of the Royal Astronomical Society 515, no. 1 (2022): 1316-1327.
 
 If you use this software in your work, please cite it using the following metadata
 
