@@ -16,10 +16,6 @@ At least Julia v1.6
 
     .
     ├── docs                    # Documentation files
-    │   ├── TOC.md              # Table of contents
-    │   ├── faq.md              # Frequently asked questions
-    │   ├── misc.md             # Miscellaneous information
-    │   ├── usage.md            # Getting started guide 
     ├── run                     # Example scripts and notebooks to run the code
     ├── src                     # Source files
     ├── test                    # Test files 
