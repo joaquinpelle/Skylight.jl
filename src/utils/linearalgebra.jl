@@ -144,6 +144,21 @@ function det4x4sym(matrix)
 end
 
 """
+Computes the determinant of a 2x2 matrix using a closed-form formula.
+
+Arguments:
+- matrix: array of size (2,2) containing the input matrix.
+
+Returns: the determinant of the input matrix.
+"""
+function det2x2(matrix)
+    @inbounds begin
+        a, b, c, d = matrix[1, 1], matrix[1, 2], matrix[2, 1], matrix[2, 2]
+    end
+    return a*d-b*c
+end
+
+"""
 Computes the determinant of a 2x2 symmetric matrix using a closed-form formula.
 
 Arguments:
