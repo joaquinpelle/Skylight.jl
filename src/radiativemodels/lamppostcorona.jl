@@ -29,7 +29,8 @@ end
 function emissivity_profile(output_data::AbstractMatrix,
     spacetime::AbstractSpacetime,
     disk::AbstractAccretionDisk,
-    corona::LamppostCorona)
+    corona::LamppostCorona;
+    nbins = 100)
     at_source = map(ray -> is_final_position_at_source(ray[1:4], spacetime, disk) && ray[3] ≈ π/2 && abs(Skylight.norm_squared(ray[5:8], metric(ray[1:4], spacetime))) < 1e-2, eachcol(output_data))
     radii = output_data[2,at_source]
     q = energies_quotients(output_data[:,at_source], spacetime, disk)
