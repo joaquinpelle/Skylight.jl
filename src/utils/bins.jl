@@ -55,7 +55,7 @@ function average_inside_bins(q, x, bins)
     qsums = zeros(eltype(q), length(bins)-1)
     # Initialize an array to hold the count of `q` values in each bin
     qcounts = zeros(Int, length(bins)-1)
-
+    averages = zero(qsums)
     for (xvalue, qvalue) in zip(x, q)
         # Find the bin index for the current radii value
         bin_index = searchsortedlast(bins, xvalue)
@@ -68,7 +68,12 @@ function average_inside_bins(q, x, bins)
         end
     end
     # Calculate the average `q` values for each bin
-    averages = qsums ./ qcounts
+    for i in 1:(length(bins)-1)
+        if qcounts[i] == 0
+            continue
+        end
+        averages[i] = qsums[i] / qcounts[i]
+    end
     return averages
 end
 
