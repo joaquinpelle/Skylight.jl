@@ -154,6 +154,10 @@ function metric_field(spacetime::AbstractSpacetime)
     (g, position) -> metric!(g, position, spacetime)
 end
 
+function metric_field(spacetime::AbstractSpacetime, ::Nothing)
+    (g, position) -> metric!(g, position, spacetime)
+end
+
 function metric_field(spacetime::AbstractSpacetime, cache::AbstractSpacetimeCache)
     (g, position) -> metric!(g, position, spacetime, cache)
 end
