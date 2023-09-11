@@ -75,6 +75,7 @@ function average_inside_bins(q, x, bins)
         averages[i] = qsums[i] / qcounts[i]
     end
     return averages
+
 end
 
 """
@@ -82,38 +83,49 @@ end
 
 Calculate the averages of a quantity `q` at values `(x,y)` in each bin defined by `xbins` and `ybins`.
 """
-function average_inside_bins(q, x, y, xbins, ybins)
+function average_inside_bins(q, x, y, xbins, ybins; tasks_per_thread::Int=2)
     same_size(q, x) || throw(ArgumentError("q and x must have the same size"))
     same_size(q, y) || throw(ArgumentError("q and y must have the same size"))
-    # Initialize an array to hold the sum of `q` values in each bin
-    qsums = zeros(eltype(q), length(xbins)-1, length(ybins)-1)
-    # Initialize an array to hold the count of `q` values in each bin
-    qcounts = zeros(Int, length(xbins)-1, length(ybins)-1)
-    averages = zero(qsums)
-    for (xvalue, yvalue, qvalue) in zip(x, y, q)
-        # Find the bin index for the current radii value
-        xbin_index = searchsortedlast(xbins, xvalue)
-        ybin_index = searchsortedlast(ybins, yvalue)
+    itr = zip(x, y, q)
+    # Break the work into chunks. More chunks per thread has better load balancing but more overhead
+    chunk_size = max(1, length(itr) ÷ (tasks_per_thread * nthreads()))
+    # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
+    tasks = map(Iterators.partition(itr, chunk_size)) do chunk
+        @spawn begin
+            # Initialize an array to hold the sum of `q` values in each bin
+            qsums = zeros(eltype(q), length(xbins)-1, length(ybins)-1)
+            # Initialize an array to hold the count of `q` values in each bin
+            qcounts = zeros(Int, length(xbins)-1, length(ybins)-1)
+            for (xvalue, yvalue, qvalue) in chunk
+                # Find the bin index for the current radii value
+                xbin_index = searchsortedlast(xbins, xvalue)
+                ybin_index = searchsortedlast(ybins, yvalue)
 
-        # If the bin_index is valid (i.e., the radius value is not beyond the last bin edge)
-        if xbin_index > 0 && xbin_index < length(xbins)
-            if ybin_index > 0 && ybin_index < length(ybins)
-                # Update the sum and count of `q` values for this bin
-                qsums[xbin_index, ybin_index] += qvalue
-                qcounts[xbin_index, ybin_index] += 1
+                # If the bin_index is valid (i.e., the radius value is not beyond the last bin edge)
+                if xbin_index > 0 && xbin_index < length(xbins)
+                    if ybin_index > 0 && ybin_index < length(ybins)
+                        # Update the sum and count of `q` values for this bin
+                        qsums[xbin_index, ybin_index] += qvalue
+                        qcounts[xbin_index, ybin_index] += 1
+                    end
+                end
             end
+            return qsums, qcounts
         end
     end
-    # Calculate the average `q` values for each bin
-    for i in 1:(length(xbins)-1)
-        for j in 1:(length(ybins)-1)
-            if qcounts[i,j] == 0
-                continue
-            end
-            averages[i,j] = qsums[i,j] / qcounts[i,j]
-        end
+    fetched_results = fetch.(tasks)
+
+    # Initialize an array to hold the sum of `q` values in each bin
+    qsums_total = zeros(eltype(q), length(xbins)-1, length(ybins)-1)
+    # Initialize an array to hold the count of `q` values in each bin
+    qcounts_total = zeros(Int, length(xbins)-1, length(ybins)-1)
+    # Perform element-wise summation
+    for result in fetched_results
+        qsums_total .+= result[1]
+        qcounts_total .+= result[2]
     end
-    return averages
+    qcounts_total[qcounts_total .== 0] .= 1 # Avoid division by zero, is OK since sum of values is zero whenever counts are zero
+    return qsums_total ./ qcounts_total
 end
 
 """
