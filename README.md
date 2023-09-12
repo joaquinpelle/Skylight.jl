@@ -6,11 +6,15 @@
 [![SciML Code Style](https://img.shields.io/static/v1?label=code%20style&message=SciML&color=9558b2&labelColor=389826)](https://github.com/SciML/SciMLStyle)
 [![Aqua QA](https://raw.githubusercontent.com/JuliaTesting/Aqua.jl/master/badge.svg)](https://github.com/JuliaTesting/Aqua.jl)
 
-A general-relativistic ray tracing and radiative transport code for arbitrary spacetimes. With multithreading and automatic differentiation support. Documentation is under cosntruction and is available [here](https://joaquinpelle.github.io/Skylight.jl/dev).
+General-relativistic ray tracing and radiative transfer in arbitrary spacetimes. Documentation is under cosntruction and is available [here](https://joaquinpelle.github.io/Skylight.jl/dev).
+
+Skylight supports arbitrary spacetimes, not relying on any symmtries nor asymptotic flatness. It is designed to be fast, accurate and easily extensible to user-defined spacetimes and radiative models. It uses [automatic differentiation](https://en.wikipedia.org/wiki/Automatic_differentiation) to compute the Christoffel symbols from the metric, and has multithreading parallelism. 
+
+For a quick start guide, see [Getting started](https://joaquinpelle.github.io/Skylight.jl/dev/getting_started/).
 
 ### Requirements
 
-At least Julia v1.6
+Julia version at least 1.6
 
 ### Folder contents
 
@@ -33,9 +37,7 @@ At least Julia v1.6
 
 ### To cite this work
 
-> [Reference](https://academic.oup.com/mnras/article-abstract/515/1/1316/6631564): Pelle, Joaquin, Oscar Reula, Federico Carrasco, and Carlos Bederian. "Skylight: a new code for general-relativistic ray-tracing and radiative transfer in arbitrary space–times." Monthly Notices of the Royal Astronomical Society 515, no. 1 (2022): 1316-1327.
-
-If you use this software in your work, please cite it using the following metadata
+If you use this software in your work, please cite it using the [following paper](https://academic.oup.com/mnras/article-abstract/515/1/1316/6631564)
 
 ```
 @article{pelle2022skylight,
