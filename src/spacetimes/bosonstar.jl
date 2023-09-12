@@ -7,7 +7,7 @@
 
 # Constructors
 ```
-BosonStarSpacetime(a=aparams, a=9, R0=-0.0012) 
+BosonStarSpacetime(a=aparams, b=bparams) 
 BosonStarSpacetime(:LBS1)
 ```
 """
