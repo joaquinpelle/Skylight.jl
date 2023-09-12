@@ -1,6 +1,6 @@
 # Citing
 
-If you use this software in your work, please cite it using the [following paper](https://academic.oup.com/mnras/article-abstract/515/1/1316/6631564)
+If you use this software in your work, please cite the [following paper](https://academic.oup.com/mnras/article-abstract/515/1/1316/6631564)
 
 ```
 @article{pelle2022skylight,
