@@ -134,7 +134,6 @@ include("johannsen.jl")
 include("chargedwormhole.jl")
 include("bosonstar.jl")
 include("rar.jl")
-include("superposedpn/main.jl")
 include("numerical.jl")
 include("constantsmotion.jl")
 
