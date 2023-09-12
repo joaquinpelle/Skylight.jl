@@ -10,7 +10,7 @@ General-relativistic ray tracing and radiative transfer in arbitrary spacetimes.
 
 Skylight supports arbitrary spacetimes, not relying on any symmtries nor asymptotic flatness. It is designed to be fast, accurate and easily extensible to user-defined spacetimes and radiative models. It uses [automatic differentiation](https://en.wikipedia.org/wiki/Automatic_differentiation) to compute the Christoffel symbols from the metric, and has multithreading parallelism. 
 
-For a quick start guide, see [Getting started](https://joaquinpelle.github.io/Skylight.jl/dev/getting_started/) (under construction).
+For a quick start guide, see [Getting started](https://joaquinpelle.github.io/Skylight.jl/dev/gettingstarted/) (under construction).
 
 ### Requirements
 
