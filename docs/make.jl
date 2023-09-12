@@ -20,7 +20,9 @@ makedocs(
             "Radiative processes" => "radiativemodels/radiativeprocesses.md",
         ],
         "Configurations" => "configurations/configurations.md",
-        "Initial data" => "initialization/initialization.md",
+        "Initial data" => [
+            "Pinhole camera" => "initialization/pinholecamera.md",
+            "Initialization" => "initialization/initialization.md"],
         "Radiative transfer" => "radiativetransfer/radiativetransfer.md",
         "Postprocess" => [
             "Images" => "postprocess/images.md",
@@ -37,6 +39,7 @@ makedocs(
             "Boson star" => "examples/bosonstar.md",
             "Star across charged wormhole" => "examples/chargedwormhole.md",
             "RAR galactic core" => "examples/rar.md",
+            "Skylight's logo" => "examples/skylightlogo.md",
         ],
         "Utils" => [
             "Geometry and linear algebra" => "utils/geometry.md",

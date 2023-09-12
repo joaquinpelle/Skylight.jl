@@ -1,0 +1,3 @@
+# Image plane 
+
+When the observer is far away from the source in an asymptotically flat spacetime, the image of the source is a small region of the celestial sphere. The image plane is the plane tangent to the celestial sphere at the observer's position. In that case, the rays can be assumed to be almost parallel, and the angular integral can be reparameterized in terms of impact parameters. This was Skylight's original construction, as it is described in [its paper](https://academic.oup.com/mnras/article-abstract/515/1/1316/6631564?login=false), but this version will be deprecated, since it is much less general, and it is not much faster than the general version that allows for arbitrary observation position and four-velocity.

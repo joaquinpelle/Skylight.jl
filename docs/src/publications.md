@@ -1,6 +1,6 @@
 # Publications
 
-This software has been utilized for the following publications:
+This software has been utilized in the following publications:
 
 * [Neto, M. R., Perez, D., & Pelle, J. (2023). The shadow of charged traversable wormholes. International Journal of Modern Physics D, 32(02), 2250137.](https://www.worldscientific.com/doi/abs/10.1142/S0218271822501371)
 
