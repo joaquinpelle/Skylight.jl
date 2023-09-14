@@ -45,7 +45,7 @@ For a quick start guide, see [Getting started](https://joaquinpelle.github.io/Sk
 
 #### Geometric and dynamical tools
 
-* Geometric quantities like spacetime metrics, inverse metrics, volume elements, Christoffel symbols, etc.
+* Spacetime metrics, inverse metrics, volume elements, Christoffel symbols, etc.
 * Four-vector scalar products, index raising/lowering, orthogonal projection, normalization, etc.
 * Constants of motion for spacetimes with symmetries
 * Characteristic radii in certain spacetimes, like event horizons, ISCOs, etc. 
@@ -76,7 +76,7 @@ The package is not yet available in the Julia registries. To install it, follow 
 
 1. Clone the repository: `git clone https://github.com/joaquinpelle/Skylight.jl.git`
 2. Open the Julia REPL and enter package mode by typing `]`.
-3. Add Skylight to your Pkg environment: `] dev \path\to\the\repository`
+3. Add Skylight to your Pkg environment: `dev \path\to\the\repository`
 4. Import Skylight: `using Skylight`
 
 ### Folder contents
