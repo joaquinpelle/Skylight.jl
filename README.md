@@ -15,7 +15,7 @@ Skylight works with any spacetime geometry, without the constraints of specific 
 - High accuracy
 - Easy extensibility to user-defined spacetimes and radiative models
 
-It uses [automatic differentiation](https://en.wikipedia.org/wiki/Automatic_differentiation) with [ForwardDiff.jl](https://juliadiff.org/ForwardDiff.jl/stable/) to compute the Christoffel symbols from the spacetime metric, and has multithreading parallelism in its compute-intensive tasks. The equations integration is performed with [DifferentialEquations.jl](https://diffeq.sciml.ai/stable/). 
+It uses [automatic differentiation](https://en.wikipedia.org/wiki/Automatic_differentiation) with [ForwardDiff.jl](https://juliadiff.org/ForwardDiff.jl/stable/) to compute the Christoffel symbols from the spacetime metric, and has built-in multithreading parallelism. The integration of the equations is performed with [DifferentialEquations.jl](https://diffeq.sciml.ai/stable/). 
 
 For a quick start guide, see [Getting started](https://joaquinpelle.github.io/Skylight.jl/dev/gettingstarted/) (under construction).
 
@@ -45,8 +45,8 @@ For a quick start guide, see [Getting started](https://joaquinpelle.github.io/Sk
 
 * Spacetime metrics, inverse metrics, volume elements, Christoffel symbols, etc.
 * Four-vector scalar products, index raising/lowering, orthogonal projection, normalization, etc.
-* Constants of motion for spacetimes with symmetries
-* Characteristic radii in certain spacetimes, like event horizons, ISCOs, etc. 
+* Constants of motion in spacetimes with symmetries
+* Characteristic radii, like event horizons, ISCOs, etc. 
 * Spacetime geodesics integration
 
 #### Radiative transfer mechanisms
@@ -57,12 +57,12 @@ For a quick start guide, see [Getting started](https://joaquinpelle.github.io/Sk
 
 * Bolometric and specific intensities
 * Fluxes through arbitrarily oriented surface elements
-* Spectra
-* Generic observation frames (position and four-velocity)
+* Images and spectra
+* Generic observation frames (any position and four-velocity)
 
 #### Utilities
 
-* Data loading/saving from/to HDF5 files
+* Loading/saving data and configurations from/to HDF5 files
 * Units and dimensions management
 
 ## Installation
