@@ -42,6 +42,7 @@ using Skylight, Test
         @testset "Observer to emitter" begin
             spacetime = MinkowskiSpacetimeCartesianCoordinates()
             cache = Skylight.ImagePlaneCache(spacetime)
+            position = rand(4)
             Skylight.metric!(cache.metric, position, spacetime)
             Skylight.static_four_velocity!(cache)
             @test cache.vector == [1.0, 0.0, 0.0, 0.0]
