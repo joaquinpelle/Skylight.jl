@@ -10,7 +10,7 @@
 
 Documentation is under construction, and is available [here](https://joaquinpelle.github.io/Skylight.jl/dev).
 
-Skylight works in with any spacetime geometry, without the constraints of specific symmetries or the assumption of asymptotic flatness. It is designed with the following goals in mind:
+Skylight works with any spacetime geometry, without the constraints of specific symmetries or the assumption of asymptotic flatness. It is designed with the following goals in mind:
 - Fast computational speed
 - High accuracy
 - Easy extensibility to user-defined spacetimes and radiative models
@@ -29,14 +29,14 @@ For a quick start guide, see [Getting started](https://joaquinpelle.github.io/Sk
 * Johannsen spacetime
 * f(R)-Kerr spacetime
 * Ruffini-Argüelles-Rueda spacetime for fermionic dark matter
-* Boson star spacetime with quartic self-interaction and solitonic potentials  
+* Boson star spacetimes with quartic self-interaction and solitonic potentials  
 * Extensibility to user-defined spacetimes
 
 #### Radiative models
 
 * Shakura-Sunyaev accretion disks
 * Geometrically-thin optically-thick accretion disks with user-provided tabulated temperatures
-* Ion torus with synchrotron and bremsstrahlung emission 
+* Ion tori with synchrotron and bremsstrahlung emission 
 * Line emission from accretion disks with user-provided emissivity profiles
 * Lamppost corona emission and accretion disk illumination profiles
 * Extensibility to user-defined radiative models
@@ -55,9 +55,10 @@ For a quick start guide, see [Getting started](https://joaquinpelle.github.io/Sk
 
 #### Observable quantities
 
-* Bolometric and specific intensities in generic frames
+* Bolometric and specific intensities
 * Fluxes through arbitrarily oriented surface elements
 * Spectra
+* Generic observation frames (position and four-velocity)
 
 #### Utilities
 

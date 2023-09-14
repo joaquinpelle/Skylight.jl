@@ -2,7 +2,7 @@
 
 (The documentation is under construction...)
 
-Skylight is a Julia package for general-relativistic ray-tracing and radiative transfer in curved spacetimes. It works in with any spacetime geometry, without the constraints of specific symmetries or the assumption of asymptotic flatness. It is designed with the following goals in mind:
+Skylight is a Julia package for general-relativistic ray-tracing and radiative transfer in curved spacetimes. It works with any spacetime geometry, without the constraints of specific symmetries or the assumption of asymptotic flatness. It is designed with the following goals in mind:
 - Fast computational speed
 - High accuracy
 - Easy extensibility to user-defined spacetimes and radiative models
