@@ -23,7 +23,7 @@ end
 
 coordinates_topology(::ChargedWormholeSpacetimeSphericalCoordinates) = SphericalTopology()
 
-function metric!(g, position, spacetime::ChargedWormholeSpacetimeSphericalCoordinates)
+function metric!(g::AbstractMatrix, position::AbstractVector, spacetime::ChargedWormholeSpacetimeSphericalCoordinates)
     t, r, θ, φ = position
 
     b0 = spacetime.b0
@@ -89,7 +89,7 @@ function metric_inverse!(g::AbstractMatrix,
     return nothing
 end
 
-function christoffel!(Γ, position, spacetime::ChargedWormholeSpacetimeSphericalCoordinates)
+function christoffel!(Γ::AbstractArray, position::AbstractVector, spacetime::ChargedWormholeSpacetimeSphericalCoordinates)
 
     #Spacetime coordinates
     t, r, θ, φ = position
@@ -161,7 +161,7 @@ end
 
 coordinates_topology(::ChargedWormholeSpacetimeRegularCoordinates) = SphericalTopology()
 
-function metric!(g, position, spacetime::ChargedWormholeSpacetimeRegularCoordinates)
+function metric!(g::AbstractMatrix, position::AbstractVector, spacetime::ChargedWormholeSpacetimeRegularCoordinates)
     t, l, θ, φ = position
 
     b0 = spacetime.b0
@@ -226,7 +226,7 @@ function metric_inverse!(g::AbstractMatrix,
     return nothing
 end
 
-function christoffel!(Γ, position, spacetime::ChargedWormholeSpacetimeRegularCoordinates)
+function christoffel!(Γ::AbstractArray, position::AbstractVector, spacetime::ChargedWormholeSpacetimeRegularCoordinates)
 
     #Spacetime coordinates
     t, l, θ, φ = position

@@ -31,7 +31,7 @@ function radius(position, ::SchwarzschildSpacetimeKerrSchildCoordinates)
     sqrt(position[2]^2 + position[3]^2 + position[4]^2)
 end
 
-function metric!(g, position, spacetime::SchwarzschildSpacetimeKerrSchildCoordinates)
+function metric!(g::AbstractMatrix, position::AbstractVector, spacetime::SchwarzschildSpacetimeKerrSchildCoordinates)
     M = spacetime.M
     t, x, y, z = position
     r = sqrt(x^2 + y^2 + z^2)
@@ -103,8 +103,8 @@ function allocate_christoffel_cache(::SchwarzschildSpacetimeKerrSchildCoordinate
     SchwarzschildChristoffelCache()
 end
 
-function christoffel!(Γ,
-    position,
+function christoffel!(Γ::AbstractArray,
+    position::AbstractVector,
     spacetime::SchwarzschildSpacetimeKerrSchildCoordinates,
     cache::SchwarzschildChristoffelCache)
     t, x, y, z = position
@@ -217,7 +217,7 @@ end
 
 allocate_christoffel_cache(::SchwarzschildSpacetimeSphericalCoordinates) = nothing
 
-function christoffel!(Γ, position, spacetime::SchwarzschildSpacetimeSphericalCoordinates)
+function christoffel!(Γ::AbstractArray, position::AbstractVector, spacetime::SchwarzschildSpacetimeSphericalCoordinates)
     t, r, θ, φ = position
     rs = 2 * spacetime.M
 

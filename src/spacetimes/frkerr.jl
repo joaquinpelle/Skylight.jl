@@ -19,7 +19,7 @@ end
 coordinates_topology(::FRKerrSpacetime) = SphericalTopology()
 radius(position, ::FRKerrSpacetime) = position[2]
 
-function metric!(g, position, spacetime::FRKerrSpacetime)
+function metric!(g::AbstractMatrix, position::AbstractVector, spacetime::FRKerrSpacetime)
     t, r, θ, φ = position
     M = spacetime.M
     a = spacetime.a

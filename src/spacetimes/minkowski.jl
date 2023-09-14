@@ -16,7 +16,7 @@ struct MinkowskiSpacetimeCartesianCoordinates <: AbstractMinkowskiSpacetime end
 
 coordinates_topology(::MinkowskiSpacetimeCartesianCoordinates) = CartesianTopology()
 
-function metric!(g, position, ::MinkowskiSpacetimeCartesianCoordinates)
+function metric!(g::AbstractMatrix, position::AbstractVector, ::MinkowskiSpacetimeCartesianCoordinates)
     fill!(g, 0.0)
     g[1, 1] = -1.0
     g[2, 2] = 1.0
@@ -36,8 +36,8 @@ function allocate_christoffel_cache(::MinkowskiSpacetimeCartesianCoordinates)
     return nothing
 end
 
-function christoffel!(Γ,
-    position,
+function christoffel!(Γ::AbstractArray,
+    position::AbstractVector,
     ::MinkowskiSpacetimeCartesianCoordinates)
     fill!(Γ, 0.0)
     return nothing
@@ -62,7 +62,7 @@ struct MinkowskiSpacetimeSphericalCoordinates <: AbstractMinkowskiSpacetime end
 
 coordinates_topology(::MinkowskiSpacetimeSphericalCoordinates) = SphericalTopology()
 
-function metric!(g, position, ::MinkowskiSpacetimeSphericalCoordinates)
+function metric!(g::AbstractMatrix, position::AbstractVector, ::MinkowskiSpacetimeSphericalCoordinates)
     t, r, θ, φ = position
     fill!(g, 0.0)
     g[1, 1] = -1.0
@@ -89,8 +89,8 @@ function allocate_christoffel_cache(::MinkowskiSpacetimeSphericalCoordinates)
     return nothing
 end
 
-function christoffel!(Γ,
-    position,
+function christoffel!(Γ::AbstractArray,
+    position::AbstractVector,
     ::MinkowskiSpacetimeSphericalCoordinates)
     fill!(Γ, 0.0)
     return nothing

@@ -22,7 +22,7 @@ end
 coordinates_topology(::BosonStarSpacetime) = SphericalTopology()
 radius(position, ::BosonStarSpacetime) = position[2]
 
-function metric!(g, position, spacetime::BosonStarSpacetime)
+function metric!(g::AbstractMatrix, position::AbstractVector, spacetime::BosonStarSpacetime)
     t, r, θ, φ = position
 
     a = spacetime.a
@@ -93,7 +93,7 @@ end
 
 allocate_christoffel_cache(::BosonStarSpacetime) = nothing
 
-function christoffel!(Γ, position, spacetime::BosonStarSpacetime)
+function christoffel!(Γ::AbstractArray, position::AbstractVector, spacetime::BosonStarSpacetime)
     #Spacetime coordinates
     t, r, θ, φ = position
 

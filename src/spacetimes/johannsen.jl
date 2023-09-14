@@ -32,7 +32,7 @@ end
 
 coordinates_topology(::JohannsenSpacetime) = SphericalTopology()
 
-function metric!(g, position, spacetime::JohannsenSpacetime)
+function metric!(g::AbstractMatrix, position::AbstractVector, spacetime::JohannsenSpacetime)
     t, r, θ, φ = position
 
     M = spacetime.M
@@ -121,7 +121,7 @@ end
 
 allocate_christoffel_cache(::JohannsenSpacetime) = nothing
 
-function christoffel!(Γ, position, spacetime::JohannsenSpacetime)
+function christoffel!(Γ::AbstractArray, position::AbstractVector, spacetime::JohannsenSpacetime)
     t, r, θ, φ = position
 
     M = spacetime.M

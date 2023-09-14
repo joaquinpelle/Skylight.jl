@@ -120,8 +120,8 @@ end
 
 allocate_christoffel_cache(::KerrSpacetimeKerrSchildCoordinates) = KerrChristoffelCache()
 
-function christoffel!(Γ,
-    position,
+function christoffel!(Γ::AbstractArray,
+    position::AbstractVector,
     spacetime::KerrSpacetimeKerrSchildCoordinates,
     cache::KerrChristoffelCache)
     t, x, y, z = position
