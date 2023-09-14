@@ -10,7 +10,7 @@ makedocs(
         "Getting started" => "gettingstarted.md",
         "Spacetimes" => [
             "Catalogue" => "spacetimes/catalogue.md",
-            "Functions" => "spacetimes/functions.md",
+            "Geometric functions" => "spacetimes/functions.md",
             "Other types" => "spacetimes/othertypes.md"
             ],
         "Radiative models" => [
