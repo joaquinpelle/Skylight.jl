@@ -11,7 +11,7 @@ makedocs(
         "Spacetimes" => [
             "Catalogue" => "spacetimes/catalogue.md",
             "Geometric functions" => "spacetimes/functions.md",
-            "Other types" => "spacetimes/othertypes.md"
+            "Abstract types and traits" => "spacetimes/othertypes.md"
             ],
         "Radiative models" => [
             "Catalogue" => "radiativemodels/catalogue.md",
