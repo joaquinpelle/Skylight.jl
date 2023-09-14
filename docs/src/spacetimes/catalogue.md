@@ -11,7 +11,7 @@ Filter = t -> typeof(t) === DataType && t <: Skylight.AbstractMinkowskiSpacetime
 
 ```@autodocs
 Modules = [Skylight]
-Filter = t -> typeof(t) === DataType && t <: Skylight.AbstractShwarzschildSpacetime && isconcretetype(t)
+Filter = t -> typeof(t) === DataType && t <: Skylight.AbstractSchwarzschildSpacetime && isconcretetype(t)
 ```
 
 ### Kerr spacetime
