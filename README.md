@@ -1,17 +1,17 @@
 # Skylight.jl
 
-<div align="center">
-  <img src="./docs/src/assets/logo.png" alt="Skylight Logo" width="200"/>
-</div>
-
-## General-relativistic ray tracing and radiative transfer in arbitrary spacetimes
-
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://joaquinpelle.github.io/Skylight.jl/dev)
 [![Build Status](https://github.com/joaquinpelle/Skylight.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/joaquinpelle/Skylight.jl/actions/workflows/CI.yml?query=branch%3Amain)
 [![Coverage](https://codecov.io/gh/joaquinpelle/Skylight.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/joaquinpelle/Skylight.jl)
 [![Coverage](https://coveralls.io/repos/github/joaquinpelle/Skylight.jl/badge.svg?branch=main)](https://coveralls.io/github/joaquinpelle/Skylight.jl?branch=main)
 [![SciML Code Style](https://img.shields.io/static/v1?label=code%20style&message=SciML&color=9558b2&labelColor=389826)](https://github.com/SciML/SciMLStyle)
 [![Aqua QA](https://raw.githubusercontent.com/JuliaTesting/Aqua.jl/master/badge.svg)](https://github.com/JuliaTesting/Aqua.jl)
+
+<div align="center">
+  <img src="./docs/src/assets/logo.png" alt="Skylight Logo" width="200"/>
+</div>
+
+## General-relativistic ray tracing and radiative transfer in arbitrary spacetimes
 
 Documentation is under construction, and is available [here](https://joaquinpelle.github.io/Skylight.jl/dev).
 
