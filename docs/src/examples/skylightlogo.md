@@ -1,6 +1,6 @@
-# Skylight's logo
+# Skylight logo
 
-Skylight's logo is produced with Skylight itself, mapping Julia's logo onto a screen behind a Kerr black hole and ray tracing the image seen by an observer aligned with the black hole and the screen. You can play with the logo by changing the parameters of the configuration in the following snippet, where you need to replace `original_image = load("julia-logo.png")` with the path to your own image file:
+Skylight logo is produced with Skylight itself, mapping the three-dots Julia logo onto a screen behind a Kerr black hole and ray tracing the image for an observer aligned with the black hole and the screen. Play with the logo by changing the parameters of the configuration in the following snippet, where you need to replace `original_image = load("julia-logo.png")` with the path to your own image file:
 
 ```julia
 
