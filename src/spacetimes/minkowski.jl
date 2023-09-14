@@ -1,5 +1,7 @@
+abstract type AbstractMinkowskiSpacetime <: AbstractSpacetime end
+
 @doc raw"""
-    MinkowskiSpacetimeCartesianCoordinates <: AbstractSpacetime
+    MinkowskiSpacetimeCartesianCoordinates <: AbstractMinkowskiSpacetime
 
 [Minkowski Spacetime](https://en.wikipedia.org/wiki/Minkowski_space) in spherical coordinates. 
 
@@ -10,7 +12,7 @@
 MinkowskiSpacetimeCartesianCoordinates()
 ```
 """
-struct MinkowskiSpacetimeCartesianCoordinates <: AbstractSpacetime end
+struct MinkowskiSpacetimeCartesianCoordinates <: AbstractMinkowskiSpacetime end
 
 coordinates_topology(::MinkowskiSpacetimeCartesianCoordinates) = CartesianTopology()
 
@@ -44,7 +46,7 @@ end
 
 #Spherical coordinates
 @doc raw"""
-    MinkowskiSpacetimeSphericalCoordinates <: AbstractSpacetime
+    MinkowskiSpacetimeSphericalCoordinates <: AbstractMinkowskiSpacetime
 
 [Minkowski Spacetime](https://en.wikipedia.org/wiki/Minkowski_space) in spherical coordinates. 
 
@@ -57,7 +59,7 @@ where $r$ is the radial coordinate and $θ$ is the polar angle.
 MinkowskiSpacetimeSphericalCoordinates()
 ```
 """
-struct MinkowskiSpacetimeSphericalCoordinates <: AbstractSpacetime end
+struct MinkowskiSpacetimeSphericalCoordinates <: AbstractMinkowskiSpacetime end
 
 coordinates_topology(::MinkowskiSpacetimeSphericalCoordinates) = SphericalTopology()
 
