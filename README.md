@@ -1,4 +1,4 @@
-# Skylight
+# Skylight.jl
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://joaquinpelle.github.io/Skylight.jl/dev)
 [![Build Status](https://github.com/joaquinpelle/Skylight.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/joaquinpelle/Skylight.jl/actions/workflows/CI.yml?query=branch%3Amain)
 [![Coverage](https://codecov.io/gh/joaquinpelle/Skylight.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/joaquinpelle/Skylight.jl)
@@ -6,15 +6,78 @@
 [![SciML Code Style](https://img.shields.io/static/v1?label=code%20style&message=SciML&color=9558b2&labelColor=389826)](https://github.com/SciML/SciMLStyle)
 [![Aqua QA](https://raw.githubusercontent.com/JuliaTesting/Aqua.jl/master/badge.svg)](https://github.com/JuliaTesting/Aqua.jl)
 
-General-relativistic ray tracing and radiative transfer in arbitrary spacetimes. Documentation is under construction and is available [here](https://joaquinpelle.github.io/Skylight.jl/dev).
+## General-relativistic ray tracing and radiative transfer in arbitrary spacetimes. 
 
-Skylight supports arbitrary spacetimes, not relying on any symmtries nor asymptotic flatness. It is designed to be fast, accurate and easily extensible to user-defined spacetimes and radiative models. It uses [automatic differentiation](https://en.wikipedia.org/wiki/Automatic_differentiation) to compute the Christoffel symbols from the metric, and has multithreading parallelism. 
+Documentation is under construction, and is available [here](https://joaquinpelle.github.io/Skylight.jl/dev).
+
+Skylight works in with any spacetime geometry, without the constraints of specific symmetries or the assumption of asymptotic flatness.
+
+It is designed with the following goals in mind:
+- Fast computational speed
+- High accuracy
+- Easy extensibility to user-defined spacetimes and radiative models
+
+It uses [automatic differentiation](https://en.wikipedia.org/wiki/Automatic_differentiation) from [ForwardDiff.jl](https://juliadiff.org/ForwardDiff.jl/stable/) to compute the Christoffel symbols from the spacetime metric, and has multithreading parallelism in its compute-intensive tasks. The equations integration is performed with [DifferentialEquations.jl](https://diffeq.sciml.ai/stable/). 
 
 For a quick start guide, see [Getting started](https://joaquinpelle.github.io/Skylight.jl/dev/gettingstarted/) (under construction).
 
-### Requirements
+### Features
 
-Julia version at least 1.6
+#### Supported spacetimes
+
+* Minkowski spacetime
+* Schwarzschild spacetime
+* Kerr spacetime
+* Johannsen spacetime
+* f(R)-Kerr spacetime
+* Ruffini-Argüelles-Rueda spacetime for fermionic dark matter
+* Boson star spacetime with quartic self-interaction and solitonic potentials  
+* Extensibility to user-defined spacetimes
+
+#### Radiative models
+
+* Shakura-Sunyaev accretion disks
+* Geometrically-thin optically-thick accretion disks with user-provided tabulated temperatures
+* Ion torus with synchrotron and bremsstrahlung emission 
+* Line emission from accretion disks with user-provided emissivity profiles
+* Lamppost corona emission and accretion disk illumination profiles
+* Extensibility to user-defined radiative models
+
+#### Geometric and dynamical tools
+
+* Geometric quantities like spacetime metrics, inverse metrics, volume elements, Christoffel symbols, etc.
+* Four-vector scalar products, index raising/lowering, orthogonal projection, normalization, etc.
+* Constants of motion for spacetimes with symmetries
+* Characteristic radii in certain spacetimes, like event horizons, ISCOs, etc. 
+* Spacetime geodesics integration
+
+#### Radiative transfer mechanisms
+
+* Radiative transfer in vacuum and in emissive/absorptive media
+
+#### Observable quantities
+
+* Bolometric and specific intensities in generic frames
+* Fluxes through arbitrarily oriented surface elements
+* Spectra
+
+#### Utilities
+
+* Data loading/saving from/to HDF5 files
+* Units and dimensions management
+
+## Installation
+
+### Requirements
+* Julia version at least 1.6
+
+
+The package is not yet available in the Julia registries. To install it, follow these steps:
+
+1. Clone the repository: `git clone https://github.com/joaquinpelle/Skylight.jl.git`
+2. Open the Julia REPL and enter package mode by typing `]`.
+3. Add Skylight to your Pkg environment: `] dev \path\to\the\repository`
+4. Import Skylight: `using Skylight`
 
 ### Folder contents
 
@@ -37,9 +100,9 @@ Julia version at least 1.6
 
 ### To cite this work
 
-If you use this software in your work, please cite the [following paper](https://academic.oup.com/mnras/article-abstract/515/1/1316/6631564)
+If you use this software in your work, we kindly request that you cite [the following paper](https://academic.oup.com/mnras/article-abstract/515/1/1316/6631564)
 
-```
+```bibtex
 @article{pelle2022skylight,
   title={Skylight: a new code for general-relativistic ray-tracing and radiative transfer in arbitrary space--times},
   author={Pelle, Joaquin and Reula, Oscar and Carrasco, Federico and Bederian, Carlos},

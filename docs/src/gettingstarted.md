@@ -5,14 +5,15 @@ To get started, you will need a spacetime, a radiative model, and a camera. For 
 ```julia
 using Skylight
 
-spacetime = KerrSpacetimeKerrSchildCoordinate(M=1.0,a=0.5)
+spacetime = KerrSpacetimeBoyerLindquistCoordinates(M=1.0,a=0.5)
 ```
 
 A catalogue of currently available spacetimes is at [Catalogue of spacetimes](@ref). Next, instantiate a radiative model as, e.g.
 
 ```julia
-disk = NovikovThorneAccretionDisk(inner_radius=isco_radius(spacetime),outer_radius=15.0)
+disk = NovikovThorneDisk(inner_radius=isco_radius(spacetime, ProgradeRotation()), outer_radius = 15.0)
 ```
+
 See the currently available radiative models at [Catalogue of radiative models](@ref). Then, you can construct a camera as 
 
 ```julia
@@ -23,16 +24,15 @@ camera = PinholeCamera(position = [0.0, 500, π/2-π/20, 0.0],
                         vertical_number_of_pixels = 600)
 ```
 See [Pinhole camera](@ref) for an explanation of this camera setup. Finally, gather these
-objects into a configurations object as, e.g.
+objects into a configurations object. This is a vacuum transport problem, so use
 
 ```julia
 configurations = VacuumOTEConfigurations(spacetime=spacetime,
-                                        radiative_model=model,
+                                        radiative_model=disk,
                                         camera = camera,
                                         unit_mass_in_solar_masses = 1.0)
 ```
-where `unit_mass_in_solar_masses` is the unit mass in solar masses which determines fully the problem
-units together with `c=G=1`. These are the configurations that will get the specialized routines for transport in vacuum. For more general non vacuum problems, use
+where `unit_mass_in_solar_masses` is the unit mass in solar masses which determines fully the problem units together with $c=G=1$, and OTE stands for the observer-to-emitter scheme. This paticular configurations type will get the specialized methods for transport in vacuum. For more general non vacuum problems, use
 
 ```julia
 configurations = NonVacuumOTEConfigurations(spacetime = spacetime,
@@ -42,11 +42,13 @@ configurations = NonVacuumOTEConfigurations(spacetime = spacetime,
     observation_energies = exp10.(range(-10, stop = -5.5, length = 20)))
 ```
 
-From now on this quick start guide will focus on vacuum problems. For creating the initial data, use
+Then, create the initial data as
 
 ```julia
 initial_data = initialize(configurations)
 ```
+
+The initial data is a matrix that has the initial conditions for each ray as columns, where the first four components are the spacetime coordinates, and the last four are the components of the initial four-momentum in the coordinate frame. 
 
 Before running the ray-tracing, you need to specify a callback to be called at each step of the equations integration. For the default callback, use
 
@@ -54,7 +56,7 @@ Before running the ray-tracing, you need to specify a callback to be called at e
 cb, cbp = callback_setup(configurations)
 ```
 
-For more details on callbacks, see [Callbacks](@ref) and the [Event Handling](https://docs.sciml.ai/DiffEqDocs/stable/features/callback_functions/) page of the DifferentialEquations.jl package documentaton. Finally, you can integrate the equations with
+You can also define your own callbacks. For more details, see [Callbacks](@ref) and [Event Handling](https://docs.sciml.ai/DiffEqDocs/stable/features/callback_functions/). Finally, you can integrate the equations with
 
 ```julia
 sim = integrate(initial_data,
@@ -65,7 +67,7 @@ sim = integrate(initial_data,
     reltol = 1e-8,
     abstol = 1e-8)
 ```
-You can choose any of the available [solver methods](https://docs.sciml.ai/DiffEqDocs/stable/solvers/ode_solve/) from DifferentalEquations.jl.
+You can choose any of the available [solver methods](https://docs.sciml.ai/DiffEqDocs/stable/solvers/ode_solve/) from [DifferentalEquations.jl](https://docs.sciml.ai/DiffEqDocs/stable/).
 
 The output data can be obtained as
 
@@ -73,7 +75,7 @@ The output data can be obtained as
 output_data = sim.output_data
 ```
 
-Finally, you can compute, for instance, the observed bolometric intensity of the radiation field and produce an image as
+This matrix contains the final coordinates and momenta of each ray, with the same structure as the initial data. Finally, you can compute, for instance, the observed bolometric intensity of the radiation field and produce an image as
 
 ```julia
 using CairoMakie
