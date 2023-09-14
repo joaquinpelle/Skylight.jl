@@ -30,7 +30,7 @@ Skylight.JohannsenSpacetime
 ### f(R)-Kerr spacetime
 
 ```@docs
-Skylight.fRKerrSpacetime
+Skylight.FRKerrSpacetime
 ```
 
 ### Charged wormhole spacetime
