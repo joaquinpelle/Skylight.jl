@@ -25,12 +25,11 @@ function metric!(g, position, ::MinkowskiSpacetimeCartesianCoordinates)
     return nothing
 end
 
-function metric_inverse!(g,
-    q,
+function metric_inverse!(g::AbstractMatrix,
+    position::AbstractVector,
     spacetime::MinkowskiSpacetimeCartesianCoordinates,
-    gaux,
-    cache)
-    metric!(g, q, spacetime)
+    ::AbstractMatrix)
+    metric!(g, position, spacetime)
 end
 
 function allocate_christoffel_cache(::MinkowskiSpacetimeCartesianCoordinates)
@@ -73,7 +72,10 @@ function metric!(g, position, ::MinkowskiSpacetimeSphericalCoordinates)
     return nothing
 end
 
-function metric_inverse!(g, position, ::MinkowskiSpacetimeSphericalCoordinates, gaux, cache)
+function metric_inverse!(g::AbstractMatrix,
+    position::AbstractVector,
+    ::MinkowskiSpacetimeSphericalCoordinates,
+    ::AbstractMatrix)
     t, r, θ, φ = position
     fill!(g, 0.0)
     g[1, 1] = -1.0

@@ -59,11 +59,10 @@ function metric!(g, position, spacetime::SchwarzschildSpacetimeKerrSchildCoordin
     return nothing
 end
 
-function metric_inverse!(g,
-    position,
+function metric_inverse!(g::AbstractMatrix,
+    position::AbstractVector,
     spacetime::SchwarzschildSpacetimeKerrSchildCoordinates,
-    gaux,
-    cache)
+    ::AbstractMatrix)
     M = spacetime.M
     t, x, y, z = position
     r = sqrt(x^2 + y^2 + z^2)
@@ -202,12 +201,11 @@ function metric!(g, q, spacetime::SchwarzschildSpacetimeSphericalCoordinates)
     return nothing
 end
 
-function metric_inverse!(g,
-    q,
+function metric_inverse!(g::AbstractMatrix,
+    position::AbstractVector,
     spacetime::SchwarzschildSpacetimeSphericalCoordinates,
-    gaux,
-    cache)
-    t, r, θ, φ = q
+    ::AbstractMatrix)
+    t, r, θ, φ = position
     M = spacetime.M
     fill!(g, 0.0)
     g[1, 1] = -1 / (1 - 2M / r)

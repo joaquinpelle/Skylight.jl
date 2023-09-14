@@ -24,8 +24,8 @@ to compute derivatives at each node of the chain rule. Also, in the `metric!(g, 
 when `metric!` is called.
 
 """
-function christoffel!(Γ₂,
-    position,
+function christoffel!(Γ₂::AbstractArray,
+    position::AbstractVector,
     spacetime::AbstractSpacetime,
     cache::AutoDiffChristoffelCache)
     g = cache.g

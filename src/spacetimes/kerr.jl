@@ -73,11 +73,10 @@ function metric!(g, position, spacetime::KerrSpacetimeKerrSchildCoordinates)
     return nothing
 end
 
-function metric_inverse!(g,
-    position,
+function metric_inverse!(g::AbstractMatrix,
+    position::AbstractVector,
     spacetime::KerrSpacetimeKerrSchildCoordinates,
-    gaux,
-    cache)
+    ::AbstractMatrix)
     M = spacetime.M
     a = spacetime.a
 
@@ -258,11 +257,10 @@ function metric!(g, position, spacetime::KerrSpacetimeBoyerLindquistCoordinates)
     return nothing
 end
 
-function metric_inverse!(ginv,
-    position,
+function metric_inverse!(ginv::AbstractMatrix,
+    position::AbstractVector,
     spacetime::KerrSpacetimeBoyerLindquistCoordinates,
-    gaux,
-    cache)
+    ::AbstractMatrix)
     t, r, θ, φ = position
 
     M = spacetime.M

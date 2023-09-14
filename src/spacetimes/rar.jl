@@ -71,7 +71,10 @@ function metric!(g, position, spacetime::RARSpacetime)
     return nothing
 end
 
-function metric_inverse!(g, position, spacetime::RARSpacetime, gaux, cache)
+function metric_inverse!(g::AbstractMatrix,
+    position::AbstractVector,
+    spacetime::RARSpacetime,
+    ::AbstractMatrix)
     t, r, θ, φ = position
 
     interp = spacetime.interp

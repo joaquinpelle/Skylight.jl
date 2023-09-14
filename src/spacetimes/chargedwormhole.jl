@@ -54,11 +54,11 @@ function metric!(g, position, spacetime::ChargedWormholeSpacetimeSphericalCoordi
     return nothing
 end
 
-function metric_inverse!(g,
-    position,
+function metric_inverse!(g::AbstractMatrix,
+    position::AbstractVector,
     spacetime::ChargedWormholeSpacetimeSphericalCoordinates,
-    gaux,
-    cache)
+    ::AbstractMatrix)
+
     t, r, θ, φ = position
 
     b0 = spacetime.b0
@@ -192,11 +192,10 @@ function metric!(g, position, spacetime::ChargedWormholeSpacetimeRegularCoordina
     return nothing
 end
 
-function metric_inverse!(g,
-    position,
+function metric_inverse!(g::AbstractMatrix,
+    position::AbstractVector,
     spacetime::ChargedWormholeSpacetimeRegularCoordinates,
-    gaux,
-    cache)
+    ::AbstractMatrix)
     t, l, θ, φ = position
 
     b0 = spacetime.b0

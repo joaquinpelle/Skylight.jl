@@ -70,7 +70,10 @@ function metric!(g, position, spacetime::JohannsenSpacetime)
     return nothing
 end
 
-function metric_inverse!(g, position, spacetime::JohannsenSpacetime, gaux, cache)
+function metric_inverse!(g::AbstractMatrix, 
+    position::AbstractVector, 
+    spacetime::JohannsenSpacetime,
+    ::AbstractMatrix)
     t, r, θ, φ = position
 
     M = spacetime.M
