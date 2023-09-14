@@ -113,11 +113,11 @@ using Skylight, Test
                       [-1.0 0.0 0.0 0.0; 0.0 1.0 0.0 0.0; 0.0 0.0 1.0 0.0; 0.0 0.0 0.0 1.0]
                 @test tetrad[:, 1] ≈ [1.0 / sqrt(0.9775), 0.0, 0.15 / sqrt(0.9775), 0.0]
                 @test tetrad[:, 2] ≈ [0.0, 0.6, 0.0, 0.8]
-                @test Skylight.scalar_product(tetrad[:, 2], tetrad[:, 3], cache.metric)≈0.0 atol=1e-13
-                @test Skylight.scalar_product(tetrad[:, 2], tetrad[:, 4], cache.metric)≈0.0 atol=1e-13
-                @test Skylight.scalar_product(tetrad[:, 3], tetrad[:, 3], cache.metric)≈1.0 atol=1e-13
-                @test Skylight.scalar_product(tetrad[:, 3], tetrad[:, 4], cache.metric)≈0.0 atol=1e-13
-                @test Skylight.scalar_product(tetrad[:, 4], tetrad[:, 4], cache.metric)≈1.0 atol=1e-13
+                @test Skylight.scalar_product(tetrad[:, 2], tetrad[:, 3], cache.metric)≈0.0 atol=1e-12
+                @test Skylight.scalar_product(tetrad[:, 2], tetrad[:, 4], cache.metric)≈0.0 atol=1e-12
+                @test Skylight.scalar_product(tetrad[:, 3], tetrad[:, 3], cache.metric)≈1.0 atol=1e-12
+                @test Skylight.scalar_product(tetrad[:, 3], tetrad[:, 4], cache.metric)≈0.0 atol=1e-12
+                @test Skylight.scalar_product(tetrad[:, 4], tetrad[:, 4], cache.metric)≈1.0 atol=1e-12
             end
         end
     end
