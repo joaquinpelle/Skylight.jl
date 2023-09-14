@@ -3,7 +3,7 @@ using FiniteDiff
 using BenchmarkTools
 
 function finite_difference_metric_jacobian(position, spacetime::AbstractSpacetime, cache)
-    return FiniteDiff.finite_difference_jacobian(Skylight.metric_field(spacetime),
+    return FiniteDiff.finite_difference_jacobian(Skylight.metric_closure(spacetime),
         position,
         cache)
 end
@@ -13,7 +13,7 @@ function finite_difference_metric_jacobian!(∂g,
     spacetime::AbstractSpacetime,
     cache)
     FiniteDiff.finite_difference_jacobian!(∂g,
-        Skylight.metric_field(spacetime),
+        Skylight.metric_closure(spacetime),
         position,
         cache)
     return nothing
@@ -39,12 +39,12 @@ function full_benchmark_finitediff(position, spacetime)
     ∂gad = zeros(4, 4, 4)
     cache = Skylight.AutoDiffChristoffelCache(spacetime)
 
-    spacetime_metric_field = cache.spacetime_metric_field
+    spacetime_metric_closure = cache.spacetime_metric_closure
     cfg = cache.cfg
 
     bad = @benchmark Skylight.metric_jacobian!($∂gad,
         $position,
-        $spacetime_metric_field,
+        $spacetime_metric_closure,
         $g,
         $cfg)
     return bfd, bad
@@ -60,11 +60,11 @@ function benchmark_finitediff(position, spacetime)
     ∂gad = zeros(4, 4, 4)
     cache = Skylight.AutoDiffChristoffelCache(spacetime)
 
-    spacetime_metric_field = cache.spacetime_metric_field
+    spacetime_metric_closure = cache.spacetime_metric_closure
     cfg = cache.cfg
 
     println("Automatic differentiation")
-    @btime Skylight.metric_jacobian!($∂gad, $position, $spacetime_metric_field, $g, $cfg)
+    @btime Skylight.metric_jacobian!($∂gad, $position, $spacetime_metric_closure, $g, $cfg)
     return nothing
 end
 

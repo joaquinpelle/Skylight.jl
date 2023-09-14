@@ -31,12 +31,12 @@ function christoffel!(Γ₂::AbstractArray,
     g = cache.g
     ginv = cache.ginv
     ∂g = cache.∂g
-    spacetime_metric_field = cache.spacetime_metric_field
+    spacetime_metric_closure = cache.spacetime_metric_closure
     scache = cache.spacetime_cache
     cfg = cache.cfg
 
     metric_inverse!(ginv, position, spacetime, g, scache)
-    metric_jacobian!(∂g, position, spacetime_metric_field, g, cfg)
+    metric_jacobian!(∂g, position, spacetime_metric_closure, g, cfg)
     @inbounds begin
         for k in 1:4
             for j in 1:4
@@ -73,12 +73,12 @@ Arguments:
 Returns: nothing.
 """
 function metric_jacobian!(∂g, position, spacetime::AbstractSpacetime, g, scache)
-    ForwardDiff.jacobian!(∂g, metric_field(spacetime, scache), g, position)
+    ForwardDiff.jacobian!(∂g, metric_closure(spacetime, scache), g, position)
     return nothing
 end
 
 """
-    metric_jacobian!(∂g, position, spacetime_metric_field::Function, g, cfg::ForwardDiff.JacobianConfig)
+    metric_jacobian!(∂g, position, spacetime_metric_closure::Function, g, cfg::ForwardDiff.JacobianConfig)
 
 Computes the Jacobian matrix of the metric function with respect to spacetime coordinates using forward-mode automatic differentiation.
 
@@ -93,9 +93,9 @@ Returns: nothing.
 """
 function metric_jacobian!(∂g,
     position,
-    spacetime_metric_field::Function,
+    spacetime_metric_closure::Function,
     g,
     cfg::ForwardDiff.JacobianConfig)
-    ForwardDiff.jacobian!(∂g, spacetime_metric_field, g, position, cfg)
+    ForwardDiff.jacobian!(∂g, spacetime_metric_closure, g, position, cfg)
     return nothing
 end

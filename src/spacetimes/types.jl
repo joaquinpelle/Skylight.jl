@@ -49,7 +49,7 @@ AutoDiffChristoffelCache(spacetime::AbstractSpacetime)
     g::Array{Float64, 2} = zeros(4, 4)
     ginv::Array{Float64, 2} = zeros(4, 4)
     ∂g::Array{Float64, 3} = zeros(4, 4, 4)
-    spacetime_metric_field::F
+    spacetime_metric_closure::F
     spacetime_cache::CA
     cfg::CO
 end

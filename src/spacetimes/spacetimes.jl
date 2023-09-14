@@ -60,16 +60,16 @@ function metric!(g::AbstractMatrix, position::AbstractVector, spacetime::Abstrac
     metric!(g, position, spacetime)
 end
 
-function metric_field(spacetime::AbstractSpacetime)
+function metric_closure(spacetime::AbstractSpacetime)
     (g, position) -> metric!(g, position, spacetime)
 end
 
-function metric_field(spacetime::AbstractSpacetime, cache::AbstractSpacetimeCache)
+function metric_closure(spacetime::AbstractSpacetime, cache::AbstractSpacetimeCache)
     (g, position) -> metric!(g, position, spacetime, cache)
 end
 
-function metric_field(spacetime::AbstractSpacetime, ::Nothing)
-    metric_field(spacetime)
+function metric_closure(spacetime::AbstractSpacetime, ::Nothing)
+    metric_closure(spacetime)
 end
 
 """
@@ -190,12 +190,12 @@ end
 
 function AutoDiffChristoffelCache(spacetime::AbstractSpacetime)
     spacetime_cache = allocate_cache(spacetime)
-    spacetime_metric_field = metric_field(spacetime, spacetime_cache)
-    cfg = ForwardDiff.JacobianConfig(spacetime_metric_field,
+    spacetime_metric_closure = metric_closure(spacetime, spacetime_cache)
+    cfg = ForwardDiff.JacobianConfig(spacetime_metric_closure,
         Matrix{Float64}(undef, 4, 4),
         Vector{Float64}(undef, 4),
         ForwardDiff.Chunk{4}())
-    return AutoDiffChristoffelCache(spacetime_metric_field = spacetime_metric_field,
+    return AutoDiffChristoffelCache(spacetime_metric_closure = spacetime_metric_closure,
         spacetime_cache = spacetime_cache,
         cfg = cfg)
 end
