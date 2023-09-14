@@ -101,4 +101,5 @@ Colorbar(fig[:, end + 1],
     tickalign = 1)
 colsize!(fig.layout, 1, Aspect(1, 1.0))
 colgap!(fig.layout, 7)
+display(fig)
 ```
