@@ -11,7 +11,6 @@ makedocs(
         "Spacetimes" => [
             "Catalogue" => "spacetimes/catalogue.md",
             "Functions" => "spacetimes/functions.md",
-            "Automatic differentiation" => "spacetimes/autodiff.md",
             "Other types" => "spacetimes/othertypes.md"
             ],
         "Radiative models" => [

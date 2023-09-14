@@ -46,7 +46,7 @@ Filter = t -> typeof(t) === DataType && t <: Skylight.AbstractChargedWormholeSpa
 Skylight.RARSpacetime
 ```
 
-### Boson star spacetimes
+### Boson star spacetime
 
 ```@docs
 Skylight.BosonStarSpacetime

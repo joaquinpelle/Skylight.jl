@@ -49,7 +49,7 @@ For a quick start guide, see [Getting started](https://joaquinpelle.github.io/Sk
 * Characteristic radii, like event horizons, ISCOs, etc. 
 * Spacetime geodesics integration
 
-#### Radiative transfer mechanisms
+#### Radiative transfer
 
 * Radiative transfer in vacuum and in emissive/absorptive media
 
