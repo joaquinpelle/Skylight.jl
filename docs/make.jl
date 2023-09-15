@@ -10,8 +10,7 @@ makedocs(
         "Getting started" => "gettingstarted.md",
         "Spacetimes" => [
             "Catalogue" => "spacetimes/catalogue.md",
-            "Geometric functions" => "spacetimes/functions.md",
-            "Abstract types and traits" => "spacetimes/othertypes.md"
+            "Geometric functions" => "spacetimes/functions.md"
             ],
         "Radiative models" => [
             "Catalogue" => "radiativemodels/catalogue.md",
@@ -38,7 +37,7 @@ makedocs(
             "Boson star" => "examples/bosonstar.md",
             "Star across charged wormhole" => "examples/chargedwormhole.md",
             "RAR galactic core" => "examples/rar.md",
-            "Skylight's logo" => "examples/skylightlogo.md",
+            "Skylight logo" => "examples/skylightlogo.md",
         ],
         "Utils" => [
             "Geometry and linear algebra" => "utils/geometry.md",
