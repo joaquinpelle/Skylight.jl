@@ -188,7 +188,7 @@ function observed_specific_intensities(initial_data::AbstractMatrix,
     ::ImagePlane,
     observation_energies::AbstractVector;
     tasks_per_thread::Int = 2)
-    Iobs = postprocess_init(initial_data, output_data, observation_energies)
+    Iobs = postprocess_init(initial_data, output_data, configurations, observation_energies)
     function task(chunk,
         Iobs,
         initial_data,
@@ -261,7 +261,7 @@ function observed_specific_intensities(initial_data::AbstractMatrix,
     observation_energies;
     observer_four_velocity = nothing,
     tasks_per_thread::Int = 2)
-    Iobs = postprocess_init(initial_data, output_data, observation_energies)
+    Iobs = postprocess_init(initial_data, output_data, cofigurations, observation_energies)
     function task(chunk,
         Iobs,
         initial_data,
