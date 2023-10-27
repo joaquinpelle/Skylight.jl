@@ -10,8 +10,7 @@ include("lineemission.jl")
 
 function postprocess_init(initial_data::AbstractMatrix,
     output_data::AbstractMatrix,
-    ::VacuumOTEConfigurations,
-    ::Nothing)
+    ::VacuumOTEConfigurations)
     same_size(initial_data, output_data) ||
         throw(DimensionMismatch("The initial and output data must have the same size."))
     eight_components(initial_data, output_data) ||

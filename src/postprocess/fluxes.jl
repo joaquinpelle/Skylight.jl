@@ -84,6 +84,7 @@ end
 function fluxes_task_init(configurations; observer_four_velocity, flux_direction)
     spacetime = configurations.spacetime
     cache = postprocess_cache(configurations)
+    camera = configurations.camera
     observer_metric!(cache, camera.position, spacetime)
     observer_four_velocity!(cache, observer_four_velocity)
     flux_direction!(cache, flux_direction, camera, spacetime)
