@@ -1,7 +1,3 @@
-struct RARDatabase
-    data_dir::String
-end
-
 @with_kw struct RARInterpolator{T}
     gtt::T
     grr::T
@@ -164,35 +160,4 @@ function radial_bounds(spacetime::RARSpacetime)
         maximum(interp.M.t),
         maximum(interp.dM.t))
     return r_inf, r_sup
-end
-
-function CGS_to_geometrized(CGS_database::RARDatabase, 
-                            geometrized_database::RARDatabase; 
-                            M1)
-    # Loading the data
-    data_gtt = readdlm(@sprintf(CGS_database, "g00"))
-    data_grr = readdlm(@sprintf(CGS_database, "g11"))
-    data_dν = readdlm(@sprintf(CGS_database, "dnu"))
-    data_M = readdlm(@sprintf(CGS_database, "M"))
-    data_dM = readdlm(@sprintf(CGS_database, "dM"))
-
-    # Converting to geometrized units with M1 as unit mass
-    data_gtt[:,1] = CGS_to_geometrized(data_gtt[:,1], Dimensions.length; M1=M1)
-    data_grr[:,1] = CGS_to_geometrized(data_grr[:,1], Dimensions.length; M1=M1)
-    data_dν[:,1] = CGS_to_geometrized(data_dν[:,1], Dimensions.length; M1=M1)
-    data_M[:,1] = CGS_to_geometrized(data_M[:,1], Dimensions.length; M1=M1)
-    data_dM[:,1] = CGS_to_geometrized(data_dM[:,1], Dimensions.length; M1=M1)
-
-    data_dν[:,2] = CGS_to_geometrized(data_dν[:,2], Dimensions.wavenumber; M1 = M1)
-    data_M[:,2] = CGS_to_geometrized(data_M[:,2], Dimensions.mass; M1 = M1)
-    data_dM[:,2] = CGS_to_geometrized(data_dM[:,2], Dimensions.linear_density; M1 = M1)
-
-    # Saving the converted data
-    writedlm(@sprintf(geometrized_database, "gtt"), data_gtt)
-    writedlm(@sprintf(geometrized_database, "grr"), data_grr)
-    writedlm(@sprintf(geometrized_database, "dnu"), data_dν)
-    writedlm(@sprintf(geometrized_database, "M"), data_M)
-    writedlm(@sprintf(geometrized_database, "dM"), data_dM)
-    # writedlm(@sprintf(geometrized_database, "M1_Rd"), [M1, Rd_in, Rd_out])
-    writedlm(@sprintf(geometrized_database, "M1"), [M1])
 end
