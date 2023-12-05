@@ -37,7 +37,7 @@ function spectrum(initial_data,
     energies)
     same_size(initial_data, output_data) ||
         throw(DimensionMismatch("initial_data and output_data must have the same size."))
-    Fobs, _ = observed_specific_intensities(initial_data,
+    Fobs = observed_specific_intensities(initial_data,
         output_data,
         configurations,
         energies)
