@@ -1,5 +1,7 @@
 # Getting started 
 
+First, start a Julia REPL with `julia -t NT` where `NT` is the number of threads you want to use. Alternatively, you can copy the contents below into a script and run it using the same flag for multithreading.   
+
 To get started, you will need a spacetime, a radiative model, and a camera. For example, to instantiate a Kerr spacetime in Kerr-Schild coordinates with mass $M=1$ and spin $a/M=0.5$, 
 
 ```julia
@@ -18,8 +20,8 @@ See the currently available radiative models at [Catalogue of radiative models](
 
 ```julia
 camera = PinholeCamera(position = [0.0, 500, π/2-π/20, 0.0],
-                        horizontal_aperture_in_degrees = rad2deg(315/500),
-                        vertical_aperture_in_degrees = rad2deg(315/500),
+                        horizontal_aperture_in_degrees = rad2deg(80/500),
+                        vertical_aperture_in_degrees = rad2deg(80/500),
                         horizontal_number_of_pixels = 600,
                         vertical_number_of_pixels = 600)
 ```
@@ -30,17 +32,18 @@ objects into a configurations object. This is a vacuum transport problem, so use
 configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                         radiative_model=disk,
                                         camera = camera,
-                                        unit_mass_in_solar_masses = 1.0)
+                                        unit_mass_in_solar_masses = 1e7)
 ```
-where `unit_mass_in_solar_masses` is the unit mass in solar masses which determines fully the problem units together with $c=G=1$, and OTE stands for the observer-to-emitter scheme. This paticular configurations type will get the specialized methods for transport in vacuum. For more general non vacuum problems, use
+where `unit_mass_in_solar_masses` is the unit mass in solar masses which determines fully the problem units together with $c=G=1$, and OTE stands for the observer-to-emitter scheme. This paticular configurations type will get the specialized methods for transport in vacuum. For more general non vacuum problems, use, e.g.
 
 ```julia
 configurations = NonVacuumOTEConfigurations(spacetime = spacetime,
     camera = camera,
     radiative_model = model,
-    unit_mass_in_solar_masses = 1.0,
+    unit_mass_in_solar_masses = 1e7,
     observation_energies = exp10.(range(-10, stop = -5.5, length = 20)))
 ```
+where `observation_energies` is a vector of the observation energies in CGS. 
 
 Then, create the initial data as
 
@@ -53,8 +56,10 @@ The initial data is a matrix that has the initial conditions for each ray as col
 Before running the ray-tracing, you need to specify a callback to be called at each step of the equations integration. For the default callback, use
 
 ```julia 
-cb, cbp = callback_setup(configurations)
+cb, cbp = callback_setup(configurations; rhorizon_bound=0.1)
 ```
+
+Notice for this setup an extra parameter has to be specified, which determines the minimum radial distance to which rays can approach the event horizon before terminating the geodesic integration (this is because no future-directed rays can exit the event horizon, so, conversely, no past-directed rays can reach it). See the details for each callback at [Callbacks](@ref).
 
 You can also define your own callbacks. For more details, see [Callbacks](@ref) and [Event Handling](https://docs.sciml.ai/DiffEqDocs/stable/features/callback_functions/). Finally, you can integrate the equations with
 
@@ -87,16 +92,16 @@ zs = grid_view(Iobs, configurations)
 
 fig = Figure(font = "CMU Serif")
 ax = Axis(fig[1, 1],
-    xlabel = L"\alpha",
-    ylabel = L"\beta",
+    xlabel = L"\alpha \, [\mathrm{deg}]",
+    ylabel = L"\beta \, [\mathrm{deg}]",
     ylabelsize = 26,
     xlabelsize = 26)
-hmap = heatmap!(xs, ys, zs; colormap = :gist_heat, interpolate = true)
+hmap = heatmap!(rad2deg.(xs), rad2deg.(ys), zs; colormap = :gist_heat, interpolate = true)
 Colorbar(fig[:, end + 1],
     hmap,
-    label = L"I",
+    label = L"I \, [\mathrm{erg}/\mathrm{s}/\mathrm{cm^2}/\mathrm{sr}]",
     labelsize = 26,
-    width = 15,
+    width    = 15,
     ticksize = 18,
     tickalign = 1)
 colsize!(fig.layout, 1, Aspect(1, 1.0))
