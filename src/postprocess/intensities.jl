@@ -230,7 +230,8 @@ function observed_specific_intensities(initial_data::AbstractMatrix,
         Iobs,
         initial_data,
         output_data,
-        configurations;
+        configurations,
+        observation_energies;
         tasks_per_thread = tasks_per_thread)
     return Iobs
 end
