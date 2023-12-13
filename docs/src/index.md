@@ -69,7 +69,7 @@ For a quick start guide, see [Getting started](https://joaquinpelle.github.io/Sk
 * Loading/saving data and configurations from/to HDF5 files
 * Units and dimensions management
 
-## Installation
+### Installation
 
 #### Requirements
 * Julia version at least 1.6

@@ -5,6 +5,7 @@ makedocs(
     sitename = "Skylight",
     format = Documenter.HTML(),
     modules = [Skylight],
+    checkdocs = :none, #Change this to :all in the future, once all docstrings are supposed to be included.
     pages = [
         "Home" => "index.md",
         "Getting started" => "gettingstarted.md",
