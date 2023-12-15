@@ -365,9 +365,9 @@ end
 
 function warn_fieldless_type(T)
     if fieldnames(T) == ()
-        warn("Type $(string(T)) has no fields. This may cause problems when loading the data from an HDF5 file due to information loss.
+        @warn "Type $(string(T)) has no fields. This may cause problems when loading the data from an HDF5 file due to information loss.
         The recursive conversion of arbitrary types to HDF5 compatible dictionaries needs special halters for types that have no fields, 
         including Bool and Nothing. Every such type requires special treatment, so they have to be implemented as needed in practice.
-        You can add them to the function `to_hdf5_compatible_dict` following the existing examples, or contact the developer Joaquin Pelle.")
+        You can add them to the function `to_hdf5_compatible_dict` following the existing examples, or contact the developer Joaquin Pelle."
     end
 end
