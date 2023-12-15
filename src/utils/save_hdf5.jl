@@ -226,19 +226,23 @@ If a field is not an HDF5-supported type and has no fields that can be converted
 # Returns
 * A `Dict{String, Any}` containing the fields of the input custom type, with nested custom types recursively converted to dictionaries. The dictionary will also include a "_typename" key with the name of the custom type as a string.
 """
-function to_hdf5_compatible_dict(obj::T; depth::Int = 0, max_depth::Int = 8) where {T}
+function to_hdf5_compatible_dict(obj::T; depth::Int = 0, max_depth::Int = 12) where {T}
     if depth > max_depth
         return nothing
     end
 
     d = Dict{String, Any}()
     d["_typename"] = string(T)
+    #Here we need halters for every type that has no fields, as Bool and Nothing.
+    #Each one needs special treatment, so they have to be added as needed in practice. 
     for field in fieldnames(T)
         value = getfield(obj, field)
-
         # Check if the field is no-save
         if isa(value, NoSaveField)
             continue
+            # Check if the field is of type Bool 
+        elseif isa(value, Bool)
+            value = value ? "true" : "false"
             # Check if the field is of type Nothing
         elseif isnothing(value)
             value = "nothing"
@@ -252,6 +256,7 @@ function to_hdf5_compatible_dict(obj::T; depth::Int = 0, max_depth::Int = 8) whe
 
         d[string(field)] = value
     end
+    warn_fieldless_type(T)
     return d
 end
 
@@ -298,6 +303,9 @@ function to_hdf5_compatible_dict(cb::T;
             # Check if the field is of type Nothing
         elseif isnothing(value)
             value = "nothing"
+            # Check if the field is of type Bool 
+        elseif isa(value, Bool)
+            value = value ? "true" : "false"
             # Check if the field is a subtype of Function
         elseif isa(value, Function)
             value = string(value)
@@ -308,6 +316,7 @@ function to_hdf5_compatible_dict(cb::T;
 
         d[string(field)] = value
     end
+    warn_fieldless_type(T)
     return d
 end
 
@@ -352,4 +361,13 @@ function is_hdf5_supported_type(value)
     T = isa(value, Array) ? eltype(value) : typeof(value)
 
     return T in all_supported_types
+end
+
+function warn_fieldless_type(T)
+    if fieldnames(T) == ()
+        warn("Type $(string(T)) has no fields. This may cause problems when loading the data from an HDF5 file due to information loss.
+        The recursive conversion of arbitrary types to HDF5 compatible dictionaries needs special halters for types that have no fields, 
+        including Bool and Nothing. Every such type requires special treatment, so they have to be implemented as needed in practice.
+        You can add them to the function `to_hdf5_compatible_dict` following the existing examples, or contact the developer Joaquin Pelle.")
+    end
 end
