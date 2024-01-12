@@ -256,7 +256,6 @@ function to_hdf5_compatible_dict(obj::T; depth::Int = 0, max_depth::Int = 12) wh
 
         d[string(field)] = value
     end
-    warn_fieldless_type(T)
     return d
 end
 
@@ -316,7 +315,6 @@ function to_hdf5_compatible_dict(cb::T;
 
         d[string(field)] = value
     end
-    warn_fieldless_type(T)
     return d
 end
 
@@ -361,13 +359,4 @@ function is_hdf5_supported_type(value)
     T = isa(value, Array) ? eltype(value) : typeof(value)
 
     return T in all_supported_types
-end
-
-function warn_fieldless_type(T)
-    if fieldnames(T) == ()
-        @warn "Type $(string(T)) has no fields. This may cause problems when loading the data from an HDF5 file due to information loss.
-        The recursive conversion of arbitrary types to HDF5 compatible dictionaries needs special halters for types that have no fields, 
-        including Bool and Nothing. Every such type requires special treatment, so they have to be implemented as needed in practice.
-        You can add them to the function `to_hdf5_compatible_dict` following the existing examples, or contact the developer Joaquin Pelle."
-    end
 end
