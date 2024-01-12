@@ -264,6 +264,8 @@ function load_nested_dict_from_hdf5(group::HDF5.Group)
             val = read(obj)
             if val == "nothing"
                 nested_dict[Symbol(name)] = nothing
+            elseif val == "missing"
+                nested_dict[Symbol(name)] = missing
             elseif val == "true"
                 nested_dict[Symbol(name)] = true
             elseif val == "false"

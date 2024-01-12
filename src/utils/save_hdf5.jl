@@ -190,6 +190,8 @@ function to_hdf5_compatible_dict(dict::Dict{T, S};
                 max_depth = max_depth)
         elseif isa(value, Function)
             hdf5_dict[key] = string(value)
+        elseif ismissing(value)
+            hdf5_dict[key] = "Missing"
         elseif isnothing(value)
             hdf5_dict[key] = "Nothing"
         else
@@ -243,6 +245,9 @@ function to_hdf5_compatible_dict(obj::T; depth::Int = 0, max_depth::Int = 12) wh
             # Check if the field is of type Bool 
         elseif isa(value, Bool)
             value = value ? "true" : "false"
+            # Check if the field is of type Missing
+        elseif ismissing(value)
+            value = "missing"
             # Check if the field is of type Nothing
         elseif isnothing(value)
             value = "nothing"
@@ -302,6 +307,9 @@ function to_hdf5_compatible_dict(cb::T;
             # Check if the field is of type Nothing
         elseif isnothing(value)
             value = "nothing"
+            # Check if the field is of type Missing
+        elseif ismissing(value)
+            value = "missing"
             # Check if the field is of type Bool 
         elseif isa(value, Bool)
             value = value ? "true" : "false"
