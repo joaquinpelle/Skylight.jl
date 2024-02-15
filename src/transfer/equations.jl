@@ -8,7 +8,7 @@ function non_vacuum_equations(u::AbstractVector, p::NonVacuumCache, t)
     return vcat(du, dτ, dI)
 end
 
-function geodesic_equations(u::SVector, p, t)
+function geodesic_equations(u::SVector{N,T}, p, t) where {N,T}
     spacetime = p.spacetime
     cache = p.multi_thread[Threads.threadid()]
 
@@ -44,10 +44,10 @@ function geodesic_equations(u::SVector, p, t)
         du7 = a[3]
         du8 = a[4]
     end
-    return @SVector [du1, du2, du3, du4, du5, du6, du7, du8]
+    return SVector{8,T}(du1, du2, du3, du4, du5, du6, du7, du8)
 end
 
-function transfer_equations(u::SVector, p, t)
+function transfer_equations(u::SVector{N,T}, p, t) where {N,T}
     spacetime = p.spacetime
     model = p.model
     coords_top = p.coordinates_topology
@@ -76,8 +76,8 @@ function transfer_equations(u::SVector, p, t)
     ε .= observation_energies * rest_frame_energy
     rest_frame_absorptivity!(αε, position, ε, metric, spacetime, model, coords_top)
     rest_frame_emissivity!(jε, position, ε, metric, spacetime, model, coords_top)
-    return SVector{NE, Float64}(ε .* αε...),
-    SVector{NE, Float64}(jε ./ (ε .^ 2) .* exp.(-τε)...)
+    return SVector{NE, T}(ε .* αε...),
+    SVector{NE, T}(jε ./ (ε .^ 2) .* exp.(-τε)...)
 end
 
 geodesic_equations(u::AbstractVector, p, t) = geodesic_equations(to_static(u), p, t)
