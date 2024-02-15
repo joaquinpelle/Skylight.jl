@@ -1,4 +1,17 @@
 """
+    static_slice(u::SVector{N, T}, ::Val{start}, ::Val{length}) where {N, T, start, length}
+
+Extract a slice of length `length` from the input SVector, starting at index `start`.
+Be careful since it doesn't have any bounds checking!
+"""
+@generated function static_slice(u::SVector{N, T}, ::Val{start}, ::Val{length}) where {N, T, start, length}
+    # Create expressions to extract the desired elements from the input SVector
+    elements = ntuple(i -> :(u[$(i + start - 1)]), length)  
+    # Construct a new SVector from these elements
+    return Expr(:call, SVector{length, T}, elements...)
+end
+
+"""
     compose_N_times(N, f, x)
 
 Compose function `f` to the input `x` for `N` times.
