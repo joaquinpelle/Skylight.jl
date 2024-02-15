@@ -14,8 +14,8 @@ function geodesic_equations(u::SVector, p, t)
 
     @inbounds begin
         @views begin
-            position = u[(1,2,3,4)] #Index with tuple for static result
-            momentum = u[(5,6,7,8)] #Index with tuple for static result
+            position = u[SVector(1,2,3,4)] #Static slicing
+            momentum = u[SVector(5,6,7,8)] #Static slicing
         end
     end
 
@@ -57,8 +57,8 @@ function transfer_equations(u::SVector, p, t)
 
     @inbounds begin
         @views begin
-            position = u[(1,2,3,4)] #Index with tuple for static result
-            momentum = u[(5,6,7,8)] #Index with tuple for static result
+            position = u[SVector(1,2,3,4)] #Static slicing
+            momentum = u[SVector(5,6,7,8)] #Static slicing
             τε = static_slice(u,Val(9),Val(NE)) #Static slice of length NE starting from 9
         end
     end
