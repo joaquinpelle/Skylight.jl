@@ -20,7 +20,9 @@ stationarity(::SyntheticPolarCap) = IsStationary()
 
 function surface_differential!(covector, position, ::SyntheticPolarCap, ::CartesianTopology)
     @views begin
-        t, x, y, z = position
+        x = position[2]
+        y = position[3]
+        z = position[4]    
     end
 
     covector[1] = 0.0

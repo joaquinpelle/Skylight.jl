@@ -33,7 +33,10 @@ end
 
 function metric!(g::AbstractMatrix, position::AbstractVector, spacetime::SchwarzschildSpacetimeKerrSchildCoordinates)
     M = spacetime.M
-    t, x, y, z = position
+    x = position[2]
+    y = position[3]
+    z = position[4]    
+    
     r = sqrt(x^2 + y^2 + z^2)
     H = 2M / r
     l1 = 1.0
@@ -64,7 +67,10 @@ function metric_inverse!(g::AbstractMatrix,
     spacetime::SchwarzschildSpacetimeKerrSchildCoordinates,
     ::AbstractMatrix)
     M = spacetime.M
-    t, x, y, z = position
+    x = position[2]
+    y = position[3]
+    z = position[4]    
+    
     r = sqrt(x^2 + y^2 + z^2)
     H = 2M / r
 
@@ -107,7 +113,10 @@ function christoffel!(Γ::AbstractArray,
     position::AbstractVector,
     spacetime::SchwarzschildSpacetimeKerrSchildCoordinates,
     cache::SchwarzschildChristoffelCache)
-    t, x, y, z = position
+    x = position[2]
+    y = position[3]
+    z = position[4]    
+    
     M = spacetime.M
     r2 = x^2 + y^2 + z^2
     r = sqrt(r2)
@@ -205,7 +214,8 @@ function metric_inverse!(g::AbstractMatrix,
     position::AbstractVector,
     spacetime::SchwarzschildSpacetimeSphericalCoordinates,
     ::AbstractMatrix)
-    t, r, θ, φ = position
+    r = position[2]
+    θ = position[3]
     M = spacetime.M
     fill!(g, 0.0)
     g[1, 1] = -1 / (1 - 2M / r)
@@ -218,7 +228,8 @@ end
 allocate_christoffel_cache(::SchwarzschildSpacetimeSphericalCoordinates) = nothing
 
 function christoffel!(Γ::AbstractArray, position::AbstractVector, spacetime::SchwarzschildSpacetimeSphericalCoordinates)
-    t, r, θ, φ = position
+    r = position[2]
+    θ = position[3]
     rs = 2 * spacetime.M
 
     Γ[1, 1, 2] = rs / (2 * r * (r - rs))

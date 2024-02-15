@@ -63,7 +63,8 @@ struct MinkowskiSpacetimeSphericalCoordinates <: AbstractMinkowskiSpacetime end
 coordinates_topology(::MinkowskiSpacetimeSphericalCoordinates) = SphericalTopology()
 
 function metric!(g::AbstractMatrix, position::AbstractVector, ::MinkowskiSpacetimeSphericalCoordinates)
-    t, r, θ, φ = position
+    r = position[2]
+    θ = position[3]
     fill!(g, 0.0)
     g[1, 1] = -1.0
     g[2, 2] = 1.0
@@ -76,7 +77,8 @@ function metric_inverse!(g::AbstractMatrix,
     position::AbstractVector,
     ::MinkowskiSpacetimeSphericalCoordinates,
     ::AbstractMatrix)
-    t, r, θ, φ = position
+    r = position[2]
+    θ = position[3]
     fill!(g, 0.0)
     g[1, 1] = -1.0
     g[2, 2] = 1.0

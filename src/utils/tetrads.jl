@@ -31,7 +31,9 @@ function surface_adapted_triad!(triad,
 end
 
 function spherical_like_triad!(triad, position, time_vector, metric, ::CartesianTopology)
-    t, x, y, z = position
+    x = position[2]
+    y = position[3]
+    z = position[4]    
     r = sqrt(x^2 + y^2 + z^2)
 
     fill!(triad, 0.0)

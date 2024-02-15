@@ -5,7 +5,9 @@
 time_translation_generator() = ∂t()
 
 function rotation_generators(position, ::CartesianTopology)
-    t, x, y, z = position
+    x = position[2]
+    y = position[3]
+    z = position[4]
     X = SVector{4}(0.0, 0.0, z, -y)
     Y = SVector{4}(0.0, z, 0.0, -x)
     Z = SVector{4}(0.0, y, -x, 0.0)
@@ -13,12 +15,14 @@ function rotation_generators(position, ::CartesianTopology)
 end
 
 function zaxis_rotation_generator(position, ::CartesianTopology)
-    t, x, y, z = position
+    x = position[2]
+    y = position[3]
     return SVector{4}(0.0, y, -x, 0.0)
 end
 
 function rotation_generators(position, ::SphericalTopology)
-    t, r, θ, φ = position
+    θ = position[3]
+    φ = position[4]
     X = SVector{4}(0.0, 0.0, sin(φ), cot(θ) * cos(φ))
     Y = SVector{4}(0.0, 0.0, cos(φ), -cot(θ) * sin(φ))
     return (X, Y, ∂φ())
@@ -36,8 +40,9 @@ end
 
 function rotation_generators!(vectors, position, ::CartesianTopology)
     fill!(vectors, 0.0)
-    t, x, y, z = position
-
+    x = position[2]
+    y = position[3]
+    z = position[4]
     vectors[3, 1] = z
     vectors[4, 1] = -y
 
@@ -50,8 +55,8 @@ function rotation_generators!(vectors, position, ::CartesianTopology)
 end
 
 function zaxis_rotation_generator!(v, position, ::CartesianTopology)
-    fill!(v, 0.0)
-    t, x, y, z = position
+    x = position[2]
+    y = position[3]
     v[2] = y
     v[3] = -x
     return nothing
@@ -59,7 +64,8 @@ end
 
 function rotation_generators!(vectors, position, ::SphericalTopology)
     fill!(vectors, 0.0)
-    t, r, θ, φ = position
+    θ = position[3]
+    φ = position[4]
     vectors[3, 1] = sin(φ)
     vectors[4, 1] = cot(θ) * cos(φ)
 

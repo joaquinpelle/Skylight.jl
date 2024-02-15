@@ -44,7 +44,8 @@ coordinates_topology(::RARSpacetime) = SphericalTopology()
 
 """"Ruffini-Arguelles-Rueda metric for dark-matter halo"""
 function metric!(g::AbstractMatrix, position::AbstractVector, spacetime::RARSpacetime)
-    t, r, θ, φ = position
+    r = position[2]
+    θ = position[3]
 
     interp = spacetime.interp
 
@@ -75,7 +76,8 @@ function metric_inverse!(g::AbstractMatrix,
     position::AbstractVector,
     spacetime::RARSpacetime,
     ::AbstractMatrix)
-    t, r, θ, φ = position
+    r = position[2]
+    θ = position[3]
 
     interp = spacetime.interp
 
@@ -105,7 +107,8 @@ end
 allocate_christoffel_cache(::RARSpacetime) = nothing
 
 function christoffel!(Γ::AbstractArray, position::AbstractVector, spacetime::RARSpacetime)
-    t, r, θ, φ = position
+    r = position[2]
+    θ = position[3]
 
     interp = spacetime.interp
 

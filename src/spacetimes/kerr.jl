@@ -31,7 +31,9 @@ end
 coordinates_topology(::KerrSpacetimeKerrSchildCoordinates) = CartesianTopology()
 
 function radius(position, spacetime::KerrSpacetimeKerrSchildCoordinates)
-    t, x, y, z = position
+    x = position[2]
+    y = position[3]
+    z = position[4]    
     ρ2 = x^2 + y^2 + z^2
     a2 = spacetime.a^2
     r2 = 0.5 * (ρ2 - a2) + sqrt(0.25 * (ρ2 - a2)^2 + a2 * z^2)
@@ -42,7 +44,10 @@ function metric!(g, position, spacetime::KerrSpacetimeKerrSchildCoordinates)
     M = spacetime.M
     a = spacetime.a
 
-    t, x, y, z = position
+    x = position[2]
+    y = position[3]
+    z = position[4]    
+
     ρ2 = x^2 + y^2 + z^2
     a2 = a^2
     r2 = 0.5 * (ρ2 - a2) + sqrt(0.25 * (ρ2 - a2)^2 + a2 * z^2)
@@ -80,7 +85,10 @@ function metric_inverse!(g::AbstractMatrix,
     M = spacetime.M
     a = spacetime.a
 
-    t, x, y, z = position
+    x = position[2]
+    y = position[3]
+    z = position[4]    
+    
     ρ2 = x^2 + y^2 + z^2
     a2 = a^2
     r2 = 0.5 * (ρ2 - a2) + sqrt(0.25 * (ρ2 - a2)^2 + a2 * z^2)
@@ -124,7 +132,10 @@ function christoffel!(Γ::AbstractArray,
     position::AbstractVector,
     spacetime::KerrSpacetimeKerrSchildCoordinates,
     cache::KerrChristoffelCache)
-    t, x, y, z = position
+    x = position[2]
+    y = position[3]
+    z = position[4]    
+    
     M = spacetime.M
     a = spacetime.a
 
@@ -230,7 +241,8 @@ coordinates_topology(::KerrSpacetimeBoyerLindquistCoordinates) = SphericalTopolo
 radius(position, ::KerrSpacetimeBoyerLindquistCoordinates) = position[2]
 
 function metric!(g, position, spacetime::KerrSpacetimeBoyerLindquistCoordinates)
-    t, r, θ, φ = position
+    r = position[2]
+    θ = position[3]
 
     M = spacetime.M
     a = spacetime.a
@@ -261,7 +273,8 @@ function metric_inverse!(ginv::AbstractMatrix,
     position::AbstractVector,
     spacetime::KerrSpacetimeBoyerLindquistCoordinates,
     ::AbstractMatrix)
-    t, r, θ, φ = position
+    r = position[2]
+    θ = position[3]
 
     M = spacetime.M
     a = spacetime.a
@@ -297,7 +310,9 @@ end
 allocate_christoffel_cache(::KerrSpacetimeBoyerLindquistCoordinates) = nothing
 
 function christoffel!(Γ, position, spacetime::KerrSpacetimeBoyerLindquistCoordinates)
-    t, r, θ, φ = position
+
+    r = position[2]
+    θ = position[3]
 
     M = spacetime.M
     a = spacetime.a

@@ -25,7 +25,9 @@ using Parameters, PreallocationTools
         M = spacetime.M
         a = spacetime.a
 
-        t, x, y, z = position
+        x = position[2]
+        y = position[3]
+        z = position[4]        
         ρ2 = x^2 + y^2 + z^2
         a2 = a^2
         r2 = 0.5 * (ρ2 - a2) + sqrt(0.25 * (ρ2 - a2)^2 + a2 * z^2)

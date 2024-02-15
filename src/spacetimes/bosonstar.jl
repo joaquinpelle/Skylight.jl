@@ -23,7 +23,8 @@ coordinates_topology(::BosonStarSpacetime) = SphericalTopology()
 radius(position, ::BosonStarSpacetime) = position[2]
 
 function metric!(g::AbstractMatrix, position::AbstractVector, spacetime::BosonStarSpacetime)
-    t, r, θ, φ = position
+    r = position[2]
+    θ = position[3]
 
     a = spacetime.a
     b = spacetime.b
@@ -57,7 +58,8 @@ function metric!(g::AbstractMatrix, position::AbstractVector, spacetime::BosonSt
 end
 
 function metric_inverse!(g, position, spacetime::BosonStarSpacetime, gaux, cache)
-    t, r, θ, φ = position
+    r = position[2]
+    θ = position[3]
 
     a = spacetime.a
     b = spacetime.b
@@ -95,7 +97,8 @@ allocate_christoffel_cache(::BosonStarSpacetime) = nothing
 
 function christoffel!(Γ::AbstractArray, position::AbstractVector, spacetime::BosonStarSpacetime)
     #Spacetime coordinates
-    t, r, θ, φ = position
+    r = position[2]
+    θ = position[3]
 
     a = spacetime.a
     b = spacetime.b
@@ -149,7 +152,7 @@ function circular_geodesic_angular_speed(position,
     spacetime::BosonStarSpacetime,
     rotation_sense)
     #Spacetime coordinates
-    t, r, θ, φ = position
+    r = position[2]
 
     a = spacetime.a
 
