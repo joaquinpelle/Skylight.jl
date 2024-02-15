@@ -1,9 +1,5 @@
 # Getting started 
 
-```@contents
-Pages = ["gettingstarted.md"]
-```
-
 ### 1. Set up your environment
 
 
