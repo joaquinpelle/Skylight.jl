@@ -8,14 +8,14 @@ function non_vacuum_equations(u::AbstractVector, p::NonVacuumCache, t)
     return vcat(du, dτ, dI)
 end
 
-function geodesic_equations(u::AbstractVector, p, t)
+function geodesic_equations(u::SVector, p, t)
     spacetime = p.spacetime
     cache = p.multi_thread[Threads.threadid()]
 
     @inbounds begin
         @views begin
-            position = u[1:4]
-            momentum = u[5:8]
+            position = u[(1,2,3,4)] #Index with tuple for static result
+            momentum = u[(5,6,7,8)] #Index with tuple for static result
         end
     end
 
@@ -47,7 +47,7 @@ function geodesic_equations(u::AbstractVector, p, t)
     return @SVector [du1, du2, du3, du4, du5, du6, du7, du8]
 end
 
-function transfer_equations(u::AbstractVector, p, t)
+function transfer_equations(u::SVector, p, t)
     spacetime = p.spacetime
     model = p.model
     coords_top = p.coordinates_topology
@@ -57,9 +57,9 @@ function transfer_equations(u::AbstractVector, p, t)
 
     @inbounds begin
         @views begin
-            position = u[1:4]
-            momentum = u[5:8]
-            τε = u[9:(8 + NE)]
+            position = u[(1,2,3,4)] #Index with tuple for static result
+            momentum = u[(5,6,7,8)] #Index with tuple for static result
+            τε = static_slice(u,Val(9),Val(NE)) #Static slice of length NE starting from 9
         end
     end
 
@@ -79,3 +79,6 @@ function transfer_equations(u::AbstractVector, p, t)
     return SVector{NE, Float64}(ε .* αε...),
     SVector{NE, Float64}(jε ./ (ε .^ 2) .* exp.(-τε)...)
 end
+
+geodesic_equations(u::AbstractVector, p, t) = geodesic_equations(to_static(u), p, t)
+transfer_equations(u::AbstractVector, p, t) = geodesic_equations(to_static(u), p, t)
