@@ -189,7 +189,7 @@ function lorentz_factors(positions::AbstractMatrix,
     γ = zeros(length(positions))
     g = zeros(4,4)
     u = zeros(4)
-    for i in axes(positions, 2)
+    for (i, position) in enumerate(positions)
         metric!(g, position, spacetime)
         rest_frame_four_velocity!(u, position, g, spacetime, model, coords_top)
         γ[i] = u[1] 
