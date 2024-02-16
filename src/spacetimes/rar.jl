@@ -40,6 +40,9 @@ RARSpacetime("./rar_data")
     @assert isdir(data_dir) "data_dir must be a directory"
 end
 
+stationarity(::RARSpacetime) = IsStationary()
+spherical_symmetry(::RARSpacetime) = IsSphericallySymmetric()
+
 coordinates_topology(::RARSpacetime) = SphericalTopology()
 
 """"Ruffini-Arguelles-Rueda metric for dark-matter halo"""

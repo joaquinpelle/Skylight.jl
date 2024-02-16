@@ -1,5 +1,8 @@
 abstract type AbstractSchwarzschildSpacetime <: AbstractBlackHoleSpacetime end
 
+stationarity(::AbstractSchwarzschildSpacetime) = IsStationary()
+spherical_symmetry(::AbstractSchwarzschildSpacetime) = IsSphericallySymmetric()
+
 @doc raw"""
     SchwarzschildSpacetimeKerrSchildCoordinates <: AbstractSchwarzschildSpacetime
 

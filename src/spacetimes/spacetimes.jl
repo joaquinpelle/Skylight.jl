@@ -268,7 +268,7 @@ spherical_symmetry(::AbstractSpacetime) = IsNotSphericallySymmetric()
 Return `IsAxiallySymmetric()` if the spacetime is axially symmetric, `IsNotAxiallySymmetric()` otherwise.
 """
 function axial_symmetry(spacetime::AbstractSpacetime)
-    isa(spherical_symmetry(spacetime), IsSphericallySymmetric) ? IsAxiallySymmetric() :
+    is_spherically_symmetric(spacetime) ? IsAxiallySymmetric() :
     IsNotAxiallySymmetric()
 end
 

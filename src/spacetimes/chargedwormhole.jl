@@ -1,4 +1,8 @@
 abstract type AbstractChargedWormholeSpacetime <: AbstractSpacetime end
+
+stationarity(::AbstractChargedWormholeSpacetime) = IsStationary()
+spherical_symmetry(::AbstractChargedWormholeSpacetime) = IsSphericallySymmetric()
+
 allocate_christoffel_cache(::AbstractChargedWormholeSpacetime) = nothing
 
 """

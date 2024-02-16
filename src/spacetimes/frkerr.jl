@@ -16,6 +16,9 @@ FRKerrSpacetime(M=1.0, a=0.99, R0=-0.0012)
     @assert M>=0.0 "M must be non-negative"
 end
 
+stationarity(::AbstractFRKerrSpacetime) = IsStationary()
+axial_symmetry(::AbstractFRKerrSpacetime) = IsAxiallySymmetric()
+
 coordinates_topology(::FRKerrSpacetime) = SphericalTopology()
 radius(position, ::FRKerrSpacetime) = position[2]
 

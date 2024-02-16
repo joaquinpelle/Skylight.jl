@@ -19,6 +19,9 @@ BosonStarSpacetime(:LBS1)
     @assert length(b)==14 "b must be a vector of length 14"
 end
 
+stationarity(::BosonStarSpacetime) = IsStationary()
+spherical_symmetry(::BosonStarSpacetime) = IsSphericallySymmetric()
+
 coordinates_topology(::BosonStarSpacetime) = SphericalTopology()
 radius(position, ::BosonStarSpacetime) = position[2]
 

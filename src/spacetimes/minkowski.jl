@@ -1,5 +1,8 @@
 abstract type AbstractMinkowskiSpacetime <: AbstractSpacetime end
 
+stationarity(::AbstractMinkowskiSpacetime) = IsStationary()
+spherical_symmetry(::AbstractMinkowskiSpacetime) = IsSphericallySymmetric()
+
 @doc raw"""
     MinkowskiSpacetimeCartesianCoordinates <: AbstractMinkowskiSpacetime
 
