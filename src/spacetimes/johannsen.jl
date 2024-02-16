@@ -26,8 +26,8 @@ JohannsenSpacetime(M=1.0, a=0.99, α13=0.5, α22=0.0, α52=0.01, ϵ3=0.0)
     @assert ϵ3>-factor^3 "Invalid deformation parameter ϵ3"
 end
 
-stationarity(::JohannsenKerrSpacetime) = IsStationary()
-axial_symmetry(::JohannsenKerrSpacetime) = IsAxiallySymmetric()
+stationarity(::JohannsenSpacetime) = IsStationary()
+axial_symmetry(::JohannsenSpacetime) = IsAxiallySymmetric()
 
 function event_horizon_radius(spacetime::JohannsenSpacetime)
     spacetime.M * (1 + sqrt(1 - spacetime.a^2))
