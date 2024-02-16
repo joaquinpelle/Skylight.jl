@@ -38,7 +38,7 @@ function emissivity_profile(output_data::AbstractMatrix,
     bins = range(cbrt(disk.inner_radius), stop=cbrt(disk.outer_radius), length=nbins).^3
     centers = midpoints(bins)
     A = equatorial_ring_areas(bins, spacetime)
-    positions = (hcat∘map)(r -> equatorial_position(r, coordinates_topology(spacetime)), bins)
+    positions = (hcat∘map)(r -> equatorial_position(r, coordinates_topology(spacetime)), centers)
     γ = lorentz_factors(positions, spacetime, disk)
     h = StatsBase.fit(Histogram, radii, bins)
     h = LinearAlgebra.normalize(h, mode=:probability)
