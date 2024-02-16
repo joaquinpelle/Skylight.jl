@@ -75,7 +75,10 @@ export IsStationary,
 
 export stationarity,
     spherical_symmetry,
-    axial_symmetry
+    axial_symmetry,
+    is_stationary,
+    is_spherically_symmetric,
+    is_axially_symmetric
 
 export energy,
     angular_momentum,
