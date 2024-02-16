@@ -101,7 +101,7 @@ end
 """
 Assuming all photons are emitted with unit initial energy
 """
-function energies_quotients(data::AbstractMatrix, spacetime::AbstractSpacetime, disk::AbstractAccretionDisk)
+function energies_quotients(data::AbstractMatrix, spacetime::AbstractSpacetime, model::AbstractAccretionDisk)
     coords_top = coordinates_topology(spacetime)
     nrays = size(data, 2)
     q = zeros(nrays)
