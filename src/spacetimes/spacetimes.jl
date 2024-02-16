@@ -273,7 +273,7 @@ function axial_symmetry(spacetime::AbstractSpacetime)
 end
 
 is_stationary(spacetime::AbstractSpacetime) = isa(stationarity(spacetime), IsStationary)
-is_spherically_symemtric(spacetime::AbstractSpacetime) = isa(spherical_symmetry(spacetime), IsSphericallySymmetric)
+is_spherically_symmetric(spacetime::AbstractSpacetime) = isa(spherical_symmetry(spacetime), IsSphericallySymmetric)
 is_axisymmetric(spacetime::AbstractSpacetime) = isa(axial_symmetry(spacetime), IsAxiallySymmetric)
 
 @inline sign(::ProgradeRotation) = 1.0
