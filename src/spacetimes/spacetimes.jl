@@ -299,9 +299,10 @@ function equatorial_ring_areas(edges::AbstractVector, spacetime::AbstractSpaceti
     areas = zeros(length(centers))
     g = zeros(4,4)
     position = zeros(4)
+    cache = allocate_cache(spacetime)
     for (i,r) in enumerate(radii)
         position = equatorial_position!(position, r, coords_top)
-        metric!(g, position, spacetime)
+        metric!(g, position, spacetime, cache)
         areas[i] = 2π*sqrt(g[2,2]*g[4,4])*Δr[i]
     end
     return areas
