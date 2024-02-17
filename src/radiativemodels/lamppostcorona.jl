@@ -35,17 +35,18 @@ function emissivity_profile(output_data::AbstractMatrix,
     radii = output_data[2,at_source]
     q = energies_quotients(output_data[:,at_source], spacetime, disk)
     # bins = radial_bins(disk, nbins=100)
-    bins = range(cbrt(disk.inner_radius), stop=cbrt(disk.outer_radius), length=nbins).^3
-    centers = midpoints(bins)
-    A = equatorial_ring_areas(bins, spacetime)
+    edges = range(cbrt(disk.inner_radius), stop=cbrt(disk.outer_radius), length=nbins).^3
+    centers = midpoints(edges)
+    A = equatorial_ring_areas(edges, spacetime)
     positions = (hcat∘map)(r -> equatorial_position(r, coordinates_topology(spacetime)), centers)
     γ = lorentz_factors(positions, spacetime, disk)
-    h = StatsBase.fit(Histogram, radii, bins)
+    h = StatsBase.fit(Histogram, radii, edges)
     h = LinearAlgebra.normalize(h, mode=:probability)
     𝓝 = h.weights
-    qavg = average_inside_bins(q, radii, bins)
+    qavg = average_inside_bins(q, radii, edges)
     Γ = corona.spectral_index
     n = 𝓝./(A.*γ)
     ϵ = qavg.^Γ.*n
-    return ϵ, centers
+    interp = LinearInterpolation(ϵ, centers; extrapolate=true)
+    return interp(edges), edges
 end
