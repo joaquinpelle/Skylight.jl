@@ -4,7 +4,7 @@
 Bin `values` and sum `weights` in each bin.
 
 # Arguments
-- `bins`: Array of bin edges.
+- `bins_edges`: Array of bin edges.
 - `values`: Array of values to be binned.
 - `weights`: Array of weights to be summed in each bin.
 
@@ -13,21 +13,21 @@ Bin `values` and sum `weights` in each bin.
 
 # Notes
 - The length of `values` and `weights` must be the same.
-- Values outside the range of `bins` are ignored.
+- Values outside the range of `bins_edges` are ignored.
 """
-function bin_values_and_sum_weights(bins, values, weights)
+function bin_values_and_sum_weights(bins_edges, values, weights)
     if length(values) != length(weights)
         throw(ArgumentError("Length of values and weights must be the same"))
     end
 
-    binned_values = zeros(length(bins) - 1)
+    binned_values = zeros(length(bins_edges) - 1)
 
     for i in eachindex(values)
         value = values[i]
         weight = weights[i]
 
         # find the bin index for the current value
-        bin_index = findfirst(b -> b > value, bins)
+        bin_index = findfirst(b -> b > value, bins_edges)
 
         # skip values outside the bin range
         if bin_index == 1 || isnothing(bin_index)
@@ -45,30 +45,30 @@ function bin_values_and_sum_weights(bins, values, weights)
 end
 
 """
-    average_inside_bins(q, x, bins)
+    average_inside_bins(q, x, bins_edges)
 
-Calculate the averages of a quantity `q` at value `x` in each bin defined by `bins`.
+Calculate the averages of a quantity `q` at value `x` in each bin defined by `bins_edges`.
 """
-function average_inside_bins(q, x, bins)
+function average_inside_bins(q, x, bins_edges)
     same_size(q, x) || throw(ArgumentError("q and x must have the same size"))
     # Initialize an array to hold the sum of `q` values in each bin
-    qsums = zeros(eltype(q), length(bins)-1)
+    qsums = zeros(eltype(q), length(bins_edges)-1)
     # Initialize an array to hold the count of `q` values in each bin
-    qcounts = zeros(Int, length(bins)-1)
+    qcounts = zeros(Int, length(bins_edges)-1)
     averages = zero(qsums)
     for (xvalue, qvalue) in zip(x, q)
         # Find the bin index for the current radii value
-        bin_index = searchsortedlast(bins, xvalue)
+        bin_index = searchsortedlast(bins_edges, xvalue)
 
         # If the bin_index is valid (i.e., the radius value is not beyond the last bin edge)
-        if bin_index > 0 && bin_index < length(bins)
+        if bin_index > 0 && bin_index < length(bins_edges)
             # Update the sum and count of `q` values for this bin
             qsums[bin_index] += qvalue
             qcounts[bin_index] += 1
         end
     end
     # Calculate the average `q` values for each bin
-    for i in 1:(length(bins)-1)
+    for i in 1:(length(bins_edges)-1)
         if qcounts[i] == 0
             continue
         end
@@ -141,7 +141,7 @@ Create bins for binning data.
 - `stop::Number`: Upper bound of the range to be binned. 
 
 # Returns
-- `bins`: Array of the bin edges.
+- `bins_edges`: Array of the bin edges.
 
 # Notes
 - If `bin_size` is provided, the function will create bins with that size from `start` to `stop`.
