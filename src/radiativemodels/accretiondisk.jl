@@ -99,6 +99,7 @@ end
     outer_radius::Float64
     alpha::Float64
     M1::Float64
+    Mdot_to_MEdd::Float64
     rotation_sense::T = ProgradeRotation()
 end
 
@@ -106,12 +107,13 @@ function temperature(position, spacetime, model::ShakuraSunyaevDisk)
     rd_in = model.inner_radius
     M1 = model.M1
     α = model.alpha
+    Mdot_to_MEdd = model.Mdot_to_MEdd
     r = radius(position, spacetime)
     M = mass(spacetime)
     rref = CGS_to_geometrized(1e10, Dimensions.length, M1 = M1)
     R10 = r / rref
     m1 = M * M1
-    Mdot16 = 0.1 * 1.39e18 * 4.075e6 * m1 * 1e-16
+    Mdot16 = Mdot_to_MEdd * 1.39e18 * 4.075e6 * m1 * 1e-16
     f = (1.0 - (rd_in / r)^0.5)^0.25
     g = (m1 / R10)^(0.15)
     h = (1.0)^(-0.1)

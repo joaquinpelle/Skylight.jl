@@ -39,7 +39,8 @@ for E in energies
         model = Skylight.ShakuraSunyaevDisk(inner_radius = rd_in,
             outer_radius = rd_out,
             alpha = 0.5,
-            M1 = M1)
+            M1 = M1,
+            Mdot_to_MEdd = 0.1)
 
         configurations = VacuumOTEConfigurations(spacetime = spacetime,
             camera = camera,
