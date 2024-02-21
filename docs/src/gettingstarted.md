@@ -3,7 +3,7 @@
 ### 1. Set up your environment
 
 
-After you have installed the package, start a Julia REPL with multithreading optionally enabled as 
+After you have installed the package following the instructions in the homepage, start a Julia REPL with multithreading optionally enabled as 
 
 ```bash
 julia -t NT
@@ -27,7 +27,7 @@ Find other available spacetimes at [Catalogue of spacetimes](@ref).
 
 ### 3. Create a radiative model
 
-Here we create a Novikov-Thorne disk in prograde rotation around the black hole, specifying the inner and outer radii of the disk. The inner radius is set to the ISCO (Innermost Stable Circular Orbit) of the black hole, which depends on the spacetime parameters and rotation direction.
+Here we create a Novikov-Thorne disk in prograde rotation around the black hole, specifying the inner and outer radii of the disk. The inner radius is set to the innermost stable circular orbit (ISCO) of the black hole, which depends on the spacetime parameters and rotation direction.
 
 ```julia
 disk = NovikovThorneDisk(inner_radius=isco_radius(spacetime, ProgradeRotation()), outer_radius = 15.0)
@@ -55,7 +55,7 @@ configurations = VacuumOTEConfigurations(spacetime=spacetime,
                                         camera = camera,
                                         unit_mass_in_solar_masses = 1e7)
 ```
-where `unit_mass_in_solar_masses` is the unit mass in solar masses which, together with $c=G=1$, fully determines your unit system. This latter choice will affect the interpretation of the varius quantities set before as, e.g. the mass of the Kerr spacetime, which now is understood to correspond to $10^7$ solar masses.
+where `unit_mass_in_solar_masses` is the unit mass in solar masses which, together with $c=G=1$, fully determines your units system. This latter choice will affect the interpretation of the varius quantities set before as, e.g. the mass of the Kerr spacetime, which now is understood to correspond to $10^7$ solar masses.
 
 For more general non-vacuum transfer problems, use 
 
@@ -66,7 +66,7 @@ configurations = NonVacuumOTEConfigurations(spacetime = spacetime,
     unit_mass_in_solar_masses = 1e7,
     observation_energies = exp10.(range(-10, stop = -5.5, length = 20)))
 ```
-where `observation_energies` has to be a vector of observation energies in CGS units. 
+where `observation_energies` is a vector of the observation energies in CGS units. 
 
 ### 6. Generate the initial data
 Create the initial data for the transport problem with
@@ -84,12 +84,12 @@ We define a callback to be called at each step of the equations integration. Thi
 cb, cbp = callback_setup(configurations; rhorizon_bound=0.1)
 ```
 
-where `cb` is the Callback object, and `cbp` contains the callback parameters. In this particular setup, an extra parameter has can be passed as an argument (`rhorizon_bound`), which determines the minimum radial distance to which rays can approximate the event horizon before terminating the integration (this is because no future-directed rays can exit the event horizon, so, conversely, no past-directed rays can reach it). 
+where `cb` is the Callback object, and `cbp` contains the callback parameters. In this particular setup, an extra parameter has to be passed as an argument (`rhorizon_bound`), which determines the minimum radial distance to which rays can approximate the event horizon before terminating the integration (this is because no future-directed rays can exit the event horizon, so, conversely, no past-directed rays can enter it). 
 
 Additionally, custom callbacks can be defined. For more details, see [Callbacks](@ref) and [Event Handling](https://docs.sciml.ai/DiffEqDocs/stable/features/callback_functions/). 
 
 ### 8. Integrate the equations
-Finally, we integrate the radiative transfer and geodesic equations, choosing a solver method and setting the relative and absolute tolerances. 
+Then, we integrate the radiative transfer and geodesic equations, choosing a solver method and setting the relative and absolute tolerances. 
 
 ```julia
 sim = integrate(initial_data,
@@ -113,7 +113,7 @@ This matrix contains the final coordinates and momenta of each ray, with the sam
 
 ### 9. Visualize the results
 
-Finally, we compute, for instance, the observed bolometric intensity of the radiation field and produce an image as
+Finally, we compute, for instance, the observed bolometric intensity of the radiation field, and produce an image using CairoMakie as
 
 ```julia
 using CairoMakie
