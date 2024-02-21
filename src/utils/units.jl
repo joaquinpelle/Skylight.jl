@@ -38,6 +38,8 @@ end
 
 pc_to_cm(d) = d * PhysicalConstants.pc
 cm_to_pc(d) = d / PhysicalConstants.pc
+kpc_to_cm(d) = d * (1e3*PhysicalConstants.pc)
+cm_to_kpc(d) = d / (1e3*PhysicalConstants.pc)
 Hz_to_erg(ν) = ν * PhysicalConstants.h
 erg_to_Hz(E) = E / PhysicalConstants.h
 eV_to_erg(E) = E * PhysicalConstants.eV
@@ -48,3 +50,7 @@ per_eV_to_per_erg(E) = erg_to_eV(E)
 per_erg_to_per_eV(E) = eV_to_erg(E)
 per_keV_to_per_erg(E) = erg_to_keV(E)
 per_erg_to_per_keV(E) = keV_to_erg(E)
+deg_to_as(θ) = θ * 3600.0
+as_to_deg(θ) = θ / 3600.0
+deg_to_mas(θ) = θ * 3600.0*1e3
+mas_to_deg(θ) = θ / (3600.0*1e3)
