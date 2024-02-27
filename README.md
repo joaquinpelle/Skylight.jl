@@ -22,7 +22,7 @@ Skylight works with any spacetime geometry, without the constraints of specific 
 
 It uses [automatic differentiation](https://en.wikipedia.org/wiki/Automatic_differentiation) with [ForwardDiff.jl](https://juliadiff.org/ForwardDiff.jl/stable/) to compute the Christoffel symbols from the spacetime metric, and has built-in multithreading parallelism. The integration of the equations is performed with [DifferentialEquations.jl](https://diffeq.sciml.ai/stable/). 
 
-For a quick start guide, see [Getting started](https://joaquinpelle.github.io/Skylight.jl/dev/gettingstarted/) (under construction).
+For a quick start guide, see [Getting started](https://joaquinpelle.github.io/Skylight.jl/dev/gettingstarted/).
 
 ### Features
 
