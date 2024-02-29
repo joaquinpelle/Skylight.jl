@@ -1,10 +1,10 @@
 """
-    bin_values_and_sum_weights(bins, values, weights)
+    bin_values_and_sum_weights(;edges, values, weights)
 
 Bin `values` and sum `weights` in each bin.
 
 # Arguments
-- `bins_edges`: Array of bin edges.
+- `edges`: Array of bin edges.
 - `values`: Array of values to be binned.
 - `weights`: Array of weights to be summed in each bin.
 
@@ -15,19 +15,19 @@ Bin `values` and sum `weights` in each bin.
 - The length of `values` and `weights` must be the same.
 - Values outside the range of `bins_edges` are ignored.
 """
-function bin_values_and_sum_weights(bins_edges, values, weights)
+function bin_values_and_sum_weights(;edges, values, weights)
     if length(values) != length(weights)
         throw(ArgumentError("Length of values and weights must be the same"))
     end
 
-    binned_values = zeros(length(bins_edges) - 1)
+    binned_values = zeros(length(edges) - 1)
 
     for i in eachindex(values)
         value = values[i]
         weight = weights[i]
 
         # find the bin index for the current value
-        bin_index = findfirst(b -> b > value, bins_edges)
+        bin_index = findfirst(b -> b > value, edges)
 
         # skip values outside the bin range
         if bin_index == 1 || isnothing(bin_index)

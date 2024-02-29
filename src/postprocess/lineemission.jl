@@ -97,7 +97,7 @@ function line_emission_spectrum(initial_data::AbstractMatrix,
         stop = maximum(q[at_source])
     end
     bins_edges = create_bins(bin_size = bin_size, num_bins = num_bins, start = start, stop = stop)
-    binned_fluxes = bin_values_and_sum_weights(bins_edges, q[at_source], F[at_source])
+    binned_fluxes = bin_values_and_sum_weights(edges=bins_edges, values=q[at_source], weights=F[at_source])
     normalize_by_pixel_area!(binned_fluxes, configurations)
     normalize_by_camera_distance!(binned_fluxes, configurations)
     return binned_fluxes, bins_edges
@@ -173,6 +173,6 @@ function line_emission_spectrum(initial_data::AbstractMatrix,
         stop = maximum(q[at_source])
     end
     bins_edges = create_bins(bin_size = bin_size, num_bins = num_bins, start = start, stop = stop)
-    binned_fluxes = bin_values_and_sum_weights(bins_edges, q[at_source], F[at_source])
+    binned_fluxes = bin_values_and_sum_weights(edges=bins_edges, values=q[at_source], weights=F[at_source])
     return binned_fluxes, bins_edges
 end

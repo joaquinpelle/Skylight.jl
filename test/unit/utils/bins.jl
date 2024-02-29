@@ -1,21 +1,21 @@
 using Skylight, Test
 
 @testset "bin_values_and_sum_weights tests" begin
-    bins = [0, 1, 2, 3]
+    edges = [0, 1, 2, 3]
     values = [0.5, 0.8, 1.5, 2.5]
     weights = [1, 2, 3, 4]
 
-    @test Skylight.bin_values_and_sum_weights(bins, values, weights) == [3, 3, 4]
+    @test Skylight.bin_values_and_sum_weights(edges=edges, values=values, weights=weights) == [3, 3, 4]
 
-    bins = [-1, 0, 1, 2]
+    edges = [-1, 0, 1, 2]
     values = [-0.5, 0.5, 1.5, 2.5]
     weights = [1, 2, 3, 4]
 
-    @test Skylight.bin_values_and_sum_weights(bins, values, weights) == [1, 2, 3]
+    @test Skylight.bin_values_and_sum_weights(edges=edges, values=values, weights=weights) == [1, 2, 3]
 
-    @test_throws ArgumentError Skylight.bin_values_and_sum_weights([0, 1, 2],
-        [0, 1],
-        [0, 1, 2])
+    @test_throws ArgumentError Skylight.bin_values_and_sum_weights(edges=[0, 1, 2],
+        values=[0, 1],
+        weights=[0, 1, 2])
 end
 
 @testset "create_bins tests" begin
