@@ -57,7 +57,8 @@ export AbstractSpacetime,
     ChargedWormholeSpacetimeRegularCoordinates,
     RARSpacetime,
     BosonStarSpacetime,
-    FluidStarSpacetime
+    FluidStarSpacetime,
+    GravastarSpacetime
 
 export AbstractSpacetimeCache,
     AbstractChristoffelCache
