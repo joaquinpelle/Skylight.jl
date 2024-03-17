@@ -42,6 +42,12 @@ using Parameters  # For the @with_kw macro
         @assert alpha >= (1 - 2*M/R) "Alpha must not lead to negative energy densities, ensuring physical relevance"
     end
     
+stationarity(::GravastarSpacetime) = IsStationary()
+spherical_symmetry(::GravastarSpacetime) = IsSphericallySymmetric()
+
+coordinates_topology(::GravastarSpacetime) = SphericalTopology()
+radius(position, ::GravastarSpacetime) = position[2]
+
     function metric!(g::AbstractMatrix, position::AbstractVector, spacetime::GravastarSpacetime)
         r = position[2]
         θ = position[3]
@@ -55,7 +61,7 @@ using Parameters  # For the @with_kw macro
         gtt_external = -(1 - 2 * M / r)
     
         gtt = in * gtt_internal + (1 - in) * gtt_external
-        grr = 1/gtt
+        grr = -1/gtt
     
         # The spherical symmetry parts remain unchanged
         g[1, 1] = gtt
@@ -78,7 +84,7 @@ using Parameters  # For the @with_kw macro
     end
     
 function circular_geodesic_angular_speed(position,
-    spacetime::FluidStarSpacetime,
+    spacetime::GravastarSpacetime,
     rotation_sense)
     #Spacetime coordinates
     r = position[2]
