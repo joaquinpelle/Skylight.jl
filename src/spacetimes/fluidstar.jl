@@ -24,6 +24,7 @@ ds^2_+ = -\left(1-\frac{2M}{r}\right)dt^2 + \left(1-\frac{2M}{r}\right)^{-1}dr^2
     R::Float64  # Radius of the fluid star
     @assert M > 0 "The mass of the fluid star must be positive"
     @assert R > 2*M "The radius of the fluid star must be greater than 2 times its mass"
+    @assert R < 6*M "The radius of the fluid star must be less than 6 times its mass" # This is provisory, for the ISCO to be easily defined (the exterior is Schwarzschild)
 end
 
 stationarity(::FluidStarSpacetime) = IsStationary()
@@ -98,50 +99,69 @@ function metric_inverse!(g::AbstractMatrix, position::AbstractVector, spacetime:
     return nothing
 end
 
-# allocate_christoffel_cache(::FluidStarSpacetime) = nothing
+allocate_christoffel_cache(::FluidStarSpacetime) = nothing
 
-# function christoffel!(Γ::AbstractArray, position::AbstractVector, spacetime::FluidStarSpacetime)
-#     #Spacetime coordinates
-#     error("Not implemented")
-#     r = position[2]
-#     θ = position[3]
+function christoffel!(Γ::AbstractArray, position::AbstractVector, spacetime::FluidStarSpacetime)
+    #Spacetime coordinates
+    r = position[2]
+    θ = position[3]
+    M = spacetime.M
+    R = spacetime.R
+    in = r <= R
 
-#     gtt = -1 + numa / dena
-#     grr = 1 - numb / denb
+    #abs are included within sqrt for calculation also outside, needed for inline ifs
+    
+    gtt_internal = -0.25 * (3 * sqrt(1 - 2 * M / R) - (sqrt∘abs)(1 - 2 * r^2 * M / R^3))^2 
+    grr_internal = 1 / (1 - 2 * r^2 * M / R^3)
+    gtt_external = -(1 - 2 * M / r)
+    grr_external = 1 / (1 - 2 * M / r)
+    gtt = in*gtt_internal + (1 - in)*gtt_external
+    grr = in*grr_internal + (1 - in)*grr_external
 
+    ∂r_gtt_internal = 2 * gtt_internal * (2 * r * M / R^3) / (sqrt∘abs)(1 - 2 * r^2 * M / R^3)
+    ∂r_grr_internal = (1 - 2 * r^2 * M / R^3)^(-2) * (-4 * r * M / R^3)
+    ∂r_gtt_external = -2 * M / r^2
+    ∂r_grr_external = (1 - 2 * M / r)^(-2) * (2 * M / r^2)
 
-#     ∂r_gtt = ∂r_numa / dena - numa * ∂r_dena / dena^2
-#     ∂r_grr = -∂r_numb / denb + numb * ∂r_denb / denb^2
+    ∂r_gtt = in*∂r_gtt_internal + (1 - in)*∂r_gtt_external
+    ∂r_grr = in*∂r_grr_internal + (1 - in)*∂r_grr_external
+    
+    dα = ∂r_gtt / (2 * gtt)
+    dβ = ∂r_grr / (2 * grr)
 
-#     dα = ∂r_gtt / (2 * gtt)
-#     dβ = ∂r_grr / (2 * grr)
+    Γ[1, 1, 2] = dα
+    Γ[1, 2, 1] = Γ[1, 1, 2]
 
-#     # Γ[1, 1, 2] = dα
-#     # Γ[1, 2, 1] = Γ[1, 1, 2]
+    Γ[2, 1, 1] = -gtt / grr * dα
+    Γ[2, 2, 2] = dβ
+    Γ[2, 3, 3] = -r / grr
+    Γ[2, 4, 4] = -r / grr * sin(θ)^2
 
-#     # Γ[2, 1, 1] = -gtt / grr * dα
-#     # Γ[2, 2, 2] = dβ
-#     # Γ[2, 3, 3] = -r / grr
-#     # Γ[2, 4, 4] = -r / grr * sin(θ)^2
+    Γ[3, 2, 3] = 1.0 / r
+    Γ[3, 4, 4] = -sin(θ) * cos(θ)
+    Γ[3, 3, 2] = Γ[3, 2, 3]
 
-#     # Γ[3, 2, 3] = 1.0 / r
-#     # Γ[3, 4, 4] = -sin(θ) * cos(θ)
-#     # Γ[3, 3, 2] = Γ[3, 2, 3]
-
-#     # Γ[4, 2, 4] = 1.0 / r
-#     # Γ[4, 3, 4] = cos(θ) / sin(θ)
-#     # Γ[4, 4, 2] = Γ[4, 2, 4]
-#     # Γ[4, 4, 3] = Γ[4, 3, 4]
-#     return nothing
-# end
+    Γ[4, 2, 4] = 1.0 / r
+    Γ[4, 3, 4] = cos(θ) / sin(θ)
+    Γ[4, 4, 2] = Γ[4, 2, 4]
+    Γ[4, 4, 3] = Γ[4, 3, 4]
+    return nothing
+end
 
 function circular_geodesic_angular_speed(position,
     spacetime::FluidStarSpacetime,
     rotation_sense)
-    #Spacetime coordinates
-    r = position[2]
     M = spacetime.M
+    r = radius(position, spacetime)
     Ω = sqrt(M) / r^1.5
     s = sign(rotation_sense)
     return s * Ω
 end
+
+mass(spacetime::FluidStarSpacetime) = spacetime.M
+
+function isco_radius(spacetime::FluidStarSpacetime, ::AbstractRotationSense) 
+    spacetime.R <= 6*spacetime.M || error(ArgumentError("The radius of the star is larger than 6M. The ISCO is not implemented."))
+    return 6 * spacetime.M
+end
+    
