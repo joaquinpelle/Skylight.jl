@@ -125,8 +125,9 @@ end
 @with_kw struct RARDisk{T} <: AbstractAccretionDisk
     inner_radius::Float64
     outer_radius::Float64
-    alpha::Float64
     M1::Float64
+    Mdot_to_MEdd::Float64
+    η::Float64
     rotation_sense::T = ProgradeRotation()
 
     @assert inner_radius>=0.0 "Inner radius must be non-negative"
@@ -137,22 +138,24 @@ end
 end
 
 function temperature(position, spacetime, model::RARDisk)
-    rd_in = model.inner_radius
+    σ = PhysicalConstants.σ
+    G = PhysicalConstants.G
+    rin = model.inner_radius
     M1 = model.M1
-    α = model.alpha
+    Mdot_to_MEdd = model.Mdot_to_MEdd
+    η = model.η
+
     r = radius(position, spacetime)
     M = mass_enclosed(r, spacetime)
     Min = mass_enclosed(rd_in, spacetime)
     dM = mass_enclosed_derivative(r, spacetime)
-    rref = CGS_to_geometrized(1e10, Dimensions.length, M1 = M1)
-    R10 = r / rref
-    m1 = M * M1
-    dm1_dR10 = dM * rref * M1
-    Mdot16 = 0.1 * 1.39e18 * 4.075e6 * m1 * 1e-16
-    f = (1.0 - (Min * rd_in / (M * r))^0.5)^0.25
-    g = (m1 / R10 + dm1_dR10)^(0.15)
-    h = (1.0 - R10 / (3 * m1) * dm1_dR10)^(-0.1)
-    T = 2.5e4 * α^(-0.2) * R10^(-0.6) * Mdot16^(0.3) * f^1.2 * m1^0.1 * g * h
+
+    rCGS = geometrized_to_CGS(r, Dimensions.length, M1 = M1)
+    MCGS = geometrized_to_CGS(M, Dimensions.mass, M1 = M1)
+    Mdot = Mdot_to_MEdd*Eddington_accretion_rate(MCGS, η)
+    f = 1-(Min*rin/(M*r))^0.5
+    g = (1-r/(3M)*dM)
+    T = (3Mdot/(8*π*σ)*G*MCGS/rCGS^3*f*g)^0.25
     return T
 end
 
@@ -201,4 +204,12 @@ function line_emission_profile(position,
     cache)
     r = radius(position, spacetime)
     return model.profile_interpolator(r)
+end
+
+function Eddington_luminosity(M)
+    return 4π*PhysicalConstants.c*PhysicalConstants.G*M*PhysicalConstants.mp/PhysicalConstants.sigma_T
+end
+
+function Eddington_accretion_rate(M, η)
+    return Eddington_luminosity(M)/(η*PhysicalConstants.c^2)
 end
