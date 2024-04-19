@@ -60,6 +60,6 @@ and $D_{ij} = [\alpha_i-\Delta \alpha/2, \alpha_i+\Delta \alpha/2] \times [\beta
 \Delta \beta = s_\beta/N_\beta \\
 1 \le i \le N_\alpha \\ 
 1 \le j \le N_\beta
-```. 
+``` 
 
 where $s_\alpha, s_\beta$ are the horizontal and vertical aperture angles respectively, and $N_\alpha$, $N_\beta$ are the numbers of pixels. The total solid angle is $\Delta \Omega = 2 \sin(s_\beta/2)s_\alpha$

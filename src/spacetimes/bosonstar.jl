@@ -1,8 +1,8 @@
 @doc raw"""
     BosonStarSpacetime <: AbstractRegularCompactObjectSpacetime
 
- [Boson star spacetime]() in spherical coordinates. It uses analyical fits. Either the
- fit parameters as described in... can be provided as vectors, or any of the symbols `:LBS1`,
+ [Boson star spacetime](https://arxiv.org/abs/2403.11540) in spherical coordinates. It uses analyical fits. Either the
+ fit parameters can be provided as vectors, or any of the symbols `:LBS1`,
  `:LBS2`, `:LBS3`, `:SBS1`, `:SBS2` or `:SBS3` as constructor arguments
 
 # Constructors
