@@ -13,6 +13,7 @@ const k_B = 1.380649e-16        #Boltzmann constant in CGS                  (exa
 const σ = 5.670374419e-5        #Stefan-Boltzmann constant in CGS           (exact*)
 const eV = 1.602176634e-12      #1eV in erg                                 (exact)
 const me = 9.109383701528e-28   #Electron mass in CGS 
+const mp = 1.6726219236951e-24  #Proton mass in CGS 
 const ce = 4.80320471257e-10    #Electron charge in esu-CGS and Gaussian-CGS (statC)   (exact*) 
 #const ce = 1.602176634e-20     #Electron charge in emu-CGS (a relic, just in case)    (exact)
 const G = 6.6743015e-8          #Newton gravitational constant in CGS
