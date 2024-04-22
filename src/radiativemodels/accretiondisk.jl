@@ -101,6 +101,14 @@ end
     Mdot_to_MEdd::Float64
     η::Float64
     rotation_sense::T = ProgradeRotation()
+
+    @assert inner_radius>=0.0 "Inner radius must be non-negative"
+    @assert outer_radius>=inner_radius "Outer radius must be larger than inner radius"
+    @assert isa(rotation_sense, AbstractRotationSense) "Rotation sense must be either ProgradeRotation() or RetrogradeRotation()"
+    @assert M1>0.0 "M1 must be positive"
+    @assert Mdot_to_MEdd>0.0 "Mdot_to_MEdd must be positive"
+    @assert η>0.0 "η must be positive"
+    @assert η<=1.0 "η must be less than or equal to 1"
 end
 
 function temperature(position, spacetime, model::ShakuraSunyaevDisk)
@@ -133,8 +141,10 @@ end
     @assert inner_radius>=0.0 "Inner radius must be non-negative"
     @assert outer_radius>=inner_radius "Outer radius must be larger than inner radius"
     @assert isa(rotation_sense, AbstractRotationSense) "Rotation sense must be either ProgradeRotation() or RetrogradeRotation()"
-    @assert alpha>0.0 "Alpha must be positive"
     @assert M1>0.0 "M1 must be positive"
+    @assert Mdot_to_MEdd>0.0 "Mdot_to_MEdd must be positive"
+    @assert η>0.0 "η must be positive"
+    @assert η<=1.0 "η must be less than or equal to 1"
 end
 
 function temperature(position, spacetime, model::RARDisk)
@@ -147,7 +157,7 @@ function temperature(position, spacetime, model::RARDisk)
 
     r = radius(position, spacetime)
     M = mass_enclosed(r, spacetime)
-    Min = mass_enclosed(rd_in, spacetime)
+    Min = mass_enclosed(rin, spacetime)
     dM = mass_enclosed_derivative(r, spacetime)
 
     rCGS = geometrized_to_CGS(r, Dimensions.length, M1 = M1)
