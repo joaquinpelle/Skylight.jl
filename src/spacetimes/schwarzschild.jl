@@ -258,6 +258,7 @@ end
 #Common definitions
 
 mass(spacetime::AbstractSchwarzschildSpacetime) = spacetime.M
+spin(spacetime::AbstractSchwarzschildSpacetime) = 0.0
 event_horizon_radius(spacetime::AbstractSchwarzschildSpacetime) = 2 * spacetime.M
 isco_radius(spacetime::AbstractSchwarzschildSpacetime, ::AbstractRotationSense) = 6 * spacetime.M
 

@@ -75,6 +75,9 @@ function horizons(spacetime::FRKerrSpacetime)
     return Real.(rxi)
 end
 
+mass(spacetime::FRKerrSpacetime) = spacetime.M
+spin(spacetime::FRKerrSpacetime) = spacetime.a
+
 function event_horizon_radius(spacetime::FRKerrSpacetime)
     #The horizon parameter is undefined for R0=0, so we use Kerr in that case
     if spacetime.R0 == 0.0

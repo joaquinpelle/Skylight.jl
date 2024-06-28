@@ -29,6 +29,9 @@ end
 stationarity(::JohannsenSpacetime) = IsStationary()
 axial_symmetry(::JohannsenSpacetime) = IsAxiallySymmetric()
 
+mass(spacetime::JohannsenSpacetime) = spacetime.M
+spin(spacetime::JohannsenSpacetime) = spacetime.a
+
 function event_horizon_radius(spacetime::JohannsenSpacetime)
     spacetime.M * (1 + sqrt(1 - spacetime.a^2))
 end
