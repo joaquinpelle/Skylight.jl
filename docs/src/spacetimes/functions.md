@@ -1,5 +1,6 @@
 # Geometric functions
 
+### Allocating methods
 ```@docs
 metric(position::AbstractVector, spacetime::AbstractSpacetime)
 metric_inverse(position::AbstractVector, spacetime::AbstractSpacetime)
@@ -8,7 +9,7 @@ christoffel(position::AbstractVector, spacetime::AbstractSpacetime)
 ```
 
 ### Non-allocating methods
-For non-allocating versions to be used within tight loops, use the following methods 
+For functions called within tight loops, we suggest to use the following non-allocating methods 
 ```@docs
 metric!(metric::AbstractMatrix, position::AbstractVector, spacetime::AbstractSpacetime, cache::Union{Nothing, AbstractSpacetimeCache})
 metric_inverse!(metric::AbstractMatrix, position::AbstractVector, spacetime::AbstractSpacetime, g::AbstractMatrix, cache::Union{Nothing, AbstractSpacetimeCache})
