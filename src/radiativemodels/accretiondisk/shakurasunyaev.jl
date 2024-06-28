@@ -11,8 +11,7 @@
     @assert isa(rotation_sense, AbstractRotationSense) "Rotation sense must be either ProgradeRotation() or RetrogradeRotation()"
     @assert M1>0.0 "M1 must be positive"
     @assert Mdot_to_MEdd>0.0 "Mdot_to_MEdd must be positive"
-    @assert η>0.0 "η must be positive"
-    @assert η<=1.0 "η must be less than or equal to 1"
+    @assert 0.0<η<=1.0 "η must be in the range (0,1]"
 end
 
 function temperature(position, spacetime, model::ShakuraSunyaevDisk)
