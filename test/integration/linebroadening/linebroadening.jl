@@ -17,7 +17,7 @@ function test_line_broadening(figname, rotation_sense)
         vertical_number_of_pixels = 120)
 
     rISCO = isco_radius(spacetime, rotation_sense)
-    model = NovikovThorneDisk(inner_radius = rISCO,
+    model = DummyDisk(inner_radius = rISCO,
         outer_radius = 15.0,
         rotation_sense = rotation_sense)
 

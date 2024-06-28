@@ -51,7 +51,7 @@ using Skylight, Test
     end
 
     @testset "Black hole accretion disk" begin
-        model = NovikovThorneDisk(inner_radius = 6.0, outer_radius = 15.0)
+        model = DummyDisk(inner_radius = 6.0, outer_radius = 15.0)
 
         configurations = VacuumOTEConfigurations(spacetime = spacetime,
             camera = camera,

@@ -6,7 +6,7 @@ using CairoMakie
 using Printf
 
 spacetime = KerrSpacetimeBoyerLindquistCoordinates(M=1.0, a=0.0)
-disk = NovikovThorneDisk(inner_radius = isco_radius(spacetime, ProgradeRotation()), outer_radius = 100.0)
+disk = DummyDisk(inner_radius = isco_radius(spacetime, ProgradeRotation()), outer_radius = 100.0)
 corona = LamppostCorona(height=height, theta_offset=1e-5, spectral_index = 2.0)
 configurations = VacuumETOConfigurations(spacetime=spacetime,
                                 radiative_model = corona,

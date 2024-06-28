@@ -9,7 +9,7 @@ function time_intensities(; N, tasks_per_thread)
         vertical_side = 20.0,
         horizontal_number_of_pixels = N,
         vertical_number_of_pixels = N)
-    model = NovikovThorneDisk(inner_radius = 6.0, outer_radius = 18.0)
+    model = DummyDisk(inner_radius = 6.0, outer_radius = 18.0)
     configurations = VacuumOTEConfigurations(spacetime = spacetime,
         camera = camera,
         radiative_model = model,
@@ -53,7 +53,7 @@ function test_intensities(; N, tasks_per_thread)
         vertical_side = 20.0,
         horizontal_number_of_pixels = N,
         vertical_number_of_pixels = N)
-    model = NovikovThorneDisk(inner_radius = 6.0, outer_radius = 18.0)
+    model = DummyDisk(inner_radius = 6.0, outer_radius = 18.0)
     configurations = VacuumOTEConfigurations(spacetime = spacetime,
         camera = camera,
         radiative_model = model,
@@ -90,7 +90,7 @@ function btime_intensities(; N, tasks_per_thread)
         vertical_side = 20.0,
         horizontal_number_of_pixels = N,
         vertical_number_of_pixels = N)
-    model = NovikovThorneDisk(inner_radius = 6.0, outer_radius = 18.0)
+    model = DummyDisk(inner_radius = 6.0, outer_radius = 18.0)
     configurations = VacuumOTEConfigurations(spacetime = spacetime,
         camera = camera,
         radiative_model = model,
