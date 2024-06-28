@@ -24,10 +24,13 @@ end
 @doc raw"""
     RARSpacetime <: AbstractRegularCompactObjectSpacetime
 
-Ruffini-Arguelles-Rueda spacetime for dark-matter galactic core-halo. The spacetime is constructed
-by interpolating the data files in a given directory. The numerical data must include the $r$, $g_{tt}$,
-$g_{rr}$, $\partial_r \nu$, $M(r)$ and $\partial_r M$ as columns in that order. The data must be in geometrized 
-units.
+Spacetimes for Ruffini-Arguelles-Rueda dark matter distributions. The spacetime is constructed
+by interpolating given data files. The numerical data must include the $g_{tt}$,
+$g_{rr}$, $\partial_r \nu$, $M(r)$ and $\partial_r M$ as two-column ($r$-value) files named `gtt.txt`, `grr.txt`,
+`dnu.txt`, `M.txt` and `dM.txt`, respectively. Here $\nu = \log(-g_{tt})$, notice that $d\nu/dr$ can be extracted
+directly from the right-hand side of the RAR equilibrium equations, to avoid unnecessary numerical errors. 
+
+The data must be in geometrized units.
 
 # Constructor
 ```
