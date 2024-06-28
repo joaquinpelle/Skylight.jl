@@ -7,6 +7,10 @@ end
     metric!(g::AbstractMatrix, position::AbstractVector, spacetime::AbstractSpacetime, cache::Union{Nothing, AbstractSpacetimeCache})
 
 Evaluate the spacetime metric at the given position and store the result in `g` using `cache` for temporary storage.  
+
+The cache should be preallocated as `cache = allocate_cache(spacetime)`.
+
+See also [`allocate_cache`](@ref). 
 """
 metric!(g, position, spacetime, cache) = error("Metric not defined for this spacetime.")
 
