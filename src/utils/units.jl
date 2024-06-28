@@ -2,26 +2,26 @@
 @kwdispatch CGS_to_geometrized
 
 @kwmethod function geometrized_to_CGS(magnitude, dim; M1::Number)
-    magnitude * geometrized_unit_magnitude_in_CGS(dim; M1 = M1)
+    magnitude * geometrized_unitary_magnitude_in_CGS(dim; M1 = M1)
 end
 @kwmethod function CGS_to_geometrized(magnitude, dim; M1::Number)
-    magnitude / geometrized_unit_magnitude_in_CGS(dim; M1 = M1)
+    magnitude / geometrized_unitary_magnitude_in_CGS(dim; M1 = M1)
 end
 
 @kwmethod function geometrized_to_CGS(magnitude,
     dim,
     configurations::AbstractConfigurations;)
     magnitude *
-    geometrized_unit_magnitude_in_CGS(dim; M1 = configurations.unit_mass_in_solar_masses)
+    geometrized_unitary_magnitude_in_CGS(dim; M1 = configurations.unit_mass_in_solar_masses)
 end
 @kwmethod function CGS_to_geometrized(magnitude,
     dim,
     configurations::AbstractConfigurations;)
     magnitude /
-    geometrized_unit_magnitude_in_CGS(dim; M1 = configurations.unit_mass_in_solar_masses)
+    geometrized_unitary_magnitude_in_CGS(dim; M1 = configurations.unit_mass_in_solar_masses)
 end
 
-function geometrized_unit_magnitude_in_CGS(dim; M1)
+function geometrized_unitary_magnitude_in_CGS(dim; M1)
     #Returns the value in CGS of the geometrized system unit of dimension dim
     #M1 is the chosen unit mass in solar masses 
 
