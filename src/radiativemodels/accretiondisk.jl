@@ -238,7 +238,7 @@ function line_emission_profile(position,
 end
 
 function Eddington_luminosity(M)
-    return 4π*PhysicalConstants.c*PhysicalConstants.G*M*PhysicalConstants.mp/PhysicalConstants.sigma_T
+    return  PhysicalConstants.LEdd_sun*(M/PhysicalConstants.M_sun) 
 end
 
 function Eddington_accretion_rate(M, η)
