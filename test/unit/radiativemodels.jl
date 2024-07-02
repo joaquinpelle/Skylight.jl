@@ -1,14 +1,13 @@
 using Skylight, Test
 
-@testset "Synthetic polar cap" begin
-    model = SyntheticPolarCap(star_radius = 5.0,
-        angular_speed = 0.05,
-        misalignment_angle_in_degrees = 90,
-        angular_radius_in_degrees = 60,
-        temperature = rand())
-
-    @test model.misalignment_angle_in_radians ≈ π / 2
-    @test model.angular_radius_in_radians ≈ π / 3
+@testset "Circular hot spot" begin
+    model = CircularHotSpot(
+        star_radius_in_km = 12.0,
+        angular_speed_in_Hz = 200,
+        center_colatitude_in_degrees = 30.0,
+        angular_radius_in_radians = 1.0,
+        M1 = 1.4,
+        temperature_in_keV = 0.35)
 
     spacetime = MinkowskiSpacetimeCartesianCoordinates()
     coords_top = CartesianTopology()

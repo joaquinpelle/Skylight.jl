@@ -9,7 +9,7 @@ camera = ImagePlane(distance = 500.0,
     horizontal_number_of_pixels = 50,
     vertical_number_of_pixels = 50)
 
-model = SyntheticPolarCap(number_of_points = 10,
+model = CircularHotSpot(number_of_points = 10,
     star_radius = 5.0,
     angular_speed = 0.05,
     misalignment_angle_in_degrees = 90,

@@ -57,7 +57,7 @@ Skylight.LamppostCorona
 ### Synthetic polar cap
 
 ```@docs
-Skylight.SyntheticPolarCap
+Skylight.CircularHotSpot
 ```
 
 ### Star across traversable wormhole

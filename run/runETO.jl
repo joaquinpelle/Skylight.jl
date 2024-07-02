@@ -2,7 +2,7 @@ using Skylight
 
 spacetime = KerrSpacetimeKerrSchildCoordinates(M = 1.0, a = 0.9)
 
-model = SyntheticPolarCap(star_radius = 5.0,
+model = CircularHotSpot(star_radius = 5.0,
     angular_speed = 0.05,
     misalignment_angle_in_degrees = 90,
     angular_radius_in_degrees = 60,

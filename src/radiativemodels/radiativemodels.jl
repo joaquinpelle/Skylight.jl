@@ -80,7 +80,7 @@ include("radiativeprocesses/bremsstrahlung.jl")
 include("radiativeprocesses/synchrotron.jl")
 
 include("accretiondisk/accretiondisk.jl")
-include("syntheticpolarcap.jl")
+include("circularhotspot.jl")
 include("onionhotspots.jl")
 include("staracrosswormhole.jl")
 include("verticalscreen.jl")

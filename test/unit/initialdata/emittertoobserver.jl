@@ -22,11 +22,13 @@ using Skylight
             @test sum(kμ[2:4, i] .* kμ[2:4, i]) ≈ 1.0
         end
 
-        model = SyntheticPolarCap(star_radius = 5.0,
-            angular_speed = 0.05,
-            misalignment_angle_in_degrees = 90,
-            angular_radius_in_degrees = 60,
-            temperature = rand())
+        model = CircularHotSpot(
+            star_radius_in_km = 1e-5*geometrized_to_CGS(5.0, Dimensions.length, M1 = 1.4),
+            angular_speed_in_Hz = geometrized_to_CGS(0.05, Dimensions.frequency, M1 = 1.4),
+            center_colatitude_in_degrees = 90.0,
+            angular_radius_in_radians = deg2rad(60.0),
+            M1 = 1.4,
+            temperature_in_keV = 0.35)
 
         trait = opaque_interior_surface_trait(model)
         Skylight.packets_unit_random_triad_components!(kμ, trait)
@@ -41,11 +43,13 @@ end
 
 @testset "Set position and momenta" begin
     spacetime = MinkowskiSpacetimeCartesianCoordinates()
-    model = SyntheticPolarCap(star_radius = 5.0,
-        angular_speed = 0.05,
-        misalignment_angle_in_degrees = 90,
-        angular_radius_in_degrees = 60,
-        temperature = rand())
+    model = CircularHotSpot(
+        star_radius_in_km = 1e-5*geometrized_to_CGS(5.0, Dimensions.length, M1 = 1.4),
+        angular_speed_in_Hz = geometrized_to_CGS(0.05, Dimensions.frequency, M1 = 1.4),
+        center_colatitude_in_degrees = 90.0,
+        angular_radius_in_radians = deg2rad(60.0),
+        M1 = 1.4,
+        temperature_in_keV = 0.35)
     configurations = VacuumETOConfigurations(spacetime = spacetime,
         radiative_model = model,
         number_of_points = 10,
@@ -93,11 +97,13 @@ end
 
 @testset "Get initial positions" begin
     spacetime = MinkowskiSpacetimeCartesianCoordinates()
-    model = SyntheticPolarCap(star_radius = 5.0,
-        angular_speed = 0.05,
-        misalignment_angle_in_degrees = 90,
-        angular_radius_in_degrees = 60,
-        temperature = rand())
+    model = CircularHotSpot(
+        star_radius_in_km = 1e-5*geometrized_to_CGS(5.0, Dimensions.length, M1 = 1.4),
+        angular_speed_in_Hz = geometrized_to_CGS(0.05, Dimensions.frequency, M1 = 1.4),
+        center_colatitude_in_degrees = 90.0,
+        angular_radius_in_radians = deg2rad(60.0),
+        M1 = 1.4,
+        temperature_in_keV = 0.35)
     configurations = VacuumETOConfigurations(spacetime = spacetime,
         radiative_model = model,
         number_of_points = 3,
@@ -129,11 +135,13 @@ end
 
 @testset "Packets at position" begin
     spacetime = MinkowskiSpacetimeCartesianCoordinates()
-    model = SyntheticPolarCap(star_radius = 5.0,
-        angular_speed = 0.05,
-        misalignment_angle_in_degrees = 90,
-        angular_radius_in_degrees = 60,
-        temperature = rand())
+    model = CircularHotSpot(
+        star_radius_in_km = 1e-5*geometrized_to_CGS(5.0, Dimensions.length, M1 = 1.4),
+        angular_speed_in_Hz = geometrized_to_CGS(0.05, Dimensions.frequency, M1 = 1.4),
+        center_colatitude_in_degrees = 90.0,
+        angular_radius_in_radians = deg2rad(60.0),
+        M1 = 1.4,
+        temperature_in_keV = 0.35)
 
     configurations = VacuumETOConfigurations(spacetime = spacetime,
         radiative_model = model,
@@ -170,11 +178,13 @@ end
 
 @testset "Initialization" begin
     spacetime = MinkowskiSpacetimeCartesianCoordinates()
-    model = SyntheticPolarCap(star_radius = 5.0,
-        angular_speed = 0.05,
-        misalignment_angle_in_degrees = 90,
-        angular_radius_in_degrees = 60,
-        temperature = rand())
+    model = CircularHotSpot(
+        star_radius_in_km = 1e-5*geometrized_to_CGS(5.0, Dimensions.length, M1 = 1.4),
+        angular_speed_in_Hz = geometrized_to_CGS(0.05, Dimensions.frequency, M1 = 1.4),
+        center_colatitude_in_degrees = 90.0,
+        angular_radius_in_radians = deg2rad(60.0),
+        M1 = 1.4,
+        temperature_in_keV = 0.35)
     configurations = VacuumETOConfigurations(spacetime = spacetime,
         radiative_model = model,
         number_of_points = 4,

@@ -1,4 +1,4 @@
-function callback_parameters(::AbstractSpacetime, model::SyntheticPolarCap, configurations)
+function callback_parameters(::AbstractSpacetime, model::CircularHotSpot, configurations)
     rmin = model.star_radius
     rmax = max_radius(configurations)
     return NeutronStarHotSpotsCallbackParameters(rmin = rmin, rmax = rmax)
@@ -11,10 +11,10 @@ end
     @assert rmax>rmin "rmax must be larger than rmin"
 end
 
-function callback(::AbstractSpacetime, ::SyntheticPolarCap, ::CartesianTopology)
+function callback(::AbstractSpacetime, ::CircularHotSpot, ::CartesianTopology)
     star_cartesian_coordinates_callback()
 end
-function callback(::AbstractSpacetime, ::SyntheticPolarCap, ::SphericalTopology)
+function callback(::AbstractSpacetime, ::CircularHotSpot, ::SphericalTopology)
     star_spherical_coordinates_callback()
 end
 
