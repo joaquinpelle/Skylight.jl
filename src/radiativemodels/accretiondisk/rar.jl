@@ -1,7 +1,7 @@
 @doc raw"""
     RARDisk <: AbstractAccretionDisk
 
-RAR extension of the Shakura & Sunyaev geometrically thin, optically thick accretion disk model. See [Millauro et al. (2024)](https://www.aanda.org/articles/aa/abs/2024/05/aa48461-23/aa48461-23.html)
+RAR extension of the Shakura & Sunyaev geometrically thin, optically thick accretion disk model. See [Millauro et al. (2024)](https://www.aanda.org/articles/aa/abs/2024/05/aa48461-23/aa48461-23.html).
 
 # Fields
 - `inner_radius::Float64`: The inner of the accretion disk. Must be larger than or equal to zero.

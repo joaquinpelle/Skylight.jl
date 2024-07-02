@@ -15,8 +15,7 @@ makedocs(
             ],
         "Radiative models" => [
             "Catalogue" => "radiativemodels/catalogue.md",
-            "Radiative processes" => "radiativemodels/radiativeprocesses.md",
-            "Functions" => "radiativemodels/functions.md",
+            "Radiative functions" => "radiativemodels/functions.md",
         ],
         "Configurations" => "configurations/configurations.md",
         "Initial data" => [

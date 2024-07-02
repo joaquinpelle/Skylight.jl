@@ -1,7 +1,7 @@
 """
     LamppostCorona <: AbstractCorona
 
-Lamppost corona model as described in [Dauser et al. (2013)](https://academic.oup.com/mnras/article/430/3/1694/978006)).
+Lamppost corona model as described in [Dauser et al. (2013)](https://academic.oup.com/mnras/article/430/3/1694/978006).
 
 # Fields
 - `height::Float64`: The height of the lamppost corona. 
@@ -13,7 +13,6 @@ Lamppost corona model as described in [Dauser et al. (2013)](https://academic.ou
 corona = LamppostCorona(height=2.5, spectral_index = 2.0)
 ```
 """
-https://academic.oup.com/mnras/article/430/3/1694/978006
 @with_kw struct LamppostCorona <: AbstractCorona
     height::Float64
     theta_offset::Float64 = 1e-8

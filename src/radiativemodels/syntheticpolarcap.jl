@@ -19,6 +19,7 @@ polar_cap = SyntheticPolarCap(
     angular_radius_in_degrees = 5.0,
     temperature = 1e6
 )
+```
 """
 @with_kw struct SyntheticPolarCap <: AbstractSurfaceEmissionModel
     star_radius::Float64
