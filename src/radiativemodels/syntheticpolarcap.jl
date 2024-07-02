@@ -1,3 +1,25 @@
+"""
+    SyntheticPolarCap <: AbstractSurfaceEmissionModel
+
+Synthetic polar cap on the surface of a neutron star.
+
+# Fields
+- `star_radius::Float64`: The radius of the star (in code units). Must be positive.
+- `angular_speed::Float64`: The angular speed of the star (in code units). Must be non-zero.
+- `misalignment_angle_in_degrees::Float64`: The misalignment angle between the polar cap axis and the rotational axis, in degrees. Must be in the range [0, 90].
+- `angular_radius_in_degrees::Float64`: The angular radius of the polar cap, in degrees. Must be positive.
+- `temperature::Float64`: The temperature of the polar cap. Must be positive.
+
+# Examples
+```julia
+polar_cap = SyntheticPolarCap(
+    star_radius = 5.0,
+    angular_speed = 0.05,
+    misalignment_angle_in_degrees = 30.0,
+    angular_radius_in_degrees = 5.0,
+    temperature = 1e6
+)
+"""
 @with_kw struct SyntheticPolarCap <: AbstractSurfaceEmissionModel
     star_radius::Float64
     angular_speed::Float64

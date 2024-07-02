@@ -1,7 +1,29 @@
 """
-Ion torus model from https://www.aanda.org/articles/aa/abs/2012/07/aa19209-12/aa19209-12.html
-"""
+    IonTorus <: AbstractRadiativeModel
 
+Geometrically thick, optically thin ion torus model with synchrotron and bremsstahlung emission as described in [Straub et al. (2012)](https://www.aanda.org/articles/aa/abs/2012/07/aa19209-12/aa19209-12.html).
+
+# Fields
+-`λ::Float64`: Specific angular momentum dimensionless parameter
+-`ϵc::Float64`: Central energy density in CGS
+-`n::Float64`: Polytropic index
+-`Tec::Float64`: Central electron temperature in Kelvin
+-`ξ::Float64`: Electron to proton temperature ratio at the center
+-`β::Float64`: Equipartition factor
+-`H_abundance::Float64`: Hydrogen abundance
+-`He_abundance::Float64`: Helium abundance
+-`rotation_sense::R`: Sense of rotation of the torus, which can be either `ProgradeRotation()` or `RetrogradeRotation()`
+-`radiative_process::P`: Radiative process, which can be either `Bremsstrahlung()`, `Synchrotron()` or `SynchrotronAndBremsstrahlung()`
+
+# Constructor
+```julia
+spacetime = KerrSpacetimeBoyerLindquistCoordinates(M = 1.0, a = 0.7)
+IonTorus = IonTorus(spacetime; λ::Float64 = 0.3, ϵc::Float64 = 1e-17, n::Float64 = 3 / 2, Tec::Float64 = 2e9, ξ::Float64 = 0.1, β::Float64 = 0.1, H_abundance::Float64 = 0.75, He_abundance::Float64 = 0.25, rotation_sense::R = ProgradeRotation(), radiative_process::P = Bremsstrahlung())
+
+# Note
+Synchrotron self-absorption is not implemented yet.
+```
+"""
 @with_kw mutable struct IonTorus{R, P} <: AbstractRadiativeModel
     λ::Float64 = 0.3 #Specific angular momentum dimensionless parameter
     ϵc::Float64 = 1e-17 #Central energy density in CGS
@@ -206,7 +228,6 @@ function number_densities_electron_temperature_and_magnetic_field(ω::Real, mode
     return ne, ni, Te, B
 end
 
-#TODO evaluate doing inside source in equations.jl
 function rest_frame_four_velocity!(vector,
     position,
     metric,
@@ -224,6 +245,7 @@ function rest_frame_four_velocity!(vector,
         static_four_velocity_allowing_spacelike!(vector, metric))
 end
 
+#TODO implement synchrotron self-absorption
 function rest_frame_absorptivity!(αε,
     position,
     ε,
