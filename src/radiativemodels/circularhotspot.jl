@@ -46,6 +46,14 @@ end
 opaque_interior_surface_trait(::CircularHotSpot) = IsOpaqueInteriorSurface()
 stationarity(::CircularHotSpot) = IsStationary()
 
+function surface_differential!(covector, position, ::CircularHotSpot, ::SphericalTopology)
+    covector[1] = 0.0
+    covector[2] = 1.0
+    covector[3] = 0.0
+    covector[4] = 0.0
+    return nothing
+end
+
 function surface_differential!(covector, position, ::CircularHotSpot, ::CartesianTopology)
     @views begin
         x = position[2]
