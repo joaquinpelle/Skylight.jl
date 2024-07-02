@@ -18,6 +18,8 @@ metric!(g, position, spacetime, cache) = error("Metric not defined for this spac
     allocate_cache(spacetime::AbstractSpacetime)
 
 Allocate a cache object for the given spacetime. The cache object is used to store temporary data in spacetime-related calculations.
+
+See also [`metric!`](@ref). 
 """
 allocate_cache(::AbstractSpacetime) = nothing
 
