@@ -8,7 +8,6 @@
     @assert isa(rotation_sense, AbstractRotationSense) "Rotation sense must be either ProgradeRotation() or RetrogradeRotation()"
 end
 
-#Dummy function to be defined later
 function temperature(position, spacetime, ::DummyDisk)
     r = radius(position, spacetime)
     return 1.5e-8 * (1.0 - 2.0 / r)^(0.25)
