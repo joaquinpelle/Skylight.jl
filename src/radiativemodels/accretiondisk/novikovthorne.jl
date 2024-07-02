@@ -1,3 +1,4 @@
+# Note that this is only valid for Kerr Spacetime
 @with_kw struct NovikovThorneDisk{T} <: AbstractAccretionDisk
     inner_radius::Float64
     outer_radius::Float64
@@ -14,16 +15,18 @@
     @assert 0.0<η<=1.0 "η must be in the range (0,1]"
 end
 
-function temperature(position, spacetime::AbstractKerrSpacetime, model::NovikovThorneDisk)
+function temperature(position, 
+    spacetime::Union{AbstractSchwarzschildSpacetime,AbstractKerrSpacetime}, 
+    model::NovikovThorneDisk)
+    c2 = PhysicalConstants.c2
     M1 = model.M1
     Mdot_to_MEdd = model.Mdot_to_MEdd
     η = model.η
-    c2 = PhysicalConstants.c2
 
     r = radius(position, spacetime)
     M = mass(spacetime)
     a = spin(spacetime)
-    χ = a / M
+    χ = a/M
     risco = innermost_circular_orbit_radius(spacetime, model.rotation_sense)
 
     rCGS = geometrized_to_CGS(r, Dimensions.length, M1 = M1)
