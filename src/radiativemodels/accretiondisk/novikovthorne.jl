@@ -1,4 +1,23 @@
-# Note that this is only valid for Kerr Spacetime
+@doc raw"""
+    NovikovThorneDisk <: AbstractAccretionDisk
+
+Novikov & Thorne geometrically thin, optically thick accretion disk model around a Schwarzschild/Kerr black hole.
+
+# Fields
+- `inner_radius::Float64`: The inner radius of the accretion disk. Must be larger than or equal to zero.
+- `outer_radius::Float64`: The outer radius of the accretion disk. Must be larger than or equal to `inner_radius`.
+- `M1::Float64`: The unitary mass in solar masses. Must be positive.
+- `Mdot_to_MEdd::Float64`: The accretion rate in units of the Eddington accretion rate. Must be positive.
+- `η::Float64`: The radiative efficiency of the disk, which must be in the range (0, 1].
+- `rotation_sense::AbstractRotationSense`: The sense of rotation of the disk, which can be either `ProgradeRotation()` or `RetrogradeRotation()`. Default is `ProgradeRotation()`.
+
+# Examples
+```julia
+spacetime = KerrSpacetimeBoyerLindquistCoordinates(M=1.0, a=0.5)
+risco = innermost_circular_orbit_radius(spacetime, ProgradeRotation())
+disk = NovikovThorneDisk(inner_radius = risco, outer_radius=1000.0, M1=1e7, Mdot_to_MEdd=0.1, η=0.1)
+```
+"""
 @with_kw struct NovikovThorneDisk{T} <: AbstractAccretionDisk
     inner_radius::Float64
     outer_radius::Float64
