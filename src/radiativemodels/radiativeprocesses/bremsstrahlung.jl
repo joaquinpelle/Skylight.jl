@@ -1,5 +1,4 @@
 """CGS units. Functions taken from Straub et al (2012), but jε instead of jν"""
-
 function bremsstrahlung_Fei(θe)
     return ifelse(θe < 1,
         4(2θe / π^3)^0.5 * (1 + 1.781θe^1.34),

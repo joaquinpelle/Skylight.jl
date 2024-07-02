@@ -1,7 +1,7 @@
 """
     IonTorus <: AbstractRadiativeModel
 
-Geometrically thick, optically thin ion torus model with synchrotron and bremsstahlung emission as described in [Straub et al. (2012)](https://www.aanda.org/articles/aa/abs/2012/07/aa19209-12/aa19209-12.html).
+Geometrically thick, optically thin ion torus model with synchrotron and bremsstahlung emission ([Straub et al. 2012](https://www.aanda.org/articles/aa/abs/2012/07/aa19209-12/aa19209-12.html)).
 
 # Fields
 -`λ::Float64`: Specific angular momentum dimensionless parameter
