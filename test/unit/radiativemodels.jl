@@ -2,10 +2,10 @@ using Skylight, Test
 
 @testset "Circular hot spot" begin
     model = CircularHotSpot(
-        star_radius_in_km = 12.0,
-        angular_speed_in_Hz = 200,
-        center_colatitude_in_degrees = 30.0,
-        angular_radius_in_radians = 1.0,
+        star_radius_in_km = 1e-5*geometrized_to_CGS(5.0, Dimensions.length, M1 = 1.4),
+        angular_speed_in_Hz = geometrized_to_CGS(0.05, Dimensions.frequency, M1 = 1.4),
+        center_colatitude_in_degrees = 90.0,
+        angular_radius_in_radians = deg2rad(60.0),
         M1 = 1.4,
         temperature_in_keV = 0.35)
 

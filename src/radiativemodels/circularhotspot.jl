@@ -32,7 +32,7 @@ hot_spot = CircularHotSpot(
     star_radius::Float64 = CGS_to_geometrized(1e5*star_radius_in_km, Dimensions.length; M1 = M1)
     angular_speed::Float64 = CGS_to_geometrized(angular_speed_in_Hz, Dimensions.frequency; M1 = M1)
     angular_radius_in_degrees::Float64 = rad2deg(angular_radius_in_radians)
-    center_colatitude_in_radians::Float64 = deg2rad(center_colatitude_in_radians)
+    center_colatitude_in_radians::Float64 = deg2rad(center_colatitude_in_degrees)
     temperature::Float64 = keV_to_K(temperature_in_keV)
 
     @assert star_radius>0.0 "star_radius must be positive"
