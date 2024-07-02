@@ -2,9 +2,9 @@ include("dummy.jl")
 include("shakurasunyaev.jl")
 include("novikovthorne.jl")
 include("rar.jl")
+include("tabulatedtemperature.jl")
 include("flatlamppostprofile.jl")
 include("tabulatedprofile.jl")
-include("tabulatedtemperature.jl")
 
 function surface_differential!(covector,
     position,

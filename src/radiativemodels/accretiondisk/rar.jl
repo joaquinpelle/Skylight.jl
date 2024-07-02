@@ -42,7 +42,7 @@ function line_emission_profile(position,
     rest_frame_four_velocity,
     metric,
     spacetime,
-    model::RARDisk,
+    ::RARDisk,
     coords_top,
     cache)
     r = radius(position, spacetime)
