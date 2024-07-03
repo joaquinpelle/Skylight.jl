@@ -1,13 +1,4 @@
-function postprocess_init(initial_data::AbstractMatrix,
-    output_data::AbstractMatrix,
-    ::VacuumETOConfigurations,
-    observation_energies::AbstractVector)
-    nrays = size(initial_data, 2)
-    NE = length(observation_energies)
-    array = zeros(NE, nrays)
-    return array
-end
-
+#TODO name and export
 function specific_flux_skymap(initial_data::AbstractMatrix,
     output_data::AbstractMatrix,
     configurations::VacuumETOConfigurations,
@@ -35,7 +26,7 @@ function specific_flux_skymap(initial_data::AbstractMatrix,
     tasks = map(Iterators.partition(itr, chunk_size)) do chunk
         @spawn begin
             # Initialize an array to hold the sum of `q` values in each bin
-            Fsums = zeros(eltype(q), length(observation_energies), length(θbins)-1, length(ϕbins)-1)
+            Fsums = zeros(length(observation_energies), length(θbins)-1, length(ϕbins)-1)
             for i in chunk
                 @views begin
                     pi = initial_data[1:4, i]
@@ -57,13 +48,14 @@ function specific_flux_skymap(initial_data::AbstractMatrix,
                     Fvalue = observation_energy*photon_package_weight(pi, ki, Eem, spacetime, model, coords_top)
                     Fsums[j, θbin_index, ϕbin_index] += Fvalue
                 end
+            end
             return Fsums
         end
     end
     fetched_results = fetch.(tasks)
 
     # Initialize an array to hold the sum of `q` values in each bin
-    Fsums_total = zeros(eltype(q), length(observation_energies), length(θbins)-1, length(ϕbins)-1)
+    Fsums_total = zeros(length(observation_energies), length(θbins)-1, length(ϕbins)-1)
     # Perform element-wise summation
     for result in fetched_results
         qsums_total .+= result

@@ -1,12 +1,14 @@
 using Skylight
 
-spacetime = KerrSpacetimeKerrSchildCoordinates(M = 1.0, a = 0.9)
+spacetime = SchwarzschildSpacetimeSphericalCoordinates(M = 1.0)
 
-model = CircularHotSpot(star_radius = 5.0,
-    angular_speed = 0.05,
-    misalignment_angle_in_degrees = 90,
-    angular_radius_in_degrees = 60,
-    temperature = 1.0)
+model = CircularHotSpot(
+    star_radius_in_km = 12,
+    angular_speed_in_Hz = 200,
+    center_colatitude_in_degrees = 90.0,
+    angular_radius_in_radians = 1,
+    M1 = 1.4,
+    temperature_in_keV = 0.35)
 
 configurations = VacuumETOConfigurations(spacetime = spacetime,
     radiative_model = model,
@@ -25,4 +27,5 @@ run = integrate(initial_data,
     method = VCABM(),
     reltol = 1e-13,
     abstol = 1e-21)
-output_data = output_data(run)
+
+output_data = run.output_data

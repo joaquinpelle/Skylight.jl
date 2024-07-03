@@ -89,6 +89,14 @@ function space_positions(npoints, spacetime, model::CircularHotSpot, coords_top:
     return space_pos
 end
 
+function space_positions(npoints, spacetime, model::CircularHotSpot, ::SphericalTopology, cache)
+    space_pos = space_positions(npoints, spacetime, model, CartesianTopology(), cache)
+    for v in eachcol(space_pos)
+        v .= spherical_from_cartesian(v)
+    end
+    return space_pos
+end
+
 function photon_package_weight(position, momentum, emitted_energy, spacetime, model::CircularHotSpot, coords_top)
     Iem = rest_frame_specific_intensity(position, momentum, emitted_energy, nothing, nothing, spacetime, model, coords_top)
     return Iem / emitted_energy^3
@@ -103,4 +111,8 @@ function rest_frame_specific_intensity(position,
     model::CircularHotSpot, 
     coords_top)
     return thermal_emission_specific_intensity(energy, model.temperature)
+end
+
+function system_period(model::CircularHotSpot)
+    return 2π / model.angular_speed
 end
