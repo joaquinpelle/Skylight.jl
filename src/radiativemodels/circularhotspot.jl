@@ -5,7 +5,7 @@ Circular hot spot on the surface of a neutron star.
 
 # Fields
 - `star_radius_in_km::Float64`: The radius of the star in km. Must be positive.
-- `angular_speed_in_Hz::Float64`: The angular speed of the star in Hz. Must be non-zero.
+- `spin_frequency_in_Hz::Float64`: The angular speed of the star in Hz. Must be non-zero.
 - `center_colatitude_in_degrees::Float64`: The colatitude of the spot center in degrees. Must be in the range [0, 90].
 - `angular_radius_in_radians::Float64`: The angular radius of the polar cap, in radians. Must be positive.
 - `temperature::Float64`: The temperature of the polar cap. Must be positive.
@@ -14,7 +14,7 @@ Circular hot spot on the surface of a neutron star.
 ```julia
 hot_spot = CircularHotSpot(
     star_radius_in_km = 12.0,
-    angular_speed_in_Hz = 200,
+    spin_frequency_in_Hz = 200,
     center_colatitude_in_degrees = 30.0,
     angular_radius_in_radians = 1.0,
     temperature_in_keV = 0.35
@@ -24,13 +24,13 @@ hot_spot = CircularHotSpot(
 """
 @with_kw struct CircularHotSpot <: AbstractSurfaceEmissionModel
     star_radius_in_km::Float64
-    angular_speed_in_Hz::Float64
+    spin_frequency_in_Hz::Float64
     center_colatitude_in_degrees::Float64
     angular_radius_in_radians::Float64
     temperature_in_keV::Float64
     M1::Float64 
     star_radius::Float64 = CGS_to_geometrized(1e5*star_radius_in_km, Dimensions.length; M1 = M1)
-    angular_speed::Float64 = CGS_to_geometrized(angular_speed_in_Hz, Dimensions.frequency; M1 = M1)
+    angular_speed::Float64 = CGS_to_geometrized(2π*spin_frequency_in_Hz, Dimensions.frequency; M1 = M1)
     angular_radius_in_degrees::Float64 = rad2deg(angular_radius_in_radians)
     center_colatitude_in_radians::Float64 = deg2rad(center_colatitude_in_degrees)
     temperature::Float64 = keV_to_K(temperature_in_keV)

@@ -4,7 +4,7 @@ spacetime = SchwarzschildSpacetimeSphericalCoordinates(M = 1.0)
 
 model = CircularHotSpot(
     star_radius_in_km = 12,
-    angular_speed_in_Hz = 200,
+    spin_frequency_in_Hz = 200,
     center_colatitude_in_degrees = 90.0,
     angular_radius_in_radians = 1,
     M1 = 1.4,
