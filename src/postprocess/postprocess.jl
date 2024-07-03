@@ -7,6 +7,7 @@ include("intensities.jl")
 include("fluxes.jl")
 include("spectrum.jl")
 include("lineemission.jl")
+include("skymap.jl")
 
 function postprocess_init(initial_data::AbstractMatrix,
     output_data::AbstractMatrix,

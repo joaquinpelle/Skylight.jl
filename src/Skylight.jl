@@ -179,7 +179,8 @@ export is_final_position_at_observer,
     line_emission_spectrum,
     rescale_intensities_normalization_at_real_observer!,
     axes_ranges,
-    grid_view
+    grid_view,
+    specific_flux_skymap
 
 export contract,
     lower_index,

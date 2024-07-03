@@ -74,7 +74,7 @@ A boolean grid indicating whether each ray's final position is at the observer.
 # Notes
 The function `is_final_position_at_observer` should already be defined elsewhere, and is used within this function to check the final position of each ray.
 """
-function is_final_position_at_observer(output_data, configurations)
+function is_final_position_at_observer(output_data::AbstractMatrix, configurations::VacuumETOConfigurations)
     nrays = size(output_data, 2)
     at_observer = zeros(Bool, nrays)
     @threads for i in axes(output_data, 2)
@@ -82,4 +82,10 @@ function is_final_position_at_observer(output_data, configurations)
         at_observer[i] = is_final_position_at_observer(pf, configurations)
     end
     return at_observer
+end
+
+function is_final_position_at_observer(pf::AbstractVector, configurations::VacuumETOConfigurations)
+    r = radius(pf, configurations.spacetime)
+    rmax = configurations.max_radius
+    return r > rmax || isapprox(r, rmax, atol = 1e-3)
 end
