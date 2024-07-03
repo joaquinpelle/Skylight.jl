@@ -88,3 +88,19 @@ function space_positions(npoints, spacetime, model::CircularHotSpot, coords_top:
     space_pos .*= model.star_radius
     return space_pos
 end
+
+function photon_package_weight(position, momentum, emitted_energy, spacetime, model::CircularHotSpot, coords_top)
+    Iem = rest_frame_specific_intensity(position, momentum, emitted_energy, nothing, nothing, spacetime, model, coords_top)
+    return Iem / emitted_energy^3
+end
+
+function rest_frame_specific_intensity(position, 
+    momentum, 
+    energy, 
+    rest_frame_four_velocity, 
+    metric, 
+    spacetime, 
+    model::CircularHotSpot, 
+    coords_top)
+    return thermal_emission_specific_intensity(energy, model.temperature)
+end
