@@ -72,7 +72,7 @@ using Skylight, Random, Test
 
             model = CircularHotSpot(
                 star_radius_in_km = 1e-5*geometrized_to_CGS(5.0, Dimensions.length, M1 = 1.4),
-                spin_frequency_in_Hz = geometrized_to_CGS(0.05, Dimensions.frequency, M1 = 1.4),
+                spin_frequency_in_Hz = geometrized_to_CGS(0.05/(2π), Dimensions.frequency, M1 = 1.4),
                 center_colatitude_in_degrees = 90.0,
                 angular_radius_in_radians = deg2rad(60.0),
                 M1 = 1.4,
