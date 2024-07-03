@@ -1,4 +1,59 @@
 """
+    sum_values_inside_bins(q, x, y, xbins, ybins; tasks_per_thread::Int=2)
+
+Sum values of `q`, given at positions `(x,y)` inside bins edges given by `xbins` and `ybins`.
+
+# Arguments
+- `q`: Array of values to be summed in each bin.
+- `x`: Array of x-positions.
+- `y`: Array of y-positions.
+- `xbins`: Array of bin edges for the first dimension.
+- `ybins`: Array of bin edges for the second dimension.
+
+# Returns
+- `binned_values`: Array of the sum of values in each bin.
+
+# Notes
+- The sizes of `q`, `x`, and `y` must be the same.
+"""
+function sum_values_inside_bins(q, x, y, xbins, ybins; tasks_per_thread::Int=2)
+    same_size(q, x) || throw(ArgumentError("q and x must have the same size"))
+    same_size(q, y) || throw(ArgumentError("q and y must have the same size"))
+    itr = zip(x, y, q)
+    # Break the work into chunks. More chunks per thread has better load balancing but more overhead
+    chunk_size = max(1, length(itr) ÷ (tasks_per_thread * nthreads()))
+    # Map over the chunks, creating an array of spawned tasks. Sync to wait for the tasks to finish.
+    tasks = map(Iterators.partition(itr, chunk_size)) do chunk
+        @spawn begin
+            # Initialize an array to hold the sum of `q` values in each bin
+            qsums = zeros(eltype(q), length(xbins)-1, length(ybins)-1)
+            for (xvalue, yvalue, qvalue) in chunk
+                # Find the bin index for the current radii value
+                xbin_index = searchsortedlast(xbins, xvalue)
+                ybin_index = searchsortedlast(ybins, yvalue)
+
+                # If the bin_index is valid (i.e., the radius value is not beyond the last bin edge)
+                if xbin_index > 0 && xbin_index < length(xbins)
+                    if ybin_index > 0 && ybin_index < length(ybins)
+                        # Update the sum and count of `q` values for this bin
+                        qsums[xbin_index, ybin_index] += qvalue
+                    end
+                end
+            end
+            return qsums
+        end
+    end
+    fetched_results = fetch.(tasks)
+
+    # Initialize an array to hold the sum of `q` values in each bin
+    qsums_total = zeros(eltype(q), length(xbins)-1, length(ybins)-1)
+    # Perform element-wise summation
+    for result in fetched_results
+        qsums_total .+= result
+    end
+    return qsums_total 
+end
+"""
     bin_values_and_sum_weights(;edges, values, weights)
 
 Bin `values` and sum `weights` in each bin.
