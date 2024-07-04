@@ -219,6 +219,9 @@ export time_translation_generator,
     circular_motion_four_velocity,
     circular_motion_four_velocity!
 
+export create_bins,
+    midpoints
+    
 export PhysicalConstants,
     Dimensions
 
