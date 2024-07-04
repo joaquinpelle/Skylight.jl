@@ -1,8 +1,6 @@
 using Skylight
 using CairoMakie
 
-import Skylight.create_bins, Skylight.midpoints
-
 function radiative_transfer(;ν, θ, Δθ, Np, Npp)
     spacetime = SchwarzschildSpacetimeSphericalCoordinates(M = 1.0)
     model = CircularHotSpot(
