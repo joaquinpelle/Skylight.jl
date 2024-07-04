@@ -1,7 +1,7 @@
 using Skylight
 using CairoMakie
 
-function radiative_transfer(;ν, θ, Δθ, Np, Npp)
+function radiative_transfer(;ν, θ, Δθ, number_of_points, number_of_packets_per_point)
     spacetime = SchwarzschildSpacetimeSphericalCoordinates(M = 1.0)
     model = CircularHotSpot(
         star_radius_in_km = 12,
@@ -12,8 +12,8 @@ function radiative_transfer(;ν, θ, Δθ, Np, Npp)
         temperature_in_keV = 0.35)
     configurations = VacuumETOConfigurations(spacetime = spacetime,
         radiative_model = model,
-        number_of_points = Np,
-        number_of_packets_per_point = Npp, 
+        number_of_points = number_of_points,
+        number_of_packets_per_point = number_of_packets_per_point, 
         max_radius = 750.0,
         unit_mass_in_solar_masses = 1.4)
     initial_data = initialize(configurations)
@@ -85,6 +85,6 @@ function plot_skymap(skymap)
     CairoMakie.save("skymap.png", fig)
 end
 
-initial_data, output_data, configurations = radiative_transfer(ν=200, θ=90, Δθ=0.01, Np=100, Npp=20000)
+initial_data, output_data, configurations = radiative_transfer(ν=200, θ=90, Δθ=0.01, number_of_points=100, number_of_packets_per_point=20000)
 phase, skymap = create_skymap(initial_data, output_data, configurations; Nξ=40, Nϕ=60)
 plot_light_curve(skymap; ξ=90)
