@@ -32,6 +32,12 @@ function postprocess_cache(configurations::AbstractOTEConfigurations)
         configurations.radiative_model)
 end
 
+function postprocess_cache(configurations::AbstractETOConfigurations)
+    spacetime_cache = allocate_cache(configurations.spacetime)
+    model_cache = allocate_cache(configurations.radiative_model)
+    return ETOPostProcessCache(spacetime_cache=spacetime_cache, model_cache=model_cache)
+end
+
 function initial_positions(configurations::AbstractETOConfigurations)
     times = zero_times(configurations)
     return eachcol([times'; space_positions(configurations)])
