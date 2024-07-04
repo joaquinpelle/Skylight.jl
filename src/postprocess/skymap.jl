@@ -1,7 +1,7 @@
 function specific_flux_skymap(initial_data::AbstractMatrix,
     output_data::AbstractMatrix,
     configurations::VacuumETOConfigurations,
-    observation_energies::AbstractVector; #CGS
+    observation_energies::AbstractVector; #must be in CGS
     Nθ::Int,
     Nϕ::Int,
     tasks_per_thread::Int = 2)
@@ -26,6 +26,7 @@ function specific_flux_skymap(initial_data::AbstractMatrix,
         @spawn begin
             # Initialize an array to hold the sum of `q` values in each bin
             Fsums = zeros(length(observation_energies), length(θbins)-1, length(ϕbins)-1)
+            cache = postprocess_cache(configurations)
             for i in chunk
                 @views begin
                     pi = initial_data[1:4, i]
@@ -36,6 +37,7 @@ function specific_flux_skymap(initial_data::AbstractMatrix,
                 if !is_final_position_at_observer(pf, configurations)
                     continue
                 end
+                emitter_metric_four_velocity_and_normal!(cache, pi, spacetime, model, coords_top)
                 #Assuming the observation frame is static, and the photon packages are emitted with unit frequency in the rest frame
                 q = kf[1] 
                 ϕ = observed_phase(pf, period, coords_top)
@@ -45,7 +47,15 @@ function specific_flux_skymap(initial_data::AbstractMatrix,
                     Eobs = observation_energies[j]
                     Eem = Eobs/q
                     #TODO check units
-                    Fvalue = Eobs*photon_package_weight(pi, ki, Eem, spacetime, model, coords_top)
+                    Fvalue = Eobs*photon_package_weight(pi, 
+                        ki, 
+                        Eem, 
+                        cache.emitter_metric, 
+                        cache.rest_frame_four_velocity,
+                        cache.surface_normal,
+                        spacetime, 
+                        model, 
+                        coords_top)
                     Fsums[j, θbin_index, ϕbin_index] += Fvalue
                 end
             end
@@ -53,18 +63,17 @@ function specific_flux_skymap(initial_data::AbstractMatrix,
         end
     end
     fetched_results = fetch.(tasks)
-
     # Initialize an array to hold the sum of `q` values in each bin
     Fsums_total = zeros(length(observation_energies), length(θbins)-1, length(ϕbins)-1)
     # Perform element-wise summation
     for result in fetched_results
         Fsums_total .+= result
     end
-    #TODO check Δν (redshift factor)
     for i in axes(Fsums_total, 2)
         Fsums_total[:, i, :] /= (cos(θbins[i]) - cos(θbins[i+1]))
     end
-    Fsums_total /= period*(π/Nθ)*(2π/Nϕ)
+    D = configurations.max_radius
+    Fsums_total /= 2π*D^2*period*(π/Nθ)*(2π/Nϕ)
     return midpoints(ϕbins), Fsums_total 
 end
 

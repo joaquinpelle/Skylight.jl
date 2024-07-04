@@ -46,6 +46,10 @@ end
 opaque_interior_surface_trait(::CircularHotSpot) = IsOpaqueInteriorSurface()
 stationarity(::CircularHotSpot) = IsStationary()
 
+function system_period(model::CircularHotSpot)
+    return 2π / model.angular_speed
+end
+
 function surface_differential!(covector, position, ::CircularHotSpot, ::SphericalTopology)
     covector[1] = 0.0
     covector[2] = 1.0
@@ -60,7 +64,6 @@ function surface_differential!(covector, position, ::CircularHotSpot, ::Cartesia
         y = position[3]
         z = position[4]    
     end
-
     covector[1] = 0.0
     covector[2] = 2x
     covector[3] = 2y
@@ -77,6 +80,17 @@ function rest_frame_four_velocity!(vector,
     angular_speed = model.angular_speed
     circular_motion_four_velocity!(vector, position, angular_speed, metric, coords_top)
     return nothing
+end
+
+function rest_frame_specific_intensity(position, 
+    momentum, 
+    energy, 
+    rest_frame_four_velocity, 
+    metric, 
+    spacetime, 
+    model::CircularHotSpot, 
+    coords_top)
+    return thermal_emission_specific_intensity(energy, model.temperature)
 end
 
 function space_positions(npoints, spacetime, model::CircularHotSpot, coords_top::CartesianTopology, cache)
@@ -97,22 +111,16 @@ function space_positions(npoints, spacetime, model::CircularHotSpot, ::Spherical
     return space_pos
 end
 
-function photon_package_weight(position, momentum, emitted_energy, spacetime, model::CircularHotSpot, coords_top)
-    Iem = rest_frame_specific_intensity(position, momentum, emitted_energy, nothing, nothing, spacetime, model, coords_top)
-    return Iem / emitted_energy^3
-end
-
-function rest_frame_specific_intensity(position, 
+function photon_package_weight(position, 
     momentum, 
-    energy, 
-    rest_frame_four_velocity, 
-    metric, 
-    spacetime, 
+    emitted_energy, 
+    metric,
+    rest_frame_four_velocity,
+    surface_normal, 
+    spacetime,
     model::CircularHotSpot, 
     coords_top)
-    return thermal_emission_specific_intensity(energy, model.temperature)
-end
-
-function system_period(model::CircularHotSpot)
-    return 2π / model.angular_speed
+    Iem = rest_frame_specific_intensity(position, momentum, emitted_energy, rest_frame_four_velocity, metric, spacetime, model, coords_top)
+    cosθem = cos_angle_between_vectors(momentum, surface_normal, rest_frame_four_velocity, metric)
+    return Iem*cosθem/emitted_energy
 end
