@@ -2,29 +2,39 @@
 
 ## Geometrically thin, optically thick accretion disks
 
-### Shakura & Sunyaev accretion disk
+These accretion disk models are hydrostationary, (infinitesimally) geometrically-thin and optically thick. The disk is assumed to be in the equatorial plane of the spacetime, occupying a certain radial range. The particles of the disk are assumed to follow circular geodesics (so the [`circular_geodesic_angular_speed`](@ref) function must be implemented for the chosen spacetime).  
+
+### Thermal radiation
+
+In these models, the disk is assumed to emit as a blackbody with a position-dependent effective temperature (given by the [`temperature`](@ref) function).
+
+#### Shakura & Sunyaev accretion disk
 
 ```@docs
 Skylight.ShakuraSunyaevDisk
 ```
 
-### Novikov & Thorne accretion disk
+#### Novikov & Thorne accretion disk
 
 ```@docs
 Skylight.NovikovThorneDisk
 ```
 
-### RAR extension of Shakura & Sunyaev accretion disk
+#### Tabulated temperature 
+
+```@docs
+Skylight.AccretionDiskWithTabulatedTemperature
+```
+
+#### RAR extension of Shakura & Sunyaev accretion disk
 
 ```@docs
 Skylight.RARDisk
 ```
 
-### Tabulated temperature 
+### Line emission
 
-```@docs
-Skylight.AccretionDiskWithTabulatedTemperature
-```
+In these models, the radiation corresponds to line emission from the disk. The emissivity profile is given by the [`line_emission_profile`](@ref) function.
 
 ### Flat spacetime lamppost corona line emission profile 
 
@@ -40,7 +50,7 @@ Skylight.AccretionDiskWithTabulatedProfile
 
 ## Geometrically thick, optically thin accretion disks
 
-### Ion torus 
+#### Ion torus 
 
 ```@docs
 Skylight.IonTorus

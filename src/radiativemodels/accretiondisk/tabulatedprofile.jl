@@ -1,7 +1,8 @@
 @doc raw"""
     AccretionDiskWithTabulatedProfile <: AbstractAccretionDisk
 
-Geometrically thin, optically thick accretion disk model with tabulated line emission radial profile.
+Geometrically thin, optically thick accretion disk model with tabulated line emission radial profile. This is useful, for example, for incorporating
+the emissivity profiles calculated from a corona model.
 
 # Fields
 - `inner_radius::Float64`: The inner of the accretion disk. Must be larger than or equal to zero.
