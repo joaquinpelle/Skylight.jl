@@ -8,7 +8,7 @@ Circular hot spot on the surface of a neutron star.
 - `spin_frequency_in_Hz::Float64`: The spin frequency of the star in Hz. Must be non-zero.
 - `center_colatitude_in_degrees::Float64`: The colatitude of the spot center in degrees. Must be in the range [0, 90].
 - `angular_radius_in_radians::Float64`: The angular radius of the polar cap, in radians. Must be positive.
-- `temperature::Float64`: The temperature of the polar cap. Must be positive.
+- `temperature_in_keV::Float64`: The temperature of the polar cap. Must be positive.
 
 # Examples
 ```julia
