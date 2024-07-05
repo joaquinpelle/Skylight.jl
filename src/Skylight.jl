@@ -73,14 +73,17 @@ export AbstractRotationSense,
 
 export IsStationary,
     IsSphericallySymmetric,
-    IsAxisymmetric
+    IsAxisymmetric,
+    IsHelicallySymmetric
 
 export stationarity,
     spherical_symmetry,
     axisymmetry,
+    helical_symmetry,
     is_stationary,
     is_spherically_symmetric,
-    is_axisymmetric
+    is_axisymmetric,
+    is_helically_symmetric
 
 export energy,
     angular_momentum,
