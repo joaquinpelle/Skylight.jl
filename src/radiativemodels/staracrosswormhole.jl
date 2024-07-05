@@ -1,7 +1,7 @@
 """
     StarAcrossWormhole <: AbstractSurfaceEmissionModel
 
-Uniform temperature star accross a traversable wormhole. See also (see [`ChargedWormholeSpacetimeRegularCoordinates`](@ref)).
+Uniform temperature star accross a traversable wormhole ([`ChargedWormholeSpacetimeRegularCoordinates`](@ref)).
 
 # Fields
 - `l_center::Float64`: The center of the star in the regular radial coordinate. 

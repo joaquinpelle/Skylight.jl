@@ -34,7 +34,7 @@ Skylight.RARDisk
 
 ### Line emission
 
-In these models, the radiation corresponds to line emission from the disk. The emissivity profile is given by the [`emissivity_profile`](@ref) function.
+In these models, the radiation corresponds to line emission from the disk. The emissivity profile is given by the [`line_emission_profile`](@ref) function.
 
 ### Flat spacetime lamppost corona line emission profile 
 

@@ -72,7 +72,11 @@ function surface_differential!(differential, position, model, coords_top)
     error("Surface differential not defined for this model.")
 end
 
-#For accretion disks
+"""
+    temperature(position, spacetime, model)
+
+    Temperature of the model at given `position` in the `spacetime`.
+"""
 temperature(position, spacetime, model) = error("Temperature not defined for this model.")
 
 include("radiativeprocesses/thermalemission.jl")
