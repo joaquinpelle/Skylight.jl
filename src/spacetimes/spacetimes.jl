@@ -227,8 +227,8 @@ end
 """
     isco_radius(spacetime, rotation_sense::AbstractRotationSense)
 
-Radius of the innermost stable circular orbit in the given spacetime and rotation sense (prograde or 
-retrograde), if defined.
+Radius of the innermost stable circular orbit in the given spacetime and rotation sense (either Prograde() or 
+Retrograde()).
 """
 function isco_radius(spacetime, rotation_sense)
     error("Isco radius radius not defined for this spacetime.")
@@ -237,8 +237,8 @@ end
 """
     mbco_radius(spacetime, rotation_sense::AbstractRotationSense)
 
-Radius of the marginally bound circular orbit in the given spacetime and rotation sense (prograde or
-retrograde), if defined.
+Radius of the marginally bound circular orbit in the given spacetime and rotation sense (either Prograde() or
+Retrograde()).
 """
 function mbco_radius(spacetime, rotation_sense)
     error("Marginally bound circular orbit not defined for this spacetime.")
@@ -247,8 +247,8 @@ end
 """
     circular_geodesic_angular_speed(position, spacetime, rotation_sense::AbstractRotationSense)
 
-Angular speed of a circular geodesic at the given position in the given spacetime for a particle rotating
-in the given sense.
+Angular speed of a circular geodesic at the given `position`` in `spacetime`` for a particle rotating
+in the given `rotation_sense`.
 """ 
 function circular_geodesic_angular_speed(position, spacetime, rotation_sense)
     error("Circular geodesic angular speed not defined for this spacetime.")

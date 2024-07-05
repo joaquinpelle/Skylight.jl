@@ -16,10 +16,3 @@ metric_inverse!(metric::AbstractMatrix, position::AbstractVector, spacetime::Abs
 volume_element(position::AbstractVector, spacetime::AbstractSpacetime, g::AbstractMatrix, cache::Union{Nothing, AbstractSpacetimeCache})
 christoffel!(metric::AbstractMatrix, position::AbstractVector, spacetime::AbstractSpacetime, cache::Union{Nothing, AbstractChristoffelCache})
 ```
-
-#### Cache allocation
-
-```@docs
-allocate_cache(spacetime::AbstractSpacetime)
-allocate_christoffel_cache(spacetime::AbstractSpacetime)
-```
