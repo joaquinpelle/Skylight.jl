@@ -108,16 +108,16 @@ RetrogradeRotation()
 """
 struct RetrogradeRotation <: AbstractRotationSense end
 
-abstract type AbstractSpacetimeSymmetry end
+abstract type AbstractSymmetry end
 
-abstract type Stationarity <: AbstractSpacetimeSymmetry end
+abstract type Stationarity <: AbstractSymmetry end
 struct IsStationary <: Stationarity end
 struct IsNotStationary <: Stationarity end
 
-abstract type SphericalSymmetry <: AbstractSpacetimeSymmetry end
+abstract type SphericalSymmetry <: AbstractSymmetry end
 struct IsSphericallySymmetric <: SphericalSymmetry end
 struct IsNotSphericallySymmetric <: SphericalSymmetry end
 
-abstract type AxialSymmetry <: AbstractSpacetimeSymmetry end
+abstract type AxialSymmetry <: AbstractSymmetry end
 struct IsAxiallySymmetric <: AxialSymmetry end
 struct IsNotAxiallySymmetric <: AxialSymmetry end
