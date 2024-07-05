@@ -52,6 +52,27 @@ function rest_frame_specific_intensity(position,
     coords_top)
     error("rest_frame_specific_intensity not defined for this model.")
 end
+
+"""
+    line_emission_profile(position, momentum, rest_frame_four_velocity, metric, spacetime, model, coords_top, cache)
+
+    Emissivity profile for line emission radiative models.
+
+#Arguments
+
+- `position::AbstractVector`: Position of the emission.
+- `momentum::AbstractVector`: Momentum of the emission (frequency and direction). Must be null.
+- `rest_frame_four_velocity::AbstractVector`: Rest frame four velocity of the model at `position`. Must but be normalized.
+- `metric::AbstractMatrix`: Metric tensor at `position`.
+- `spacetime::AbstractSpacetime`: Spacetime.
+- `model::AbstractRadiativeModel`: Radiative model.
+- `coords_top::AbstractCoordinatesTopology`: Coordinates topology.
+- `cache::AbstractModelCache`: Model cache.
+
+# See also
+
+- [`allocate_cache(model::AbstractRadiativeModel)`](@ref)
+"""
 function line_emission_profile(position,
     momentum,
     rest_frame_four_velocity,
@@ -67,7 +88,13 @@ function is_final_position_at_source(position, spacetime, model)
 end
 
 #Optional for surface emission models
+"""
+    allocate_cache(model::AbstractRadiativeModel)
+
+Allocate a cache object for the given model. The cache object is used to store temporary data in radiative-model-related calculations.
+"""
 allocate_cache(::AbstractRadiativeModel) = nothing
+
 function surface_differential!(differential, position, model, coords_top)
     error("Surface differential not defined for this model.")
 end
