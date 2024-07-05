@@ -17,7 +17,7 @@ FRKerrSpacetime(M=1.0, a=0.99, R0=-0.0012)
 end
 
 stationarity(::FRKerrSpacetime) = IsStationary()
-axial_symmetry(::FRKerrSpacetime) = IsAxiallySymmetric()
+axisymmetry(::FRKerrSpacetime) = IsAxiallySymmetric()
 
 coordinates_topology(::FRKerrSpacetime) = SphericalTopology()
 radius(position, ::FRKerrSpacetime) = position[2]

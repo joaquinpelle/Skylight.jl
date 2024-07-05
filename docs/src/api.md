@@ -9,7 +9,7 @@ AutoDiffChristoffelCache
 Skylight
 AbstractModelCache
 midpoints
-axial_symmetry 
+axisymmetry 
 mbco_radius 
 radius 
 outermost_circular_orbit_radius 

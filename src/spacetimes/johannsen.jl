@@ -27,7 +27,7 @@ JohannsenSpacetime(M=1.0, a=0.99, α13=0.5, α22=0.0, α52=0.01, ϵ3=0.0)
 end
 
 stationarity(::JohannsenSpacetime) = IsStationary()
-axial_symmetry(::JohannsenSpacetime) = IsAxiallySymmetric()
+axisymmetry(::JohannsenSpacetime) = IsAxiallySymmetric()
 
 mass(spacetime::JohannsenSpacetime) = spacetime.M
 spin(spacetime::JohannsenSpacetime) = spacetime.a

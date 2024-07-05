@@ -271,18 +271,18 @@ Return `IsSphericallySymmetric()` if the spacetime is spherically symmetric, `Is
 spherical_symmetry(::AbstractSpacetime) = IsNotSphericallySymmetric()
 #For z symmetry we check spherical symmetry by default first. Thus if a spacetime is declared spherically symmetric it's automatically axially symmetric.
 """
-    axial_symmetry(spacetime)
+    axisymmetry(spacetime)
 
 Return `IsAxiallySymmetric()` if the spacetime is axially symmetric, `IsNotAxiallySymmetric()` otherwise.
 """
-function axial_symmetry(spacetime::AbstractSpacetime)
+function axisymmetry(spacetime::AbstractSpacetime)
     is_axisymmetric(spacetime) ? IsAxiallySymmetric() :
     IsNotAxiallySymmetric()
 end
 
 is_stationary(spacetime::AbstractSpacetime) = isa(stationarity(spacetime), IsStationary)
 is_spherically_symmetric(spacetime::AbstractSpacetime) = isa(spherical_symmetry(spacetime), IsSphericallySymmetric)
-is_axisymmetric(spacetime::AbstractSpacetime) = isa(axial_symmetry(spacetime), IsAxiallySymmetric)
+is_axisymmetric(spacetime::AbstractSpacetime) = isa(axisymmetry(spacetime), IsAxiallySymmetric)
 
 @inline sign(::ProgradeRotation) = 1.0
 @inline sign(::RetrogradeRotation) = -1.0

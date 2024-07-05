@@ -15,7 +15,7 @@ circular_geodesic_angular_speed(position::AbstractVector, spacetime::AbstractSpa
 ```@docs
 stationarity(spacetime::AbstractSpacetime)
 spherical_symmetry(spacetime::AbstractSpacetime)
-axial_symmetry(spacetime::AbstractSpacetime)
+axisymmetry(spacetime::AbstractSpacetime)
 ```
 
 ### Others

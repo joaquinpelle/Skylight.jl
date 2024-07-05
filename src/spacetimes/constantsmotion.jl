@@ -4,7 +4,7 @@ end
 function axial_rotation_killing_vector(position, spacetime::AbstractSpacetime)
     _axial_rotation_killing_vector(position,
         coordinates_topology(spacetime),
-        axial_symmetry(spacetime))
+        axisymmetry(spacetime))
 end
 function spherical_rotation_killing_vectors(position, spacetime::AbstractSpacetime)
     _spherical_rotation_killing_vectors(position,

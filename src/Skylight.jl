@@ -77,7 +77,7 @@ export IsStationary,
 
 export stationarity,
     spherical_symmetry,
-    axial_symmetry,
+    axisymmetry,
     is_stationary,
     is_spherically_symmetric,
     is_axially_symmetric
