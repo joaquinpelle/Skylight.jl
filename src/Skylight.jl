@@ -146,8 +146,9 @@ export allocate_cache,
     surface_differential!,
     rest_frame_bolometric_intensity,
     rest_frame_specific_intensity,
-    opaque_interior_surface_trait,
-    lorentz_factors
+    temperature,
+    line_emission_profile,
+    opaque_interior_surface_trait
 
 export emissivity_profile
 

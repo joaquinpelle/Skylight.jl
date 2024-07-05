@@ -6,7 +6,7 @@ These accretion disk models are hydrostationary, (infinitesimally) geometrically
 
 ### Thermal radiation
 
-In these models, the disk is assumed to emit as a blackbody with a position-dependent effective temperature (given by the [`temperature`](@ref) function).
+In these models, the disk is assumed to emit as a blackbody with a position-dependent temperature.
 
 ```@docs
 Skylight.ShakuraSunyaevDisk
@@ -26,7 +26,7 @@ Skylight.RARDisk
 
 ### Line emission
 
-In these models, the radiation corresponds to line emission from the disk. The emissivity profile is given by the [`line_emission_profile`](@ref) function.
+In these models, the radiation corresponds to line emission from the accretion disk.
 
 ```@docs
 Skylight.AccretionDiskWithFlatLamppostProfile

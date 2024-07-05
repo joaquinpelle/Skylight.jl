@@ -11,8 +11,8 @@ makedocs(
         "Getting started" => "gettingstarted.md",
         "Spacetimes" => [
             "Catalogue" => "spacetimes/catalogue.md",
-            "Geometric functions" => "spacetimes/geometric.md"
-            "Auxiliary functions" => "spacetimes/auxiliary.md"
+            "Geometric functions" => "spacetimes/geometric.md",
+            "Auxiliary functions" => "spacetimes/auxiliary.md",
             "Cache allocation" => "spacetimes/cache.md"
             ],
         "Radiative models" => [

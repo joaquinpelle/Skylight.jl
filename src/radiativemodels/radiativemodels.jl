@@ -54,20 +54,20 @@ function rest_frame_specific_intensity(position,
 end
 
 """
-    line_emission_profile(position, momentum, rest_frame_four_velocity, metric, spacetime, model, coords_top, cache)
+    line_emission_profile(position::AbstractVector, momentum::AbstractVector, rest_frame_four_velocity::AbstractVector, metric::AbstractMatrix, spacetime::AbstractSpacetime, model::AbstractRadiativeModel, coords_top::AbstractCoordinatesTopology, cache::AbstractModelCache)
 
     Emissivity profile for line emission radiative models.
 
 #Arguments
 
-- `position::AbstractVector`: Position of the emission.
-- `momentum::AbstractVector`: Momentum of the emission (frequency and direction). Must be null.
-- `rest_frame_four_velocity::AbstractVector`: Rest frame four velocity of the model at `position`. Must but be normalized.
-- `metric::AbstractMatrix`: Metric tensor at `position`.
-- `spacetime::AbstractSpacetime`: Spacetime.
-- `model::AbstractRadiativeModel`: Radiative model.
-- `coords_top::AbstractCoordinatesTopology`: Coordinates topology.
-- `cache::AbstractModelCache`: Model cache.
+- `position::`: Position of the emission.
+- `momentum::`: Momentum of the emission (frequency and direction). Must be null.
+- `rest_frame_four_velocity::`: Rest frame four velocity of the model at `position`. Must but be normalized.
+- `metric::`: Metric tensor at `position`.
+- `spacetime::`: Spacetime.
+- `model::`: Radiative model.
+- `coords_top::`: Coordinates topology.
+- `cache::`: Model cache.
 
 # See also
 
@@ -100,7 +100,7 @@ function surface_differential!(differential, position, model, coords_top)
 end
 
 """
-    temperature(position, spacetime, model)
+    temperature(position::AbstractVector, spacetime::AbstractSpacetime, model::AbstractRadiativeModel)
 
     Temperature of the model at given `position` in the `spacetime`.
 """
