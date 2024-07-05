@@ -48,16 +48,16 @@ Skylight.IonTorus
 
 ## Others
 
+### Circular hot spot on the surface of a neutron star
+
+```@docs
+Skylight.CircularHotSpot
+```
+
 ### Lamppost corona
 
 ```@docs
 Skylight.LamppostCorona
-```
-
-### Synthetic polar cap
-
-```@docs
-Skylight.CircularHotSpot
 ```
 
 ### Star across traversable wormhole
