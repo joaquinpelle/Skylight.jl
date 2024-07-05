@@ -1,7 +1,7 @@
 """
     CircularHotSpot <: AbstractSurfaceEmissionModel
 
-Circular hot spot on the surface of a neutron star.
+Circular hot spot on the surface of a neutron star as in [Bogdanov et al. (2019)](https://iopscience.iop.org/article/10.3847/2041-8213/ab5968/meta).
 
 # Fields
 - `star_radius_in_km::Float64`: The radius of the star in km. Must be positive.
