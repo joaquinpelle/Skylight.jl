@@ -61,7 +61,6 @@ function rest_frame_specific_intensity(position,
     return thermal_emission_specific_intensity(energy, T)
 end
 
-#TODO note that it's assumed to be geom thin, opt thick, stationary
 stationarity(::AbstractAccretionDisk) = IsStationary()
 
 ## The following function is used to check if the ray is inside the accretion disk
