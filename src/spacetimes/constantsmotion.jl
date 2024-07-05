@@ -15,7 +15,7 @@ end
 function _time_translation_killing_vector(::IsNotStationary)
     error("Spacetime is not stationary. Time translation Killing vector not defined.")
 end
-function _axial_rotation_killing_vector(position, coords_top, ::IsNotAxiallySymmetric)
+function _axial_rotation_killing_vector(position, coords_top, ::IsNotAxisymmetric)
     error("Spacetime is not axially symmetric. Axial rotation Killing vector not defined.")
 end
 function _spherical_rotation_killing_vectors(position,
@@ -25,7 +25,7 @@ function _spherical_rotation_killing_vectors(position,
 end
 
 _time_translation_killing_vector(::IsStationary) = time_translation_generator()
-function _axial_rotation_killing_vector(position, coords_top, ::IsAxiallySymmetric)
+function _axial_rotation_killing_vector(position, coords_top, ::IsAxisymmetric)
     axial_rotation_generator(position, coords_top)
 end
 function _spherical_rotation_killing_vectors(position, coords_top, ::IsSphericallySymmetric)

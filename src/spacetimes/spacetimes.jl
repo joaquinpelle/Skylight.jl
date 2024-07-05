@@ -273,16 +273,16 @@ spherical_symmetry(::AbstractSpacetime) = IsNotSphericallySymmetric()
 """
     axisymmetry(spacetime)
 
-Return `IsAxiallySymmetric()` if the spacetime is axially symmetric, `IsNotAxiallySymmetric()` otherwise.
+Return `IsAxisymmetric()` if the spacetime is axially symmetric, `IsNotAxisymmetric()` otherwise.
 """
 function axisymmetry(spacetime::AbstractSpacetime)
-    is_axisymmetric(spacetime) ? IsAxiallySymmetric() :
-    IsNotAxiallySymmetric()
+    is_axisymmetric(spacetime) ? IsAxisymmetric() :
+    IsNotAxisymmetric()
 end
 
 is_stationary(spacetime::AbstractSpacetime) = isa(stationarity(spacetime), IsStationary)
 is_spherically_symmetric(spacetime::AbstractSpacetime) = isa(spherical_symmetry(spacetime), IsSphericallySymmetric)
-is_axisymmetric(spacetime::AbstractSpacetime) = isa(axisymmetry(spacetime), IsAxiallySymmetric)
+is_axisymmetric(spacetime::AbstractSpacetime) = isa(axisymmetry(spacetime), IsAxisymmetric)
 
 @inline sign(::ProgradeRotation) = 1.0
 @inline sign(::RetrogradeRotation) = -1.0

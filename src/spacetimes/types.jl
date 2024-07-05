@@ -119,8 +119,8 @@ struct IsSphericallySymmetric <: SphericalSymmetry end
 struct IsNotSphericallySymmetric <: SphericalSymmetry end
 
 abstract type AxialSymmetry <: AbstractSymmetry end
-struct IsAxiallySymmetric <: AxialSymmetry end
-struct IsNotAxiallySymmetric <: AxialSymmetry end
+struct IsAxisymmetric <: AxialSymmetry end
+struct IsNotAxisymmetric <: AxialSymmetry end
 
 abstract type HelicalSymmetry <: AbstractSymmetry end
 struct IsHelicallySymmetric <: HelicalSymmetry end

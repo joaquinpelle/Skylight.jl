@@ -1,7 +1,7 @@
 abstract type AbstractKerrSpacetime <: AbstractBlackHoleSpacetime end
 
 stationarity(::AbstractKerrSpacetime) = IsStationary()
-axisymmetry(::AbstractKerrSpacetime) = IsAxiallySymmetric()
+axisymmetry(::AbstractKerrSpacetime) = IsAxisymmetric()
 
 @doc raw"""
     KerrSpacetimeKerrSchildCoordinates <: AbstractKerrSpacetime
