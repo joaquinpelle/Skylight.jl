@@ -51,3 +51,5 @@ function temperature(position, spacetime::AbstractBlackHoleSpacetime, model::Sha
     T = (3Mdot/(8*π*σ)*G*MCGS/rCGS^3*f)^0.25
     return T
 end
+
+axisymmetry(::ShakuraSunyaevDisk) = IsAxisymmetric()

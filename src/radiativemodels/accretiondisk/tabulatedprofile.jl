@@ -1,7 +1,7 @@
 @doc raw"""
     AccretionDiskWithTabulatedProfile <: AbstractAccretionDisk
 
-Geometrically thin, optically thick accretion disk model with tabulated line emission radial profile. This is useful, for example, for incorporating
+Geometrically thin, optically thick axisymmetric accretion disk model with tabulated line emission radial profile. This is useful, for example, for incorporating
 the emissivity profiles calculated using a corona model as [`LamppostCorona`](@ref).
 
 # Fields
@@ -34,3 +34,5 @@ function line_emission_profile(position,
     r = radius(position, spacetime)
     return model.profile_interpolator(r)
 end
+
+axisymmetry(::AccretionDiskWithTabulatedProfile) = IsAxisymmetric()

@@ -1,7 +1,7 @@
 @doc raw"""
     AccretionDiskWithTabulatedTemperature <: AbstractAccretionDisk
 
-Geometrically thin, optically thick accretion disk model with tabulated temperature.
+Geometrically thin, optically thick axisymmetric accretion disk model with tabulated temperature.
 
 # Fields
 - `inner_radius::Float64`: The inner of the accretion disk. Must be larger than or equal to zero.
@@ -26,3 +26,5 @@ function temperature(position, spacetime, model::AccretionDiskWithTabulatedTempe
     r = radius(position, spacetime)
     return model.temperature_interpolator(r)
 end
+
+axisymmetry(::AccretionDiskWithTabulatedTemperature) = IsAxisymmetric()

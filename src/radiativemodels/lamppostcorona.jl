@@ -21,6 +21,7 @@ corona = LamppostCorona(height=2.5, spectral_index = 2.0)
 end
 
 stationarity(::LamppostCorona) = IsStationary()
+axisymmetry(::LamppostCorona) = IsAxisymmetric()
 
 function space_positions(npoints, spacetime, model::LamppostCorona, ::SphericalTopology, cache)
     space_pos = zeros(3, npoints)

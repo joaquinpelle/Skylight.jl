@@ -11,6 +11,7 @@ function rest_frame_four_velocity!(vector,
 end
 
 stationarity(::DummyExtendedRegion) = IsStationary()
+spherical_symmetry(::DummyExtendedRegion) = IsSphericallySymmetric()
 
 function rest_frame_absorptivity!(αε, position, ε, ::DummyExtendedRegion)
     r = position[2]

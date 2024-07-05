@@ -72,6 +72,7 @@ function IonTorus(spacetime::AbstractSpacetime; kwargs...)
 end
 
 stationarity(::IonTorus) = IsStationary()
+axisymmetry(::IonTorus) = IsAxisymmetric()
 
 function torus_specific_angular_momentum!(model::IonTorus, spacetime)
     λ = model.λ

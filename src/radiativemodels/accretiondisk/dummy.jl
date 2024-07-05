@@ -24,3 +24,5 @@ function line_emission_profile(position,
     r = radius(position, spacetime)
     return 1.0 / r^2
 end
+
+axisymmetry(::DummyDisk) = IsAxisymmetric()

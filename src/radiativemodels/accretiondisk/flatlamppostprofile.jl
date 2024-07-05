@@ -37,3 +37,5 @@ function line_emission_profile(position,
     h = model.corona_height
     return h/(r^2+h^2)^1.5
 end
+
+axisymmetry(::AccretionDiskWithFlatLamppostProfile) = IsAxisymmetric()

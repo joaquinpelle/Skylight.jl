@@ -44,7 +44,7 @@ hot_spot = CircularHotSpot(
 end
 
 opaque_interior_surface_trait(::CircularHotSpot) = IsOpaqueInteriorSurface()
-stationarity(::CircularHotSpot) = IsStationary()
+helical_symmetry(::CircularHotSpot) = IsHelicallySymmetric()
 
 function system_period(model::CircularHotSpot)
     return 2π / model.angular_speed

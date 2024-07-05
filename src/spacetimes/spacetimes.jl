@@ -257,43 +257,44 @@ end
 #Other functions
 #By default we set non-stationarity and non-spherical symmetry  
 """
-    stationarity(spacetime)
+    stationarity(object)
 
-Return `IsStationary()` if the spacetime is stationary, `IsNotStationary()` otherwise.
+Return `IsStationary()` if the object is stationary, `IsNotStationary()` otherwise.
 """
-stationarity(::AbstractSpacetime) = IsNotStationary()
+stationarity(::Union{AbstractSpacetime, AbstractRadiativeModel}) = IsNotStationary()
 
 """
-    spherical_symmetry(spacetime)
+    spherical_symmetry(object::Union{AbstractSpacetime, AbstractRadiativeModel})
 
-Return `IsSphericallySymmetric()` if the spacetime is spherically symmetric, `IsNotSphericallySymmetric()` otherwise.
+Return `IsSphericallySymmetric()` if the object is spherically symmetric, `IsNotSphericallySymmetric()` otherwise.
 """
-spherical_symmetry(::AbstractSpacetime) = IsNotSphericallySymmetric()
-#For z symmetry we check spherical symmetry by default first. Thus if a spacetime is declared spherically symmetric it's automatically axially symmetric.
-"""
-    axisymmetry(spacetime)
+spherical_symmetry(::Union{AbstractSpacetime, AbstractRadiativeModel}) = IsNotSphericallySymmetric()
 
-Return `IsAxisymmetric()` if the spacetime is axially symmetric, `IsNotAxisymmetric()` otherwise.
+#For z symmetry we check spherical symmetry by default first. Thus if a object is declared spherically symmetric it's automatically axially symmetric.
 """
-function axisymmetry(spacetime::AbstractSpacetime)
-    is_spherically_symmetric(spacetime) ? IsAxisymmetric() :
+    axisymmetry(object::Union{AbstractSpacetime, AbstractRadiativeModel})
+
+Return `IsAxisymmetric()` if the object is axially symmetric, `IsNotAxisymmetric()` otherwise.
+"""
+function axisymmetry(object::Union{AbstractSpacetime, AbstractRadiativeModel})
+    is_spherically_symmetric(object) ? IsAxisymmetric() :
     IsNotAxisymmetric()
 end
 
 """
-    helical_symmetry(spacetime)
+    helical_symmetry(object::Union{AbstractSpacetime, AbstractRadiativeModel})
 
-Return `IsHelicallySymmetric()` if the spacetime is helically symmetric, `IsNotHelicallySymmetric()` otherwise.
+Return `IsHelicallySymmetric()` if the object is helically symmetric, `IsNotHelicallySymmetric()` otherwise.
 """
-function helical_symmetry(spacetime::AbstractSpacetime)
-    is_axisymmetric(spacetime) && is_stationary(spacetime) ? IsHelicallySymmetric() :
+function helical_symmetry(object::Union{AbstractSpacetime, AbstractRadiativeModel})
+    is_axisymmetric(object) && is_stationary(object) ? IsHelicallySymmetric() :
     IsNotHelicallySymmetric()
 end
 
-is_stationary(spacetime::AbstractSpacetime) = isa(stationarity(spacetime), IsStationary)
-is_spherically_symmetric(spacetime::AbstractSpacetime) = isa(spherical_symmetry(spacetime), IsSphericallySymmetric)
-is_axisymmetric(spacetime::AbstractSpacetime) = isa(axisymmetry(spacetime), IsAxisymmetric)
-is_helically_symmetric(spacetime::AbstractSpacetime) = isa(helical_symmetry(spacetime), IsHelicallySymmetric)
+is_stationary(object::Union{AbstractSpacetime, AbstractRadiativeModel}) = isa(stationarity(object), IsStationary)
+is_spherically_symmetric(object::Union{AbstractSpacetime, AbstractRadiativeModel}) = isa(spherical_symmetry(object), IsSphericallySymmetric)
+is_axisymmetric(object::Union{AbstractSpacetime, AbstractRadiativeModel}) = isa(axisymmetry(object), IsAxisymmetric)
+is_helically_symmetric(object::Union{AbstractSpacetime, AbstractRadiativeModel}) = isa(helical_symmetry(object), IsHelicallySymmetric)
 
 @inline sign(::ProgradeRotation) = 1.0
 @inline sign(::RetrogradeRotation) = -1.0

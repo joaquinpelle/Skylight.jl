@@ -67,3 +67,5 @@ function temperature(position,
     T = (F/σ)^0.25
     return T
 end
+
+axisymmetry(::NovikovThorneDisk) = IsAxisymmetric()
