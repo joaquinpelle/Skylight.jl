@@ -5,14 +5,14 @@
 
 #Arguments
 
-- `vector::`: Output vector.
-- `position::`: Position where the four-velocity is evaluated.
-- `metric::`: Metric tensor at `position`.
-- `spacetime::`: Spacetime.
-- `model::`: Radiative model.
-- `coords_top::`: Coordinates topology.
-- `spacetime_cache::`: Spacetime cache.
-- `model_cache::`: Model cache.
+- `vector`: Output vector.
+- `position`: Position where the four-velocity is evaluated.
+- `metric`: Metric tensor at `position`.
+- `spacetime`: Spacetime.
+- `model`: Radiative model.
+- `coords_top`: Coordinates topology.
+- `spacetime_cache`: Spacetime cache.
+- `model_cache`: Model cache.
 
 # See also
 
@@ -39,14 +39,14 @@ end
 
 #Arguments
 
-- `position::`: Position where the intensity is evaluated.
-- `momentum::`: Momentum of the emission (frequency and direction).
-- `rest_frame_four_velocity::`: Rest frame four velocity of the model at `position`. Must but be normalized.
-- `metric::`: Metric tensor at `position`.
-- `spacetime::`: Spacetime.
-- `model::`: Radiative model.
-- `coords_top::`: Coordinates topology.
-- `cache::`: Model cache.
+- `position`: Position where the intensity is evaluated.
+- `momentum`: Momentum of the emission (frequency and direction).
+- `rest_frame_four_velocity`: Rest frame four velocity of the model at `position`. Must but be normalized.
+- `metric`: Metric tensor at `position`.
+- `spacetime`: Spacetime.
+- `model`: Radiative model.
+- `coords_top`: Coordinates topology.
+- `cache`: Model cache.
 
 # See also
 
@@ -79,15 +79,15 @@ end
 
 #Arguments
 
-- `position::`: Position where the intensity is evaluated.
-- `momentum::`: Momentum of the emission (frequency and direction).
-- `energy::`: Energy of the emission.
-- `rest_frame_four_velocity::`: Rest frame four velocity of the model at `position`. Must but be normalized.
-- `metric::`: Metric tensor at `position`.
-- `spacetime::`: Spacetime.
-- `model::`: Radiative model.
-- `coords_top::`: Coordinates topology.
-- `cache::`: Model cache.
+- `position`: Position where the intensity is evaluated.
+- `momentum`: Momentum of the emission (frequency and direction).
+- `energy`: Energy of the emission. This should be assumed to be in CGS units.
+- `rest_frame_four_velocity`: Rest frame four velocity of the model at `position`. Must but be normalized.
+- `metric`: Metric tensor at `position`.
+- `spacetime`: Spacetime.
+- `model`: Radiative model.
+- `coords_top`: Coordinates topology.
+- `cache`: Model cache.
 
 # See also
 
@@ -122,14 +122,14 @@ end
 
 #Arguments
 
-- `position::`: Position of the emission.
-- `momentum::`: Momentum of the emission (frequency and direction). Must be null.
-- `rest_frame_four_velocity::`: Rest frame four velocity of the model at `position`. Must but be normalized.
-- `metric::`: Metric tensor at `position`.
-- `spacetime::`: Spacetime.
-- `model::`: Radiative model.
-- `coords_top::`: Coordinates topology.
-- `cache::`: Model cache.
+- `position`: Position of the emission.
+- `momentum`: Momentum of the emission (frequency and direction). Must be null.
+- `rest_frame_four_velocity`: Rest frame four velocity of the model at `position`. Must but be normalized.
+- `metric`: Metric tensor at `position`.
+- `spacetime`: Spacetime.
+- `model`: Radiative model.
+- `coords_top`: Coordinates topology.
+- `cache`: Model cache.
 
 # See also
 
@@ -145,6 +145,19 @@ function line_emission_profile(position,
     cache)
     error("line_emission_profile not defined for this model.")
 end
+
+"""
+    is_final_position_at_source(position::AbstractVector, spacetime::AbstractSpacetime, model::AbstractRadiativeModel)
+
+    Check if the final position of the photon is at the source of the model. This function is used in the observer-to-emitter method
+    in vacuum to discard rays that do not intersect the source.
+
+#Arguments
+
+- `position`: Final position of the geodesic.
+- `spacetime`: Spacetime.
+- `model`: Radiative model.
+"""
 function is_final_position_at_source(position, spacetime, model)
     error("is_final_position_at_source not defined for this model.")
 end
@@ -157,6 +170,19 @@ Allocate a cache object for the given model. The cache object is used to store t
 """
 allocate_cache(::AbstractRadiativeModel) = nothing
 
+"""
+    surface_differential!(differential::AbstractVector, position::AbstractVector, model::AbstractSurfaceEmissionModel, coords_top::AbstractCoordinatesTopology)
+
+    Differential of the function defining the emitting surface in the model. For example, for an emitting sphere in Cartesian coordinates, the output would be `[0,2x,2y,2z]`.
+    The normalization of the differential is not important, as it is only used to calculate the surface (unit) normal in terms of the metric. 
+
+#Arguments
+
+- `differential`: Output vector.
+- `position`: Position where the differential is evaluated.
+- `model`: Radiative model.
+- `coords_top`: Coordinates topology.
+"""
 function surface_differential!(differential, position, model, coords_top)
     error("Surface differential not defined for this model.")
 end
@@ -269,11 +295,25 @@ end
 
 
 """
-    lorentz_factors(positions, spacetime, model)
+    lorentz_factors(positions, spacetime::AbstractSpacetime, model::AbstractRadiativeModel)
 
-    Lorentz factors of the rest frame four velocities of `model` at given `positions`.
+    Lorentz factors of the rest frame four velocities of `model` at given list of positions. Positions should be an iterable
+    object with the positions as elements.
+
+    # Returns
+
+    An array with the Lorentz factors of the rest frame four velocities of the model at the given positions.
+
+    # Example
+
+    ```julia
+    positions = [[0.0, 5.0, 0.0, 0.0], [1.0, 0.0, 5.0, 0.0]]
+    spacetime = SchwarzschildSpacetimeSphericalCoordinates(M=1.0)
+    model = DummyModel()
+    γ = lorentz_factors(positions, spacetime, model)
+    ```
 """
-function lorentz_factors(positions::AbstractMatrix, 
+function lorentz_factors(positions, 
     spacetime::AbstractSpacetime, 
     model::AbstractRadiativeModel) 
     coords_top = coordinates_topology(spacetime)

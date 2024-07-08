@@ -1,4 +1,6 @@
-# Geometric functions
+# Functions
+
+## Geometric functions
 
 ### Allocating methods
 ```@docs
@@ -15,4 +17,21 @@ metric!(metric::AbstractMatrix, position::AbstractVector, spacetime::AbstractSpa
 metric_inverse!(metric::AbstractMatrix, position::AbstractVector, spacetime::AbstractSpacetime, g::AbstractMatrix, cache::Union{Nothing, AbstractSpacetimeCache})
 volume_element(position::AbstractVector, spacetime::AbstractSpacetime, g::AbstractMatrix, cache::Union{Nothing, AbstractSpacetimeCache})
 christoffel!(metric::AbstractMatrix, position::AbstractVector, spacetime::AbstractSpacetime, cache::Union{Nothing, AbstractChristoffelCache})
+```
+
+## Auxiliary functions
+
+```@docs
+radius(position::AbstractVector, spacetime::AbstractSpacetime)
+event_horizon_radius(spacetime::AbstractBlackHoleSpacetime)
+isco_radius(spacetime::AbstractSpacetime, rotation_sense::AbstractRotationSense)
+mbco_radius(spacetime::AbstractSpacetime, rotation_sense::AbstractRotationSense)
+circular_geodesic_angular_speed(position::AbstractVector, spacetime::AbstractSpacetime, rotation_sense::AbstractRotationSense)
+```
+
+## Cache allocation
+
+```@docs
+allocate_cache(spacetime::AbstractSpacetime)
+allocate_christoffel_cache(spacetime::AbstractSpacetime)
 ```
