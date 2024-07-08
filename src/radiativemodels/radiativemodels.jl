@@ -1,4 +1,23 @@
-#Required
+"""
+    rest_frame_four_velocity!(vector::AbstractVector, position::AbstractVector, metric::AbstractMatrix, spacetime::AbstractSpacetime, model::AbstractRadiativeModel, coords_top::AbstractCoordinatesTopology, spacetime_cache::AbstractSpacetimeCache, model_cache::AbstractModelCache)
+
+    Rest frame four velocity of the model at given `position`. This is the frame where the model radiative functions are defined.
+
+#Arguments
+
+- `vector::`: Output vector.
+- `position::`: Position where the four-velocity is evaluated.
+- `metric::`: Metric tensor at `position`.
+- `spacetime::`: Spacetime.
+- `model::`: Radiative model.
+- `coords_top::`: Coordinates topology.
+- `spacetime_cache::`: Spacetime cache.
+- `model_cache::`: Model cache.
+
+# See also
+
+- [`allocate_cache(model::AbstractRadiativeModel)`](@ref)
+"""
 function rest_frame_four_velocity!(vector,
     position,
     metric,
@@ -12,6 +31,27 @@ end
 function rest_frame_four_velocity!(vector, position, metric, spacetime, model, coords_top)
     error("rest_frame_four_velocity! not defined for this model.")
 end
+
+"""
+    rest_frame_bolometric_intensity(position::AbstractVector, momentum::AbstractVector, rest_frame_four_velocity::AbstractVector, metric::AbstractMatrix, spacetime::AbstractSpacetime, model::AbstractRadiativeModel, coords_top::AbstractCoordinatesTopology, cache::AbstractModelCache)
+
+    Bolometric intensity of the model at given `position`.
+
+#Arguments
+
+- `position::`: Position where the intensity is evaluated.
+- `momentum::`: Momentum of the emission (frequency and direction).
+- `rest_frame_four_velocity::`: Rest frame four velocity of the model at `position`. Must but be normalized.
+- `metric::`: Metric tensor at `position`.
+- `spacetime::`: Spacetime.
+- `model::`: Radiative model.
+- `coords_top::`: Coordinates topology.
+- `cache::`: Model cache.
+
+# See also
+
+- [`allocate_cache(model::AbstractRadiativeModel)`](@ref)
+"""
 function rest_frame_bolometric_intensity(position,
     momentum,
     rest_frame_four_velocity,
@@ -31,6 +71,28 @@ function rest_frame_bolometric_intensity(position,
     coords_top)
     error("rest_frame_bolometric_intensity for this model.")
 end
+
+"""
+    rest_frame_specific_intensity(position::AbstractVector, momentum::AbstractVector, energy::Real, rest_frame_four_velocity::AbstractVector, metric::AbstractMatrix, spacetime::AbstractSpacetime, model::AbstractRadiativeModel, coords_top::AbstractCoordinatesTopology, cache::AbstractModelCache)
+
+    Specific intensity of the model at given `position`.
+
+#Arguments
+
+- `position::`: Position where the intensity is evaluated.
+- `momentum::`: Momentum of the emission (frequency and direction).
+- `energy::`: Energy of the emission.
+- `rest_frame_four_velocity::`: Rest frame four velocity of the model at `position`. Must but be normalized.
+- `metric::`: Metric tensor at `position`.
+- `spacetime::`: Spacetime.
+- `model::`: Radiative model.
+- `coords_top::`: Coordinates topology.
+- `cache::`: Model cache.
+
+# See also
+
+- [`allocate_cache(model::AbstractRadiativeModel)`](@ref)
+"""
 function rest_frame_specific_intensity(position,
     momentum,
     energy,
@@ -102,7 +164,7 @@ end
 """
     temperature(position::AbstractVector, spacetime::AbstractSpacetime, model::AbstractRadiativeModel)
 
-    Temperature of the model at given `position` in the `spacetime`.
+    Temperature of the model at given `position`.
 """
 temperature(position, spacetime, model) = error("Temperature not defined for this model.")
 
