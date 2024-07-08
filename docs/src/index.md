@@ -38,11 +38,13 @@ For a quick start guide, see [Getting started](https://joaquinpelle.github.io/Sk
 
 #### Radiative models
 
-* Shakura-Sunyaev accretion disks
-* Geometrically-thin optically-thick accretion disks with user-provided tabulated temperatures
+* Shakura-Sunyaev accretion disk
+* Novikov-Thorne accretion disk
 * Ion tori with synchrotron and bremsstrahlung emission 
+* Geometrically-thin optically-thick accretion disks with user-provided tabulated temperatures
 * Line emission from accretion disks with user-provided emissivity profiles
 * Lamppost corona emission and accretion disk illumination profiles
+* Circular hot spots on the surface of a neutron star
 * Extensibility to user-defined radiative models
 
 #### Geometric and dynamical tools
@@ -50,7 +52,7 @@ For a quick start guide, see [Getting started](https://joaquinpelle.github.io/Sk
 * Spacetime metrics, inverse metrics, volume elements, Christoffel symbols, etc.
 * Four-vector scalar products, index raising/lowering, orthogonal projection, normalization, etc.
 * Constants of motion in spacetimes with symmetries
-* Characteristic radii, like event horizons, ISCOs, etc. 
+* Characteristic radii, like event horizons, ISCOs, and MBCOs. 
 * Spacetime geodesics integration
 
 #### Radiative transfer
