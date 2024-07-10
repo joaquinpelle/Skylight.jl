@@ -1,7 +1,5 @@
 """ 
     AbstractSchwarzschildSpacetime <: AbstractBlackHoleSpacetime
-
-Abstract type for Schwarzschild spacetime.
 """
 abstract type AbstractSchwarzschildSpacetime <: AbstractBlackHoleSpacetime end
 

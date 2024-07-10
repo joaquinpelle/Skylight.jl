@@ -1,7 +1,5 @@
 """
     AbstractChargedWormholeSpacetime <: AbstractSpacetime
-
-Abstract type for charged wormhole spacetime.
 """
 abstract type AbstractChargedWormholeSpacetime <: AbstractSpacetime end
 

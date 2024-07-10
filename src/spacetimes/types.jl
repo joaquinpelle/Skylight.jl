@@ -1,36 +1,26 @@
 """
     AbstractSpacetime
-
-Supertype for representing the geometrical structure of spacetime. Specific implementations of spacetime, such as black holes and regular compact objects, are subtypes of this abstract type.
 """
 abstract type AbstractSpacetime end
 
 """
     AbstractBlackHoleSpacetime <: AbstractSpacetime
-
-Supertype for representing spacetimes containing black holes. 
 """
 abstract type AbstractBlackHoleSpacetime <: AbstractSpacetime end
 
 """
     AbstractRegularCompactObjectSpacetime <: AbstractSpacetime
-
-Supertype for representing spacetimes containing compact objects without horizons like boson stars. 
 """
 abstract type AbstractRegularCompactObjectSpacetime <: AbstractSpacetime end
 
 """
 AbstractSpacetimeCache
-
-Abstract type for caching spacetime-related computations. This can be used as scratch memory in calculations involving the spacetime.
 """
 abstract type AbstractSpacetimeCache end
 
 
 """
 AbstractSpacetimeCache
-
-Abstract type for cache objects to be used as temporary storage in Christoffel symbol calculations.
 """
 abstract type AbstractChristoffelCache end
 
@@ -56,22 +46,16 @@ end
 
 """
     AbstractCoordinatesTopology
-
-Abstract type for representing the topology of the coordinates of a spacetime.
 """
 abstract type AbstractCoordinatesTopology end
 
 """
     CartesianTopology <: AbstractCoordinatesTopology
-
-Cartesian coordinates topology.
 """
 struct CartesianTopology <: AbstractCoordinatesTopology end
 
 """
     SphericalTopology <: AbstractCoordinatesTopology
-
-Spherical coordinates topology.
 """
 struct SphericalTopology <: AbstractCoordinatesTopology end
 
