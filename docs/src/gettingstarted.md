@@ -33,7 +33,7 @@ Here we create a Novikov-Thorne disk in prograde rotation around the black hole,
 disk = NovikovThorneDisk(inner_radius=isco_radius(spacetime, ProgradeRotation()), outer_radius = 15.0)
 ```
 
-Other available radiative models can be found at [Catalogue of radiative models](@ref). 
+Other available radiative models can be found at [Radiative models](@ref). 
 
 ### 4. Set up a camera
 

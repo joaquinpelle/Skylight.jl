@@ -36,7 +36,7 @@ For a quick start guide, see [Getting started](https://joaquinpelle.github.io/Sk
 * Boson star spacetimes with quartic self-interaction and solitonic potentials  
 * Extensibility to user-defined spacetimes
 
-#### Radiative models
+#### Supported radiative models
 
 * Shakura-Sunyaev accretion disk
 * Novikov-Thorne accretion disk

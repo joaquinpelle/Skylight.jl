@@ -10,10 +10,7 @@ makedocs(
         "Home" => "index.md",
         "Getting started" => "gettingstarted.md",
         "Spacetimes" => "spacetimes.md",
-        "Radiative models" => [
-            "Catalogue" => "radiativemodels/catalogue.md",
-            "Functions" => "radiativemodels/functions.md",
-        ],
+        "Radiative models" => "radiativemodels.md",
         "Configurations" => "configurations/configurations.md",
         "Initial data" => [
             "Pinhole camera" => "initialization/pinholecamera.md",

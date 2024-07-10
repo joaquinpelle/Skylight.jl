@@ -11,7 +11,7 @@ using Skylight
 
 # Define the Schwarzschild spacetime with mass M = 1
 spacetime = SchwarzschildSpacetimeSphericalCoordinates(M=1.0)
-position = [0.0, 3.0, π/2, 0.0]  #t=0.0, r = 3.0, θ = π/2, φ = 0.0
+position = [0.0, 4.0, π/2, 0.0]  #t=0.0, r = 4.0, θ = π/2, φ = 0.0
 g = metric(position, spacetime)
 Γ = christoffel(position, spacetime)
 ```
