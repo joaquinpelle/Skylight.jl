@@ -1,3 +1,8 @@
+"""
+    AbstractKerrSpacetime <: AbstractBlackHoleSpacetime
+
+Abstract type for Kerr spacetime.
+"""
 abstract type AbstractKerrSpacetime <: AbstractBlackHoleSpacetime end
 
 stationarity(::AbstractKerrSpacetime) = IsStationary()

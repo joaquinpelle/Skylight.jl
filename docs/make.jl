@@ -9,10 +9,7 @@ makedocs(
     pages = [
         "Home" => "index.md",
         "Getting started" => "gettingstarted.md",
-        "Spacetimes" => [
-            "Catalogue" => "spacetimes/catalogue.md",
-            "Functions" => "spacetimes/functions.md",
-            ],
+        "Spacetimes" => "spacetimes.md",
         "Radiative models" => [
             "Catalogue" => "radiativemodels/catalogue.md",
             "Functions" => "radiativemodels/functions.md",

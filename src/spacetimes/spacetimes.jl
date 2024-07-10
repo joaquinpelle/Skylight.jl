@@ -1,4 +1,9 @@
 #Required interface
+"""
+    coordinates_topology(spacetime::AbstractSpacetime)
+
+Return the topology of the coordinates of the given spacetime.
+"""
 function coordinates_topology(spacetime)
     error("Coordinates topology not defined for this spacetime.")
 end

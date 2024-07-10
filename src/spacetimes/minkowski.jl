@@ -1,3 +1,8 @@
+"""
+    AbstractMinkowskiSpacetime <: AbstractSpacetime
+
+Abstract type for Minkowski spacetime.
+"""
 abstract type AbstractMinkowskiSpacetime <: AbstractSpacetime end
 
 stationarity(::AbstractMinkowskiSpacetime) = IsStationary()

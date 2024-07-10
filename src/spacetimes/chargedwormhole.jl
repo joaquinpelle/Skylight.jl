@@ -1,3 +1,8 @@
+"""
+    AbstractChargedWormholeSpacetime <: AbstractSpacetime
+
+Abstract type for charged wormhole spacetime.
+"""
 abstract type AbstractChargedWormholeSpacetime <: AbstractSpacetime end
 
 stationarity(::AbstractChargedWormholeSpacetime) = IsStationary()
@@ -6,7 +11,7 @@ spherical_symmetry(::AbstractChargedWormholeSpacetime) = IsSphericallySymmetric(
 allocate_christoffel_cache(::AbstractChargedWormholeSpacetime) = nothing
 
 """
-    ChargedWormholeSpacetimeSphericalCoordinates <: AbstractSpacetime
+    ChargedWormholeSpacetimeSphericalCoordinates <: AbstractChargedWormholeSpacetime
 
 [Charged wormhole spacetime](https://arxiv.org/pdf/2210.14106.pdf) 
 in usual spherical coordinates.
@@ -139,7 +144,7 @@ function christoffel!(Γ::AbstractArray, position::AbstractVector, spacetime::Ch
 end
 
 """
-    ChargedWormholeSpacetimeRegularCoordinates <: AbstractSpacetime
+    ChargedWormholeSpacetimeRegularCoordinates <: AbstractChargedWormholeSpacetime
 
 [Charged wormhole spacetime](https://arxiv.org/pdf/2210.14106.pdf) 
 in regular (throat crossing) coordinates.

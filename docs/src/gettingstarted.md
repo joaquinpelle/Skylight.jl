@@ -23,7 +23,7 @@ Here, we create a Kerr spacetime in Boyer-Lindquist coordinates:
 spacetime = KerrSpacetimeBoyerLindquistCoordinates(M=1.0,a=0.5)
 ```
 
-Find other available spacetimes at [Catalogue of spacetimes](@ref). 
+Find other available spacetimes at [Spacetimes](@ref). 
 
 ### 3. Create a radiative model
 
