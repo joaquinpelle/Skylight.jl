@@ -219,6 +219,37 @@ function space_positions(N, spacetime, model, coords_top, cache)
     error("space_positions not defined for this model.")
 end
 
+@doc raw"""
+    photon_package_weight(position::AbstractVector, momentum::AbstractVector, emitted_energy::Real, metric::AbstractMatrix, rest_frame_four_velocity::AbstractVector, surface_normal::AbstractVector, spacetime::AbstractSpacetime, model::AbstractRadiativeModel, coords_top::AbstractCoordinatesTopology, cache::AbstractModelCache)
+
+    Energy-dependent weight of a photon package at given `position` and `momentum`.
+
+# Arguments
+
+- `position`: Initial position of the photon package.
+- `momentum`: Initial momentum of the photon package.
+- `emitted_energy`: Energy of the emission.
+- `metric`: Metric tensor at `position`.
+- `rest_frame_four_velocity`: Rest frame four velocity of the model at `position`.
+- `surface_normal`: Unit surface normal at `position`.
+- `spacetime`: Spacetime.
+- `model`: Radiative model.
+- `coords_top`: Coordinates topology.
+"""
+function photon_package_weight(position,
+    momentum,
+    emitted_energy,
+    metric,
+    rest_frame_four_velocity,
+    surface_normal,
+    spacetime,
+    model,
+    coords_top,
+    cache)
+    error("photon_package_weight not defined for this model.")
+end
+
+
 include("radiativeprocesses/thermalemission.jl")
 include("radiativeprocesses/bremsstrahlung.jl")
 include("radiativeprocesses/synchrotron.jl")
