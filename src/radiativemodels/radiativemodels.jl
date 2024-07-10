@@ -3,7 +3,7 @@
 
     Rest frame four velocity of the model at given `position`. This is the frame where the model radiative functions are defined.
 
-#Arguments
+# Arguments
 
 - `vector`: Output vector.
 - `position`: Position where the four-velocity is evaluated.
@@ -37,7 +37,7 @@ end
 
     Bolometric intensity of the model at given `position`.
 
-#Arguments
+# Arguments
 
 - `position`: Position where the intensity is evaluated.
 - `momentum`: Momentum of the emission (frequency and direction).
@@ -77,7 +77,7 @@ end
 
     Specific intensity of the model at given `position`.
 
-#Arguments
+# Arguments
 
 - `position`: Position where the intensity is evaluated.
 - `momentum`: Momentum of the emission (frequency and direction).
@@ -120,7 +120,7 @@ end
 
     Emissivity profile for line emission radiative models.
 
-#Arguments
+# Arguments
 
 - `position`: Position of the emission.
 - `momentum`: Momentum of the emission (frequency and direction). Must be null.
@@ -152,7 +152,7 @@ end
     Check if the final position of the photon is at the source of the model. This function is used in the observer-to-emitter method
     in vacuum to discard rays that do not intersect the source.
 
-#Arguments
+# Arguments
 
 - `position`: Final position of the geodesic.
 - `spacetime`: Spacetime.
@@ -176,7 +176,7 @@ allocate_cache(::AbstractRadiativeModel) = nothing
     Differential of the function defining the emitting surface in the model. For example, for an emitting sphere in Cartesian coordinates, the output would be `[0,2x,2y,2z]`.
     The normalization of the differential is not important, as it is only used to calculate the surface (unit) normal in terms of the metric. 
 
-#Arguments
+# Arguments
 
 - `differential`: Output vector.
 - `position`: Position where the differential is evaluated.
