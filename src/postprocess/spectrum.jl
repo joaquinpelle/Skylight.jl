@@ -91,7 +91,7 @@ function spectrum(initial_data,
                 q = energies_quotient(ki, kf, cache)
                 for j in axes(energies, 1)
                     emitted_energy = energies[j] / q
-                    #The difference with the ETO scheme here should be the minus sign in front of the final momentum
+                    #The difference with the ETO method here should be the minus sign in front of the final momentum
                     #at get emitted intensity, and the is_final_position_at_source call (at observer in ETO)...
                     Fem = rest_frame_specific_intensity(pf,
                         -kf,

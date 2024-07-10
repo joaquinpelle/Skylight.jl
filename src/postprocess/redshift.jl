@@ -37,7 +37,7 @@ function energies_quotients(initial_data,
                     pf = output_data[1:4, i]
                     kf = output_data[5:8, i]
                 end
-                #The difference with the ETO scheme here should be the minus sign in front of the final momentum
+                #The difference with the ETO method here should be the minus sign in front of the final momentum
                 #at get emitted intensity, and the is_final_position_at_source call (at observer in ETO)...
                 if !is_final_position_at_source(pf, spacetime, model)
                     continue
@@ -80,7 +80,7 @@ function energies_quotients(initial_data,
                     pf = output_data[1:4, i]
                     kf = output_data[5:8, i]
                 end
-                #The difference with the ETO scheme here should be the minus sign in front of the final momentum
+                #The difference with the ETO method here should be the minus sign in front of the final momentum
                 #at get emitted intensity, and the is_final_position_at_source call (at observer in ETO)...
                 if !is_final_position_at_source(pf, spacetime, model)
                     continue

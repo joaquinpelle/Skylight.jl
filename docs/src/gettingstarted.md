@@ -47,7 +47,7 @@ camera = PinholeCamera(position = [0.0, 500, π/2-π/20, 0.0],
 ```
 
 ### 5. Set up the configurations object
-We gather the spacetime, radiative model, and camera into a configurations object. This setup is for a vacuum transport problem (in the observer-to-emitter scheme).
+We gather the spacetime, radiative model, and camera into a configurations object. This setup is for a vacuum transport problem (in the observer-to-emitter method).
 
 ```julia
 configurations = VacuumOTEConfigurations(spacetime=spacetime,

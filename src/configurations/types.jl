@@ -78,9 +78,9 @@ end
     @assert 0<unit_mass_in_solar_masses "unit_mass_in_solar_masses must be positive"
 end
 
-abstract type AbstractTransferScheme end
-struct ObserverToEmitter <: AbstractTransferScheme end
-struct EmitterToObserver <: AbstractTransferScheme end
+abstract type AbstractTransferMethod end
+struct ObserverToEmitter <: AbstractTransferMethod end
+struct EmitterToObserver <: AbstractTransferMethod end
 
 abstract type AbstractVacuumTrait end
 struct Vacuum <: AbstractVacuumTrait end

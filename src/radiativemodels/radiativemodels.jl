@@ -194,6 +194,12 @@ end
 """
 temperature(position, spacetime, model) = error("Temperature not defined for this model.")
 
+@doc raw"""
+    space_positions(npoints::Integer, spacetime::AbstractSpacetime, model::AbstractRadiativeModel, coords_top::AbstractCoordinatesTopology, cache::AbstractModelCache)
+
+    Generate `npoints` space (3D) positions where to launch photon packages form in the EtO method. The positions are generated in the model's coordinates and should be used to calculate the model's specific intensity.
+
+
 include("radiativeprocesses/thermalemission.jl")
 include("radiativeprocesses/bremsstrahlung.jl")
 include("radiativeprocesses/synchrotron.jl")
