@@ -294,7 +294,7 @@ function rest_frame_specific_intensity(position,
 end
 
 
-"""
+@doc raw"""
     lorentz_factors(positions, spacetime::AbstractSpacetime, model::AbstractRadiativeModel)
 
     Lorentz factors of the rest frame four velocities of `model` at given list of positions. Positions should be an iterable
@@ -306,7 +306,7 @@ end
 
     # Example
 
-    ```julia
+    ```
     positions = [[0.0, 5.0, 0.0, 0.0], [1.0, 0.0, 5.0, 0.0]]
     spacetime = SchwarzschildSpacetimeSphericalCoordinates(M=1.0)
     model = DummyModel()
