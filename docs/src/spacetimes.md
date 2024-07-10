@@ -92,7 +92,7 @@ Skylight.BosonStarSpacetime
 
 ## Coordinates topology
 
-The spacetimes in `Skylight` are defined in different coordinate systems. The [`coordinates_topology`](@ref) function returns the topology of the coordinates of a given spacetime. The following are the currently implemented coordinate topologies:
+The spacetimes in `Skylight` are defined in different coordinate systems, which are arbitrary. However, most coordinates used in practice have either Cartesian or spherical topology. For instance, Boyer--Lindquist coordinates for Kerr spacetime have spherical topology, whereas Kerr-Schild Cartesian coordinates have Cartesian topology. The [`coordinates_topology`](@ref) function returns the topology of the coordinates of a given spacetime. The following are the currently implemented coordinate topologies:
 
 ```@docs
 Skylight.CartesianTopology
@@ -101,7 +101,7 @@ Skylight.SphericalTopology
 
 ## Abstract types
 
-The spacetimes in `Skylight` are organized in a hierarchy of types that serve to leverage Julia's type system and multiple dispatch to define common behaviors. All `Skylight` spacetimes are subtypes of the abstract type [`AbstractSpacetime`](@ref). For example, the abstract type `AbstractBlackHoleSpacetime` is a subtype of `AbstractSpacetime` and is used to define spacetimes that have an event horizon. This common feature among all black hole spacetimes is used, for example, to define a common callback for all of them which prevents geodesic integration too close to an event horizon, avoiding numerical instabilities. In turn, the abstract type `AbstractKerrSpacetime` represents a Kerr spacetime and has the various concrete Kerr spacetimes, in different coordinate systems, as subtypes. For reference, the following are the abstract spacetime types defined in `Skylight`: 
+The spacetimes in `Skylight` are organized in a hierarchy of types that leverage Julia's type system and multiple dispatch to define common behaviors. All `Skylight` spacetimes are subtypes of the abstract type [`AbstractSpacetime`](@ref). For example, the abstract type `AbstractBlackHoleSpacetime` is a subtype of `AbstractSpacetime` and is used to define spacetimes that have an event horizon. This common feature among all black hole spacetimes is used, for example, to define a common callback for all of them which prevents geodesic integration too close to an event horizon, avoiding numerical instabilities. In turn, the abstract type `AbstractKerrSpacetime` represents a Kerr spacetime and has the various concrete Kerr spacetimes, in different coordinate systems, as subtypes. For reference, the following are the abstract spacetime types defined in `Skylight`: 
 
 ```@docs
 Skylight.AbstractSpacetime
