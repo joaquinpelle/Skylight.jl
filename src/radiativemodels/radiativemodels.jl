@@ -1,4 +1,4 @@
-"""
+@doc raw"""
     rest_frame_four_velocity!(vector::AbstractVector, position::AbstractVector, metric::AbstractMatrix, spacetime::AbstractSpacetime, model::AbstractRadiativeModel, coords_top::AbstractCoordinatesTopology, spacetime_cache::AbstractSpacetimeCache, model_cache::AbstractModelCache)
 
     Rest frame four velocity of the model at given `position`. This is the frame where the model radiative functions are defined.
@@ -32,7 +32,7 @@ function rest_frame_four_velocity!(vector, position, metric, spacetime, model, c
     error("rest_frame_four_velocity! not defined for this model.")
 end
 
-"""
+@doc raw"""
     rest_frame_bolometric_intensity(position::AbstractVector, momentum::AbstractVector, rest_frame_four_velocity::AbstractVector, metric::AbstractMatrix, spacetime::AbstractSpacetime, model::AbstractRadiativeModel, coords_top::AbstractCoordinatesTopology, cache::AbstractModelCache)
 
     Bolometric intensity of the model at given `position`.
@@ -72,7 +72,7 @@ function rest_frame_bolometric_intensity(position,
     error("rest_frame_bolometric_intensity for this model.")
 end
 
-"""
+@doc raw"""
     rest_frame_specific_intensity(position::AbstractVector, momentum::AbstractVector, energy::Real, rest_frame_four_velocity::AbstractVector, metric::AbstractMatrix, spacetime::AbstractSpacetime, model::AbstractRadiativeModel, coords_top::AbstractCoordinatesTopology, cache::AbstractModelCache)
 
     Specific intensity of the model at given `position`.
@@ -115,7 +115,7 @@ function rest_frame_specific_intensity(position,
     error("rest_frame_specific_intensity not defined for this model.")
 end
 
-"""
+@doc raw"""
     line_emission_profile(position::AbstractVector, momentum::AbstractVector, rest_frame_four_velocity::AbstractVector, metric::AbstractMatrix, spacetime::AbstractSpacetime, model::AbstractRadiativeModel, coords_top::AbstractCoordinatesTopology, cache::AbstractModelCache)
 
     Emissivity profile for line emission radiative models.
@@ -146,7 +146,7 @@ function line_emission_profile(position,
     error("line_emission_profile not defined for this model.")
 end
 
-"""
+@doc raw"""
     is_final_position_at_source(position::AbstractVector, spacetime::AbstractSpacetime, model::AbstractRadiativeModel)
 
     Check if the final position of the photon is at the source of the model. This function is used in the observer-to-emitter method
@@ -163,14 +163,14 @@ function is_final_position_at_source(position, spacetime, model)
 end
 
 #Optional for surface emission models
-"""
+@doc raw"""
     allocate_cache(model::AbstractRadiativeModel)
 
 Allocate a cache object for the given model. The cache object is used to store temporary data in radiative-model-related calculations.
 """
 allocate_cache(::AbstractRadiativeModel) = nothing
 
-"""
+@doc raw"""
     surface_differential!(differential::AbstractVector, position::AbstractVector, model::AbstractSurfaceEmissionModel, coords_top::AbstractCoordinatesTopology)
 
     Differential of the function defining the emitting surface in the model. For example, for an emitting sphere in Cartesian coordinates, the output would be `[0,2x,2y,2z]`.
@@ -187,7 +187,7 @@ function surface_differential!(differential, position, model, coords_top)
     error("Surface differential not defined for this model.")
 end
 
-"""
+@doc raw"""
     temperature(position::AbstractVector, spacetime::AbstractSpacetime, model::AbstractRadiativeModel)
 
     Temperature of the model at given `position`.
