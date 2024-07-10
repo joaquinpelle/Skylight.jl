@@ -135,6 +135,8 @@ export AbstractRadiativeModel,
     LamppostCorona,
     IonTorus
 
+export AbstractModelCache
+
 export Bremsstrahlung,
     Synchrotron,
     InverseCompton,
@@ -148,7 +150,8 @@ export allocate_cache,
     rest_frame_specific_intensity,
     temperature,
     line_emission_profile,
-    opaque_interior_surface_trait
+    opaque_interior_surface_trait,
+    lorentz_factors
 
 export emissivity_profile
 

@@ -11,14 +11,11 @@ makedocs(
         "Getting started" => "gettingstarted.md",
         "Spacetimes" => [
             "Catalogue" => "spacetimes/catalogue.md",
-            "Geometric functions" => "spacetimes/geometric.md",
-            "Auxiliary functions" => "spacetimes/auxiliary.md",
-            "Cache allocation" => "spacetimes/cache.md"
+            "Functions" => "spacetimes/functions.md",
             ],
         "Radiative models" => [
             "Catalogue" => "radiativemodels/catalogue.md",
-            "Geometric functions" => "radiativemodels/geometric.md",
-            "Radiative functions" => "radiativemodels/radiative.md",
+            "Functions" => "radiativemodels/functions.md",
         ],
         "Configurations" => "configurations/configurations.md",
         "Initial data" => [
