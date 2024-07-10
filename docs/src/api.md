@@ -1,10 +1,10 @@
 # API
 
-## Spacetime functions
+## Spacetime
 
 ### Geometric functions
 
-#### Allocating
+#### Allocating methods
 ```@docs
 metric(position::AbstractVector, spacetime::AbstractSpacetime)
 metric_inverse(position::AbstractVector, spacetime::AbstractSpacetime)
@@ -12,9 +12,9 @@ volume_element(position::AbstractVector, spacetime::AbstractSpacetime)
 christoffel(position::AbstractVector, spacetime::AbstractSpacetime)
 ```
 
-#### Non-allocating
+#### Non-allocating methods
 
-For functions called within tight loops, we suggest to use the following non-allocating methods 
+For computing these quantities within tight loops, we suggest to use the following non-allocating methods that write the output on preallocated arrays, and use caches to store intermediate results. 
 
 ```@docs
 metric!(metric::AbstractMatrix, position::AbstractVector, spacetime::AbstractSpacetime, cache::Union{Nothing, AbstractSpacetimeCache})
