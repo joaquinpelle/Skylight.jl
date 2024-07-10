@@ -8,6 +8,9 @@ isvacuum(::VacuumETOConfigurations) = Vacuum()
 isvacuum(::NonVacuumOTEConfigurations) = NonVacuum()
 
 stationarity(configurations::AbstractConfigurations) = stationarity(configurations.spacetime) && stationarity(configurations.radiative_model)
+spherical_symmetry(configurations::AbstractConfigurations) = spherical_symmetry(configurations.spacetime) && spherical_symmetry(configurations.radiative_model)
+axisymmetry(configurations::AbstractConfigurations) = axisymmetry(configurations.spacetime) && axisymmetry(configurations.radiative_model)
+helical_symmetry(configurations::AbstractConfigurations) = helical_symmetry(configurations.spacetime) && helical_symmetry(configurations.radiative_model)
 
 function my_zeros(configurations::AbstractConfigurations)
     my_zeros(isvacuum(configurations), configurations)
