@@ -11,10 +11,9 @@ makedocs(
         "Getting started" => "gettingstarted.md",
         "Spacetimes" => "spacetimes.md",
         "Radiative models" => "radiativemodels.md",
+        "Camera" => "camera.md",
         "Configurations" => "configurations/configurations.md",
-        "Initial data" => [
-            "Pinhole camera" => "initialization/pinholecamera.md",
-            "Initialization" => "initialization/initialization.md"],
+        "Initial data" => "initialdata.md",
         "Radiative transfer" => "radiativetransfer/radiativetransfer.md",
         "Postprocess" => [
             "Images" => "postprocess/images.md",
