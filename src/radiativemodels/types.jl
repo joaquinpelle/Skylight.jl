@@ -4,6 +4,16 @@ abstract type AbstractSurfaceEmissionModel <: AbstractRadiativeModel end
 abstract type AbstractCorona <: AbstractRadiativeModel end
 abstract type AbstractAccretionDisk <: AbstractSurfaceEmissionModel end
 
+abstract type AbstractVacuumTrait end
+struct Vacuum <: AbstractVacuumTrait end
+struct NonVacuum <: AbstractVacuumTrait end
+
+function isvacuum(::AbstractRadiativeModel)
+    error("isvacuum not implemented for this type of radiative model")
+end
+isvacuum(::AbstractSurfaceEmissionModel) = Vacuum()
+
+# This is to avoid launching photons toward the interior of an opaque surface in the EtO method
 abstract type OpaqueInteriorSurfaceTrait end
 struct IsOpaqueInteriorSurface <: OpaqueInteriorSurfaceTrait end
 struct IsNotOpaqueInteriorSurface <: OpaqueInteriorSurfaceTrait end

@@ -98,6 +98,7 @@ end
     unit_mass_in_solar_masses::Float64
     @assert all(0 .< observation_energies) "all observation energies must be positive"
     @assert 0<unit_mass_in_solar_masses "unit_mass_in_solar_masses must be positive"
+    @assert isa(isvacuum(radiative_model), NonVacuum) "radiative_model must be non-vacuum"
 end
 
 @with_kw struct VacuumOTEConfigurations{
@@ -110,6 +111,7 @@ end
     camera::C
     unit_mass_in_solar_masses::Float64
     @assert 0<unit_mass_in_solar_masses "unit_mass_in_solar_masses must be positive"
+    @assert isa(isvacuum(radiative_model), Vacuum) "radiative_model must be vacuum"
 end
 
 @with_kw struct VacuumETOConfigurations{
@@ -126,12 +128,9 @@ end
     @assert 0<number_of_packets_per_point "number_of_packets_per_point must be positive"
     @assert 0<max_radius "max_radius must be positive"
     @assert 0<unit_mass_in_solar_masses "unit_mass_in_solar_masses must be positive"
+    @assert isa(isvacuum(radiative_model), Vacuum) "radiative_model must be vacuum"
 end
 
 abstract type AbstractTransferMethod end
 struct ObserverToEmitter <: AbstractTransferMethod end
 struct EmitterToObserver <: AbstractTransferMethod end
-
-abstract type AbstractVacuumTrait end
-struct Vacuum <: AbstractVacuumTrait end
-struct NonVacuum <: AbstractVacuumTrait end

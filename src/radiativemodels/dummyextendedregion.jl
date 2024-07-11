@@ -13,6 +13,8 @@ end
 stationarity(::DummyExtendedRegion) = IsStationary()
 spherical_symmetry(::DummyExtendedRegion) = IsSphericallySymmetric()
 
+isvacuum(::DummyExtendedRegion) = NonVacuum()
+
 function rest_frame_absorptivity!(αε, position, ε, ::DummyExtendedRegion)
     r = position[2]
     @. αε = ε * exp(-(r - 4)^2 / 2) * exp(-ε / 2)

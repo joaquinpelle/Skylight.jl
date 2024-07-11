@@ -249,14 +249,12 @@ function photon_package_weight(position,
     error("photon_package_weight not defined for this model.")
 end
 
-
 include("radiativeprocesses/thermalemission.jl")
 include("radiativeprocesses/bremsstrahlung.jl")
 include("radiativeprocesses/synchrotron.jl")
 
 include("accretiondisk/accretiondisk.jl")
 include("circularhotspot.jl")
-include("onionhotspots.jl")
 include("staracrosswormhole.jl")
 include("verticalscreen.jl")
 include("lamppostcorona.jl")

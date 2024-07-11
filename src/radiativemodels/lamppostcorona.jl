@@ -23,6 +23,8 @@ end
 stationarity(::LamppostCorona) = IsStationary()
 axisymmetry(::LamppostCorona) = IsAxisymmetric()
 
+isvacuum(::LamppostCorona) = Vacuum()
+
 function space_positions(npoints, spacetime, model::LamppostCorona, ::SphericalTopology, cache)
     space_pos = zeros(3, npoints)
     space_pos[1, :] .= model.height

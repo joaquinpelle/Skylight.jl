@@ -74,6 +74,8 @@ end
 stationarity(::IonTorus) = IsStationary()
 axisymmetry(::IonTorus) = IsAxisymmetric()
 
+isvacuum(::IonTorus) = NonVacuum()
+
 function torus_specific_angular_momentum!(model::IonTorus, spacetime)
     λ = model.λ
     lms = innermost_stable_specific_angular_momentum(spacetime, model.rotation_sense)
