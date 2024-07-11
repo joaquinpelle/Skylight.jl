@@ -2,9 +2,11 @@
 
 ## Overview
 
-The spacetimes are represented by types that contain the information needed to compute geodesics and other geometric properties. Most spacetimes have parameters (for example, mass and spin) that are set at construction time. The most important function defining the spacetimes is [`metric`](@ref), which returns the metric tensor at a given position in the spacetime. Additionally, [`metric_inverse`](@ref) returns the inverse metric tensor, [`volume_element`](@ref) returns the volume element, and [`christoffel`](@ref) returns the Christoffel symbols. Other functions are available to compute the radius of a position, the event horizon radius, the innermost stable circular orbit (ISCO) radius, the marginally bound circular orbit (MBCO) radius, and the circular geodesic angular speed, when applicable. See the [API](@ref) for more details.
+The spacetimes are represented by types that contain the information needed to compute geodesics and other geometric properties. Most spacetimes have parameters, such as mass and spin, that are set at construction time. The core function defining the spacetimes is [`metric`](@ref), which returns the metric tensor at a given position in the spacetime. Additionally, [`metric_inverse`](@ref) returns the inverse metric tensor, [`volume_element`](@ref) returns the volume element, and [`christoffel`](@ref) returns the Christoffel symbols. Other functions are available to compute the radius of a position, the event horizon radius, the innermost stable circular orbit (ISCO) radius, the marginally bound circular orbit (MBCO) radius, and the circular geodesic angular speed, when applicable. See the [API](@ref) for more details.
 
-As an example, the following code snippet shows how to compute the metric tensor and the Christoffel symbols at a given position in the Schwarzschild spacetime in spherical coordinates:
+## Example
+
+The following code snippet demonstrates how to compute the metric tensor and the Christoffel symbols at a given position in the Schwarzschild spacetime in spherical coordinates:
 
 ```julia
 using Skylight
@@ -16,7 +18,7 @@ g = metric(position, spacetime)
 Γ = christoffel(position, spacetime)
 ```
 
-The previous example uses the [`metric`](@ref) and [`christoffel`](@ref) functions, which allocate the output arrays each time they are called. However, when these functions need to be called within tight loops, we suggest using the non-allocating methods [`metric!`](@ref) and [`christoffel!`](@ref). These functions use preallocated arrays and auxiliary caches to store the results and intermediate variables. The caches can be constructed with the [`allocate_cache`](@ref) and [`allocate_christoffel_cache`](@ref) functions, respectively.
+The example uses the [`metric`](@ref) and [`christoffel`](@ref) functions, which allocate the output arrays each time they are called. For performance-critical applications, especially within tight loops, use the non-allocating methods [`metric!`](@ref) and [`christoffel!`](@ref). These methods use preallocated arrays and auxiliary caches to store results and intermediate variables. The caches can be constructed with [`allocate_cache`](@ref) and [`allocate_christoffel_cache`](@ref), respectively.
 
 ```julia
 g = zeros(4, 4)
@@ -27,7 +29,7 @@ christoffel_cache = allocate_christoffel_cache(spacetime)
 christoffel!(Γ, position, spacetime, christoffel_cache)
 ```
 
-Some spacetimes are sufficiently simple that they do not require caches to store intermediate results, either in the calculation of the metric, the Christoffel symbols or both. In these cases, the cache constructors just return `nothing`, and the cache can be omitted as an argument in the non-allocating methods. These methods are still more efficient than the allocating ones, as they avoid allocating the output arrays.
+For simpler spacetimes that do not require caches, the cache constructors return `nothing`, and the cache argument can be omitted in the non-allocating methods. These methods are more efficient than their allocating counterparts as they avoid cretaing an array for the output.
 
 ```julia
 metric!(g, position, spacetime)
@@ -36,7 +38,7 @@ christoffel!(Γ, position, spacetime)
 
 ## Catalogue 
 
-The following are the currently implemented spacetimes:
+Below are the currently implemented spacetimes:
 
 ### Minkowski spacetime
 
@@ -92,7 +94,7 @@ Skylight.BosonStarSpacetime
 
 ## Coordinates topology
 
-The spacetimes in `Skylight` are defined in different coordinate systems, which are arbitrary. However, most coordinates used in practice have either Cartesian or spherical topology. For instance, Boyer--Lindquist coordinates for Kerr spacetime have spherical topology, whereas Kerr-Schild Cartesian coordinates have Cartesian topology. The [`coordinates_topology`](@ref) function returns the topology of the coordinates of a given spacetime. The following are the currently implemented coordinate topologies:
+The spacetimes in `Skylight` are defined in various coordinate systems. Most coordinates used in practice have either Cartesian or spherical topology. For instance, Boyer-Lindquist coordinates for Kerr spacetime have spherical topology, whereas Kerr-Schild coordinates have Cartesian topology. The [`coordinates_topology`](@ref) function returns the topology of spacetime's coordinates. The following coordinate topologies are currently supported:
 
 ```@docs
 Skylight.CartesianTopology
@@ -101,7 +103,7 @@ Skylight.SphericalTopology
 
 ## Abstract types
 
-The spacetimes in `Skylight` are organized in a hierarchy of types that leverage Julia's type system and multiple dispatch to define common behaviors. All `Skylight` spacetimes are subtypes of the abstract type [`AbstractSpacetime`](@ref). For example, the abstract type `AbstractBlackHoleSpacetime` is a subtype of `AbstractSpacetime` and is used to define spacetimes that have an event horizon. This common feature among all black hole spacetimes is used, for example, to define a common callback for all of them which prevents geodesic integration too close to an event horizon, avoiding numerical instabilities. In turn, the abstract type `AbstractKerrSpacetime` represents a Kerr spacetime and has the various concrete Kerr spacetimes, in different coordinate systems, as subtypes. For reference, the following are the abstract spacetime types defined in `Skylight`: 
+The spacetimes in `Skylight` are organized in a hierarchy of types leveraging Julia's type system and multiple dispatch to define common behaviors. All `Skylight` spacetimes are subtypes of the abstract type [`AbstractSpacetime`](@ref). For example, `AbstractBlackHoleSpacetime` is a subtype of `AbstractSpacetime` and is used to define spacetimes with an event horizon. This common feature among all black hole spacetimes is used, for example, to define a common callback for all of them which prevents geodesic integration getting too close to the event horizon, thus avoiding numerical instabilities. `AbstractKerrSpacetime` is a subtype of `AbstractBlackHoleSpacetime` and represents a Kerr spacetime, with various concrete Kerr spacetimes in different coordinate systems as subtypes. The following are the abstract spacetime types defined in `Skylight`: 
 
 ```@docs
 Skylight.AbstractSpacetime
