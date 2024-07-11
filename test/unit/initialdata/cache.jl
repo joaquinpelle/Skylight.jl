@@ -56,7 +56,7 @@ using Skylight, Test
         @testset "Emitter to observer" begin
             @testset "Generic model" begin
                 spacetime = MinkowskiSpacetimeCartesianCoordinates()
-                model = DummyExtendedRegion()
+                model = DummyModel()
                 cache = Skylight.ETOInitialDataCache(spacetime, model)
                 configurations = VacuumETOConfigurations(spacetime = spacetime,
                     radiative_model = model,

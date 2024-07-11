@@ -13,7 +13,7 @@ using Skylight
             @test sum(kμ[2:4, i] .* kμ[2:4, i]) == 0.0
         end
 
-        model = DummyExtendedRegion()
+        model = DummyModel()
         trait = opaque_interior_surface_trait(model)
         Skylight.packets_unit_random_triad_components!(kμ, trait)
 
