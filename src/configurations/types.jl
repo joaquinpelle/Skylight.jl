@@ -4,6 +4,32 @@ abstract type AbstractETOConfigurations <: AbstractConfigurations end
 
 abstract type AbstractCamera end
 
+"""
+    ImagePlane <: AbstractCamera
+
+A type representing an image plane camera for ray-tracing simulations. This type assumes that light rays arrive parallel from a distant source.
+
+# Fields
+
+- `distance::Float64`: The distance of the observation point from the origin.
+- `observer_inclination_in_degrees::Float64`: The inclination of the observer with respect to the z-axis in degrees.
+- `horizontal_side::Float64`: The horizontal side length of the image plane.
+- `vertical_side::Float64`: The vertical side length of the image plane.
+- `horizontal_number_of_pixels::Int`: The number of pixels along the horizontal side of the image plane.
+- `vertical_number_of_pixels::Int`: The number of pixels along the vertical side of the image plane.
+- `observation_times::Vector{Float64}`: The observation times, defaulting to `[0.0]`.
+
+# Constructor
+
+```julia
+camera = ImagePlane(distance = 500.0,
+    observer_inclination_in_degrees = 90,
+    horizontal_side = 23.0,
+    vertical_side = 23.0,
+    horizontal_number_of_pixels = 100,
+    vertical_number_of_pixels = 100)
+```
+"""
 @with_kw struct ImagePlane <: AbstractCamera
     distance::Float64
     observer_inclination_in_degrees::Float64
@@ -21,10 +47,34 @@ abstract type AbstractCamera end
     observer_inclination_in_radians::Float64 = deg2rad(observer_inclination_in_degrees)
 end
 
+"""
+    PinholeCamera <: AbstractCamera
+
+A type representing a pinhole camera for ray-tracing simulations. This type allows for arbitrary positions and velocities of the observation point, providing a more general approach compared to the image plane.
+
+# Fields
+
+- `position::Vector{Float64}`: The position of the camera in spacetime.
+- `horizontal_aperture_in_degrees::Float64`: The horizontal aperture of the camera in degrees.
+- `vertical_aperture_in_degrees::Float64`: The vertical aperture of the camera in degrees.
+- `horizontal_number_of_pixels::Int`: The number of pixels along the horizontal aperture.
+- `vertical_number_of_pixels::Int`: The number of pixels along the vertical aperture.
+- `four_velocity::Vector{Float64}`: The four-velocity of the observation frame, defaulting to the static frame once the initial data is created.
+
+# Constructor
+
+```julia
+camera = PinholeCamera(position = [0.0, distance, π / 2 - π / 20, 0.0],
+    horizontal_aperture_in_degrees = rad2deg(315 / distance),
+    vertical_aperture_in_degrees = rad2deg(315 / distance),
+    horizontal_number_of_pixels = 600,
+    vertical_number_of_pixels = 600)
+```
+"""
 @with_kw struct PinholeCamera <: AbstractCamera
     position::Vector{Float64}
-    horizontal_aperture_in_degrees::Float64 #This is distance*cos(horizontal_aperture_angle)
-    vertical_aperture_in_degrees::Float64   #This is distance*cos(horizontal_aperture_angle)
+    horizontal_aperture_in_degrees::Float64
+    vertical_aperture_in_degrees::Float64
     horizontal_number_of_pixels::Int
     vertical_number_of_pixels::Int
     four_velocity::Vector{Float64} = zeros(4)

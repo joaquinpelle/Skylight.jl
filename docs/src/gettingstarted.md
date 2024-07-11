@@ -37,7 +37,7 @@ Other available radiative models can be found at [Radiative models](@ref).
 
 ### 4. Set up a camera
 
-Then, we create a pinhole camera, where the position is given by the spacetime coordinates of the observation point, the aperture is determined by the horizontal and vertical aperture in degrees, and the number of pixels in each direction are given. Here the apertures are set to capture a wide view of the accretion disk. For more details on the camera setup, see [Pinhole camera](@ref). 
+Then, we create a pinhole camera, where the position is given by the spacetime coordinates of the observation point, the aperture is determined by the horizontal and vertical aperture in degrees, and the number of pixels in each direction are given. Here the apertures are set to capture a wide view of the accretion disk. For more details on the camera setup, see [Camera](@ref). 
 ```julia
 camera = PinholeCamera(position = [0.0, 500, π/2-π/20, 0.0],
                         horizontal_aperture_in_degrees = rad2deg(80/500),
