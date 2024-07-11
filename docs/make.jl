@@ -12,7 +12,7 @@ makedocs(
         "Spacetimes" => "spacetimes.md",
         "Radiative models" => "radiativemodels.md",
         "Camera" => "camera.md",
-        "Configurations" => "configurations/configurations.md",
+        # "Configurations" => "configurations/configurations.md",
         "Initial data" => "initialdata.md",
         "Radiative transfer" => "radiativetransfer/radiativetransfer.md",
         "Postprocess" => [
