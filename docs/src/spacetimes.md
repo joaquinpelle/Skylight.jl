@@ -1,10 +1,8 @@
 # Spacetimes
 
-## Overview
-
 The spacetimes are represented by types that contain the information needed to compute geodesics and other geometric properties. Most spacetimes have parameters, such as mass and spin, that are set at construction time. The core function defining the spacetimes is [`metric`](@ref), which returns the metric tensor at a given position in the spacetime. Additionally, [`metric_inverse`](@ref) returns the inverse metric tensor, [`volume_element`](@ref) returns the volume element, and [`christoffel`](@ref) returns the Christoffel symbols. Other functions are available to compute the radius of a position, the event horizon radius, the innermost stable circular orbit (ISCO) radius, the marginally bound circular orbit (MBCO) radius, and the circular geodesic angular speed, when applicable. See the [API](@ref) for more details.
 
-## Example
+## Examples
 
 The following code snippet demonstrates how to compute the metric tensor and the Christoffel symbols at a given position in the Schwarzschild spacetime in spherical coordinates:
 

@@ -86,6 +86,28 @@ camera = PinholeCamera(position = [0.0, distance, π / 2 - π / 20, 0.0],
     vertical_aperture_in_radians::Float64 = deg2rad(vertical_aperture_in_degrees)
 end
 
+"""
+    NonVacuumOTEConfigurations{S,M,C} <: AbstractOTEConfigurations
+
+Cconfigurations object for non-vacuum observer-to-emitter (OTE) radiative transport problems.
+
+# Fields
+- `spacetime::S`: The spacetime in which the transport problem is set. Must be a subtype of `AbstractSpacetime`.
+- `radiative_model::M`: The radiative model describing the source of radiation. Must be a subtype of `AbstractRadiativeModel` and non-vacuum.
+- `camera::C`: The observational setup, including position and orientation. Must be a subtype of `AbstractCamera`.
+- `observation_energies::Vector{Float64}`: A vector of energies (in ergs) at which the specific intensity is to be computed. All energies must be positive.
+- `unit_mass_in_solar_masses::Float64`: The unit mass in solar masses used to determine the geometrized code units. Must be positive.
+
+# Constructor
+```julia
+configurations = NonVacuumOTEConfigurations(
+    spacetime = spacetime,
+    radiative_model = model,
+    camera = camera,
+    observation_energies = [1e-8, 1e-7],
+    unit_mass_in_solar_masses = 1.0)
+```
+"""
 @with_kw struct NonVacuumOTEConfigurations{
     S <: AbstractSpacetime,
     M <: AbstractRadiativeModel,
@@ -101,6 +123,26 @@ end
     @assert isa(isvacuum(radiative_model), NonVacuum) "radiative_model must be non-vacuum"
 end
 
+"""
+    VacuumOTEConfigurations{S,M,C} <: AbstractOTEConfigurations
+
+Cconfigurations object for vacuum observer-to-emitter (OTE) radiative transport problems.
+
+# Fields
+- `spacetime::S`: The spacetime in which the transport problem is set. Must be a subtype of `AbstractSpacetime`.
+- `radiative_model::M`: The radiative model describing the source of radiation. Must be a subtype of `AbstractRadiativeModel` and non-vacuum.
+- `camera::C`: The observational setup, including position and orientation. Must be a subtype of `AbstractCamera`.
+- `unit_mass_in_solar_masses::Float64`: The unit mass in solar masses used to determine the geometrized code units. Must be positive.
+
+# Constructor
+```julia
+configurations = NonVacuumOTEConfigurations(
+    spacetime = spacetime,
+    radiative_model = model,
+    camera = camera,
+    unit_mass_in_solar_masses = 1.0)
+```
+"""
 @with_kw struct VacuumOTEConfigurations{
     S <: AbstractSpacetime,
     M <: AbstractRadiativeModel,

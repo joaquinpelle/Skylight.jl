@@ -1,10 +1,8 @@
 # Radiative models
 
-## Overview
-
 Radiative models are represented by types that contain all the information necessary to calculate the radiation emitted by a source. The key functions defining these models include [`rest_frame_four_velocity!`](@ref), [`rest_frame_bolometric_intensity`](@ref), and [`rest_frame_specific_intensity`](@ref). These functions compute the four-velocity of the local rest frame, as well as the bolometric and specific intensity in that frame within the emission region.
 
-## Example
+## Examples
 
 The following example demonstrates how to compute these quantities for a Novikov-Thorne accretion disk in Kerr spacetime at a given position. First, create a Kerr spacetime with mass `M = 1.0` and spin `a = 0.5`, and obtain its coordinates topology
 

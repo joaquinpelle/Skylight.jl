@@ -1,20 +1,20 @@
 # Camera
 
-## Overview
+In the observer-to-emitter method, we integrate the radiative transfer equation backwards in time starting from the observation point. For this, a bundle of past-directed rays, forming what is usually called a virtual camera, is traced from the observer to the source, . See [Pinhole camera](@ref) for a detailed explanation of the camera construction and flux calculation methods.
 
-In the observer-to-emitter method, we integrate the radiative transfer equation backwards in time starting from the observation point. For this, a bundle of past-directed rays is traced from the observer to the source, forming what is usually called a virtual camera. See [Pinhole camera](@ref) for a detailed explanation of the camera construction and flux measurement methods.
+## Examples 
 
-In Skylight.jl, the camera is represented by the [`PinholeCamera`](@ref) type containing the parameters that define the camera position, the grid size, and resolution. The camera can be constructed as follows:
+In Skylight.jl, the camera is represented by the [`PinholeCamera`](@ref) type containing the parameters that define the camera position, the field of view, and the resolution. The camera can be constructed as follows:
 
 ```julia
 camera = PinholeCamera(position = [0.0, 500, π/2-π/20, 0.0],
-                        horizontal_aperture_in_degrees = rad2deg(80/500),
-                        vertical_aperture_in_degrees = rad2deg(80/500),
+                        horizontal_aperture_in_degrees = 4,
+                        vertical_aperture_in_degrees = 4,
                         horizontal_number_of_pixels = 600,
                         vertical_number_of_pixels = 600)
 ```
 
-The camera position is given by the spacetime coordinates of the observation point, and must be in the same coordinates as those of the spacetime in which it is set. The apertures define the angular coverage of the view, and ideally should be set to capture at least a full view of the emitting source. Optionally, a four-velocity can be set for the observation frame, with components given in the coordinate basis: 
+The camera position is given by the spacetime coordinates of the observation point, and must be in the same coordinates as those of the spacetime in which it is set. The apertures define the field of view, and ideally should be set to capture a full view of the emitting source. Optionally, a four-velocity can be set for the observation frame, with components given in the coordinate basis: 
 
 ```julia
 camera = PinholeCamera(position = [0.0, 500, π/2-π/20, 0.0],
@@ -27,7 +27,7 @@ camera = PinholeCamera(position = [0.0, 500, π/2-π/20, 0.0],
 
 Otherwise, the observation frame will be assumed to be the static frame.
 
-Most ray-tracing applications use a so-called image plane instead of a pinhole camera. This is an approximation in which the spacetime is assumed to be flat, and the observer is at a large distance from the source, such that the light rays are parallel to each other. Such a camera construction is available in Skylight.jl as the [`ImagePlane`](@ref) type, and can be constructed as follows:
+Most ray-tracing applications use the so-called image plane instead of a pinhole camera. This is an approximation in which the spacetime is assumed to be asymptotically flat, and the observer is at a large distance from the source, such that the light rays arrive mutually parallel. Such a camera construction is available in Skylight.jl as the [`ImagePlane`](@ref) type, and can be constructed as follows:
 
 ```julia
 camera = ImagePlane(distance = 500.0,
@@ -39,7 +39,7 @@ camera = ImagePlane(distance = 500.0,
     observation_times = [0.0, 100.0])
 ```
 
-In this case, the observation frame is assumed to be static, thus allowing to consider multiple observation times self-consistently, with light rays starting from the same position. For more details on this setup, see the [Image plane](@ref) section. However, when using Skylight.jl, we advise always using the pinhole camera as it gives more accurate results and the computational cost is not much higher than for the image plane.
+In this case, the observation frame is assumed to be static, thus allowing to consider multiple observation times self-consistently, with light rays starting from the same position. For more details on this setup, see the [Image plane](@ref) section. However, when using Skylight.jl, we advise to always use the pinhole camera as it gives more accurate results and the computational cost is not much higher than for the image plane.
 
 ## Types
 
@@ -83,7 +83,7 @@ where $s_\alpha, s_\beta$ are the horizontal and vertical angular apertures, res
 
 $\Delta \Omega_{ij} = \int_{D_{ij}} \cos \beta d\alpha d\beta = 2 \cos(\beta_j) \sin \left(\frac{\Delta \beta}{2} \right) \Delta \alpha,$
 
-Finally, we numerically approximate the integral as
+Finally, we numerically approximate the flux integral as
 
 $\sum_{ijk} I_{ijk} n^a_{ij} n^b_{ij} \Delta \Omega_{ij} \Delta \nu,$
 
@@ -95,9 +95,9 @@ which are transformed to the coordinate frame before contraction with $u_a$ and 
 
 ### Image plane
 
-For distant observation points in asymptotically flat spacetimes, it is reasonable to approximate that the light rays from the source arrive essentially parallel. This is the approach that many ray-tracing applications adopt, including the [original Skylight paper](https://academic.oup.com/mnras/article-abstract/515/1/1316/6631564?login=false). Although this approximation is generally sufficient for most practical applications, it is not necessarily less computationally demanding than the more accurate pinhole camera approach.
+For distant observation points in asymptotically flat spacetimes, it is reasonable to approximate that the light rays from the source arrive essentially parallel. This is the approach that many ray-tracing applications adopt, including in the [original Skylight paper](https://academic.oup.com/mnras/article-abstract/515/1/1316/6631564?login=false). Although this approximation is generally sufficient for most practical applications, it is not necessarily less computationally demanding than the more accurate pinhole camera approach.
 
-Consider a Cartesian coordinate system $(t,x,y,z)$ such that the observation point is located on the $x$-$z$ plane at a distance $D$ from the origin, and the inclination with respect to the $z$-axis is $\xi$. In the static frame, $u^a = (\partial_t)^a$, we have $u^a n_a = 1$, where $n^a$ is the unit vector in the propagation direction of a photon. Since the observation point is distant, the image of the emitting source occupies a small spherical sector centered around a certain direction. If we take $\bar{n}^a$ as that direction, then $\bar{n}^a n_a \approx 1$ within the source's image. Given that the rays are approximately parallel, we can approximate the flux as
+Consider a Cartesian coordinate system $(t,x,y,z)$ such that the observation point is located on the $x$-$z$ plane at a distance $D$ from the origin, and the inclination with respect to the $z$-axis is $\xi$. In the static frame, $u^a = (\partial_t)^a$, we have $u^a n_a = 1$, where $n^a$ is the unit vector in the propagation direction of a photon. Since the observation point is distant, the image of the emitting source occupies some small spherical sector. If we take $\bar{n}^a$ pointing to the center of such sector, then $\bar{n}^a n_a \approx 1$ within the source's image. Given that the rays are approximately parallel, we can approximate the flux as
 
 $F_\nu = \frac{1}{D^2} \int_{\mathcal{S}} I_\nu da db \,,$
 
