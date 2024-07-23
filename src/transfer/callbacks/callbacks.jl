@@ -1,5 +1,6 @@
 include("circularhotspot.jl")
 include("black_hole_accretion_disk.jl")
+include("black_hole_equatorial_plane.jl")
 include("regular_compact_object_accretion_disk.jl")
 include("staracrosswormhole.jl")
 include("verticalscreen.jl")

@@ -5,6 +5,7 @@ include("rar.jl")
 include("tabulatedtemperature.jl")
 include("flatlamppostprofile.jl")
 include("tabulatedprofile.jl")
+include("dexteragol.jl")
 
 function surface_differential!(covector,
     position,
