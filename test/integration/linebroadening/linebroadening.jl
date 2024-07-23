@@ -5,56 +5,7 @@ using DelimitedFiles
 #Plot fonts
 set_theme!(; fonts = (; regular = "Times New Roman"))
 
-struct Resolutions
-    npixels::Int
-    num_bins::Int
-    reltol::Float64
-    abstol::Float64
-end
-
-struct ResolutionsSet
-    npixels::Vector{Int}
-    num_bins::Vector{Int}
-    reltol::Vector{Float64}
-    abstol::Vector{Float64}
-end
-
-function highest_resolution(resolutions_set::ResolutionsSet)
-    return Resolutions(resolutions_set.npixels[end],
-        resolutions_set.num_bins[end],
-        resolutions_set.reltol[end],
-        resolutions_set.abstol[end])
-end
-
-function index_npixels(resolutions_set::ResolutionsSet, idx::Int) 
-    return Resolutions(resolutions_set.npixels[idx],
-        resolutions_set.num_bins[end],
-        resolutions_set.reltol[end],
-        resolutions_set.abstol[end])
-end
-
-function index_num_bins(resolutions_set::ResolutionsSet, idx::Int) 
-    return Resolutions(resolutions_set.npixels[end],
-        resolutions_set.num_bins[idx],
-        resolutions_set.reltol[end],
-        resolutions_set.abstol[end])
-end
-
-function index_reltol(resolutions_set::ResolutionsSet, idx::Int) 
-    return Resolutions(resolutions_set.npixels[end],
-        resolutions_set.num_bins[end],
-        resolutions_set.reltol[idx],
-        resolutions_set.abstol[end])
-end
-
-function index_abstol(resolutions_set::ResolutionsSet, idx::Int) 
-    return Resolutions(resolutions_set.npixels[end],
-        resolutions_set.num_bins[end],
-        resolutions_set.reltol[end],
-        resolutions_set.abstol[idx])
-end
-
-function line_broadening_precision_test(resolutions_set::ResolutionsSet, rotation_sense::AbstractRotationSense)
+function line_broadening_precision_test(npixels_set::Vector{Int}, rotation_sense::AbstractRotationSense)
 
     spacetime = KerrSpacetimeBoyerLindquistCoordinates(M=1.0, a=0.5)
     rISCO = isco_radius(spacetime, rotation_sense)
@@ -65,19 +16,14 @@ function line_broadening_precision_test(resolutions_set::ResolutionsSet, rotatio
     ref_resolutions = highest_resolution(resolutions_set)
     ref_binned_fluxes, ref_bins = line_broadening_precision_test(spacetime, model, ref_resolutions) 
 
-    for i in 1:length(resolutions_set.npixels)
-        resolutions = index_npixels(resolutions_set, i)
-        binned_fluxes, bins = line_broadening_precision_test(spacetime, model, resolutions) 
-
-        if i == 1
+    for i in axes(resolutions_set.npixels, 1)
+        for j in axes(resolutions_set.num_bins, 1)
+            resolutions = index(resolutions_set, i, j)
+            binned_fluxes, bins = line_broadening_precision_test(spacetime, model, resolutions) 
             max_diff = maximum(abs.(binned_fluxes - ref_binned_fluxes))
-        else
-            max_diff = max(max_diff, maximum(abs.(binned_fluxes - ref_binned_fluxes)))
+            println("Max diff: ", max_diff)
         end
-    end
-    # We calculate midpoints of x to use as x coordinates for y
-    bins_midpoints = midpoints(bins)
-    return bins_midpoints, binned_fluxes, dexter 
+    return 
 end
 
 function line_broadening_precision_test(spacetime, model, resolutions::Resolutions)
