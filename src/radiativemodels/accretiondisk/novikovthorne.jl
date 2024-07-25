@@ -14,7 +14,7 @@ Novikov & Thorne geometrically thin, optically thick accretion disk model around
 # Examples
 ```julia
 spacetime = KerrSpacetimeBoyerLindquistCoordinates(M=1.0, a=0.5)
-risco = innermost_circular_orbit_radius(spacetime, ProgradeRotation())
+risco = isco_radius(spacetime, ProgradeRotation())
 disk = NovikovThorneDisk(inner_radius = risco, outer_radius=1000.0, M1=1e7, Mdot_to_MEdd=0.1, η=0.1)
 ```
 """
@@ -46,7 +46,7 @@ function temperature(position,
     M = mass(spacetime)
     a = spin(spacetime)
     χ = a/M
-    risco = innermost_circular_orbit_radius(spacetime, model.rotation_sense)
+    risco = isco_radius(spacetime, model.rotation_sense)
 
     rCGS = geometrized_to_CGS(r, Dimensions.length, M1 = M1)
     MCGS = geometrized_to_CGS(M, Dimensions.mass, M1 = M1)

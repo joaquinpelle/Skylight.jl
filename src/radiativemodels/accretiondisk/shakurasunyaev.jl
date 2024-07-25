@@ -14,7 +14,7 @@ Shakura & Sunyaev geometrically thin, optically thick accretion disk model.
 # Examples
 ```julia
 spacetime = KerrSpacetimeBoyerLindquistCoordinates(M=1.0, a=0.5)
-risco = innermost_circular_orbit_radius(spacetime, ProgradeRotation())
+risco = isco_radius(spacetime, ProgradeRotation())
 disk = ShakuraSunyaevDisk(inner_radius = risco, outer_radius=1000.0, M1=1e7, Mdot_to_MEdd=0.1, η=0.1)
 ```
 """
@@ -43,7 +43,7 @@ function temperature(position, spacetime::AbstractBlackHoleSpacetime, model::Sha
 
     r = radius(position, spacetime)
     M = mass(spacetime)
-    rin = innermost_stable_circular_orbit_radius(spacetime, model.rotation_sense)
+    rin = isco_radius(spacetime, model.rotation_sense)
     rCGS = geometrized_to_CGS(r, Dimensions.length, M1 = M1)
     MCGS = geometrized_to_CGS(M, Dimensions.mass, M1 = M1)
     Mdot = Mdot_to_MEdd*Eddington_accretion_rate(MCGS, η)
