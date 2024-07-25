@@ -1,6 +1,6 @@
 # Camera
 
-In the observer-to-emitter method, we integrate the radiative transfer equation backwards in time starting from the observation point. For this, a bundle of past-directed rays, forming what is usually called a virtual camera, is traced from the observer to the source, . See [Pinhole camera](@ref) for a detailed explanation of the camera construction and flux calculation methods.
+In the observer-to-emitter method, we integrate the radiative transfer equation backwards in time starting from the observation point. For this, a bundle of past-directed rays, forming what is usually called a virtual camera, is traced from the observer to the source. See [Pinhole camera](@ref) for a detailed explanation of the camera construction and flux calculation methods.
 
 ## Examples 
 
@@ -95,7 +95,7 @@ which are transformed to the coordinate frame before contraction with $u_a$ and 
 
 ### Image plane
 
-For distant observation points in asymptotically flat spacetimes, it is reasonable to approximate that the light rays from the source arrive essentially parallel. This is the approach that many ray-tracing applications adopt, including in the [original Skylight paper](https://academic.oup.com/mnras/article-abstract/515/1/1316/6631564?login=false). Although this approximation is generally sufficient for most practical applications, it is not necessarily less computationally demanding than the more accurate pinhole camera approach.
+For distant observation points in asymptotically flat spacetimes, it is reasonable to approximate that the light rays from the source arrive essentially parallel. This is the approach that many ray-tracing applications adopt, including in the original [Skylight paper](https://academic.oup.com/mnras/article-abstract/515/1/1316/6631564?login=false). Although this approximation is generally sufficient for most practical applications, it is not necessarily less computationally demanding than the more accurate pinhole camera approach.
 
 Consider a Cartesian coordinate system $(t,x,y,z)$ such that the observation point is located on the $x$-$z$ plane at a distance $D$ from the origin, and the inclination with respect to the $z$-axis is $\xi$. In the static frame, $u^a = (\partial_t)^a$, we have $u^a n_a = 1$, where $n^a$ is the unit vector in the propagation direction of a photon. Since the observation point is distant, the image of the emitting source occupies some small spherical sector. If we take $\bar{n}^a$ pointing to the center of such sector, then $\bar{n}^a n_a \approx 1$ within the source's image. Given that the rays are approximately parallel, we can approximate the flux as
 

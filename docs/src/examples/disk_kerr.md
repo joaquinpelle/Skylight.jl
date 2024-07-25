@@ -6,7 +6,6 @@ In this tutorial, we will simulate the emission from a Novikov-Thorne disk aroun
 
 ```julia
 using Skylight
-using CairoMakie
 ```
 
 #### 2. Define the spacetime
@@ -74,6 +73,8 @@ Iobs = observed_bolometric_intensities(initial_data, output_data, configurations
 #### 9. Visualize the results
 
 ```julia
+using CairoMakie
+
 xs, ys = axes_ranges(camera)
 zs = grid_view(Iobs, configurations)
 
