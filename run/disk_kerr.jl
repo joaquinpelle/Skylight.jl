@@ -10,7 +10,7 @@ camera = ImagePlane(distance = 500.0,
     horizontal_number_of_pixels = 100,
     vertical_number_of_pixels = 100)
 
-model = NovikovThorneDisk(inner_radius = 6.0, outer_radius = 18.0)
+model = NovikovThorneDisk(inner_radius = 6.0, outer_radius = 18.0, Mdot_to_MEdd=0.1, η=0.1, M1=1.0)
 
 configurations = VacuumOTEConfigurations(spacetime = spacetime,
     camera = camera,
@@ -26,8 +26,8 @@ run = integrate(initial_data,
     cb,
     cbp;
     method = VCABM(),
-    reltol = 1e-13,
-    abstol = 1e-21)
+    reltol = 1e-6,
+    abstol = 1e-6)
 
 output_data = run.output_data
 
