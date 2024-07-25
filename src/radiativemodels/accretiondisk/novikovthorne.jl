@@ -38,6 +38,7 @@ function temperature(position,
     spacetime::Union{AbstractSchwarzschildSpacetime,AbstractKerrSpacetime}, 
     model::NovikovThorneDisk)
     c2 = PhysicalConstants.c2
+    σ = PhysicalConstants.σ
     M1 = model.M1
     Mdot_to_MEdd = model.Mdot_to_MEdd
     η = model.η
