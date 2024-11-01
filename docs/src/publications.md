@@ -8,6 +8,6 @@ This software has been utilized in the following publications
 
 3. [Neto, M. R., Perez, D., & Pelle, J. (2023). The shadow of charged traversable wormholes. International Journal of Modern Physics D, 32(02), 2250137.](https://www.worldscientific.com/doi/abs/10.1142/S0218271822501371)
 
-4. [Rosa, J. L., Pelle, J, & Perez, D. (2024). Accretion disks and relativistic line broadening in boson star spacetimes.](https://arxiv.org/abs/2403.11540)
+4. [Rosa, J. L., Pelle, J, & Perez, D. (2024). Accretion disks and relativistic line broadening in boson star spacetimes.](https://doi.org/10.1103/PhysRevD.110.084068)
 
 5. [Pelle, J., Argüelles, C. R., Vieyro, F. L., Crespi, V., Millauro, C., Mestre, M. F., Reula, O., & Carrasco, F. (2024). Imaging fermionic dark matter cores at the center of galaxies.](https://doi.org/10.1093/mnras/stae2152)
