@@ -30,7 +30,6 @@ function load_configurations_from_hdf5(filename::String)
     h5open(filename, "r") do file
         configs_group = file["configs"]
         configs_dict = load_nested_dict_from_hdf5(configs_group)
-
         return instantiate_custom_type(configs_dict)
     end
 end
@@ -210,7 +209,13 @@ function instantiate_custom_type(dict::Dict{Symbol})
     typename = dict[:_typename]
     T = eval(Meta.parse(typename))
 
-    # Instantiate nested custom types for any fields that are also dictionaries
+    if T <: DataInterpolations.AbstractInterpolation
+        PT = parametric_typename(T)
+        u = dict[:u][:parent]
+        t = dict[:t][:parent]
+        return PT(u, t)
+    end
+
     for (k, v) in dict
         if isa(v, Dict)
             dict[k] = instantiate_custom_type(v)
@@ -219,10 +224,6 @@ function instantiate_custom_type(dict::Dict{Symbol})
 
     kwarg_dict = Dict(Symbol(k) => v for (k, v) in pairs(dict) if (k != :_typename))
 
-    if T <: DataInterpolations.AbstractInterpolation
-        PT = parametric_typename(T)
-        return PT(kwarg_dict[:u], kwarg_dict[:t])
-    end
 
     if T <: Tuple
         #Sort the dict pairs by the first element of the tuple (parsing the symbol as an Int)
