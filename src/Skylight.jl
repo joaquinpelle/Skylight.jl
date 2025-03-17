@@ -15,6 +15,7 @@ using Optim
 using Parameters
 using Polynomials
 using Random
+using ReadOnlyArrays
 using Reexport
 using Roots
 using SpecialFunctions
