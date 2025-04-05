@@ -24,7 +24,7 @@ StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
 StatsBase = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
 
 [compat]
-DataInterpolations = "4, 5"
+DataInterpolations = "4, 5, 6"
 DelimitedFiles = "1"
 ForwardDiff = "0.10"
 HDF5 = "0.16, 0.17"
