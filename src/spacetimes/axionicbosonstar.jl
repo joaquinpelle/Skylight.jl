@@ -10,7 +10,7 @@ AxionicBosonStarSpacetime(a=aparams, b=bparams, μ=μ)
 AxionicBosonStarSpacetime(:ABS7)
 ```
 """
-@with_kw struct AxionicAxionicBosonStarSpacetime <: AbstractRegularCompactObjectSpacetime
+@with_kw struct AxionicBosonStarSpacetime <: AbstractRegularCompactObjectSpacetime
     a::Vector{Float64}
     b::Vector{Float64}
     μ::Float64 
