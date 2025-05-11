@@ -11,7 +11,7 @@ BosonStarSpacetime(a=aparams, b=bparams)
 BosonStarSpacetime(:LBS1)
 ```
 """
-@with_kw struct BosonStarSpacetime{T} <: AbstractRegularCompactObjectSpacetime
+@with_kw struct BosonStarSpacetime <: AbstractRegularCompactObjectSpacetime
     a::Vector{Float64}
     b::Vector{Float64}
 
@@ -326,5 +326,5 @@ function BosonStarSpacetime(name::Symbol)
     else
         error("Unknown name $name")
     end
-    return BosonStarSpacetime(a, b)
+    return BosonStarSpacetime(a , b)
 end
