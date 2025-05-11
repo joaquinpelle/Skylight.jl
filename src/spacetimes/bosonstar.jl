@@ -11,9 +11,10 @@ BosonStarSpacetime(a=aparams, b=bparams)
 BosonStarSpacetime(:LBS1)
 ```
 """
-@with_kw struct BosonStarSpacetime <: AbstractRegularCompactObjectSpacetime
+@with_kw struct BosonStarSpacetime{T} <: AbstractRegularCompactObjectSpacetime
     a::Vector{Float64}
     b::Vector{Float64}
+    μ::T = nothing
 
     @assert length(a)==14 "a must be a vector of length 14"
     @assert length(b)==14 "b must be a vector of length 14"
@@ -25,8 +26,14 @@ spherical_symmetry(::BosonStarSpacetime) = IsSphericallySymmetric()
 coordinates_topology(::BosonStarSpacetime) = SphericalTopology()
 radius(position, ::BosonStarSpacetime) = position[2]
 
+r_from_position(position, ::BosonStarSpacetime) = position[2]
+r_from_position(position, spacetime::BosonStarSpacetime{Float64}) = spacetime.μ*position[2]
+
+rescaling_factor(spacetime::BosonStarSpacetime) = 1.0
+rescaling_factor(spacetime::BosonStarSpacetime{Float64}) = spacetime.μ
+
 function metric!(g::AbstractMatrix, position::AbstractVector, spacetime::BosonStarSpacetime)
-    r = position[2]
+    r = r_from_position(position, spacetime)
     θ = position[3]
 
     a = spacetime.a
@@ -61,7 +68,7 @@ function metric!(g::AbstractMatrix, position::AbstractVector, spacetime::BosonSt
 end
 
 function metric_inverse!(g, position, spacetime::BosonStarSpacetime, gaux, cache)
-    r = position[2]
+    r = r_from_position(position, spacetime)
     θ = position[3]
 
     a = spacetime.a
@@ -100,11 +107,12 @@ allocate_christoffel_cache(::BosonStarSpacetime) = nothing
 
 function christoffel!(Γ::AbstractArray, position::AbstractVector, spacetime::BosonStarSpacetime)
     #Spacetime coordinates
-    r = position[2]
+    r = r_from_position(position, spacetime)
     θ = position[3]
 
     a = spacetime.a
     b = spacetime.b
+    μ = rescaling_factor(spacetime)
 
     numa = 1 + r * a[1] + r^2 * a[2] + r^3 * a[3] + r^4 * a[4] + r^5 * a[5] + r^6 * a[6]
     dena = a[7] + r * a[8] + r^2 * a[9] + r^3 * a[10] + r^4 * a[11] + r^5 * a[12] +
@@ -125,6 +133,11 @@ function christoffel!(Γ::AbstractArray, position::AbstractVector, spacetime::Bo
     ∂r_denb = b[8] + 2r * b[9] + 3r^2 * b[10] + 4r^3 * b[11] + 5r^4 * b[12] + 6r^5 * b[13] +
               7r^6 * b[14]
 
+    ∂r_numa = μ * ∂r_numa
+    ∂r_dena = μ * ∂r_dena
+    ∂r_numb = μ * ∂r_numb
+    ∂r_denb = μ * ∂r_denb
+    
     ∂r_gtt = ∂r_numa / dena - numa * ∂r_dena / dena^2
     ∂r_grr = -∂r_numb / denb + numb * ∂r_denb / denb^2
 
@@ -155,7 +168,8 @@ function circular_geodesic_angular_speed(position,
     spacetime::BosonStarSpacetime,
     rotation_sense)
     #Spacetime coordinates
-    r = position[2]
+    r = r_from_position(position, spacetime)
+    μ = rescaling_factor(spacetime)
 
     a = spacetime.a
 
@@ -167,6 +181,9 @@ function circular_geodesic_angular_speed(position,
     ∂r_dena = a[8] + 2r * a[9] + 3r^2 * a[10] + 4r^3 * a[11] + 5r^4 * a[12] + 6r^5 * a[13] +
               7r^6 * a[14]
 
+    ∂r_numa = μ * ∂r_numa
+    ∂r_dena = μ * ∂r_dena
+
     ∂r_gtt = ∂r_numa / dena - numa * ∂r_dena / dena^2
     ∂r_gφφ = 2r
 
@@ -176,6 +193,7 @@ function circular_geodesic_angular_speed(position,
 end
 
 function BosonStarSpacetime(name::Symbol)
+    μ = nothing
     if name==:LBS1
         a = [-0.12835651132329287, 0.013682816437869968, -0.0000481174714805307,
             0.00005645401289538938, -4.950385183447073e-6, 1.2257668397193955e-6,
@@ -339,6 +357,8 @@ function BosonStarSpacetime(name::Symbol)
         -71.14974957902932,  32.3824545363186, 
         -7.258569429973404,  1.0438265816510337]
 
+        μ = 0.5942940110388295
+
     elseif name==:ABS7
 
         a = [ -4.776868426909388,  10.222569885887948, 
@@ -356,6 +376,8 @@ b = [ -0.024144732671384544,  -2.9933921983096465,
  22.228975979148803,  -15.726524647855072, 
  -46.9878570174763,  126.6138914354964, 
  -124.03814495147577,  46.21269047087403]
+
+    μ = 0.3086490200937825
 
     elseif name==:ABS8
 
@@ -376,8 +398,10 @@ b = [ -0.0013750710716961322,  -0.23890122904958874,
  -9.855263291655318,  47.21219099424397, 
  -77.93916162757478,  48.314042509721396]
 
+    μ = 0.1946586486466792
+
     else
         error("Unknown name $name")
     end
-    return BosonStarSpacetime(a, b)
+    return BosonStarSpacetime(a, b, μ)
 end
