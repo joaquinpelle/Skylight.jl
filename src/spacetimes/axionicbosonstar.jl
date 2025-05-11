@@ -201,7 +201,7 @@ function circular_geodesic_angular_speed(position,
     return sign(rotation_sense) * Ω
 end
 
-function AxionicAxionicBosonStarSpacetime(name::Symbol)
+function AxionicBosonStarSpacetime(name::Symbol)
     
     if name==:ABS6
             a = [ -0.6494497681749755,  0.45957735938259053, 
@@ -266,5 +266,5 @@ b = [ -0.0013750710716961322,  -0.23890122904958874,
     else
         error("Unknown name $name")
     end
-    return AxionicAxionicBosonStarSpacetime(a, b, μ)
+    return AxionicBosonStarSpacetime(a, b, μ)
 end
