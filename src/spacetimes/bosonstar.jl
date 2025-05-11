@@ -177,7 +177,6 @@ function circular_geodesic_angular_speed(position,
 end
 
 function BosonStarSpacetime(name::Symbol)
-    μ = nothing
     if name==:LBS1
         a = [-0.12835651132329287, 0.013682816437869968, -0.0000481174714805307,
             0.00005645401289538938, -4.950385183447073e-6, 1.2257668397193955e-6,
@@ -327,5 +326,5 @@ function BosonStarSpacetime(name::Symbol)
     else
         error("Unknown name $name")
     end
-    return BosonStarSpacetime(a, b, μ)
+    return BosonStarSpacetime(a, b)
 end
