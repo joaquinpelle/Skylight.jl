@@ -58,6 +58,7 @@ export AbstractSpacetime,
     ChargedWormholeSpacetimeRegularCoordinates,
     RARSpacetime,
     BosonStarSpacetime,
+    AxionicBosonStarSpacetime,
     FluidStarSpacetime,
     GravastarSpacetime
 
