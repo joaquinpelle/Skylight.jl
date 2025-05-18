@@ -33,16 +33,16 @@ function metric!(g::AbstractMatrix, position::AbstractVector, spacetime::Axionic
     b = spacetime.b
     μ = spacetime.μ
 
-    r *= μ
+    rr = r*μ
 
     gtt = -1 +
-          (1 + r * a[1] + r^2 * a[2] + r^3 * a[3] + r^4 * a[4] + r^5 * a[5] + r^6 * a[6]) /
-          (a[7] + r * a[8] + r^2 * a[9] + r^3 * a[10] + r^4 * a[11] + r^5 * a[12] +
-           r^6 * a[13] + r^7 * a[14])
+          (1 + rr * a[1] + rr^2 * a[2] + rr^3 * a[3] + rr^4 * a[4] + rr^5 * a[5] + rr^6 * a[6]) /
+          (a[7] + rr * a[8] + rr^2 * a[9] + rr^3 * a[10] + rr^4 * a[11] + rr^5 * a[12] +
+           rr^6 * a[13] + rr^7 * a[14])
     grr = 1 -
-          (r * b[1] + r^2 * b[2] + r^3 * b[3] + r^4 * b[4] + r^5 * b[5] + r^6 * b[6]) /
-          (b[7] + r * b[8] + r^2 * b[9] + r^3 * b[10] + r^4 * b[11] + r^5 * b[12] +
-           r^6 * b[13] + r^7 * b[14])
+          (rr * b[1] + rr^2 * b[2] + rr^3 * b[3] + rr^4 * b[4] + rr^5 * b[5] + rr^6 * b[6]) /
+          (b[7] + rr * b[8] + rr^2 * b[9] + rr^3 * b[10] + rr^4 * b[11] + rr^5 * b[12] +
+           rr^6 * b[13] + rr^7 * b[14])
 
     g[1, 1] = gtt
     g[1, 2] = 0.0
@@ -63,7 +63,7 @@ function metric!(g::AbstractMatrix, position::AbstractVector, spacetime::Axionic
     return nothing
 end
 
-function metric_inverse!(g, position, spacetime::AxionicBosonStarSpacetime, gaux, cache)
+function metric_inverse!(g::AbstractMatrix, position::AbstractVector, spacetime::AxionicBosonStarSpacetime, gaux::AbstractMatrix, cache::Nothing)
     r = position[2]
     θ = position[3]
 
@@ -71,16 +71,16 @@ function metric_inverse!(g, position, spacetime::AxionicBosonStarSpacetime, gaux
     b = spacetime.b
     μ = spacetime.μ
     
-    r *= μ
+    rr = r*μ
 
     gtt = -1 +
-          (1 + r * a[1] + r^2 * a[2] + r^3 * a[3] + r^4 * a[4] + r^5 * a[5] + r^6 * a[6]) /
-          (a[7] + r * a[8] + r^2 * a[9] + r^3 * a[10] + r^4 * a[11] + r^5 * a[12] +
-           r^6 * a[13] + r^7 * a[14])
+          (1 + rr * a[1] + rr^2 * a[2] + rr^3 * a[3] + rr^4 * a[4] + rr^5 * a[5] + rr^6 * a[6]) /
+          (a[7] + rr * a[8] + rr^2 * a[9] + rr^3 * a[10] + rr^4 * a[11] + rr^5 * a[12] +
+           rr^6 * a[13] + rr^7 * a[14])
     grr = 1 -
-          (r * b[1] + r^2 * b[2] + r^3 * b[3] + r^4 * b[4] + r^5 * b[5] + r^6 * b[6]) /
-          (b[7] + r * b[8] + r^2 * b[9] + r^3 * b[10] + r^4 * b[11] + r^5 * b[12] +
-           r^6 * b[13] + r^7 * b[14])
+          (rr * b[1] + rr^2 * b[2] + rr^3 * b[3] + rr^4 * b[4] + rr^5 * b[5] + rr^6 * b[6]) /
+          (b[7] + rr * b[8] + rr^2 * b[9] + rr^3 * b[10] + rr^4 * b[11] + rr^5 * b[12] +
+           rr^6 * b[13] + rr^7 * b[14])
 
     g[1, 1] = 1 / gtt
     g[1, 2] = 0.0
@@ -105,7 +105,6 @@ end
 allocate_christoffel_cache(::AxionicBosonStarSpacetime) = nothing
 
 function christoffel!(Γ::AbstractArray, position::AbstractVector, spacetime::AxionicBosonStarSpacetime)
-    #Spacetime coordinates
     r = position[2]
     θ = position[3]
 
@@ -113,40 +112,37 @@ function christoffel!(Γ::AbstractArray, position::AbstractVector, spacetime::Ax
     b = spacetime.b
     μ = spacetime.μ
 
-    r *= μ
+    rr = r*μ
 
-    numa = 1 + r * a[1] + r^2 * a[2] + r^3 * a[3] + r^4 * a[4] + r^5 * a[5] + r^6 * a[6]
-    dena = a[7] + r * a[8] + r^2 * a[9] + r^3 * a[10] + r^4 * a[11] + r^5 * a[12] +
-           r^6 * a[13] + r^7 * a[14]
+    numa = 1 + rr * a[1] + rr^2 * a[2] + rr^3 * a[3] + rr^4 * a[4] + rr^5 * a[5] + rr^6 * a[6]
+    dena = a[7] + rr * a[8] + rr^2 * a[9] + rr^3 * a[10] + rr^4 * a[11] + rr^5 * a[12] +
+           rr^6 * a[13] + rr^7 * a[14]
 
-    numb = r * b[1] + r^2 * b[2] + r^3 * b[3] + r^4 * b[4] + r^5 * b[5] + r^6 * b[6]
-    denb = b[7] + r * b[8] + r^2 * b[9] + r^3 * b[10] + r^4 * b[11] + r^5 * b[12] +
-           r^6 * b[13] + r^7 * b[14]
+    numb = rr * b[1] + rr^2 * b[2] + rr^3 * b[3] + rr^4 * b[4] + rr^5 * b[5] + rr^6 * b[6]
+    denb = b[7] + rr * b[8] + rr^2 * b[9] + rr^3 * b[10] + rr^4 * b[11] + rr^5 * b[12] +
+           rr^6 * b[13] + rr^7 * b[14]
 
     gtt = -1 + numa / dena
     grr = 1 - numb / denb
 
-    ∂r_numa = a[1] + 2r * a[2] + 3r^2 * a[3] + 4r^3 * a[4] + 5r^4 * a[5] + 6r^5 * a[6]
-    ∂r_dena = a[8] + 2r * a[9] + 3r^2 * a[10] + 4r^3 * a[11] + 5r^4 * a[12] + 6r^5 * a[13] +
-              7r^6 * a[14]
+    ∂rr_numa = a[1] + 2rr * a[2] + 3rr^2 * a[3] + 4rr^3 * a[4] + 5rr^4 * a[5] + 6rr^5 * a[6]
+    ∂rr_dena = a[8] + 2rr * a[9] + 3rr^2 * a[10] + 4rr^3 * a[11] + 5rr^4 * a[12] + 6rr^5 * a[13] +
+              7rr^6 * a[14]
 
-    ∂r_numb = b[1] + 2r * b[2] + 3r^2 * b[3] + 4r^3 * b[4] + 5r^4 * b[5] + 6r^5 * b[6]
-    ∂r_denb = b[8] + 2r * b[9] + 3r^2 * b[10] + 4r^3 * b[11] + 5r^4 * b[12] + 6r^5 * b[13] +
-              7r^6 * b[14]
+    ∂rr_numb = b[1] + 2rr * b[2] + 3rr^2 * b[3] + 4rr^3 * b[4] + 5rr^4 * b[5] + 6rr^5 * b[6]
+    ∂rr_denb = b[8] + 2rr * b[9] + 3rr^2 * b[10] + 4rr^3 * b[11] + 5rr^4 * b[12] + 6rr^5 * b[13] +
+              7rr^6 * b[14]
 
-    ∂r_numa = μ * ∂r_numa
-    ∂r_dena = μ * ∂r_dena
-    ∂r_numb = μ * ∂r_numb
-    ∂r_denb = μ * ∂r_denb
+    ∂r_numa = μ * ∂rr_numa
+    ∂r_dena = μ * ∂rr_dena
+    ∂r_numb = μ * ∂rr_numb
+    ∂r_denb = μ * ∂rr_denb
     
     ∂r_gtt = ∂r_numa / dena - numa * ∂r_dena / dena^2
     ∂r_grr = -∂r_numb / denb + numb * ∂r_denb / denb^2
 
     dα = ∂r_gtt / (2 * gtt)
     dβ = ∂r_grr / (2 * grr)
-
-    #Rescale r back
-    r /= μ
 
     Γ[1, 1, 2] = dα
     Γ[1, 2, 1] = Γ[1, 1, 2]
@@ -171,27 +167,23 @@ end
 function circular_geodesic_angular_speed(position,
     spacetime::AxionicBosonStarSpacetime,
     rotation_sense)
-    #Spacetime coordinates
     r = position[2]
 
     a = spacetime.a
     μ = spacetime.μ
     
-    r *= μ
+    rr = r*μ
 
-    numa = 1 + r * a[1] + r^2 * a[2] + r^3 * a[3] + r^4 * a[4] + r^5 * a[5] + r^6 * a[6]
-    dena = a[7] + r * a[8] + r^2 * a[9] + r^3 * a[10] + r^4 * a[11] + r^5 * a[12] +
-           r^6 * a[13] + r^7 * a[14]
+    numa = 1 + rr * a[1] + rr^2 * a[2] + rr^3 * a[3] + rr^4 * a[4] + rr^5 * a[5] + rr^6 * a[6]
+    dena = a[7] + rr * a[8] + rr^2 * a[9] + rr^3 * a[10] + rr^4 * a[11] + rr^5 * a[12] +
+           rr^6 * a[13] + rr^7 * a[14]
 
-    ∂r_numa = a[1] + 2r * a[2] + 3r^2 * a[3] + 4r^3 * a[4] + 5r^4 * a[5] + 6r^5 * a[6]
-    ∂r_dena = a[8] + 2r * a[9] + 3r^2 * a[10] + 4r^3 * a[11] + 5r^4 * a[12] + 6r^5 * a[13] +
-              7r^6 * a[14]
+    ∂rr_numa = a[1] + 2rr * a[2] + 3rr^2 * a[3] + 4rr^3 * a[4] + 5rr^4 * a[5] + 6rr^5 * a[6]
+    ∂rr_dena = a[8] + 2rr * a[9] + 3rr^2 * a[10] + 4rr^3 * a[11] + 5rr^4 * a[12] + 6rr^5 * a[13] +
+                7rr^6 * a[14]
 
-    ∂r_numa = μ * ∂r_numa
-    ∂r_dena = μ * ∂r_dena
-
-    #Rescale r back
-    r /= μ
+    ∂r_numa = μ * ∂rr_numa
+    ∂r_dena = μ * ∂rr_dena
 
     ∂r_gtt = ∂r_numa / dena - numa * ∂r_dena / dena^2
     ∂r_gφφ = 2r
