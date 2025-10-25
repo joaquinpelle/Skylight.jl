@@ -4,7 +4,7 @@ in arbitrary spacetimes and radiative models.
 """
 module Skylight
 
-using Base.Threads: @threads, @spawn, nthreads, threadid
+using Base.Threads: @threads, @spawn, nthreads, maxthreadid, threadid
 using DataInterpolations
 using DelimitedFiles
 using ForwardDiff
@@ -54,6 +54,7 @@ export AbstractSpacetime,
     KerrSpacetimeBoyerLindquistCoordinates,
     FRKerrSpacetime,
     JohannsenSpacetime,
+    MySpacetime,
     ChargedWormholeSpacetimeSphericalCoordinates,
     ChargedWormholeSpacetimeRegularCoordinates,
     RARSpacetime,
@@ -168,7 +169,8 @@ export AbstractCamera,
     AbstractConfigurations,
     NonVacuumOTEConfigurations,
     VacuumOTEConfigurations,
-    VacuumETOConfigurations
+    VacuumETOConfigurations,
+    TetradTransportConfigurations
 
 export max_radius
 

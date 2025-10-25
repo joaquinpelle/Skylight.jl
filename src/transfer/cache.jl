@@ -9,7 +9,7 @@ function transfer_cache(::Vacuum, configurations, cbp)
 end
 
 function vacuum_multi_thread_cache(spacetime)
-    return [vacuum_single_thread_cache(spacetime) for i in 1:nthreads()]
+    return [vacuum_single_thread_cache(spacetime) for i in 1:maxthreadid()]
 end
 
 function vacuum_single_thread_cache(spacetime)
@@ -34,7 +34,7 @@ function transfer_cache(::NonVacuum, configurations, cbp, τmax)
 end
 
 function non_vacuum_multi_thread_cache(spacetime, NE)
-    return [non_vacuum_single_thread_cache(spacetime, NE) for i in 1:nthreads()]
+    return [non_vacuum_single_thread_cache(spacetime, NE) for i in 1:maxthreadid()]
 end
 
 function non_vacuum_single_thread_cache(spacetime, NE)
