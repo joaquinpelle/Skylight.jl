@@ -22,6 +22,9 @@ using Skylight, Test, SafeTestsets
     @safetestset "Thermal radiative processes" begin
         include("unit/radiativeprocesses.jl")
     end
+    @safetestset "Ion torus" begin
+        include("unit/iontorus.jl")
+    end
     @safetestset "Spacetimes" begin
         include("unit/spacetimes/spacetimes.jl")
     end
