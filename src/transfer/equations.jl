@@ -71,7 +71,7 @@ function transfer_equations(u::SVector{N,T}, p, t) where {N,T}
     spacetime_cache = cache.spacetime_cache
     model_cache = cache.model_cache
 
-    metric!(metric, position, spacetime)
+    metric!(metric, position, spacetime, spacetime_cache)
     rest_frame_four_velocity!(vμ, position, metric, spacetime, model, coords_top, spacetime_cache, model_cache)
     rest_frame_energy = scalar_product(vμ, momentum, metric) #Without the negative sign because the momentum is past directed
     ε .= observation_energies * rest_frame_energy
@@ -79,8 +79,18 @@ function transfer_equations(u::SVector{N,T}, p, t) where {N,T}
     fill!(jε, 0.0)
     rest_frame_absorptivity!(αε, position, ε, metric, spacetime, model, coords_top, spacetime_cache, model_cache)
     rest_frame_emissivity!(jε, position, ε, metric, spacetime, model, coords_top, spacetime_cache, model_cache)
-    return SVector{NE, T}(ε .* αε...),
-    SVector{NE, T}(jε ./ (ε .^ 2) .* exp.(-τε)...)
+    if all(iszero, αε) && all(iszero, jε)
+        return zero(SVector{NE,T}), zero(SVector{NE,T})
+    end
+    isfinite(rest_frame_energy) && rest_frame_energy > 0 ||
+        throw(DomainError(rest_frame_energy, "A radiating medium must measure a positive finite photon energy."))
+    # k = dx/ds is normalized to unit energy at initialization.  If E0 is the
+    # reference photon energy in erg, epsilon = E0*(u.k), whereas the physical
+    # path length is dl = L*(u.k)*ds.  J is accumulated as I_epsilon/epsilon^3.
+    # Both invariant transfer coefficients therefore need L/E0, not just L.
+    scale = p.length_unit_in_cm ./ observation_energies
+    return SVector{NE, T}((scale .* ε .* αε)...),
+    SVector{NE, T}((scale .* jε ./ (ε .^ 2) .* exp.(-τε))...)
 end
 
 geodesic_equations(u::AbstractVector, p, t) = geodesic_equations(to_static(u), p, t)

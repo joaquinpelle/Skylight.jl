@@ -118,8 +118,8 @@ configurations = NonVacuumOTEConfigurations(
     camera::C
     observation_energies::Vector{Float64}
     unit_mass_in_solar_masses::Float64
-    @assert all(0 .< observation_energies) "all observation energies must be positive"
-    @assert 0<unit_mass_in_solar_masses "unit_mass_in_solar_masses must be positive"
+    @assert !isempty(observation_energies) && all(e -> isfinite(e) && e > 0, observation_energies) "observation energies must be finite, positive and nonempty"
+    @assert isfinite(unit_mass_in_solar_masses) && 0<unit_mass_in_solar_masses "unit_mass_in_solar_masses must be finite and positive"
     @assert isa(isvacuum(radiative_model), NonVacuum) "radiative_model must be non-vacuum"
 end
 

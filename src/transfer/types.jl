@@ -40,6 +40,8 @@ end
     cbp::C
     τmax::Float64
     observation_energies::Vector{Float64}
+    # One unit of coordinate length in cm; photon momenta are normalized, not in erg.
+    length_unit_in_cm::Float64
     NE::Int
     multi_thread::Vector{NonVacuumThreadCache{SC, MC, CC}}
 end

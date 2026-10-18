@@ -33,8 +33,9 @@ function integrate(::NonVacuum,
     configurations,
     cb,
     cbp;
-    τmax = 2.0,
+    τmax = Inf,
     method = VCABM(),
+    unstable_check = non_vacuum_unstable_check,
     kwargs...)
     N = size(initial_data, 2)
     ensembleprob = ensemble_problem(initial_data, configurations, cbp, τmax)
@@ -45,10 +46,16 @@ function integrate(::NonVacuum,
         EnsembleThreads();
         callback = full_cb,
         trajectories = N,
+        unstable_check = unstable_check,
         kwargs...)
     print_stats(stats)
     return collect_run(sim, cb, cbp, τmax, method; kwargs...)
 end
+
+# Some supported DiffEq versions reject finite states above 1e50 by default.
+# I_E/E^3 in CGS routinely exceeds that at radio frequencies. Check finiteness
+# without imposing a dimensionful magnitude limit on the invariant intensity.
+non_vacuum_unstable_check(dt, u, p, t) = !all(isfinite, u)
 
 function ensemble_problem(::Vacuum,
     initial_data::AbstractMatrix,
@@ -58,11 +65,10 @@ function ensemble_problem(::Vacuum,
     tspan = (0.0, 1e4 * cbp.rmax)
     p = transfer_cache(configurations, cbp)
     prob = ODEProblem(equations(configurations), u0, tspan, p)
-    output_func(sol, i) = (sol[end], false)
     function prob_func(prob, i, repeat)
         remake(prob, u0 = SVector{8, Float64}(initial_data[:, i]...))
     end
-    return EnsembleProblem(prob; output_func = output_func, prob_func = prob_func)
+    return EnsembleProblem(prob; output_func = checked_ray_output, prob_func = prob_func)
 end
 
 function ensemble_problem(::NonVacuum,
@@ -76,11 +82,17 @@ function ensemble_problem(::NonVacuum,
     tspan = (0.0, 1e4 * cbp.rmax)
     p = transfer_cache(configurations, cbp, τmax)
     prob = ODEProblem(equations(configurations), u0, tspan, p)
-    output_func(sol, i) = (sol[end], false)
     function prob_func(prob, i, repeat)
         remake(prob, u0 = SVector{Nvars, Float64}(initial_data[:, i]...))
     end
-    return EnsembleProblem(prob; output_func = output_func, prob_func = prob_func)
+    return EnsembleProblem(prob; output_func = checked_ray_output, prob_func = prob_func)
+end
+
+function checked_ray_output(sol, i)
+    OrdinaryDiffEq.SciMLBase.successful_retcode(sol) ||
+        error("Ray $i failed to integrate: $(sol.retcode). No partial result was accepted.")
+    all(isfinite, sol.u[end]) || error("Ray $i ended with non-finite state variables.")
+    return sol.u[end], false
 end
 
 function collect_run(sim, cb, cbp, args...; kwargs...)

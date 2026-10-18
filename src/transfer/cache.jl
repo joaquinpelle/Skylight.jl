@@ -29,6 +29,7 @@ function transfer_cache(::NonVacuum, configurations, cbp, τmax)
         cbp,
         τmax,
         observation_energies,
+        geometrized_to_CGS(1.0, Dimensions.length, configurations),
         length(observation_energies),
         non_vacuum_multi_thread_cache(spacetime, model, NE))
 end

@@ -46,4 +46,7 @@ using Skylight, Test, SafeTestsets
     @safetestset "Problem" begin
         include("unit/transfer/problem.jl")
     end
+    @safetestset "Radiative units" begin
+        include("unit/transfer/radiative_units.jl")
+    end
 end
