@@ -55,4 +55,7 @@ using Skylight, Test, SafeTestsets
     @safetestset "Radiative units" begin
         include("unit/transfer/radiative_units.jl")
     end
+    @safetestset "Ion torus example" begin
+        include("unit/iontorus_example.jl")
+    end
 end
