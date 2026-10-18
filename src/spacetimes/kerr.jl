@@ -389,7 +389,7 @@ mass(spacetime::AbstractKerrSpacetime) = spacetime.M
 spin(spacetime::AbstractKerrSpacetime) = spacetime.a
 
 function event_horizon_radius(spacetime::AbstractKerrSpacetime)
-    spacetime.M * (1 + sqrt(1 - spacetime.a^2))
+    spacetime.M + sqrt(spacetime.M^2 - spacetime.a^2)
 end
 
 #Innermost stable circular orbit radius
