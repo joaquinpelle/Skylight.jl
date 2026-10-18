@@ -22,6 +22,8 @@ Planck's law of black body radiation in terms of energy.
 - `::Float64`: The planck function in CGS.
 """
 function planck_function(E, T)
+    E >= 0 && T >= 0 || throw(ArgumentError("Photon energy and temperature must be nonnegative."))
+    (E == 0 || T == 0) && return 0.0
     c = PhysicalConstants.c
     h = PhysicalConstants.h
     k_B = PhysicalConstants.k_B
@@ -78,5 +80,19 @@ function rayleigh_jeans_function(E, T)
     c = PhysicalConstants.c
     h = PhysicalConstants.h
     k_B = PhysicalConstants.k_B
-    return (8 * π / (c^3 * h^3)) * E^2 * k_B * T
+    return 2 * E^2 * k_B * T / (c^2 * h^3)
+end
+
+"""Kirchhoff absorptivity from a thermal emissivity per energy; avoids 0/0 in the Wien tail."""
+function thermal_absorptivity(jE,E,T)
+    jE >= 0 || throw(DomainError(jE,"Emissivity must be nonnegative."))
+    iszero(jE) && return 0.0
+    E > 0 && T > 0 || throw(ArgumentError("Emitting matter requires positive energy and temperature."))
+    x = E/(PhysicalConstants.k_B*T)
+    logexpm1 = x > 50 ? x + log1p(-exp(-x)) : log(expm1(x))
+    logalpha = log(jE) - log(2.0) - 3log(E) + 3log(PhysicalConstants.h) +
+        2log(PhysicalConstants.c) + logexpm1
+    logalpha < log(floatmax(Float64)) ||
+        throw(DomainError(x,"Thermal absorptivity overflow; check the emissivity approximation's frequency/temperature domain."))
+    return exp(logalpha)
 end

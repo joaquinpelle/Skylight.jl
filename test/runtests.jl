@@ -19,6 +19,9 @@ using Skylight, Test, SafeTestsets
     @safetestset "Emission models" begin
         include("unit/radiativemodels.jl")
     end
+    @safetestset "Thermal radiative processes" begin
+        include("unit/radiativeprocesses.jl")
+    end
     @safetestset "Spacetimes" begin
         include("unit/spacetimes/spacetimes.jl")
     end
